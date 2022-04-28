@@ -2,7 +2,7 @@ name: Build Win64
 
 on:
   push:
-    branches: [build/win]
+    branches: [main]
   pull_request:
     branches: [main]
 
