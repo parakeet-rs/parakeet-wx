@@ -1,0 +1,50 @@
+{
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 14,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "default",
+      "displayName": "Default Linux",
+      "description": "Default build using Make + gcc",
+      "generator": "Unix Makefiles",
+      "binaryDir": "${sourceDir}/build/default",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "win64-2019",
+      "displayName": "Win64 (MSVC 2019)",
+      "description": "Win64 build using MSVC 2019",
+      "generator": "Visual Studio 16 2019",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/build/win64-2019",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default"
+    },
+    {
+      "name": "win64-2019-rel",
+      "configurePreset": "win64-2019",
+      "displayName": "Win64 (Release, MSVC 2019)",
+      "configuration": "Release"
+    },
+    {
+      "name": "win64-2019-dbg",
+      "configurePreset": "win64-2019",
+      "displayName": "Win64 (Debug, MSVC 2019)",
+      "configuration": "Debug"
+    }
+  ]
+}
