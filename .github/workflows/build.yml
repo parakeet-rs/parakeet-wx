@@ -1,0 +1,23 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ main, exp/build ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag builder:${GITHUB_SHA}
+  my_job:
+    runs-on: ubuntu-latest
+    needs: [build-image]
+    container: builder:${GITHUB_SHA}
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: sh build-linux-docker.sh
