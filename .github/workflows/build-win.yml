@@ -1,0 +1,32 @@
+name: MSBuild
+
+on:
+  push:
+    branches: [build/win]
+  pull_request:
+    branches: [main]
+
+env:
+  # Path to the solution file relative to the root of the project.
+  SOLUTION_FILE_PATH: build
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2019
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: lukka/get-cmake@latest
+
+      - name: Restore artifacts, or setup vcpkg
+        uses: lukka/run-vcpkg@v10
+
+      - name: Run CMake consuming vcpkg.json by mean of vcpkg.
+        uses: lukka/run-cmake@v10
+        with:
+          configurePreset: "win64-2019"
+          buildPreset: "win64-2019-rel"
