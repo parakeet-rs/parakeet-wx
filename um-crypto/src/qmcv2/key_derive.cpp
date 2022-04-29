@@ -49,13 +49,15 @@ bool umc_qmcv2_derive_from_ekey(uint8_t*& derived_key,
   derived_key = static_cast<uint8_t*>(calloc(ekey_len, sizeof(uint8_t)));
   memcpy(derived_key, ekey, 8u);
 
-  size_t unused;
-  if (!umc_tc_tea_cbc_decrypt(&derived_key[8], unused, &ekey[8], ekey_len - 8,
-                              tea_key)) {
+  size_t tea_decrypted_len;
+  if (!umc_tc_tea_cbc_decrypt(&derived_key[8], tea_decrypted_len, &ekey[8],
+                              ekey_len - 8, tea_key)) {
     free(derived_key);
     derived_key = nullptr;
     return false;
   };
+
+  derived_key_len = 8 + tea_decrypted_len;
 
   return true;
 }

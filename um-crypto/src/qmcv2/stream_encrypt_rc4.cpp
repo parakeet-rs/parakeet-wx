@@ -17,6 +17,8 @@ typedef struct qmcv2_rc4 {
   uint32_t key_hash;
 } qmcv2_rc4;
 
+// Private methods
+
 void qmcv2_rc4_init_seedbox(uint8_t* S, const uint8_t* key, const size_t N) {
   for (size_t i = 0; i < N; ++i) {
     S[i] = i & 0xFF;
@@ -46,19 +48,6 @@ uint32_t qmcv2_rc4_hash(uint8_t* key, size_t N) {
   }
 
   return hash;
-}
-
-qmcv2_rc4* qmcv2_rc4_init(uint8_t* key, size_t key_size) {
-  qmcv2_rc4* ctx = static_cast<qmcv2_rc4*>(calloc(1, sizeof(qmcv2_rc4)));
-
-  ctx->S = static_cast<uint8_t*>(calloc(key_size, sizeof(uint8_t)));
-  ctx->key = static_cast<uint8_t*>(calloc(key_size, sizeof(uint8_t)));
-  memcpy(ctx->key, key, key_size);
-
-  qmcv2_rc4_init_seedbox(ctx->S, ctx->key, key_size);
-  ctx->key_hash = qmcv2_rc4_hash(ctx->key, key_size);
-
-  return ctx;
 }
 
 uint64_t qmcv2_rc4_get_segment_key(qmcv2_rc4* ctx, size_t sid, uint64_t seed) {
@@ -110,6 +99,22 @@ void qmcv2_rc4_encrypt_other_segment(qmcv2_rc4* ctx,
 
     buf[i] ^= S[(S[j] + S[k]) % N];
   }
+}
+
+// Implementation
+
+qmcv2_rc4* qmcv2_rc4_new(const uint8_t* key, size_t key_size) {
+  qmcv2_rc4* ctx = static_cast<qmcv2_rc4*>(calloc(1, sizeof(qmcv2_rc4)));
+
+  ctx->S = static_cast<uint8_t*>(calloc(key_size, sizeof(uint8_t)));
+  ctx->N = key_size;
+  ctx->key = static_cast<uint8_t*>(calloc(key_size, sizeof(uint8_t)));
+  memcpy(ctx->key, key, key_size);
+
+  qmcv2_rc4_init_seedbox(ctx->S, ctx->key, key_size);
+  ctx->key_hash = qmcv2_rc4_hash(ctx->key, key_size);
+
+  return ctx;
 }
 
 void qmcv2_rc4_encrypt(qmcv2_rc4* ctx,

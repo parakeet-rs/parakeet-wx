@@ -37,5 +37,6 @@ TEST(umc_qmcv2_key_derive, parse_ekey_b64) {
   size_t decode_len;
   umc_qmcv2_derive_from_ekey_b64(decoded, decode_len, ekey);
 
+  ASSERT_EQ(strlen((char*)decoded), decode_len);
   ASSERT_STREQ((char*)decoded, expected_key);
 }
