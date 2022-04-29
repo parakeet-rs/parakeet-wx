@@ -23,6 +23,16 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
 target_precompile_headers(${PROJECT_NAME} PRIVATE src/pch.h)
 target_link_libraries(${PROJECT_NAME} ${wxWidgets_LIBRARIES})
 
+# i18n text
+file(GLOB MY_I18N_FILE
+  "locale/*"
+)
+file(
+  COPY ${MY_I18N_FILE} DESTINATION ./
+  PATTERN "*.po" EXCLUDE
+  PATTERN "*.pot" EXCLUDE
+)
+
 # MSVC Flags
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded")
 set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")

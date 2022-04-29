@@ -5,3 +5,4 @@ vcpkg_installed/
 *.o
 *.AppImage
 linuxdeploy*
+*.mo
