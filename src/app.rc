@@ -1,0 +1,16 @@
+#include <windows.h>
+#define wxUSE_NO_MANIFEST 0
+#define wxUSE_RC_MANIFEST 1
+#define wxUSE_DPI_AWARE_MANIFEST 1
+
+#if _M_ARM64
+#define WX_CPU_ARM64 1
+#elif _M_ARM
+#define WX_CPU_ARM 1
+#elif _WIN64
+#define WX_CPU_AMD64 1
+#elif _WIN32
+#define WX_CPU_X86 1
+#endif
+
+#include "wx/msw/wx.rc"

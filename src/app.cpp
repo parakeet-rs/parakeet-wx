@@ -36,15 +36,12 @@ void initLanguageSupport() {
       delete locale;
       locale = new wxLocale(wxLANGUAGE_ENGLISH);
       language = wxLANGUAGE_ENGLISH;
-    } else {
-      wxMessageBox(wxT("load ok?!"));
     }
   } else {
     std::cout << "The selected language is not supported by your system."
               << "Try installing support for this language." << std::endl;
     locale = new wxLocale(wxLANGUAGE_ENGLISH);
     language = wxLANGUAGE_ENGLISH;
-    wxMessageBox(wxT("selected language is not supported!"));
   }
 }
 

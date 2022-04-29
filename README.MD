@@ -6,6 +6,9 @@
 - 安装 Visual Studio 2019
 
 ```powershell
+# 初始化 vcpkg
+.\vcpkg\bootstrap-vcpkg.bat
+
  # 调试版
 cmake --preset win64-2019-dbg
 cmake --build --preset win64-2019-dbg
