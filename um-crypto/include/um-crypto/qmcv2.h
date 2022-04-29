@@ -26,3 +26,19 @@ bool umc_qmcv2_derive_from_ekey(uint8_t*& derived_key,
 bool umc_qmcv2_derive_from_ekey_b64(uint8_t*& derived_key,
                                     size_t& derived_key_len,
                                     const char* ekey_b64);
+
+const int kQMCParseErrorOK = 0;
+const int kQMCParseErrorUnsupported = 1;
+const int kQMCParseErrorNeedMoreBytes = 2;
+const int kQMCParseErrorUnknownFormat = 3;
+
+// QMC file parser
+typedef struct umc_qmc_parse_result {
+  size_t required_eof_size;
+  char* ekey;
+  char* song_id;
+} umc_qmc_parse_result;
+
+int umc_qmcv2_parse_file(umc_qmc_parse_result* result,
+                         const uint8_t* eof_data,
+                         size_t eof_len);
