@@ -1,5 +1,4 @@
 #include "app.h"
-
 #include "ui/ui.h"
 
 IMPLEMENT_APP(umDesktopApp)
@@ -28,10 +27,9 @@ void initLanguageSupport() {
     locale->AddCatalogLookupPathPrefix(prefix);
 #endif
 
-    locale->AddCatalog(wxT("um_desktop"));
+    locale->AddCatalog(wxT("um-desktop"));
 
     if (!locale->IsOk()) {
-      wxMessageBox(wxT("selected language is wrong!"));
       std::cerr << "selected language is wrong" << std::endl;
       delete locale;
       locale = new wxLocale(wxLANGUAGE_ENGLISH);
