@@ -1,4 +1,6 @@
 #pragma once
-#include <cstdint>
 
-uint8_t xor_1(uint8_t value);
+#include "um-crypto/kgm.h"
+#include "um-crypto/vpr.h"
+
+#include "um-crypto/qmcv2.h"

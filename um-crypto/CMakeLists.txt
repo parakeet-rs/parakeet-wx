@@ -1,10 +1,13 @@
 project(um-crypto)
 
+find_package(OpenSSL REQUIRED)
+
 include_directories(include)
+include_directories(${OPENSSL_INCLUDE_DIR})
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS YES CACHE BOOL "Export all symbols")
 
-file(GLOB SOURCES *.cpp **/*.cpp)
+file(GLOB SOURCES src/*.cpp src/**/*.cpp)
 
 # Add source to this project's executable.
 add_library (${PROJECT_NAME} OBJECT ${SOURCES})
@@ -22,12 +25,22 @@ target_include_directories(${PROJECT_NAME}_static PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
 )
-
-if(WIN32)
-	target_link_libraries(${PROJECT_NAME}_shared ws2_32)
-	target_link_libraries(${PROJECT_NAME}_static ws2_32)
-endif()
+target_link_libraries(${PROJECT_NAME}_shared ${OPENSSL_CRYPTO_LIBRARY})
+target_link_libraries(${PROJECT_NAME}_static ${OPENSSL_CRYPTO_LIBRARY})
 
 if (!MSVC)
 	target_link_libraries(${PROJECT_NAME} m)
 endif()
+
+# Tests!
+enable_testing()
+find_package(GTest CONFIG REQUIRED)
+
+file(GLOB TESTS_SOURCE src/*.test.cc src/**/*.test.cc)
+add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
+target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+target_link_libraries(${PROJECT_NAME}_test ${OPENSSL_CRYPTO_LIBRARY})
+target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
+
+include(GoogleTest)
+gtest_discover_tests(${PROJECT_NAME}_test)

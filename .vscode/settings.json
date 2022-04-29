@@ -3,5 +3,7 @@
     "CMAKE_TOOLCHAIN_FILE": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
     "VCPKG_TARGET_TRIPLET": "x64-windows-static"
   },
-  "cmake.configureOnOpen": true
+  "cmake.configureOnOpen": false,
+  "C_Cpp.clang_format_fallbackStyle": "{ BasedOnStyle: Chromium, UseTab: Never, IndentWidth: 2, TabWidth: 2}",
+  "C_Cpp.clang_format_sortIncludes": true
 }
