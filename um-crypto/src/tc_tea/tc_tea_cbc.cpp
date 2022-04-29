@@ -1,6 +1,7 @@
-#include <cstdint>
 #include "../util/endian.h"
 #include "tc_tea_ecb.h"
+
+#include <cstdint>
 
 const size_t SALT_LEN = 2;
 const size_t ZERO_LEN = 7;
@@ -14,12 +15,11 @@ void umc_tc_tea_cbc_parse_key(uint32_t* result, const uint8_t* key) {
   }
 }
 
-bool umc_tc_tea_cbc_decrypt(uint8_t*& plaindata,
+bool umc_tc_tea_cbc_decrypt(uint8_t* plaindata,
                             size_t& plaindata_len,
-                            uint8_t* cipher,
+                            const uint8_t* cipher,
                             size_t cipher_len,
                             const uint8_t* key) {
-  plaindata = nullptr;
   plaindata_len = 0;
   uint32_t k[4];
   umc_tc_tea_cbc_parse_key(k, key);
@@ -51,7 +51,6 @@ bool umc_tc_tea_cbc_decrypt(uint8_t*& plaindata,
   size_t end_loc = cipher_len - ZERO_LEN;
 
   plaindata_len = end_loc - start_loc;
-  plaindata = static_cast<uint8_t*>(malloc(plaindata_len));
   memcpy(plaindata, &decrypted[start_loc], plaindata_len);
 
   free(decrypted);

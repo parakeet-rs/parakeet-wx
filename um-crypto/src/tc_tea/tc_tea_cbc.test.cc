@@ -17,7 +17,7 @@ TEST(umc_tc_tea_ecb, BasicDecryption) {
                                 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
   uint8_t good_decrypted_data[] = {1, 2, 3, 4, 5, 6, 7, 8};
 
-  uint8_t* plain;
+  uint8_t* plain = static_cast<uint8_t*>(malloc(24));
   size_t plain_len;
   umc_tc_tea_cbc_decrypt(plain, plain_len, good_data, sizeof(good_data),
                          encryption_key);
