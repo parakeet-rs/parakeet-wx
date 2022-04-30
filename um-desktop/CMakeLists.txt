@@ -12,7 +12,7 @@ if(MSVC)
 endif()
 
 find_package(Boost 1.79.0 REQUIRED)
-find_package(wxWidgets COMPONENTS core adv propgrid REQUIRED)
+find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
 
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
