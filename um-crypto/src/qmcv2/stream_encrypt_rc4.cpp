@@ -111,7 +111,7 @@ void encrypt_other_segment(CTX* ctx,
 
 // Implementation
 
-CTX* umc::qmc::v2::rc4::new_from_key(const uint8_t* key, size_t key_size) {
+CTX* new_from_key(const uint8_t* key, size_t key_size) {
   CTX* ctx = static_cast<CTX*>(calloc(1, sizeof(CTX)));
 
   ctx->S = static_cast<uint8_t*>(calloc(key_size, sizeof(uint8_t)));
@@ -119,21 +119,18 @@ CTX* umc::qmc::v2::rc4::new_from_key(const uint8_t* key, size_t key_size) {
   ctx->key = static_cast<uint8_t*>(calloc(key_size, sizeof(uint8_t)));
   memcpy(ctx->key, key, key_size);
 
-  umc::qmc::v2::rc4::init_seedbox(ctx->S, ctx->key, key_size);
-  ctx->key_hash = umc::qmc::v2::rc4::hash(ctx->key, key_size);
+  init_seedbox(ctx->S, ctx->key, key_size);
+  ctx->key_hash = hash(ctx->key, key_size);
 
   return ctx;
 }
 
-void umc::qmc::v2::rc4::encrypt(CTX* ctx,
-                                uint8_t* buf,
-                                size_t len,
-                                size_t offset) {
+void encrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset) {
   uint8_t* buf_end = buf + len;
 
   if (offset < FIRST_SEGMENT_SIZE) {
     auto len_segment = std::min(len, FIRST_SEGMENT_SIZE - offset);
-    umc::qmc::v2::rc4::encrypt_first_segment(ctx, buf, len_segment, offset);
+    encrypt_first_segment(ctx, buf, len_segment, offset);
     len -= len_segment;
     buf += len_segment;
     offset += len_segment;
@@ -142,8 +139,7 @@ void umc::qmc::v2::rc4::encrypt(CTX* ctx,
   auto s_temp = static_cast<uint8_t*>(calloc(ctx->N, sizeof(uint8_t)));
   if (offset % SEGMENT_SIZE != 0) {
     auto len_segment = std::min(SEGMENT_SIZE - (offset % SEGMENT_SIZE), len);
-    umc::qmc::v2::rc4::encrypt_other_segment(ctx, s_temp, buf, len_segment,
-                                             offset);
+    encrypt_other_segment(ctx, s_temp, buf, len_segment, offset);
     len -= len_segment;
     buf += len_segment;
     offset += len_segment;
@@ -152,15 +148,14 @@ void umc::qmc::v2::rc4::encrypt(CTX* ctx,
   // Batch process segments
   while (len > SEGMENT_SIZE) {
     auto len_segment = std::min(size_t{SEGMENT_SIZE}, len);
-    umc::qmc::v2::rc4::encrypt_other_segment(ctx, s_temp, buf, len_segment,
-                                             offset);
+    encrypt_other_segment(ctx, s_temp, buf, len_segment, offset);
     len -= len_segment;
     buf += len_segment;
     offset += len_segment;
   }
 
   if (len > 0) {
-    umc::qmc::v2::rc4::encrypt_other_segment(ctx, s_temp, buf, len, offset);
+    encrypt_other_segment(ctx, s_temp, buf, len, offset);
     buf += len;
   }
 
@@ -168,14 +163,11 @@ void umc::qmc::v2::rc4::encrypt(CTX* ctx,
   assert(buf == buf_end);
 }
 
-void umc::qmc::v2::rc4::decrypt(CTX* ctx,
-                                uint8_t* buf,
-                                size_t len,
-                                size_t offset) {
-  return umc::qmc::v2::rc4::encrypt(ctx, buf, len, offset);
+void decrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset) {
+  return encrypt(ctx, buf, len, offset);
 }
 
-void umc::qmc::v2::rc4::free(CTX*& ctx) {
+void free(CTX*& ctx) {
   assert(ctx && "qmcv2_rc4_free: ctx is nullptr");
 
   ::free(ctx->key);

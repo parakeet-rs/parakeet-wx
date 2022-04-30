@@ -15,6 +15,7 @@ TEST(qmcv2_rc4, TestDecryption) {
   }
 
   uint8_t buf[10];
+  memset(buf, 0, sizeof(buf));
   uint8_t expect_decrypted[10] = {0xFE, 0xDC, 0xCC, 0xCC, 0x0E,
                                   0xFF, 0x35, 0x32, 0x35, 0x32};
 

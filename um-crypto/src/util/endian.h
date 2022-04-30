@@ -28,7 +28,6 @@
 #else
 
 // Linux?
-#define _BSD_SOURCE
 #include <endian.h>
 
 #define umc_letoh_u32(value) (le32toh(value))

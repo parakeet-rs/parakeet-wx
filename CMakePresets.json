@@ -1,5 +1,5 @@
 {
-  "version": 4,
+  "version": 3,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 14,
@@ -15,6 +15,43 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "VCPKG_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "ninja-linux",
+      "displayName": "Linux-Ninja",
+      "description": "Default build using ninja",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/ninja-multi",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux"
+      }
+    },
+    {
+      "name": "ninja-linux-rel",
+      "displayName": "Linux-Ninja-Rel",
+      "description": "Default build using ninja (Release)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/ninja-multi-rel",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "CMAKE_BUILD_TYPE": "Release",
+        "VCPKG_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "ninja-linux-dbg",
+      "displayName": "Linux-Ninja-Dbg",
+      "description": "Default build using ninja",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/ninja-multi-dbg",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "VCPKG_BUILD_TYPE": "Debug"
       }
     },
     {
@@ -60,6 +97,18 @@
       "configurePreset": "win64-2019-dbg",
       "displayName": "Win64 (Debug, MSVC 2019)",
       "configuration": "Debug"
+    },
+    {
+      "name": "ninja-dbg",
+      "configurePreset": "ninja-linux",
+      "displayName": "Ninja (Debug)",
+      "configuration": "Debug"
+    },
+    {
+      "name": "ninja-rel",
+      "configurePreset": "ninja-linux",
+      "displayName": "Ninja (Release)",
+      "configuration": "Release"
     }
   ]
 }

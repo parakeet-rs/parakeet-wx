@@ -1,6 +1,8 @@
 #include "app.h"
 #include "MainAppFrame.h"
 
+#include <wx/stdpaths.h>
+
 IMPLEMENT_APP(umDesktopApp)
 
 wxLocale* locale;

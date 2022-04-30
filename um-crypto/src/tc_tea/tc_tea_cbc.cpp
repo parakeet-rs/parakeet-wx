@@ -1,7 +1,10 @@
 #include "../util/endian.h"
 #include "tc_tea_ecb.h"
 
+#include <cstddef>
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
 
 namespace umc::tc_tea {
 
