@@ -1,6 +1,6 @@
 project(um-desktop)
 
-include_directories($<TARGET_PROPERTY:um-crypto,INTERFACE_INCLUDE_DIRECTORIES>)
+include_directories()
 
 if(MSVC)
   # Using DPI aware manifest from wxWidgets
@@ -14,8 +14,17 @@ endif()
 find_package(Boost 1.79.0 REQUIRED)
 find_package(wxWidgets COMPONENTS core adv propgrid REQUIRED)
 
-include_directories(${wxWidgets_INCLUDE_DIRS})
-include_directories(${BOOST_INCLUDE_DIRS})
+include_directories(
+  ${wxWidgets_INCLUDE_DIRS}
+  ${BOOST_INCLUDE_DIRS}
+  $<TARGET_PROPERTY:um-crypto,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
+link_libraries(
+  ${wxWidgets_LIBRARIES}
+  ${Boost_LIBRARIES}
+  um-crypto_static
+)
 
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
@@ -37,9 +46,6 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   "$<$<CONFIG:DEBUG>:${wxWidgets_DEFINITIONS_DEBUG}>"
 )
 target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
-target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
-target_link_libraries(${PROJECT_NAME} PRIVATE um-crypto_static)
 
 if (MSVC)
   # FIXME: How to get arm working? Don't have a Windows arm device.
