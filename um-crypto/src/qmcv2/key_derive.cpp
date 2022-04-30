@@ -1,10 +1,13 @@
+#include "um-crypto/qmcv2.h"
+#include "um-crypto/tc_tea.h"
+
 #include <openssl/evp.h>
 #include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
 
-#include "um-crypto/tc_tea.h"
+namespace umc::qmc::v2::key_derive {
 
 /**
  * @brief A pseudo-random key derive.
@@ -35,10 +38,10 @@ void derive_tea_key(uint8_t* tea_key, const uint8_t* ekey) {
   }
 }
 
-bool umc_qmcv2_derive_from_ekey(uint8_t*& derived_key,
-                                size_t& derived_key_len,
-                                const uint8_t* ekey,
-                                size_t ekey_len) {
+bool from_ekey(uint8_t*& derived_key,
+               size_t& derived_key_len,
+               const uint8_t* ekey,
+               size_t ekey_len) {
   if (ekey_len < 8) {
     return false;
   }
@@ -50,8 +53,8 @@ bool umc_qmcv2_derive_from_ekey(uint8_t*& derived_key,
   memcpy(derived_key, ekey, 8u);
 
   size_t tea_decrypted_len;
-  if (!umc_tc_tea_cbc_decrypt(&derived_key[8], tea_decrypted_len, &ekey[8],
-                              ekey_len - 8, tea_key)) {
+  if (!umc::tc_tea::cbc_decrypt(&derived_key[8], tea_decrypted_len, &ekey[8],
+                                ekey_len - 8, tea_key)) {
     free(derived_key);
     derived_key = nullptr;
     return false;
@@ -63,9 +66,9 @@ bool umc_qmcv2_derive_from_ekey(uint8_t*& derived_key,
 }
 
 const unsigned char b64_pad_str[] = "===";
-bool umc_qmcv2_derive_from_ekey_b64(uint8_t*& derived_key,
-                                    size_t& derived_key_len,
-                                    const char* ekey_b64) {
+bool from_ekey_b64(uint8_t*& derived_key,
+                   size_t& derived_key_len,
+                   const char* ekey_b64) {
   size_t ekey_b64_len = strlen(ekey_b64);
   size_t partial_last_block_len = ekey_b64_len % 4;
   size_t ekey_max_len = ekey_b64_len / 4 * 3 + 4;
@@ -106,16 +109,17 @@ bool umc_qmcv2_derive_from_ekey_b64(uint8_t*& derived_key,
 
   EVP_ENCODE_CTX_free(b64);
 
-  bool ok = umc_qmcv2_derive_from_ekey(derived_key, derived_key_len, ekey,
-                                       size_t(ekey_len));
+  bool ok = from_ekey(derived_key, derived_key_len, ekey, size_t(ekey_len));
 
   free(ekey);
 
   return ok;
 }
 
-void umc_qmcv2_free_derived_key(uint8_t*& key) {
+void free_key(uint8_t*& key) {
   assert(key && "umc_qmcv2_free_derived_key: key is nullptr");
 
   free(key);
 };
+
+}  // namespace umc::qmc::v2::key_derive

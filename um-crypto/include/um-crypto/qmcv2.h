@@ -1,44 +1,67 @@
 #pragma once
 #include <cstdint>
 
-// Map encryption.
-typedef struct qmcv2_map qmcv2_map;
-qmcv2_map* qmcv2_map_new(const uint8_t* key, size_t key_size);
-uint8_t qmcv2_map_get_key_at_offset(qmcv2_map* ctx, size_t offset);
-void qmcv2_map_encrypt(qmcv2_map* ctx, uint8_t* buf, size_t len, size_t offset);
-void qmcv2_map_decrypt(qmcv2_map* ctx, uint8_t* buf, size_t len, size_t offset);
-void qmcv2_map_free(qmcv2_map*& ctx);
+namespace umc::qmc::v2 {
+
+namespace map {
+
+typedef struct CTX CTX;
+
+CTX* new_from_key(const uint8_t* key, size_t key_size);
+void free(CTX*& ctx);
+
+uint8_t get_key_at_offset(CTX* ctx, size_t offset);
+void encrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
+void decrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
+
+}  // namespace map
+
+namespace rc4 {
 
 // RC4 encryption.
-typedef struct qmcv2_rc4 qmcv2_rc4;
-qmcv2_rc4* qmcv2_rc4_new(const uint8_t* key, size_t key_size);
-void qmcv2_rc4_encrypt(qmcv2_rc4* ctx, uint8_t* buf, size_t len, size_t offset);
-void qmcv2_rc4_decrypt(qmcv2_rc4* ctx, uint8_t* buf, size_t len, size_t offset);
-void qmcv2_rc4_free(qmcv2_rc4*& ctx);
+typedef struct CTX CTX;
+CTX* new_from_key(const uint8_t* key, size_t key_size);
+void encrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
+void decrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
+void free(CTX*& ctx);
 
-// Key derive
+}  // namespace rc4
 
-void umc_qmcv2_free_derived_key(uint8_t*& key);
-bool umc_qmcv2_derive_from_ekey(uint8_t*& derived_key,
-                                size_t& derived_key_len,
-                                const uint8_t* ekey,
-                                size_t ekey_len);
-bool umc_qmcv2_derive_from_ekey_b64(uint8_t*& derived_key,
-                                    size_t& derived_key_len,
-                                    const char* ekey_b64);
+/**
+ * @brief Key derive
+ */
+namespace key_derive {
 
-const int kQMCParseErrorOK = 0;
-const int kQMCParseErrorUnsupported = 1;
-const int kQMCParseErrorNeedMoreBytes = 2;
-const int kQMCParseErrorUnknownFormat = 3;
+bool from_ekey(uint8_t*& derived_key,
+               size_t& derived_key_len,
+               const uint8_t* ekey,
+               size_t ekey_len);
+bool from_ekey_b64(uint8_t*& derived_key,
+                   size_t& derived_key_len,
+                   const char* ekey_b64);
+void free_key(uint8_t*& key);
+
+}  // namespace key_derive
+
+namespace parser {
+
+const int kParseErrorOK = 0;
+const int kParseErrorUnsupported = 1;
+const int kParseErrorNeedMoreBytes = 2;
+const int kParseErrorUnknownFormat = 3;
 
 // QMC file parser
-typedef struct umc_qmc_parse_result {
+typedef struct PARSE_RESULT {
   size_t required_eof_size;
   char* ekey;
   char* song_id;
-} umc_qmc_parse_result;
+} PARSE_RESULT;
 
-int umc_qmcv2_parse_file(umc_qmc_parse_result* result,
-                         const uint8_t* eof_data,
-                         size_t eof_len);
+PARSE_RESULT* result_new();
+void result_free(PARSE_RESULT* result);
+
+int parse_file(PARSE_RESULT* result, const uint8_t* eof_data, size_t eof_len);
+
+}  // namespace parser
+
+}  // namespace umc::qmc::v2

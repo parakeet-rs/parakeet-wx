@@ -3,11 +3,13 @@
 
 #include <cstdint>
 
+namespace umc::tc_tea {
+
 const size_t SALT_LEN = 2;
 const size_t ZERO_LEN = 7;
 const size_t FIXED_PADDING_LEN = 1 + SALT_LEN + ZERO_LEN;
 
-void umc_tc_tea_cbc_parse_key(uint32_t* result, const uint8_t* key) {
+void cbc_parse_key(uint32_t* result, const uint8_t* key) {
   auto key_u32_be = reinterpret_cast<const uint32_t*>(key);
 
   for (int i = 0; i < 4; i++) {
@@ -15,14 +17,14 @@ void umc_tc_tea_cbc_parse_key(uint32_t* result, const uint8_t* key) {
   }
 }
 
-bool umc_tc_tea_cbc_decrypt(uint8_t* plaindata,
-                            size_t& plaindata_len,
-                            const uint8_t* cipher,
-                            size_t cipher_len,
-                            const uint8_t* key) {
+bool cbc_decrypt(uint8_t* plaindata,
+                 size_t& plaindata_len,
+                 const uint8_t* cipher,
+                 size_t cipher_len,
+                 const uint8_t* key) {
   plaindata_len = 0;
   uint32_t k[4];
-  umc_tc_tea_cbc_parse_key(k, key);
+  cbc_parse_key(k, key);
 
   if (cipher_len < FIXED_PADDING_LEN || cipher_len % 8 != 0) {
     return false;
@@ -32,14 +34,14 @@ bool umc_tc_tea_cbc_decrypt(uint8_t* plaindata,
   memcpy(decrypted, cipher, cipher_len);
 
   // decrypt first block
-  umc_tc_tea_ecb_decrypt(decrypted, k);
+  ecb_decrypt(decrypted, k);
   for (size_t i = 8; i < cipher_len; i += 8) {
     // xor with previous block first
     for (int j = i - 8; j < i; j++) {
       decrypted[j + 8] ^= decrypted[j];
     }
 
-    umc_tc_tea_ecb_decrypt(&decrypted[i], k);
+    ecb_decrypt(&decrypted[i], k);
   }
 
   for (size_t i = 8; i < cipher_len; i++) {
@@ -57,3 +59,5 @@ bool umc_tc_tea_cbc_decrypt(uint8_t* plaindata,
 
   return true;
 }
+
+}  // namespace umc::tc_tea

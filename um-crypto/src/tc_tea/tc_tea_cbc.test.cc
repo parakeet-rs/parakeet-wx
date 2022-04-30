@@ -19,8 +19,8 @@ TEST(umc_tc_tea_ecb, BasicDecryption) {
 
   uint8_t* plain = static_cast<uint8_t*>(malloc(24));
   size_t plain_len;
-  umc_tc_tea_cbc_decrypt(plain, plain_len, good_data, sizeof(good_data),
-                         encryption_key);
+  umc::tc_tea::cbc_decrypt(plain, plain_len, good_data, sizeof(good_data),
+                           encryption_key);
   std::vector<uint8_t> plain_vec(plain, plain + plain_len);
   ASSERT_THAT(plain_vec, ElementsAreArray(good_decrypted_data));
 }
