@@ -11,7 +11,12 @@ if(MSVC)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")  
 endif()
 
-find_package(wxWidgets REQUIRED)
+find_package(Boost 1.79.0 REQUIRED)
+find_package(wxWidgets COMPONENTS core adv propgrid REQUIRED)
+
+include_directories(${wxWidgets_INCLUDE_DIRS})
+include_directories(${BOOST_INCLUDE_DIRS})
+
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
   list(TRANSFORM wxWidgets_LIBRARIES REPLACE
@@ -31,9 +36,9 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE
   ${wxWidgets_DEFINITIONS}
   "$<$<CONFIG:DEBUG>:${wxWidgets_DEFINITIONS_DEBUG}>"
 )
-target_include_directories(${PROJECT_NAME} PRIVATE ${wxWidgets_INCLUDE_DIRS})
 target_precompile_headers(${PROJECT_NAME} PRIVATE pch.h)
 target_link_libraries(${PROJECT_NAME} PRIVATE ${wxWidgets_LIBRARIES})
+target_link_libraries(${PROJECT_NAME} PRIVATE ${Boost_LIBRARIES})
 target_link_libraries(${PROJECT_NAME} PRIVATE um-crypto_static)
 
 if (MSVC)

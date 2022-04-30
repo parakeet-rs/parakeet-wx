@@ -1,5 +1,5 @@
 #include "app.h"
-#include "MainAppFrame.h"
+#include "dialog/MainAppFrame.h"
 
 #include <wx/stdpaths.h>
 
@@ -48,7 +48,7 @@ void initLanguageSupport() {
 // This is executed upon startup, like 'main()' in non-wxWidgets programs.
 bool umDesktopApp::OnInit() {
   initLanguageSupport();
-  wxFrame* frame = new umd::ui::MainAppFrame(nullptr);
+  wxFrame* frame = new MainAppFrame(nullptr);
 
   frame->Show(true);
   SetTopWindow(frame);

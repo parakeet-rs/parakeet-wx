@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -17,13 +17,16 @@
 #include <wx/colour.h>
 #include <wx/settings.h>
 #include <wx/listctrl.h>
-#include <wx/checkbox.h>
 #include <wx/button.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
 #include <wx/sizer.h>
 #include <wx/frame.h>
+#include <wx/propgrid/propgrid.h>
+#include <wx/propgrid/advprops.h>
+#include <wx/panel.h>
+#include <wx/listbook.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -40,34 +43,48 @@ namespace umd::ui_base
 
 		protected:
 			wxStaticText* m_staticLabelFiles;
-			wxListCtrl* m_fileListTable;
-			wxCheckBox* m_checkAutoDecrypt;
+			wxListCtrl* m_decryptLogs;
+			wxButton* m_btnOptions;
+			wxButton* m_btnClearLogs;
 			wxButton* m_btnAddFile;
 			wxButton* m_btnAddDir;
-			wxButton* m_btnProcess;
+
+			// Virtual event handlers, override them in your derived class
+			virtual void uiMainAppFrameOnSize( wxSizeEvent& event ) { event.Skip(); }
+			virtual void OnBtnClickOptions( wxCommandEvent& event ) { event.Skip(); }
+
 
 		public:
 
-			uiMainAppFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("um Desktop"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			uiMainAppFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("um Desktop"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 679,362 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 			~uiMainAppFrame();
 
 	};
 
 	///////////////////////////////////////////////////////////////////////////////
-	/// Class Dialog1
+	/// Class uiOptionsDialog
 	///////////////////////////////////////////////////////////////////////////////
-	class Dialog1 : public wxDialog
+	class uiOptionsDialog : public wxDialog
 	{
 		private:
 
 		protected:
+			wxListbook* m_tabsOptions;
+			wxPanel* m_panelKugou;
+			wxPropertyGrid* m_propGridKugou;
+			wxPGProperty* m_propertyGridItem17;
+
+			// Virtual event handlers, override them in your derived class
+			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
+			virtual void OnPropertyGridChanged_KuGou( wxPropertyGridEvent& event ) { event.Skip(); }
+
 
 		public:
 
-			Dialog1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+			uiOptionsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 381,279 ), long style = wxDEFAULT_DIALOG_STYLE );
 
-			~Dialog1();
+			~uiOptionsDialog();
 
 	};
 
