@@ -14,18 +14,6 @@ endif()
 find_package(Boost 1.79.0 REQUIRED)
 find_package(wxWidgets COMPONENTS core adv propgrid REQUIRED)
 
-include_directories(
-  ${wxWidgets_INCLUDE_DIRS}
-  ${BOOST_INCLUDE_DIRS}
-  $<TARGET_PROPERTY:um-crypto,INTERFACE_INCLUDE_DIRECTORIES>
-)
-
-link_libraries(
-  ${wxWidgets_LIBRARIES}
-  ${Boost_LIBRARIES}
-  um-crypto_static
-)
-
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
   list(TRANSFORM wxWidgets_LIBRARIES REPLACE
@@ -38,6 +26,18 @@ if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   )
   message("wxWidgets_LIBRARIES: ${wxWidgets_LIBRARIES}")
 endif()
+
+include_directories(
+  ${wxWidgets_INCLUDE_DIRS}
+  ${BOOST_INCLUDE_DIRS}
+  $<TARGET_PROPERTY:um-crypto,INTERFACE_INCLUDE_DIRECTORIES>
+)
+
+link_libraries(
+  ${wxWidgets_LIBRARIES}
+  ${Boost_LIBRARIES}
+  um-crypto_static
+)
 
 file(GLOB SOURCES *.cpp **/*.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
