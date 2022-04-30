@@ -1,9 +1,11 @@
 project(um-crypto)
 
 find_package(OpenSSL REQUIRED)
+find_package(Boost 1.79.0 REQUIRED)
 
 include_directories(include)
 include_directories(${OPENSSL_INCLUDE_DIR})
+include_directories(${BOOST_INCLUDE_DIRS})
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS YES CACHE BOOL "Export all symbols")
 
@@ -40,6 +42,7 @@ file(GLOB TESTS_SOURCE src/*.test.cc src/**/*.test.cc)
 add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
 target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
 target_link_libraries(${PROJECT_NAME}_test ${OPENSSL_CRYPTO_LIBRARY})
+target_link_libraries(${PROJECT_NAME}_test ${Boost_LIBRARIES})
 target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
 
 include(GoogleTest)

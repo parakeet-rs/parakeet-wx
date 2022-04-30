@@ -1,5 +1,11 @@
 {
   "name": "um-desktop",
   "version-string": "0.1.0-dev",
-  "dependencies": ["openssl", "wxwidgets", "gtest"]
+  "dependencies": [
+    "boost-algorithm",
+    "boost-beast",
+    "gtest",
+    "openssl",
+    "wxwidgets"
+  ]
 }

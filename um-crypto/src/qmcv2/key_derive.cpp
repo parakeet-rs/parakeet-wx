@@ -1,11 +1,17 @@
 #include "um-crypto/qmcv2.h"
 #include "um-crypto/tc_tea.h"
 
-#include <openssl/evp.h>
 #include <cassert>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
+
+#include <string>
+#include <vector>
+
+#include <boost/beast/core/detail/base64.hpp>
+
+namespace base64 = boost::beast::detail::base64;
 
 namespace umc::qmc::v2::key_derive {
 
@@ -65,55 +71,18 @@ bool from_ekey(uint8_t*& derived_key,
   return true;
 }
 
-const unsigned char b64_pad_str[] = "===";
 bool from_ekey_b64(uint8_t*& derived_key,
                    size_t& derived_key_len,
                    const char* ekey_b64) {
-  size_t ekey_b64_len = strlen(ekey_b64);
-  size_t partial_last_block_len = ekey_b64_len % 4;
-  size_t ekey_max_len = ekey_b64_len / 4 * 3 + 4;
-  uint8_t* ekey = static_cast<uint8_t*>(calloc(ekey_max_len, sizeof(uint8_t)));
+  std::string ekey_str(ekey_b64);
 
-  int ekey_len = 0;
-  auto b64 = EVP_ENCODE_CTX_new();
-  EVP_DecodeInit(b64);
+  // Remove whitespace
+  ekey_str.erase(std::remove_if(ekey_str.begin(), ekey_str.end(), ::isspace),
+                 ekey_str.end());
 
-  if (-1 == EVP_DecodeUpdate(b64, ekey, &ekey_len,
-                             reinterpret_cast<const uint8_t*>(ekey_b64),
-                             ekey_b64_len)) {
-    EVP_ENCODE_CTX_free(b64);
-    free(ekey);
-    return false;
-  }
-
-  if (partial_last_block_len > 0) {
-    int outl;
-    if (-1 == EVP_DecodeUpdate(b64, &ekey[ekey_len], &outl, b64_pad_str,
-                               4 - partial_last_block_len)) {
-      EVP_ENCODE_CTX_free(b64);
-      free(ekey);
-      return false;
-    }
-    ekey_len += outl;
-  }
-
-  {
-    int outl;
-    if (EVP_DecodeFinal(b64, &ekey[ekey_len], &outl) == -1) {
-      EVP_ENCODE_CTX_free(b64);
-      free(ekey);
-      return false;
-    }
-    ekey_len += outl;
-  }
-
-  EVP_ENCODE_CTX_free(b64);
-
-  bool ok = from_ekey(derived_key, derived_key_len, ekey, size_t(ekey_len));
-
-  free(ekey);
-
-  return ok;
+  std::vector<uint8_t> ekey(base64::decoded_size(ekey_str.size()));
+  auto result = base64::decode(ekey.data(), ekey_str.data(), ekey_str.size());
+  return from_ekey(derived_key, derived_key_len, ekey.data(), result.first);
 }
 
 void free_key(uint8_t*& key) {
