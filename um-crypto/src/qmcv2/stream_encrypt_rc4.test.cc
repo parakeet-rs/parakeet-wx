@@ -16,8 +16,8 @@ TEST(qmcv2_rc4, TestDecryption) {
 
   uint8_t buf[10];
   memset(buf, 0, sizeof(buf));
-  uint8_t expect_decrypted[10] = {0xFE, 0xDC, 0xCC, 0xCC, 0x0E,
-                                  0xFF, 0x35, 0x32, 0x35, 0x32};
+  uint8_t expect_decrypted[10] = {0x32, 0x10, 0x00, 0x00, 0xC2,
+                                  0x33, 0xF9, 0xFE, 0xF9, 0xFE};
 
   auto qmc = umc::qmc::v2::rc4::new_from_key(key, sizeof(key) / sizeof(key[0]));
   for (int i = 0, offset = 1; i < 10; i += 2, offset *= 16) {
