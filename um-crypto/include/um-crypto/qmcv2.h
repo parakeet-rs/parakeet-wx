@@ -2,6 +2,8 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "qmcv2/rc4_cipher.h"
+
 namespace umc::qmc::v2 {
 
 namespace map {
@@ -16,17 +18,6 @@ void encrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
 void decrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
 
 }  // namespace map
-
-namespace rc4 {
-
-// RC4 encryption.
-typedef struct CTX CTX;
-CTX* new_from_key(const uint8_t* key, size_t key_size);
-void encrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
-void decrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
-void free(CTX*& ctx);
-
-}  // namespace rc4
 
 /**
  * @brief Key derive
