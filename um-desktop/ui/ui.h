@@ -73,7 +73,6 @@ namespace umd::ui_base
 			wxListbook* m_tabsOptions;
 			wxPanel* m_panelKugou;
 			wxPropertyGrid* m_propGridKugou;
-			wxPGProperty* m_propertyGridItem17;
 
 			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }

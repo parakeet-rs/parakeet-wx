@@ -723,13 +723,6 @@
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
                                             <event name="OnPropertyGridChanged">OnPropertyGridChanged_KuGou</event>
-                                            <object class="propGridItem" expanded="1">
-                                                <property name="help"></property>
-                                                <property name="label">Name</property>
-                                                <property name="name">m_propertyGridItem17</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
                                         </object>
                                     </object>
                                 </object>

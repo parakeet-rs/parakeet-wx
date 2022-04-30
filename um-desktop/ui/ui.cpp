@@ -84,7 +84,6 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 
 	m_propGridKugou = new wxPropertyGrid(m_panelKugou, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxPG_STATIC_LAYOUT|wxTAB_TRAVERSAL);
-	m_propertyGridItem17 = m_propGridKugou->Append( new wxLongStringProperty( _("Name"), _("Name") ) );
 	bSizer5->Add( m_propGridKugou, 1, wxALL|wxEXPAND, 5 );
 
 
