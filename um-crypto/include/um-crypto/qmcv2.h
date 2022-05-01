@@ -2,22 +2,10 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "qmcv2/map_cipher.h"
 #include "qmcv2/rc4_cipher.h"
 
 namespace umc::qmc::v2 {
-
-namespace map {
-
-typedef struct CTX CTX;
-
-CTX* new_from_key(const uint8_t* key, size_t key_size);
-void free(CTX*& ctx);
-
-uint8_t get_key_at_offset(CTX* ctx, size_t offset);
-void encrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
-void decrypt(CTX* ctx, uint8_t* buf, size_t len, size_t offset);
-
-}  // namespace map
 
 /**
  * @brief Key derive

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "um-crypto/common.h"
 #include "um-crypto/interface/IStreamCipher.h"
 
