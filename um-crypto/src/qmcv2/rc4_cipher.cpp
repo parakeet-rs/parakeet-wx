@@ -9,7 +9,7 @@ using namespace umc::qmcv2;
 const usize FIRST_SEGMENT_SIZE = 0x80;
 const usize OTHER_SEGMENT_SIZE = 0x1400;
 
-RC4Cipher::RC4Cipher(const Vec<u8>& key) {
+RC4Cipher::RC4Cipher(const Vec<u8>& key) : IStreamCipher() {
   this->key = key;
   this->N = key.size();
   InitSeedbox();
@@ -72,16 +72,16 @@ __umc_fi void RC4Cipher::EncodeOtherSegment(u8* out, const u8* buf, usize len) {
   auto segment_offset = offset % OTHER_SEGMENT_SIZE;
   auto discards = segment_offset + (GetSegmentKey(sid, segment_seed) & 0x1FF);
 
-  int j = 0;
-  int k = 0;
-  for (size_t i = 0; i < discards; i++) {
+  u32 j = 0;
+  u32 k = 0;
+  for (u32 i = 0; i < discards; i++) {
     j = (j + 1) % N;
     k = (S[j] + k) % N;
     std::swap(S[j], S[k]);
   }
 
   // Now we manipulate the buffer.
-  for (size_t i = 0; i < len; i++) {
+  for (u32 i = 0; i < len; i++) {
     j = (j + 1) % N;
     k = (S[j] + k) % N;
     std::swap(S[j], S[k]);

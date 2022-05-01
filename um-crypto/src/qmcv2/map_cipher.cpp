@@ -3,8 +3,8 @@
 using namespace umc;
 using namespace umc::qmcv2;
 
-inline u8 Rotate(u8 value, int bits) {
-  int shift_amount = (bits + 4) % 8;
+inline u8 Rotate(u8 value, usize bits) {
+  usize shift_amount = (bits + 4) % 8;
   auto left = value << shift_amount;
   auto right = value >> shift_amount;
   return u8(left | right);
@@ -14,14 +14,14 @@ inline u8 MapCipher::GetMaskByte() {
   if (offset > 0x7FFF)
     offset %= 0x7FFF;
 
-  uint64_t idx = (offset * offset + 71214) % N;
+  u64 idx = (offset * offset + 71214) % N;
   u8 value = key[idx];
 
   // Rotate by the lower 3 bits
   return Rotate(value, idx & 0b0111);
 }
 
-MapCipher::MapCipher(const Vec<u8>& key) {
+MapCipher::MapCipher(const Vec<u8>& key) : IStreamCipher() {
   this->key = key;
   this->N = key.size();
 }
