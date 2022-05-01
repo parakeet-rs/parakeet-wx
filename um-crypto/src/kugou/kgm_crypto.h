@@ -2,7 +2,7 @@
 #include "kgm_data.h"
 #include "um-crypto/common.h"
 
-namespace umc::kgm {
+namespace umc::kugou {
 
 inline uint8_t GetMaskV1(size_t offset) {
   uint8_t result = 0;
@@ -24,7 +24,7 @@ inline u8 ScrambleByte(u8 result) {
 }
 
 inline u8 DecryptKGMV2(usize offset, u8 input, const u8* file_key) {
-  const u8 byte = input ^ file_key[offset % 17] ^ GetMaskV2(offset);
+  const u8 byte = input ^ file_key[offset % file_key_size] ^ GetMaskV2(offset);
   return ScrambleByte(byte);
 }
 
@@ -32,4 +32,4 @@ inline u8 DecryptVPRV2(usize offset, u8 input, const u8* file_key) {
   return DecryptKGMV2(offset, input, file_key) ^ vpr_key[offset % vpr_key_size];
 }
 
-}  // namespace umc::kgm
+}  // namespace umc::kugou
