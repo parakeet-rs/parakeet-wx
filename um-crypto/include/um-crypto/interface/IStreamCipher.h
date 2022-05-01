@@ -13,7 +13,7 @@ class IStreamCipher {
   virtual void Seek(usize offset) { this->offset = offset; }
 
  protected:
-  usize offset;
+  usize offset = 0;
 };
 
 }  // namespace umc

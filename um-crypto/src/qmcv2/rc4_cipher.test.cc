@@ -21,7 +21,7 @@ inline Vec<u8> InitKey(usize len) {
   return key;
 }
 
-TEST(CryptoQMCv2RC4, TestDecryption) {
+TEST(QMCv2RC4Cipher, TestDecryption) {
   auto key = InitKey(400);
 
   Vec<u8> expected[5] = {Vec<u8>({0x32, 0x10}), Vec<u8>({0x00, 0x00}),
@@ -29,7 +29,9 @@ TEST(CryptoQMCv2RC4, TestDecryption) {
                          Vec<u8>({0xF9, 0xFE})};
 
   RC4Cipher cipher(key);
+
   for (int i = 0, offset = 1; i < 5; i++, offset *= 16) {
+    fprintf(stderr, "offset : %d  --  %x\n", i, offset);
     cipher.Seek(offset);
 
     Vec<u8> result;
@@ -38,7 +40,7 @@ TEST(CryptoQMCv2RC4, TestDecryption) {
   }
 }
 
-TEST(CryptoQMCv2RC4, TestDecryptionWithFF) {
+TEST(QMCv2RC4Cipher, TestDecryptionWithFF) {
   auto key = InitKey(400);
 
   Vec<u8> expected[5] = {Vec<u8>({0xCD, 0xEF}), Vec<u8>({0xFF, 0xFF}),
@@ -55,7 +57,7 @@ TEST(CryptoQMCv2RC4, TestDecryptionWithFF) {
   }
 }
 
-TEST(CryptoQMCv2RC4, TestDecryptionWithFFAtFirstSegmentEndBoundary) {
+TEST(QMCv2RC4Cipher, TestDecryptionWithFFAtFirstSegmentEndBoundary) {
   auto key = InitKey(400);
 
   Vec<u8> input(10);
@@ -72,7 +74,7 @@ TEST(CryptoQMCv2RC4, TestDecryptionWithFFAtFirstSegmentEndBoundary) {
   ASSERT_THAT(result, ElementsAreArray(expected));
 }
 
-TEST(CryptoQMCv2RC4, TestDecryptionWithFFAtSecondSegmentEndBoundary) {
+TEST(QMCv2RC4Cipher, TestDecryptionWithFFAtSecondSegmentEndBoundary) {
   auto key = InitKey(400);
 
   Vec<u8> input(10);

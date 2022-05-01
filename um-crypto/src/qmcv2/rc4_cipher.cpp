@@ -9,17 +9,20 @@ using namespace umc::qmcv2;
 const usize FIRST_SEGMENT_SIZE = 0x80;
 const usize OTHER_SEGMENT_SIZE = 0x1400;
 
-RC4Cipher::RC4Cipher(const Vec<u8>& key) : IStreamCipher() {
-  this->key = key;
-  this->N = key.size();
+RC4Cipher::RC4Cipher(const Vec<u8>& key) : XorStreamCipherBase() {
+  key_ = key;
+  N_ = key.size();
   InitSeedbox();
-  this->key_hash = this->CalculateKeyHash();
+  key_hash_ = CalculateKeyHash();
+  Seek(0);
 }
 
 inline double RC4Cipher::CalculateKeyHash() const {
+  const auto N = N_;
+
   u32 hash = 1;
-  for (u32 i = 0; i < N; i++) {
-    auto value = i32{key[i]};
+  for (u32 i = 0; i < N_; i++) {
+    auto value = i32{key_[i]};
 
     // ignore if key char is '\x00'
     if (!value)
@@ -36,7 +39,9 @@ inline double RC4Cipher::CalculateKeyHash() const {
 }
 
 inline void RC4Cipher::InitSeedbox() {
-  this->S.resize(N);
+  auto& S = S_;
+  const auto N = N_;
+  S.resize(N);
 
   for (u32 i = 0; i < N; i++) {
     S[i] = i & 0xFF;
@@ -44,33 +49,28 @@ inline void RC4Cipher::InitSeedbox() {
 
   u32 j = 0;
   for (u32 i = 0; i < N; i++) {
-    j = (S[i] + j + key[i % N]) % N;
+    j = (S[i] + j + key_[i % N]) % N;
     std::swap(S[i], S[j]);
   }
 }
 
 inline u64 RC4Cipher::GetSegmentKey(u64 segment_id, u64 seed) const {
-  return u64(key_hash / double((segment_id + 1) * seed) * 100.0);
+  return u64(key_hash_ / double((segment_id + 1) * seed) * 100.0);
 }
 
-__umc_fi void RC4Cipher::EncodeFirstSegment(u8* out, const u8* buf, usize len) {
-  for (usize i = 0; i < len; i++, offset++) {
-    const u64 seed = u64{key[offset % N]};
-    out[i] = buf[i] ^ key[GetSegmentKey(offset, seed) % N];
+__umc_fi void RC4Cipher::EncodeFirstSegment(u8* out) {
+  for (usize i = 0; i < FIRST_SEGMENT_SIZE; i++) {
+    const u64 seed = u64{key_[i % N_]};
+    out[i] = key_[GetSegmentKey(i, seed) % N_];
   }
 }
 
-__umc_fi void RC4Cipher::EncodeOtherSegment(u8* out, const u8* buf, usize len) {
-  const auto N = this->N;
+__umc_fi void RC4Cipher::EncodeOtherSegment(u8* out) {
+  const auto N = N_;
+  Vec<u8> S(this->S_);
 
-  Vec<u8> S(this->S);
-
-  size_t sid = offset / OTHER_SEGMENT_SIZE;
-  size_t segment_seed = key[sid & 0x1FF];
-
-  // segment_key contains the number of bytes to discard during rc4 init.
-  auto segment_offset = offset % OTHER_SEGMENT_SIZE;
-  auto discards = segment_offset + (GetSegmentKey(sid, segment_seed) & 0x1FF);
+  size_t segment_seed = key_[segment_id_ & 0x1FF];
+  auto discards = GetSegmentKey(segment_id_, segment_seed) & 0x1FF;
 
   u32 j = 0;
   u32 k = 0;
@@ -81,53 +81,35 @@ __umc_fi void RC4Cipher::EncodeOtherSegment(u8* out, const u8* buf, usize len) {
   }
 
   // Now we manipulate the buffer.
-  for (u32 i = 0; i < len; i++) {
+  for (u32 i = 0; i < OTHER_SEGMENT_SIZE; i++) {
     j = (j + 1) % N;
     k = (S[j] + k) % N;
     std::swap(S[j], S[k]);
 
-    out[i] = buf[i] ^ S[(S[j] + S[k]) % N];
+    out[i] = S[(S[j] + S[k]) % N];
   }
 
-  offset += len;
+  segment_id_++;
 }
 
-bool RC4Cipher::Encrypt(Vec<u8>& result, const Vec<u8>& input) {
-  result.resize(input.size());
+void RC4Cipher::Seek(usize offset) {
+  XorStreamCipherBase::Seek(offset);
 
-  u8* out_ptr = result.data();
-  const u8* inp_ptr = input.data();
-  usize len = input.size();
+  segment_id_ = offset / OTHER_SEGMENT_SIZE;
+  buf_idx_ = offset % OTHER_SEGMENT_SIZE;
 
-  if (offset < FIRST_SEGMENT_SIZE) {
-    const auto bytes_processed = std::min(FIRST_SEGMENT_SIZE - offset, len);
-    EncodeFirstSegment(out_ptr, inp_ptr, bytes_processed);
-    len -= bytes_processed;
-    inp_ptr += bytes_processed;
-    out_ptr += bytes_processed;
+  buf.resize(OTHER_SEGMENT_SIZE);
+
+  EncodeOtherSegment(&buf[0]);
+
+  if (segment_id_ == 1) {
+    EncodeFirstSegment(&buf[0]);
   }
 
-  if (offset % OTHER_SEGMENT_SIZE != 0) {
-    const auto segment_offset = offset % OTHER_SEGMENT_SIZE;
-    const auto bytes_processed =
-        std::min(OTHER_SEGMENT_SIZE - segment_offset, len);
-    EncodeOtherSegment(out_ptr, inp_ptr, bytes_processed);
-    len -= bytes_processed;
-    inp_ptr += bytes_processed;
-    out_ptr += bytes_processed;
-  }
-
-  while (len > 0) {
-    auto bytes_processed = std::min(OTHER_SEGMENT_SIZE, len);
-    EncodeOtherSegment(out_ptr, inp_ptr, bytes_processed);
-    len -= bytes_processed;
-    inp_ptr += bytes_processed;
-    out_ptr += bytes_processed;
-  }
-
-  return true;
+  buf_idx_ = buf_idx_ | 0;
 }
 
-inline bool RC4Cipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
-  return Encrypt(result, input);
+void RC4Cipher::YieldNextXorBuf(Vec<u8>& buf) {
+  buf.resize(OTHER_SEGMENT_SIZE);
+  EncodeOtherSegment(&buf[0]);
 }
