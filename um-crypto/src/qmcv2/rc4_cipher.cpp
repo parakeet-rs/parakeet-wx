@@ -1,4 +1,5 @@
 #include "um-crypto/qmcv2/rc4_cipher.h"
+#include "../util/internal.h"
 
 #include <algorithm>
 
@@ -52,14 +53,14 @@ inline u64 RC4Cipher::GetSegmentKey(u64 segment_id, u64 seed) const {
   return u64(key_hash / double((segment_id + 1) * seed) * 100.0);
 }
 
-inline void RC4Cipher::EncodeFirstSegment(u8* out, const u8* buf, usize len) {
+__umc_fi void RC4Cipher::EncodeFirstSegment(u8* out, const u8* buf, usize len) {
   for (usize i = 0; i < len; i++, offset++) {
     const u64 seed = u64{key[offset % N]};
     out[i] = buf[i] ^ key[GetSegmentKey(offset, seed) % N];
   }
 }
 
-inline void RC4Cipher::EncodeOtherSegment(u8* out, const u8* buf, usize len) {
+__umc_fi void RC4Cipher::EncodeOtherSegment(u8* out, const u8* buf, usize len) {
   const auto N = this->N;
 
   Vec<u8> S(this->S);
