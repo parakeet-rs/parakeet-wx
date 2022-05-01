@@ -1,5 +1,7 @@
 #pragma once
 
+#ifndef __umc_fi
+
 #if __GNUC__ && !____clang__
 #define __umc_fi __attribute__((always_inline))
 #elif _MSC_VER
@@ -7,3 +9,5 @@
 #else
 #define __umc_fi inline
 #endif
+
+#endif  // ifndef __umc_fi

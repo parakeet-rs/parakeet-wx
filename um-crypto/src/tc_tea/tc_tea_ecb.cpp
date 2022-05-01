@@ -1,5 +1,5 @@
 #include "tc_tea_ecb.h"
-#include "../util/endian.h"
+#include "../internal/endian.h"
 
 namespace umc::tc_tea {
 

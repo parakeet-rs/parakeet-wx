@@ -1,4 +1,6 @@
-#if _WIN32
+#pragma once
+
+#if _MSC_VER
 // Windows
 #include <stdlib.h>
 #include <winsock2.h>

@@ -1,4 +1,4 @@
-#include "../util/endian.h"
+#include "../internal/endian.h"
 #include "tc_tea_ecb.h"
 
 #include <cstddef>
