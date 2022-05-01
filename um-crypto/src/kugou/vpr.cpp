@@ -1,10 +1,20 @@
-#include "um-crypto/vpr.h"
-#include "kgm_data.h"
-#include "um-crypto/kgm.h"
+#include "kgm_crypto.h"
+#include "um-crypto/kugou.h"
 
-uint8_t umc::vpr::decrypt_byte_at_offset(uint8_t byte,
-                                         uint8_t* file_key,
-                                         size_t offset) {
-  auto key = ::umc::kgm::vpr_key[offset % 17];
-  return key ^ ::umc::kgm::decrypt_byte_at_offset_v2(byte, file_key, offset);
+using namespace umc;
+
+bool VPRCipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
+  auto len = input.size();
+  result.resize(len);
+
+  const auto file_key = file_key_.data();
+  for (usize i = 0; i < len; i++) {
+    result[i] = kgm::DecryptVPRV2(offset, input[i], file_key);
+  }
+
+  return true;
+}
+
+bool VPRCipher::Encrypt(Vec<u8>& result, const Vec<u8>& input) {
+  return Decrypt(result, input);
 }

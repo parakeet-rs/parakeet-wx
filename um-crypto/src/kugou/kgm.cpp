@@ -1,28 +1,20 @@
-#include "um-crypto/kgm.h"
-#include "kgm_data.h"
+#include "kgm_crypto.h"
+#include "um-crypto/kugou.h"
 
-inline uint8_t xor_upper_with_lower(uint8_t result) {
-  return result ^ ((result & 0x0f) << 4);
-}
+using namespace umc;
 
-uint8_t umc::kgm::mask_byte_at_offset(size_t offset) {
-  uint8_t result = 0;
-  while (offset > 0) {
-    result ^= t1[offset % table_size];
-    offset >>= 4;
-    result ^= t2[offset % table_size];
-    offset >>= 4;
+bool KGMCipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
+  auto len = input.size();
+  result.resize(len);
+
+  const auto file_key = file_key_.data();
+  for (usize i = 0; i < len; i++) {
+    result[i] = kgm::DecryptKGMV2(offset, input[i], file_key);
   }
-  return result;
+
+  return true;
 }
 
-uint8_t umc::kgm::mask_byte_at_offset_v2(size_t offset) {
-  return v2[offset % table_size] ^ umc::kgm::mask_byte_at_offset(offset >> 4);
-}
-
-uint8_t umc::kgm::decrypt_byte_at_offset_v2(uint8_t byte,
-                                            uint8_t* file_key,
-                                            size_t offset) {
-  auto key = file_key[offset % 17];
-  return xor_upper_with_lower(byte ^ key ^ mask_byte_at_offset_v2(offset));
+bool KGMCipher::Encrypt(Vec<u8>& result, const Vec<u8>& input) {
+  return Decrypt(result, input);
 }
