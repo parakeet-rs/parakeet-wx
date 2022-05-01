@@ -54,3 +54,30 @@ TEST(CryptoQMCv2Map, TestDecryptionWithFF) {
     ASSERT_THAT(result, ElementsAreArray(expected[i]));
   }
 }
+
+TEST(CryptoQMCv2Map, TestDecryptionAtBoundary1) {
+  auto key = InitKey(140);
+
+  Vec<u8> expected =
+      Vec<u8>({0x81, 0x3C, 0xBB, 0xBE, 0x82, 0x80, 0xFB, 0x81, 0x3C, 0xBB});
+  Vec<u8> result;
+
+  MapCipher cipher(key);
+  cipher.Seek(0x7fff - 5);
+  ASSERT_EQ(cipher.Decrypt(result, Vec<u8>(10)), true);
+  ASSERT_THAT(result, ElementsAreArray(expected));
+}
+
+#include <cstdio>
+TEST(CryptoQMCv2Map, TestDecryptionAtBoundary2) {
+  auto key = InitKey(140);
+
+  Vec<u8> expected =
+      Vec<u8>({0x81, 0x3C, 0xBB, 0xBE, 0x82, 0x7f, 0xFB, 0x81, 0x3C, 0xBB});
+  Vec<u8> result;
+
+  MapCipher cipher(key);
+  cipher.Seek(0x7fff * 2 - 5);
+  ASSERT_EQ(cipher.Decrypt(result, Vec<u8>(10)), true);
+  ASSERT_THAT(result, ElementsAreArray(expected));
+}

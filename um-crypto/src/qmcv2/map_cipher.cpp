@@ -10,34 +10,35 @@ inline u8 Rotate(u8 value, usize bits) {
   return u8(left | right);
 }
 
-inline u8 MapCipher::GetMaskByte() {
-  if (offset > 0x7FFF)
-    offset %= 0x7FFF;
-
-  u64 idx = (offset * offset + 71214) % N;
+inline u8 GetMaskByte(const u8* key, usize n, usize offset) {
+  u64 idx = (offset * offset + 71214) % n;
   u8 value = key[idx];
 
   // Rotate by the lower 3 bits
   return Rotate(value, idx & 0b0111);
 }
 
-MapCipher::MapCipher(const Vec<u8>& key) : IStreamCipher() {
-  this->key = key;
-  this->N = key.size();
-}
+constexpr usize SEGMENT_LENGTH = 0x7fff;
 
-bool MapCipher::Encrypt(Vec<u8>& result, const Vec<u8>& input) {
-  result.resize(input.size());
+MapCipher::MapCipher(const Vec<u8>& key) : XorStreamCipherBase() {
+  const usize N = key.size();
+  buf.resize(SEGMENT_LENGTH);
 
-  const auto len = input.size();
-  for (usize i = 0; i < len; i++) {
-    result[i] = input[i] ^ GetMaskByte();
-    offset++;
+  const u8* p_key = key.data();
+  for (usize i = 1; i < SEGMENT_LENGTH; i++) {
+    buf[i] = GetMaskByte(p_key, N, offset + i);
   }
-
-  return true;
+  first_bytes.first = GetMaskByte(p_key, N, 0);
+  first_bytes.second = GetMaskByte(p_key, N, SEGMENT_LENGTH);
 }
 
-bool MapCipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
-  return Encrypt(result, input);
+void MapCipher::YieldNextXorBuf(Vec<u8>& buf) {
+  buf_idx_ = offset % SEGMENT_LENGTH;
+  buf[0] = offset == SEGMENT_LENGTH ? first_bytes.second : first_bytes.first;
+}
+
+void MapCipher::Seek(usize offset) {
+  XorStreamCipherBase::Seek(offset);
+  // invalidate cache without losing data
+  buf_idx_ = SEGMENT_LENGTH;
 }
