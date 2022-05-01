@@ -24,10 +24,9 @@ inline Vec<u8> InitKey(usize len) {
 TEST(CryptoQMCv2RC4, TestDecryption) {
   auto key = InitKey(400);
 
-  Vec<u8> expected[5] = {
-      Vec<u8>({0x32, 0x10}), Vec<u8>({0x00, 0x00}), Vec<u8>({0xC2, 0x33}),
-      Vec<u8>({0xF9, 0xFE}), Vec<u8>({0xF9, 0xFE}),
-  };
+  Vec<u8> expected[5] = {Vec<u8>({0x32, 0x10}), Vec<u8>({0x00, 0x00}),
+                         Vec<u8>({0xC2, 0x33}), Vec<u8>({0xF9, 0xFE}),
+                         Vec<u8>({0xF9, 0xFE})};
 
   RC4Cipher cipher(key);
   for (int i = 0, offset = 1; i < 5; i++, offset *= 16) {
