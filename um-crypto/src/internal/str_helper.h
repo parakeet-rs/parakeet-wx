@@ -8,23 +8,28 @@
 
 namespace umc {
 
-inline void str_free(char*& str) {
-  assert(str && "umc::str_free: str is nullptr");
-  free(str);
-  str = nullptr;
-}
-
-inline void str_from_ptr(char*& result, const void* ptr, size_t len) {
-  if (result) {
-    str_free(result);
-  }
-
-  result = static_cast<char*>(calloc(len + 1, sizeof(char)));
-  memcpy(result, ptr, len);
-}
-
 inline void RemoveWhitespace(Str& s) {
   s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
+}
+
+inline Vec<Str> ParseCSVLine(const u8* str, usize len) {
+  Vec<Str> result;
+
+  const u8* str_begin = str;
+  while (len) {
+    if (*str == ',') {
+      result.push_back(Str(str_begin, str));
+      str_begin = str + 1;
+    }
+    str++;
+    len--;
+  }
+
+  if (str_begin != str) {
+    result.push_back(Str(str_begin, str));
+  }
+
+  return result;
 }
 
 }  // namespace umc
