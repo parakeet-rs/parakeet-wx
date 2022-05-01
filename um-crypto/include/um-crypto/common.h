@@ -2,6 +2,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <string>
 #include <vector>
 
 namespace umc {
@@ -26,5 +27,7 @@ using isize = i32;
 
 template <class T>
 using Vec = std::vector<T>;
+
+using Str = std::string;
 
 }  // namespace umc

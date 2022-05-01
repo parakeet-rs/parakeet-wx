@@ -1,4 +1,5 @@
 #pragma once
+#include "um-crypto/common.h"
 
 #include <cassert>
 #include <cstdint>
@@ -20,6 +21,10 @@ inline void str_from_ptr(char*& result, const void* ptr, size_t len) {
 
   result = static_cast<char*>(calloc(len + 1, sizeof(char)));
   memcpy(result, ptr, len);
+}
+
+inline void RemoveWhitespace(Str& s) {
+  s.erase(std::remove_if(s.begin(), s.end(), ::isspace), s.end());
 }
 
 }  // namespace umc

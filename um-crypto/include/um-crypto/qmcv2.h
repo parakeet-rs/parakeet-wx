@@ -2,26 +2,11 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "qmcv2/key_derive.h"
 #include "qmcv2/map_cipher.h"
 #include "qmcv2/rc4_cipher.h"
 
 namespace umc::qmc::v2 {
-
-/**
- * @brief Key derive
- */
-namespace key_derive {
-
-bool from_ekey(uint8_t*& derived_key,
-               size_t& derived_key_len,
-               const uint8_t* ekey,
-               size_t ekey_len);
-bool from_ekey_b64(uint8_t*& derived_key,
-                   size_t& derived_key_len,
-                   const char* ekey_b64);
-void free_key(uint8_t*& key);
-
-}  // namespace key_derive
 
 namespace parser {
 
