@@ -29,7 +29,7 @@ class EKeyDeriveBase {
 
 class SimpleEKeyDerive : public EKeyDeriveBase {
  public:
-  SimpleEKeyDerive(u8 seed) : EKeyDeriveBase() { this->seed = seed; };
+  SimpleEKeyDerive(u8 seed = 106) : EKeyDeriveBase() { this->seed = seed; };
 
  protected:
   void MakeSimpleKey(Vec<u8>& out) const override;
