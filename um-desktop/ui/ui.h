@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -46,12 +46,17 @@ namespace umd::ui_base
 			wxListCtrl* m_decryptLogs;
 			wxButton* m_btnOptions;
 			wxButton* m_btnClearLogs;
+			wxButton* m_btnProcess;
 			wxButton* m_btnAddFile;
 			wxButton* m_btnAddDir;
 
 			// Virtual event handlers, override them in your derived class
 			virtual void uiMainAppFrameOnSize( wxSizeEvent& event ) { event.Skip(); }
 			virtual void OnBtnClickOptions( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnButtonClick_ClearLogs( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnButtonClick_ProcessFiles( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnButtonClick_AddFile( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnButtonClick_AddDirectory( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
@@ -71,6 +76,10 @@ namespace umd::ui_base
 
 		protected:
 			wxListbook* m_tabsOptions;
+			wxPanel* m_panelGeneral;
+			wxPropertyGrid* m_propertyGrid2;
+			wxPGProperty* m_propGeneralCat1;
+			wxPGProperty* m_generalThreadPoolSize;
 			wxPanel* m_panelKugou;
 			wxPropertyGrid* m_propGridKugou;
 

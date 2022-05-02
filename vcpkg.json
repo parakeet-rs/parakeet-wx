@@ -3,8 +3,14 @@
   "version-string": "0.1.0-dev",
   "dependencies": [
     "boost-algorithm",
+    "boost-asio",
     "boost-beast",
+    "boost-filesystem",
+    "boost-nowide",
+    "boost-thread",
     "gtest",
+    "libmediainfo",
+    "libzen",
     "openssl",
     "wxwidgets"
   ]

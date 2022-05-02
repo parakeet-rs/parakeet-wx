@@ -1,5 +1,8 @@
 #include "app.h"
 #include "dialog/MainAppFrame.h"
+#include "utils/threading.h"
+
+#include <boost/nowide/filesystem.hpp>
 
 #include <wx/stdpaths.h>
 
@@ -47,6 +50,9 @@ void initLanguageSupport() {
 
 // This is executed upon startup, like 'main()' in non-wxWidgets programs.
 bool umDesktopApp::OnInit() {
+  boost::nowide::nowide_filesystem();
+  umd::init_thread_workers();
+
   initLanguageSupport();
   wxFrame* frame = new MainAppFrame(nullptr);
 

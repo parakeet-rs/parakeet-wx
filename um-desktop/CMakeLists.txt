@@ -11,8 +11,10 @@ if(MSVC)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")  
 endif()
 
-find_package(Boost 1.79.0 REQUIRED)
+find_package(Boost COMPONENTS filesystem nowide thread REQUIRED system)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
+find_package(MediaInfoLib CONFIG REQUIRED)
+find_package(ZenLib CONFIG REQUIRED)
 
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
@@ -36,6 +38,8 @@ include_directories(
 link_libraries(
   ${wxWidgets_LIBRARIES}
   ${Boost_LIBRARIES}
+  zen
+  mediainfo
   um-crypto_static
 )
 

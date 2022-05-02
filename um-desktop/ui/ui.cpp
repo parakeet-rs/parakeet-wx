@@ -1,5 +1,5 @@
 ///////////////////////////////////////////////////////////////////////////
-// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b)
+// C++ code generated with wxFormBuilder (version 3.10.1-0-g8feb16b3)
 // http://www.wxformbuilder.org/
 //
 // PLEASE DO *NOT* EDIT THIS FILE!
@@ -40,6 +40,12 @@ uiMainAppFrame::uiMainAppFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	bSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
 
+	m_btnProcess = new wxButton( this, wxID_ANY, _("Process"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer6->Add( m_btnProcess, 0, wxALL, 5 );
+
+
+	bSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+
 	m_btnAddFile = new wxButton( this, wxID_ANY, _("Decrypt &file..."), wxDefaultPosition, wxDefaultSize, 0 );
 	bSizer6->Add( m_btnAddFile, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
 
@@ -61,6 +67,10 @@ uiMainAppFrame::uiMainAppFrame( wxWindow* parent, wxWindowID id, const wxString&
 	// Connect Events
 	this->Connect( wxEVT_SIZE, wxSizeEventHandler( uiMainAppFrame::uiMainAppFrameOnSize ) );
 	m_btnOptions->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnBtnClickOptions ), NULL, this );
+	m_btnClearLogs->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_ClearLogs ), NULL, this );
+	m_btnProcess->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_ProcessFiles ), NULL, this );
+	m_btnAddFile->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_AddFile ), NULL, this );
+	m_btnAddDir->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_AddDirectory ), NULL, this );
 }
 
 uiMainAppFrame::~uiMainAppFrame()
@@ -68,6 +78,10 @@ uiMainAppFrame::~uiMainAppFrame()
 	// Disconnect Events
 	this->Disconnect( wxEVT_SIZE, wxSizeEventHandler( uiMainAppFrame::uiMainAppFrameOnSize ) );
 	m_btnOptions->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnBtnClickOptions ), NULL, this );
+	m_btnClearLogs->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_ClearLogs ), NULL, this );
+	m_btnProcess->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_ProcessFiles ), NULL, this );
+	m_btnAddFile->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_AddFile ), NULL, this );
+	m_btnAddDir->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( uiMainAppFrame::OnButtonClick_AddDirectory ), NULL, this );
 
 }
 
@@ -79,6 +93,21 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
 
 	m_tabsOptions = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT );
+	m_panelGeneral = new wxPanel( m_tabsOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer6;
+	bSizer6 = new wxBoxSizer( wxVERTICAL );
+
+	m_propertyGrid2 = new wxPropertyGrid(m_panelGeneral, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxPG_STATIC_LAYOUT|wxPG_TOOLTIPS|wxTAB_TRAVERSAL);
+	m_propGeneralCat1 = m_propertyGrid2->Append( new wxPropertyCategory( _("Threading"), _("Threading") ) );
+	m_generalThreadPoolSize = m_propertyGrid2->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
+	m_propertyGrid2->SetPropertyHelpString( m_generalThreadPoolSize, _(" a b c") );
+	bSizer6->Add( m_propertyGrid2, 1, wxALL|wxEXPAND, 5 );
+
+
+	m_panelGeneral->SetSizer( bSizer6 );
+	m_panelGeneral->Layout();
+	bSizer6->Fit( m_panelGeneral );
+	m_tabsOptions->AddPage( m_panelGeneral, _("General"), true );
 	m_panelKugou = new wxPanel( m_tabsOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
@@ -90,7 +119,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panelKugou->SetSizer( bSizer5 );
 	m_panelKugou->Layout();
 	bSizer5->Fit( m_panelKugou );
-	m_tabsOptions->AddPage( m_panelKugou, _("KuGou Music"), true );
+	m_tabsOptions->AddPage( m_panelKugou, _("KuGou Music"), false );
 	#ifdef __WXGTK__ // Small icon style not supported in GTK
 	wxListView* m_tabsOptionsListView = m_tabsOptions->GetListView();
 	long m_tabsOptionsFlags = m_tabsOptionsListView->GetWindowStyleFlag();
