@@ -8,6 +8,7 @@
 #include <vector>
 
 using namespace umc;
+using namespace umd;
 
 const usize kDecryptBufferSize = 4 * 1024 * 1024;
 
