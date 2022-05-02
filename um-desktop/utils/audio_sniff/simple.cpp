@@ -1,4 +1,6 @@
 #include "../audio_type_sniff.h"
+#include "um-crypto/common.h"
+#include "um-crypto/endian.h"
 
 // References:
 // - General sniff code:
@@ -13,95 +15,90 @@
 //   https://wiki.multimedia.cx/index.php/ADTS
 // - FLAC:
 //   https://xiph.org/flac/format.html
+// - fytp:
+//   https://www.ftyps.com/
 
+using namespace umc;
 namespace umd::utils {
 
-inline bool Compare4Bytes(const uint8_t* a, const uint8_t* b) {
-  return (a[0] == b[0]) && (a[1] == b[1]) && (a[2] == b[2]) && (a[3] == b[3]);
-}
-
-inline bool Compare4Bytes(const uint8_t* a, const char* b) {
-  return Compare4Bytes(a, reinterpret_cast<const uint8_t*>(b));
-}
-
-inline bool CompareBytes(const uint8_t* a, const uint8_t* b, int n) {
-  for (int i = 0; i < n; i++) {
-    if (a[i] != b[i])
-      return false;
-  }
-  return true;
-}
-
-inline bool CompareBytes(const uint8_t* a, const char* b, int n) {
-  return CompareBytes(a, reinterpret_cast<const uint8_t*>(b), n);
-}
-
-inline bool is_mp3(const uint8_t* buf, size_t len) {
-  if (CompareBytes(buf, "ID3", 3) == 0) {
+inline bool is_mp3(u32 magic, size_t len) {
+  const u32 kID3Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
+  const u32 kID3Value = 0x49'44'33'00u;  // 'ID3\x00'
+  if ((magic & kID3Masks) == kID3Value) {
     return true;
   }
 
+  const u32 kMP3AndMasks = 0b1111'1111'1110'0000u << 16;
+  const u32 kMP3Expected = 0b1111'1111'1110'0000u << 16;
   // Framesync, should have 11 bits set to 1.
-  if (buf[0] == 0xFF && (buf[0] & 0x0b11100000) == 0x0b11100000) {
-    return true;
-  }
-
-  return false;
+  return ((magic & kMP3AndMasks) == kMP3Expected);
 }
 
-inline bool is_aac(const uint8_t* buf, size_t len) {
-  // https://wiki.multimedia.cx/index.php/ADTS
-  if (buf[0] == 0xFF && (buf[0] & 0b11110110) == 0b11110000) {
-    return true;
-  }
+inline bool is_aac(u32 magic, size_t len) {
+  const u32 kAacAndMasks = 0b1111'1111'1111'0110 << 16;
+  const u32 kAacExpected = 0b1111'1111'1111'0000 << 16;
 
-  return false;
+  return ((magic & kAacAndMasks) == kAacExpected);
 }
+
+const u32 kMagic_fLaC = 0x66'4c'61'43u;  // Free Lossless Audio Codec (FLAC)
+const u32 kMagic_OggS = 0x4F'67'67'53u;  // Ogg
+const u32 kMagic_FRM8 = 0x46'52'4D'38u;  // Direct Stream Digital (DSDIFF)
+const u32 kMagic_ftyp = 0x66'74'79'70u;  // MP4 Frame
+const u32 kMagic__wma = 0x30'26'B2'75u;  // Windows WMA/WMV/ASF
+
+const u32 kMagic_ftyp_MSNV = 0x4d'53'4e'56u;  // MPEG-4 (.MP4) for SonyPSP
+const u32 kMagic_ftyp_NDAS = 0x4e'44'41'53u;  // Nero Digital AAC Audio
+
+const u32 kMagic_ftyp_M4A = 0x4d'34'41u;  // iTunes AAC-LC (.M4A) Audio
+const u32 kMagic_ftyp_M4B = 0x4d'34'42u;  // iTunes AAC-LC (.M4B) Audio Book
 
 std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
-  if (len < 4) {
+  if (len < 16) {
     return "";
   }
 
-  if (is_aac(buf, len) == 0) {
-    return "aac";
+  {
+    // Magic: first 4 bytes
+    u32 magic = ReadBEU32(buf);
+
+    // 4 byte magics
+    switch (magic) {
+      case kMagic_fLaC:
+        return "flac";
+      case kMagic_OggS:
+        return "ogg";
+      case kMagic_FRM8:
+        return "dff";
+      case kMagic__wma:
+        return "wma";
+    }
+
+    // Compact header magics
+    if (is_aac(magic, len)) {
+      return "aac";
+    }
+
+    if (is_mp3(magic, len)) {
+      return "mp3";
+    }
   }
 
-  if (is_mp3(buf, len) == 0) {
-    return "mp3";
+  // ftyp
+  if (ReadBEU32(buf + 4) == kMagic_ftyp) {
+    u32 magic = ReadBEU32(buf + 8);
+
+    if (magic == kMagic_ftyp_MSNV || kMagic_ftyp_NDAS) {
+      return "m4a";
+    }
+
+    switch (magic >> 8) {
+      case kMagic_ftyp_M4A:
+        return "m4a";
+      case kMagic_ftyp_M4B:
+        return "m4b";
+    }
   }
-
-  if (Compare4Bytes(buf, "fLaC")) {
-    return "flac";
-  }
-
-  if (Compare4Bytes(buf, "OggS")) {
-    return "ogg";
-  }
-
-  // ckID is always 'FRM8'.
-  if (Compare4Bytes(buf, "FRM8")) {
-    return "dff";
-  }
-
-  // https://www.ftyps.com/
-  if (Compare4Bytes(&buf[4], "ftyp")) {
-    auto p_type = &buf[8];
-#define CHECK_FILE_TYPE(SEQUENCE, EXTENSION)                  \
-  if (CompareBytes(p_type, SEQUENCE, sizeof(SEQUENCE) - 1)) { \
-    return EXTENSION;                                         \
-  }
-
-    // 3gpp
-    CHECK_FILE_TYPE("3g2", "3g2");
-    CHECK_FILE_TYPE("3ge", "3gp");
-    CHECK_FILE_TYPE("3gg", "3gp");
-    CHECK_FILE_TYPE("3gp", "3gp");
-
-    CHECK_FILE_TYPE("avc", "avc");  // MP4 Base w/ AVC ext [ISO 14496-12:2005]
-  }
-
-  // TODO: implement more checks
 
   return "bin";
 }
