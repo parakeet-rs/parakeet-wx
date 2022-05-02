@@ -1,5 +1,4 @@
 #include <cstdint>
-#include "../internal/endian.h"
 
 namespace umc::tc_tea {
 

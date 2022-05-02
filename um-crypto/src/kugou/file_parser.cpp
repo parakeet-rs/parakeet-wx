@@ -1,7 +1,6 @@
 #include "um-crypto/kugou/file_parser.h"
-#include "../internal/endian_helper.h"
-#include "../internal/str_helper.h"
 #include "kgm_data.h"
+#include "um-crypto/endian.h"
 
 #include <cstring>
 

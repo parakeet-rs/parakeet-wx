@@ -1,5 +1,5 @@
-#include "../internal/endian_helper.h"
 #include "../internal/str_helper.h"
+#include "um-crypto/endian.h"
 #include "um-crypto/qmcv2.h"
 
 #include <cstdint>

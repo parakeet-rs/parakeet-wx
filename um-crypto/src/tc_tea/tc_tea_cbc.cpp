@@ -1,5 +1,5 @@
-#include "../internal/endian.h"
 #include "tc_tea_ecb.h"
+#include "um-crypto/endian.h"
 
 #include <cstddef>
 #include <cstdint>

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #if _MSC_VER
 // Windows
 #include <stdlib.h>
@@ -38,3 +40,15 @@
 #define umc_htobe_u32(value) (htobe32(value))
 
 #endif
+
+namespace umc {
+
+inline uint32_t ReadBEU32(const void* p) {
+  return umc_betoh_u32(*reinterpret_cast<const uint32_t*>(p));
+}
+
+inline uint32_t ReadLEU32(const void* p) {
+  return umc_letoh_u32(*reinterpret_cast<const uint32_t*>(p));
+}
+
+}  // namespace umc
