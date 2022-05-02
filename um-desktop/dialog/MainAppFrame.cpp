@@ -1,6 +1,6 @@
 #include "MainAppFrame.h"
 
-#include "../utils/audio_decryptor.h"
+#include "../utils/AudioDecryptorManager.h"
 #include "../utils/threading.h"
 #include "OptionsDialog.h"
 
@@ -87,8 +87,13 @@ void MainAppFrame::OnButtonClick_AddDirectory(wxCommandEvent& event) {
 }
 
 void MainAppFrame::OnButtonClick_ClearLogs(wxCommandEvent& event) {
-  m_decryptLogs->ClearAll();
+  for (int i = file_entries_.size() - 1; i >= 0; i--) {
+    m_decryptLogs->DeleteItem(0);
+  }
+
   file_entries_.clear();
+  file_entry_process_idx_.store(0);
+  file_entry_complete_count_.store(0);
 }
 
 void MainAppFrame::OnButtonClick_ProcessFiles(wxCommandEvent& event) {
@@ -131,13 +136,15 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
   m_decryptLogs->SetItem(entry->index, 0, status_text);
 }
 
+using umd::utils::EncryptionType;
+
 void MainAppFrame::ProcessNextFile() {
   auto current_index = file_entry_process_idx_.fetch_add(1);
   auto entry = file_entries_.at(current_index);
 
   UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
 
-  AudioDecryptor decryptor;
+  umd::utils::AudioDecryptorManager decryptor;
   decryptor.Open(boost::nowide::narrow(entry->file_path.t_str()));
 
   auto encryption = decryptor.SniffEncryption();
