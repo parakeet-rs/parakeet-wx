@@ -3,18 +3,26 @@
 
 using namespace umc::kugou;
 
-bool KGMCipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
-  auto len = input.size();
-  result.resize(len);
+bool KGMCipher::Decrypt(u8* p_out,
+                        usize& out_len,
+                        const u8* p_in,
+                        usize in_len) {
+  if (in_len > out_len) {
+    out_len = in_len;
+    return false;
+  }
 
   const auto file_key = file_key_.data();
-  for (usize i = 0; i < len; i++) {
-    result[i] = DecryptKGMV2(offset_, input[i], file_key);
+  for (usize i = 0; i < in_len; i++) {
+    p_out[i] = DecryptKGMV2(offset_, p_in[i], file_key);
   }
 
   return true;
 }
 
-bool KGMCipher::Encrypt(Vec<u8>& result, const Vec<u8>& input) {
-  return Decrypt(result, input);
+bool KGMCipher::Encrypt(u8* p_out,
+                        usize& out_len,
+                        const u8* p_in,
+                        usize in_len) {
+  return Decrypt(p_out, out_len, p_in, in_len);
 }

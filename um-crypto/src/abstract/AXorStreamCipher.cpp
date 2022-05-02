@@ -20,13 +20,24 @@ void AXorStreamCipher::Seek(usize new_offset) {
   offset_ = new_offset;
 }
 
-inline void XorBlock(u8* out, const u8* in, const u8* key, usize len) {
+inline void XorBlock(u8* p_out, const u8* p_in, const u8* key, usize len) {
   for (usize i = 0; i < len; i++) {
-    out[i] = in[i] ^ key[i];
+    p_out[i] = p_in[i] ^ key[i];
   }
 }
 
-bool AXorStreamCipher::XorStream(u8* result, const u8* input, usize len) {
+bool AXorStreamCipher::Decrypt(u8* p_out,
+                               usize& out_len,
+                               const u8* p_in,
+                               usize in_len) {
+  // insufficient size.
+  if (out_len < in_len) {
+    out_len = in_len;
+    return false;
+  }
+
+  usize len = out_len = in_len;
+
   while (len > 0) {
     usize bytes_available = buf_.size() - buf_idx_;
 
@@ -42,21 +53,15 @@ bool AXorStreamCipher::XorStream(u8* result, const u8* input, usize len) {
     }
 
     auto processed_len = std::min(len, bytes_available);
-    XorBlock(result, input, &buf_[buf_idx_], processed_len);
+    XorBlock(p_out, p_in, &buf_[buf_idx_], processed_len);
 
     len -= processed_len;
     offset_ += processed_len;
     buf_idx_ += processed_len;
 
-    result += processed_len;
-    input += processed_len;
+    p_out += processed_len;
+    p_in += processed_len;
   }
 
   return true;
-}
-
-bool AXorStreamCipher::XorStream(Vec<u8>& result, const Vec<u8>& input) {
-  usize len = input.size();
-  result.resize(len);
-  return XorStream(result.data(), input.data(), len);
 }

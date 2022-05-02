@@ -1,4 +1,5 @@
 #pragma once
+#include <cassert>
 #include "um-crypto/common.h"
 
 namespace umc {
@@ -8,8 +9,64 @@ class IStreamCipher {
   IStreamCipher(){};
   virtual ~IStreamCipher(){};
 
-  virtual bool Encrypt(Vec<u8>& result, const Vec<u8>& input) = 0;
-  virtual bool Decrypt(Vec<u8>& result, const Vec<u8>& input) = 0;
+  /**
+   * @brief Encrypt a stream of data.
+   * It will automatically retry once on insufficient output size.
+   *
+   * @param p_out pointer to output buffer
+   * @param out_len output buffer size
+   * @param p_in pointer to input buffer
+   * @param in_len input buffer size
+   * @return true Encryption completed successfully.
+   * @return false
+   */
+  virtual bool Encrypt(u8* p_out,
+                       usize& out_len,
+                       const u8* p_in,
+                       usize in_len) = 0;
+  virtual bool Decrypt(u8* p_out,
+                       usize& out_len,
+                       const u8* p_in,
+                       usize in_len) = 0;
+
+  // Dynamic output resize wrapper
+  bool Encrypt(Vec<u8>& out, const u8* p_in, usize in_len) {
+    usize initial_out_len = out.size();
+    usize out_len = initial_out_len;
+    bool ok = Encrypt(out.data(), out_len, p_in, in_len);
+    out.resize(out_len);
+    if (!ok && out_len > initial_out_len) {
+      ok = Encrypt(out.data(), out_len, p_in, in_len);
+      out.resize(out_len);
+    }
+    return ok;
+  }
+  bool Decrypt(Vec<u8>& out, const u8* p_in, usize in_len) {
+    usize initial_out_len = out.size();
+    usize out_len = initial_out_len;
+    bool ok = Decrypt(out.data(), out_len, p_in, in_len);
+    out.resize(out_len);
+    if (!ok && out_len > initial_out_len) {
+      ok = Decrypt(out.data(), out_len, p_in, in_len);
+      out.resize(out_len);
+    }
+    return ok;
+  }
+
+  // Simple wrappers.
+  bool Encrypt(Vec<u8> out, const Vec<u8>& in) {
+    return Encrypt(out, in.data(), in.size());
+  }
+  bool Decrypt(Vec<u8> out, const Vec<u8>& in) {
+    return Decrypt(out, in.data(), in.size());
+  }
+  bool Encrypt(u8* p_out, usize& out_len, const Vec<u8>& in) {
+    return Encrypt(p_out, out_len, in.data(), in.size());
+  }
+  bool Decrypt(u8* p_out, usize& out_len, const Vec<u8>& in) {
+    return Decrypt(p_out, out_len, in.data(), in.size());
+  }
+
   virtual void Seek(usize offset) { this->offset_ = offset; }
 
  protected:

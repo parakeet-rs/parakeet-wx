@@ -10,16 +10,17 @@ class AXorStreamCipher : public IStreamCipher {
   AXorStreamCipher(){};
   virtual ~AXorStreamCipher(){};
 
-  virtual bool Encrypt(Vec<u8>& result, const Vec<u8>& input) override {
-    return XorStream(result, input);
-  };
+  virtual bool Encrypt(u8* p_out,
+                       usize& out_len,
+                       const u8* p_in,
+                       usize in_len) override {
+    return Decrypt(p_out, out_len, p_in, in_len);
+  }
 
-  virtual bool Decrypt(Vec<u8>& result, const Vec<u8>& input) override {
-    return XorStream(result, input);
-  };
-
-  bool XorStream(Vec<u8>& result, const Vec<u8>& input);
-  bool XorStream(u8* result, const u8* input, usize len);
+  virtual bool Decrypt(u8* p_out,
+                       usize& out_len,
+                       const u8* p_in,
+                       usize in_len) override;
 
   // Fast seek, when the user seeks within the same block.
   void Seek(usize offset) override;
