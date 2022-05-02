@@ -105,8 +105,6 @@ void RC4Cipher::Seek(usize offset) {
   if (segment_id_ == 1) {
     EncodeFirstSegment(&buf[0]);
   }
-
-  buf_idx_ = buf_idx_ | 0;
 }
 
 void RC4Cipher::YieldNextXorBuf(Vec<u8>& buf) {

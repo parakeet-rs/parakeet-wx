@@ -31,7 +31,6 @@ TEST(QMCv2RC4Cipher, TestDecryption) {
   RC4Cipher cipher(key);
 
   for (int i = 0, offset = 1; i < 5; i++, offset *= 16) {
-    fprintf(stderr, "offset : %d  --  %x\n", i, offset);
     cipher.Seek(offset);
 
     Vec<u8> result;
