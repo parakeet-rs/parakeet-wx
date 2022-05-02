@@ -21,6 +21,8 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
   m_decryptLogs->InsertColumn(0, _("State"), wxLIST_FORMAT_LEFT, state_width);
   m_decryptLogs->InsertColumn(1, _("Path"), wxLIST_FORMAT_LEFT, 200);
+
+  m_btnAddDir->Hide();
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
