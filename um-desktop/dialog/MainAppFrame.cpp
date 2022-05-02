@@ -21,6 +21,11 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
   m_decryptLogs->InsertColumn(0, _(""), wxLIST_FORMAT_LEFT, 100);
 
   m_btnAddDir->Hide();
+#if NDEBUG
+  m_btnOptions->Hide();
+#else
+  SetTitle(GetTitle() + "  [" + _("DEBUG Build") + "]");
+#endif
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
