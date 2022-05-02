@@ -140,6 +140,11 @@ using umd::utils::EncryptionType;
 
 void MainAppFrame::ProcessNextFile() {
   auto current_index = file_entry_process_idx_.fetch_add(1);
+  if (current_index >= file_entries_.size()) {
+    file_entry_process_idx_.fetch_sub(1);
+    return;
+  }
+
   auto entry = file_entries_.at(current_index);
 
   UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
