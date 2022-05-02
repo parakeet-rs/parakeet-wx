@@ -55,7 +55,7 @@ link_libraries(
   um-crypto_static
 )
 
-file(GLOB SOURCES *.cpp **/*.cpp)
+file(GLOB_RECURSE SOURCES *.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})
 target_compile_definitions(${PROJECT_NAME} PRIVATE
   ${wxWidgets_DEFINITIONS}

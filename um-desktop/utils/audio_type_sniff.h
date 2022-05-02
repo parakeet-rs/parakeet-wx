@@ -6,6 +6,8 @@
 
 namespace umd::utils {
 
-std::string SniffAudioType(uint8_t* buf, size_t len);
+std::string SniffAudioType(const uint8_t* buf, size_t len);
+std::string AudioSniffMediainfo(const uint8_t* buf, size_t len);
+std::string AudioSniffSimple(const uint8_t* buf, size_t len);
 
 }  // namespace umd::utils

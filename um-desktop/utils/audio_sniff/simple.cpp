@@ -1,6 +1,4 @@
-#include "simple.h"
-
-using namespace umd::utils;
+#include "../audio_type_sniff.h"
 
 // References:
 // - General sniff code:
@@ -16,8 +14,30 @@ using namespace umd::utils;
 // - FLAC:
 //   https://xiph.org/flac/format.html
 
+namespace umd::utils {
+
+inline bool Compare4Bytes(const uint8_t* a, const uint8_t* b) {
+  return (a[0] == b[0]) && (a[1] == b[1]) && (a[2] == b[2]) && (a[3] == b[3]);
+}
+
+inline bool Compare4Bytes(const uint8_t* a, const char* b) {
+  return Compare4Bytes(a, reinterpret_cast<const uint8_t*>(b));
+}
+
+inline bool CompareBytes(const uint8_t* a, const uint8_t* b, int n) {
+  for (int i = 0; i < n; i++) {
+    if (a[i] != b[i])
+      return false;
+  }
+  return true;
+}
+
+inline bool CompareBytes(const uint8_t* a, const char* b, int n) {
+  return CompareBytes(a, reinterpret_cast<const uint8_t*>(b), n);
+}
+
 inline bool is_mp3(const uint8_t* buf, size_t len) {
-  if (memcmp(buf, "ID3", 3) == 0) {
+  if (CompareBytes(buf, "ID3", 3) == 0) {
     return true;
   }
 
@@ -38,19 +58,7 @@ inline bool is_aac(const uint8_t* buf, size_t len) {
   return false;
 }
 
-inline bool Compare4Bytes(const uint8_t* a, const uint8_t* b) {
-  return (a[0] == b[0]) && (a[1] == b[1]) && (a[2] == b[2]) && (a[3] == b[3]);
-}
-
-inline bool CompareBytes(const uint8_t* a, const uint8_t* b, int n) {
-  for (int i = 0; i < n; i++) {
-    if (a[i] != b[i])
-      return false;
-  }
-  return true;
-}
-
-std::string audio_sniff_simple(const uint8_t* buf, size_t len) {
+std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
   if (len < 4) {
     return "";
   }
@@ -97,3 +105,5 @@ std::string audio_sniff_simple(const uint8_t* buf, size_t len) {
 
   return "bin";
 }
+
+}  // namespace umd::utils

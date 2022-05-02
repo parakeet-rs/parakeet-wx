@@ -1,13 +1,18 @@
-#include "mediainfo.h"
+#include "../audio_type_sniff.h"
 
 #if BUILD_WITH_MEDIAINFO
 #include <MediaInfo/MediaInfo.h>
 #include <boost/nowide/convert.hpp>
 
 using namespace MediaInfoLib;
-using namespace umd::utils;
+#endif
 
-std::string audio_sniff_mediainfo(const uint8_t* buf, size_t len) {
+namespace umd::utils {
+
+std::string AudioSniffMediainfo(const uint8_t* buf, size_t len) {
+  std::string fmt_str("bin");
+
+#if BUILD_WITH_MEDIAINFO
   MediaInfo mi;
   mi.Open_Buffer_Init();
   mi.Open_Buffer_Continue(buf, len);
@@ -15,14 +20,12 @@ std::string audio_sniff_mediainfo(const uint8_t* buf, size_t len) {
 
   String format = mi.Get(Stream_General, 0, _T("Format"), Info_Text, Info_Name);
 
-  auto fmt_str = boost::nowide::narrow(format);
+  fmt_str = boost::nowide::narrow(format);
   std::transform(fmt_str.begin(), fmt_str.end(), fmt_str.begin(),
                  [](unsigned char c) { return std::tolower(c); });
+#endif
 
   return fmt_str;
 }
-#else
-std::string audio_sniff_mediainfo(uint8_t* buf, size_t len) {
-  return "unknown";
-}
-#endif
+
+}  // namespace umd::utils
