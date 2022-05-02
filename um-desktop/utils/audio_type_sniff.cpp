@@ -2,13 +2,17 @@
 
 #include <boost/nowide/convert.hpp>
 
-#include <MediaInfo/MediaInfo.h>
 #include <wx/window.h>
 
+#if USE_MEDIAINFO_SNIFF
+#include <MediaInfo/MediaInfo.h>
 using MediaInfoLib::MediaInfo;
+#endif
+
 namespace nowide = boost::nowide;
 
 std::string SniffAudioType(uint8_t* buf, size_t len) {
+#if USE_MEDIAINFO_SNIFF
   MediaInfo mi;
   mi.Open_Buffer_Init();
   mi.Open_Buffer_Continue(buf, len);
@@ -24,4 +28,7 @@ std::string SniffAudioType(uint8_t* buf, size_t len) {
                  [](unsigned char c) { return std::tolower(c); });
 
   return fmt_str;
+#endif
+
+  return "bin";
 }
