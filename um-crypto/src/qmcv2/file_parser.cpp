@@ -1,4 +1,4 @@
-#include "../internal/endian.h"
+#include "../internal/endian_helper.h"
 #include "../internal/str_helper.h"
 #include "um-crypto/qmcv2.h"
 
@@ -7,6 +7,9 @@
 
 using namespace umc;
 using namespace umc::qmcv2;
+
+const u32 kMagicQTag = u32('QTag');
+const u32 kMagicSTag = u32('STag');
 
 QMCParseError QMCFileParser::ParseFile(QMCParsedData& result,
                                        const Vec<u8>& eof_data) {
@@ -17,10 +20,11 @@ QMCParseError QMCFileParser::ParseFile(QMCParsedData& result,
     return QMCParseError::kMoreBytesRequired;
   }
 
-  auto eof = *reinterpret_cast<uint32_t*>(eof_data[eof_len - 4]);
-  if (eof == 'QTag') {
+  // FIXME: is this going to work with BE machine?
+  auto eof = ReadBEU32(&eof_data[eof_len - 4]);
+  if (eof == kMagicQTag) {
     return ParseAndroidQTagFile(result, eof_data);
-  } else if (eof == 'STag') {
+  } else if (eof == kMagicSTag) {
     return QMCParseError::kUnsupportedFormat;
   }
 
@@ -42,8 +46,7 @@ QMCParseError QMCFileParser::ParseAndroidQTagFile(QMCParsedData& result,
     return QMCParseError::kMoreBytesRequired;
   }
 
-  auto meta_len = *reinterpret_cast<const uint32_t*>(&eof_data[eof_len - 8]);
-  meta_len = umc_betoh_u32(meta_len);
+  auto meta_len = ReadBEU32(&eof_data[eof_len - 8]);
 
   size_t required_len = meta_len + 8;
   if (eof_len < required_len) {
@@ -83,12 +86,18 @@ QMCParseError QMCFileParser::ParseWindowsEncryptedFile(
     return QMCParseError::kMoreBytesRequired;
   }
 
-  auto ekey_size = *reinterpret_cast<const uint32_t*>(&eof_data[eof_len - 4]);
+  auto ekey_size = ReadLEU32(&eof_data[eof_len - 4]);
   ekey_size = umc_letoh_u32(ekey_size);
 
   // Currently known & supported largest key size, is 0x02C0 (704)
   if (ekey_size > 0x300) {
     return QMCParseError::kUnsupportedFormat;
+  }
+
+  size_t required_len = ekey_size + 4;
+  if (eof_len < required_len) {
+    result.bytes_required = required_len;
+    return QMCParseError::kMoreBytesRequired;
   }
 
   const u8* eof_ekey = &eof_data[eof_len - 4];
