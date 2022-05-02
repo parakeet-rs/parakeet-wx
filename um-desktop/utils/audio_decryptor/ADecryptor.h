@@ -45,6 +45,8 @@ class ADecryptor {
   virtual bool DecryptFirstBlock(u8* buf, usize len = 40) = 0;
   virtual bool DecryptEntireFile(const std::string& out_path) = 0;
 
+  inline const std::string& GetErrorMessage() { return error_msg_; }
+
  protected:
   boost::nowide::ifstream in_file_;
   usize file_size_;

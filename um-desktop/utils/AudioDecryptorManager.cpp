@@ -1,6 +1,7 @@
 #include "AudioDecryptorManager.h"
 #include "audio_type_sniff.h"
 
+#include "audio_decryptor/KugouMusicDecryptor.h"
 #include "audio_decryptor/QQMusicV2Decryptor.h"
 
 #include <algorithm>
@@ -18,6 +19,7 @@ const usize kDecryptBufferSize = 4 * 1024 * 1024;
 
 AudioDecryptorManager::AudioDecryptorManager() {
   Add(std::make_shared<QQMusicV2Decryptor>());
+  Add(std::make_shared<KugouMusicDecryptor>());
 }
 
 void AudioDecryptorManager::Open(const std::string& file_path) {
