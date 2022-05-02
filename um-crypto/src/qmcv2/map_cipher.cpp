@@ -3,6 +3,9 @@
 using namespace umc;
 using namespace umc::qmcv2;
 
+const usize kSegmentLen = 0x7fff;
+const usize kDoubleSegmentLen = kSegmentLen * 2;
+
 inline u8 Rotate(u8 value, usize bits) {
   usize shift_amount = (bits + 4) % 8;
   auto left = value << shift_amount;
@@ -18,18 +21,16 @@ inline u8 GetMaskByte(const u8* key, usize n, usize offset) {
   return Rotate(value, idx & 0b0111);
 }
 
-const usize kSegmentLen = 0x7fff;
-const usize kDoubleSegmentLen = kSegmentLen * 2;
-
 MapCipher::MapCipher(const Vec<u8>& key) : AXorStreamCipher() {
   const usize N = key.size();
   buf_.resize(kSegmentLen);
 
+  u8* buf = buf_.data();
   const u8* p_key = key.data();
-  for (usize i = 1; i < kSegmentLen; i++) {
-    buf_[i] = GetMaskByte(p_key, N, offset_ + i);
+  for (usize i = 0; i < kSegmentLen; i++) {
+    buf[i] = GetMaskByte(p_key, N, offset_ + i);
   }
-  first_bytes.first = GetMaskByte(p_key, N, 0);
+  first_bytes.first = buf[0];
   first_bytes.second = GetMaskByte(p_key, N, kSegmentLen);
 }
 
