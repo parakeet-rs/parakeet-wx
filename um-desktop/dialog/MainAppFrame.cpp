@@ -126,15 +126,17 @@ void MainAppFrame::ProcessNextFile() {
 
   UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
 
-  AudioDecryptor ad(boost::nowide::narrow(entry->file_path.t_str()));
-  auto encryption = ad.SniffEncryption();
+  AudioDecryptor decryptor;
+  decryptor.Open(boost::nowide::narrow(entry->file_path.t_str()));
+
+  auto encryption = decryptor.SniffEncryption();
   if (encryption == EncryptionType::kNotEncrypted) {
     UpdateFileStatus(current_index, FileProcessStatus::kProcessNotSupported);
   } else if (encryption == EncryptionType::kUnsupported) {
     UpdateFileStatus(current_index, FileProcessStatus::kProcessNotSupported);
   } else {
     // TODO: show encryption type
-    if (ad.DecryptAudioFile()) {
+    if (decryptor.DecryptAudioFile()) {
       UpdateFileStatus(current_index, FileProcessStatus::kProcessedOk);
     } else {
       UpdateFileStatus(current_index, FileProcessStatus::kProcessFailed);
