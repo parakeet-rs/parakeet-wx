@@ -104,6 +104,7 @@
     "*.ipp": "cpp",
     "execution": "cpp",
     "filesystem": "cpp",
-    "memory_resource": "cpp"
+    "memory_resource": "cpp",
+    "*.tcc": "cpp"
   }
 }
