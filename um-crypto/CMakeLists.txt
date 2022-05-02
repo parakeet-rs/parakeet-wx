@@ -1,7 +1,7 @@
 project(um-crypto)
 
 find_package(OpenSSL REQUIRED)
-find_package(Boost 1.79.0 REQUIRED)
+find_package(Boost REQUIRED)
 
 include_directories(include)
 
@@ -41,12 +41,14 @@ target_include_directories(${PROJECT_NAME}_static PUBLIC
 
 # Tests!
 enable_testing()
-find_package(GTest CONFIG REQUIRED)
+find_package(GTest CONFIG)
 
-file(GLOB TESTS_SOURCE src/*.test.cc src/**/*.test.cc)
-add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
-target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
-target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
+if(GTEST_FOUND)
+  file(GLOB TESTS_SOURCE src/*.test.cc src/**/*.test.cc)
+  add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
+  target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
+  target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
 
-include(GoogleTest)
-gtest_discover_tests(${PROJECT_NAME}_test)
+  include(GoogleTest)
+  gtest_discover_tests(${PROJECT_NAME}_test)
+endif()
