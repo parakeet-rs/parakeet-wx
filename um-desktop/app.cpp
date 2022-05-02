@@ -48,10 +48,9 @@ void initLanguageSupport() {
   }
 }
 
-// This is executed upon startup, like 'main()' in non-wxWidgets programs.
 bool umDesktopApp::OnInit() {
   boost::nowide::nowide_filesystem();
-  umd::init_thread_workers();
+  umd::io_service_start();
 
   initLanguageSupport();
   wxFrame* frame = new MainAppFrame(nullptr);
@@ -59,4 +58,9 @@ bool umDesktopApp::OnInit() {
   frame->Show(true);
   SetTopWindow(frame);
   return true;
+}
+
+int umDesktopApp::OnExit() {
+  umd::io_service_stop();
+  return 0;
 }

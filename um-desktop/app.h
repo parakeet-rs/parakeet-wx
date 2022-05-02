@@ -4,7 +4,8 @@
 
 class umDesktopApp : public wxApp {
  public:
-  virtual bool OnInit();
+  virtual bool OnInit() override;
+  virtual int OnExit() override;
 };
 
 DECLARE_APP(umDesktopApp)

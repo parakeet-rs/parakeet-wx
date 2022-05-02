@@ -4,7 +4,8 @@
 
 namespace umd {
 
-void init_thread_workers();
+void io_service_start();
+void io_service_stop();
 extern boost::asio::io_service io_service;
 
 }  // namespace umd
