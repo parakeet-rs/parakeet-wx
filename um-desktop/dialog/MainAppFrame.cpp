@@ -18,6 +18,8 @@ const int kThreadCount = 4;
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
+  SetDropTarget(dynamic_cast<wxDropTarget*>(this));
+
   m_decryptLogs->InsertColumn(0, _(""), wxLIST_FORMAT_LEFT, 100);
 
   m_btnAddDir->Hide();
@@ -73,16 +75,27 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
 
   wxArrayString paths;
   openFileDialog.GetPaths(paths);
-  auto len = paths.GetCount();
+  HandleAddFilesToQueue(paths);
+}
+
+bool MainAppFrame::OnDropFiles(wxCoord x,
+                               wxCoord y,
+                               const wxArrayString& filenames) {
+  HandleAddFilesToQueue(filenames);
+  return true;
+}
+
+void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& filenames) {
+  auto len = filenames.GetCount();
   for (int i = 0; i < len; i++) {
     wxListItem new_item;
-    new_item.SetText(wxT("-    ") + paths.Item(i));
+    new_item.SetText(wxT("  -  ") + filenames.Item(i));
     new_item.SetId(m_decryptLogs->GetItemCount());
 
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
     file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
         FileProcessStatus::kNotProcessed,
-        paths.Item(i),
+        filenames.Item(i),
         rowIndex,
     }));
   }

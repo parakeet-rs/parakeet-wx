@@ -1,7 +1,10 @@
 #pragma once
+#include "../ui/ui.h"
+
 #include <boost/asio/io_service.hpp>
 #include <boost/asio/thread_pool.hpp>
-#include "../ui/ui.h"
+
+#include <wx/dnd.h>
 
 #include <memory>
 #include <mutex>
@@ -22,7 +25,7 @@ struct FileEntry {
   long index;
 };
 
-class MainAppFrame : public umd::ui_base::uiMainAppFrame {
+class MainAppFrame : public umd::ui_base::uiMainAppFrame, wxFileDropTarget {
  public:
   MainAppFrame(wxWindow* parent, wxWindowID id = wxID_ANY);
   void SetDecryptionInProgress(bool in_progress);
@@ -38,6 +41,10 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
   void OnButtonClick_AddDirectory(wxCommandEvent& event) override;
   void OnButtonClick_ClearLogs(wxCommandEvent& event) override;
   void OnButtonClick_ProcessFiles(wxCommandEvent& event) override;
+  bool OnDropFiles(wxCoord x,
+                   wxCoord y,
+                   const wxArrayString& filenames) override;
+  void HandleAddFilesToQueue(const wxArrayString& filenames);
 
   std::mutex update_status_mutex_;
   void UpdateFileStatus(int idx, FileProcessStatus status);
