@@ -19,6 +19,7 @@ class XorStreamCipherBase : public IStreamCipher {
   };
 
   bool XorStream(Vec<u8>& result, const Vec<u8>& input);
+  bool XorStream(u8* result, const u8* input, usize len);
 
  protected:
   virtual void YieldNextXorBuf(Vec<u8>& buf) = 0;
