@@ -28,17 +28,38 @@ else()
   set(MEDIAINFO_LIBRARIES)
 endif()
 
+
+set(QMD_LINK_TARGETS
+  ${MEDIAINFO_LIBRARIES}
+  ${Boost_LIBRARIES}
+  ${ZLIB_LIBRARIES}
+  ${wxWidgets_LIBRARIES}
+  um-crypto_static
+)
+
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
-  list(TRANSFORM wxWidgets_LIBRARIES REPLACE
+  list(TRANSFORM CMAKE_BUILD_TYPE REPLACE
     "static/lib/(wx[a-zA-Z]+[0-9]*u?)_([a-zA-Z0-9]+).lib$"
     "static/debug/lib/\\1d_\\2.lib"
   )
-  list(TRANSFORM wxWidgets_LIBRARIES REPLACE
+  list(TRANSFORM CMAKE_BUILD_TYPE REPLACE
     "static/lib/(wx[a-zA-Z]+[0-9]*u?).lib$"
     "static/debug/lib/\\1d.lib"
   )
-  message("wxWidgets_LIBRARIES: ${wxWidgets_LIBRARIES}")
+endif()
+
+if (NOT MSVC)
+  list(TRANSFORM QMD_LINK_TARGETS REPLACE "^.+/lib(png|jpeg|tiff)\\.a$" "-l\\1")
+  message("HACK: Don't static link lib(png|jpeg|tiff) in Linux,")
+  message("      As it conflicts with libGTK3 and crashes at times.")
+
+  string(REGEX MATCH "/libwx[^;]+\.a;" OUT1 "${QMD_LINK_TARGETS}")
+  if (NOT "${OUT1}" STREQUAL "")
+    list(FILTER QMD_LINK_TARGETS EXCLUDE REGEX "^-lwx")
+    message("      * Also removing any dynamically linked wxWidgets...")
+  endif()
+  message("      QMD_LINK_TARGETS: ${QMD_LINK_TARGETS}")
 endif()
 
 include_directories(
@@ -47,13 +68,7 @@ include_directories(
   $<TARGET_PROPERTY:um-crypto,INTERFACE_INCLUDE_DIRECTORIES>
 )
 
-link_libraries(
-  ${MEDIAINFO_LIBRARIES}
-  ${wxWidgets_LIBRARIES}
-  ${Boost_LIBRARIES}
-  ${ZLIB_LIBRARIES}
-  um-crypto_static
-)
+link_libraries(${QMD_LINK_TARGETS})
 
 file(GLOB_RECURSE SOURCES *.cpp)
 add_executable(${PROJECT_NAME} ${SOURCES})

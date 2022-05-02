@@ -1,0 +1,35 @@
+diff -ru vcpkg/ports/wxwidgets/vcpkg.json vcpkg_overlays/wxwidgets/vcpkg.json
+--- vcpkg/ports/wxwidgets/vcpkg.json	2022-04-30 12:26:24.117484949 +0100
++++ vcpkg_overlays/wxwidgets/vcpkg.json	2022-05-02 18:49:17.198618941 +0100
+@@ -1,7 +1,7 @@
+ {
+   "name": "wxwidgets",
+   "version-semver": "3.1.5",
+-  "port-version": 10,
++  "port-version": 11,
+   "description": [
+     "Widget toolkit and tools library for creating graphical user interfaces (GUIs) for cross-platform applications. ",
+     "Set WXWIDGETS_USE_STL in a custom triplet to build with the wxUSE_STL build option.",
+@@ -16,10 +16,18 @@
+       "default-features": false,
+       "platform": "!windows & !osx"
+     },
+-    "expat",
+-    "libjpeg-turbo",
+-    "libpng",
+-    "tiff",
++    {
++      "name": "expat",
++      "platform": "!linux"
++    },
++    {
++      "name": "libpng",
++      "platform": "!linux"
++    },
++    {
++      "name": "tiff",
++      "platform": "!linux"
++    },
+     {
+       "name": "vcpkg-cmake",
+       "host": true

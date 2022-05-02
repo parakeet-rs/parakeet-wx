@@ -6,3 +6,4 @@ vcpkg_installed/
 *.AppImage
 linuxdeploy*
 *.mo
+vcpkg_overlays/
