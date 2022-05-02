@@ -41,14 +41,25 @@ void MainAppFrame::SetInProcess(bool in_process) {
   m_btnClearLogs->Enable(!in_process);
 }
 
+#define QMCv2_FILTER "*.mgg;*.mgg0;*.mgg1;*.mflac;*.mflac0;*.mflac1"
+#define Kugou_FILTER "*.kgm;*.vpr"
+#define ALL_SUPPORTED_FILTER QMCv2_FILTER ";" Kugou_FILTER
+
 void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   event.Skip();
 
-  wxFileDialog openFileDialog(
-      this, _("Open encrypted music files"), "", "",
-      "QMCv2 Files (*.mgg;*.mflac)|*.mgg;*.mgg0;*.mgg1;*.mflac;*.mflac0"
-      "|All files (*.*)|*",
-      wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
+  wxString filter;
+  filter += _("All supported files");
+  filter += wxT("|" ALL_SUPPORTED_FILTER "|");
+  filter += _("QMCv2 files (*.mgg;*.mflac)");
+  filter += wxT("|" QMCv2_FILTER "|");
+  filter += _("Kugou music (*.kgm;*.vpr)");
+  filter += wxT("|" Kugou_FILTER "|");
+  filter += _("All files (*.*)|*");
+
+  wxFileDialog openFileDialog(this, _("Open encrypted music files"), "", "",
+                              filter,
+                              wxFD_OPEN | wxFD_FILE_MUST_EXIST | wxFD_MULTIPLE);
 
   if (openFileDialog.ShowModal() == wxID_CANCEL)
     return;  // the user changed idea...
@@ -58,7 +69,7 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   auto len = paths.GetCount();
   for (int i = 0; i < len; i++) {
     wxListItem new_item;
-    new_item.SetText("-");
+    new_item.SetText(wxT("-"));
     new_item.SetId(m_decryptLogs->GetItemCount());
 
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
