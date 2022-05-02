@@ -53,9 +53,12 @@ class ConfigBase {
   inline int GetIntItem(K k) { return ints_.at(k); }
   inline const std::vector<uint8_t>& GetBytesItem(K k) { return bytes_.at(k); }
 
-  inline void SetStringItem(K k, std::string& v) { strs_[k] = v; }
+  inline void SetStringFromRef(K k, std::string& v) { strs_[k] = v; }
+  inline void SetBytesFromRef(K k, std::vector<uint8_t>& v) { bytes_[k] = v; }
   inline void SetIntItem(K k, int v) { ints_[k] = v; }
-  inline void SetBytesItem(K k, std::vector<uint8_t>& v) { bytes_[k] = v; }
+
+  inline void SetStringItem(K k, std::string v) { strs_[k] = v; }
+  inline void SetBytesItem(K k, std::vector<uint8_t> v) { bytes_[k] = v; }
 
   inline std::string GetItemAsString(K k) {
     if (map_contains(strs_, k)) {
@@ -90,9 +93,9 @@ class ConfigBase {
   }
 
  protected:
-  std::unordered_map<int, int> ints_;
-  std::unordered_map<int, std::string> strs_;
-  std::unordered_map<int, std::vector<uint8_t>> bytes_;
+  std::unordered_map<K, int> ints_;
+  std::unordered_map<K, std::string> strs_;
+  std::unordered_map<K, std::vector<uint8_t>> bytes_;
 };
 
 }  // namespace umd::config

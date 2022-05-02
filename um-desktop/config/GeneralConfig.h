@@ -9,7 +9,7 @@ enum class GeneralConfigItem {
 
 class GeneralConfig : public ConfigBase<GeneralConfigItem> {
   GeneralConfig() : ConfigBase() {
-    SetBytesItem(GeneralConfigItem::kThreadCount, -1);
+    SetIntItem(GeneralConfigItem::kThreadCount, -1);
   };
   virtual ~GeneralConfig();
 };
