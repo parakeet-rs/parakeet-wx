@@ -39,11 +39,11 @@ set(QMD_LINK_TARGETS
 
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
-  list(TRANSFORM CMAKE_BUILD_TYPE REPLACE
+  list(TRANSFORM QMD_LINK_TARGETS REPLACE
     "static/lib/(wx[a-zA-Z]+[0-9]*u?)_([a-zA-Z0-9]+).lib$"
     "static/debug/lib/\\1d_\\2.lib"
   )
-  list(TRANSFORM CMAKE_BUILD_TYPE REPLACE
+  list(TRANSFORM QMD_LINK_TARGETS REPLACE
     "static/lib/(wx[a-zA-Z]+[0-9]*u?).lib$"
     "static/debug/lib/\\1d.lib"
   )
