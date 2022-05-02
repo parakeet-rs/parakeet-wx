@@ -11,10 +11,17 @@ if(MSVC)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")  
 endif()
 
+set(Boost_NO_WARN_NEW_VERSIONS 1)
+find_package(OpenSSL REQUIRED) # used by um-crypto
 find_package(Boost COMPONENTS filesystem nowide thread REQUIRED system)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
-find_package(MediaInfoLib CONFIG REQUIRED)
-find_package(ZenLib CONFIG REQUIRED)
+
+find_package(MediaInfoLib CONFIG)
+if (MediaInfoLib_FOUND)
+  find_package(ZenLib CONFIG)
+  set(MEDIAINFO_LIBRARIES ${ZenLib_LIBRARY} ${MediaInfoLib_LIBRARY})
+  add_definitions(-DBUILD_WITH_MEDIAINFO=1)
+endif()
 
 if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
   message("HACK: Replace wxWidgets with debug-static path")
@@ -36,10 +43,9 @@ include_directories(
 )
 
 link_libraries(
+  ${MEDIAINFO_LIBRARIES}
   ${wxWidgets_LIBRARIES}
   ${Boost_LIBRARIES}
-  zen
-  mediainfo
   um-crypto_static
 )
 

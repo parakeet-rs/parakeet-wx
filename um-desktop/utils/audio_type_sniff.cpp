@@ -4,7 +4,7 @@
 
 #include <wx/window.h>
 
-#if USE_MEDIAINFO_SNIFF
+#if BUILD_WITH_MEDIAINFO
 #include <MediaInfo/MediaInfo.h>
 using MediaInfoLib::MediaInfo;
 #endif
@@ -12,7 +12,7 @@ using MediaInfoLib::MediaInfo;
 namespace nowide = boost::nowide;
 
 std::string SniffAudioType(uint8_t* buf, size_t len) {
-#if USE_MEDIAINFO_SNIFF
+#if BUILD_WITH_MEDIAINFO
   MediaInfo mi;
   mi.Open_Buffer_Init();
   mi.Open_Buffer_Continue(buf, len);
