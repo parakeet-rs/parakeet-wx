@@ -9,7 +9,7 @@ bool VPRCipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
 
   const auto file_key = file_key_.data();
   for (usize i = 0; i < len; i++) {
-    result[i] = DecryptVPRV2(offset, input[i], file_key);
+    result[i] = DecryptVPRV2(offset_, input[i], file_key);
   }
 
   return true;

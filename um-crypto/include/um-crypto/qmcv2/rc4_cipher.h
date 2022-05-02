@@ -1,19 +1,19 @@
 #pragma once
 
-#include "um-crypto/abstract/XorStreamCipherBase.h"
+#include "um-crypto/abstract/AXorStreamCipher.h"
 #include "um-crypto/interface/IStreamCipher.h"
 
 #include "um-crypto/common.h"
 
 namespace umc::qmcv2 {
 
-class RC4Cipher : public XorStreamCipherBase {
+class RC4Cipher : public AXorStreamCipher {
  public:
   RC4Cipher(const Vec<u8>& key);
   RC4Cipher(const u8* key, const usize key_len)
       : RC4Cipher(Vec<u8>(key, key + key_len)){};
 
-  void Seek(usize offset) override;
+  void HardSeek(usize offset) override;
 
  protected:
   void YieldNextXorBuf(Vec<u8>& buf) override;

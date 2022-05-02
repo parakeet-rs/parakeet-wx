@@ -9,12 +9,17 @@ using namespace umc::qmcv2;
 const usize FIRST_SEGMENT_SIZE = 0x80;
 const usize OTHER_SEGMENT_SIZE = 0x1400;
 
-RC4Cipher::RC4Cipher(const Vec<u8>& key) : XorStreamCipherBase() {
+RC4Cipher::RC4Cipher(const Vec<u8>& key) : AXorStreamCipher() {
   key_ = key;
   N_ = key.size();
   InitSeedbox();
   key_hash_ = CalculateKeyHash();
-  Seek(0);
+
+  // pre-alloc buffer.
+  buf_.resize(OTHER_SEGMENT_SIZE);
+
+  // Init
+  HardSeek(0);
 }
 
 inline double RC4Cipher::CalculateKeyHash() const {
@@ -92,22 +97,20 @@ __umc_fi void RC4Cipher::EncodeOtherSegment(u8* out) {
   segment_id_++;
 }
 
-void RC4Cipher::Seek(usize offset) {
-  XorStreamCipherBase::Seek(offset);
+void RC4Cipher::HardSeek(usize offset) {
+  AXorStreamCipher::HardSeek(offset);
 
   segment_id_ = offset / OTHER_SEGMENT_SIZE;
   buf_idx_ = offset % OTHER_SEGMENT_SIZE;
 
-  buf.resize(OTHER_SEGMENT_SIZE);
-
-  EncodeOtherSegment(&buf[0]);
+  EncodeOtherSegment(buf_.data());
 
   if (segment_id_ == 1) {
-    EncodeFirstSegment(&buf[0]);
+    EncodeFirstSegment(buf_.data());
   }
 }
 
 void RC4Cipher::YieldNextXorBuf(Vec<u8>& buf) {
-  buf.resize(OTHER_SEGMENT_SIZE);
-  EncodeOtherSegment(&buf[0]);
+  buf_idx_ = 0;
+  EncodeOtherSegment(buf.data());
 }

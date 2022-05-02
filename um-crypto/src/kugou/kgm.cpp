@@ -9,7 +9,7 @@ bool KGMCipher::Decrypt(Vec<u8>& result, const Vec<u8>& input) {
 
   const auto file_key = file_key_.data();
   for (usize i = 0; i < len; i++) {
-    result[i] = DecryptKGMV2(offset, input[i], file_key);
+    result[i] = DecryptKGMV2(offset_, input[i], file_key);
   }
 
   return true;

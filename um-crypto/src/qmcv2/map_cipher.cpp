@@ -18,27 +18,27 @@ inline u8 GetMaskByte(const u8* key, usize n, usize offset) {
   return Rotate(value, idx & 0b0111);
 }
 
-constexpr usize SEGMENT_LENGTH = 0x7fff;
+const usize kSegmentLen = 0x7fff;
+const usize kDoubleSegmentLen = kSegmentLen * 2;
 
-MapCipher::MapCipher(const Vec<u8>& key) : XorStreamCipherBase() {
+MapCipher::MapCipher(const Vec<u8>& key) : AXorStreamCipher() {
   const usize N = key.size();
-  buf.resize(SEGMENT_LENGTH);
+  buf_.resize(kSegmentLen);
 
   const u8* p_key = key.data();
-  for (usize i = 1; i < SEGMENT_LENGTH; i++) {
-    buf[i] = GetMaskByte(p_key, N, offset + i);
+  for (usize i = 1; i < kSegmentLen; i++) {
+    buf_[i] = GetMaskByte(p_key, N, offset_ + i);
   }
   first_bytes.first = GetMaskByte(p_key, N, 0);
-  first_bytes.second = GetMaskByte(p_key, N, SEGMENT_LENGTH);
+  first_bytes.second = GetMaskByte(p_key, N, kSegmentLen);
 }
 
 void MapCipher::YieldNextXorBuf(Vec<u8>& buf) {
-  buf_idx_ = offset % SEGMENT_LENGTH;
-  buf[0] = offset == SEGMENT_LENGTH ? first_bytes.second : first_bytes.first;
-}
+  buf_idx_ = offset_ % kSegmentLen;
 
-void MapCipher::Seek(usize offset) {
-  XorStreamCipherBase::Seek(offset);
-  // invalidate cache without losing data
-  buf_idx_ = SEGMENT_LENGTH;
+  // Check if we are in the second segment, which uses a different value
+  //   for the first indexed item.
+  buf[0] = (offset_ >= kSegmentLen && offset_ < kDoubleSegmentLen)
+               ? first_bytes.second
+               : first_bytes.first;
 }

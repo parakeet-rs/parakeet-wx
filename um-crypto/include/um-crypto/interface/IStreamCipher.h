@@ -10,10 +10,10 @@ class IStreamCipher {
 
   virtual bool Encrypt(Vec<u8>& result, const Vec<u8>& input) = 0;
   virtual bool Decrypt(Vec<u8>& result, const Vec<u8>& input) = 0;
-  virtual void Seek(usize offset) { this->offset = offset; }
+  virtual void Seek(usize offset) { this->offset_ = offset; }
 
  protected:
-  usize offset = 0;
+  usize offset_ = 0;
 };
 
 }  // namespace umc
