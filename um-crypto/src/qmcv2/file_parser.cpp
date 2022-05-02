@@ -8,8 +8,8 @@
 using namespace umc;
 using namespace umc::qmcv2;
 
-const u32 kMagicQTag = u32('QTag');
-const u32 kMagicSTag = u32('STag');
+const u32 kMagicQTag = 0x51546167;  // 'QTag'
+const u32 kMagicSTag = 0x53546167;  // 'STag'
 
 QMCParseError QMCFileParser::ParseFile(QMCParsedData& result,
                                        const Vec<u8>& eof_data) {
@@ -20,7 +20,6 @@ QMCParseError QMCFileParser::ParseFile(QMCParsedData& result,
     return QMCParseError::kMoreBytesRequired;
   }
 
-  // FIXME: is this going to work with BE machine?
   auto eof = ReadBEU32(&eof_data[eof_len - 4]);
   if (eof == kMagicQTag) {
     return ParseAndroidQTagFile(result, eof_data);

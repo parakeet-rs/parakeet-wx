@@ -9,9 +9,8 @@
     "boost-nowide",
     "boost-thread",
     "gtest",
-    "libmediainfo",
-    "libzen",
     "openssl",
-    "wxwidgets"
+    "wxwidgets",
+    "zlib"
   ]
 }

@@ -6,6 +6,8 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <algorithm>
+
 namespace umc {
 
 inline void RemoveWhitespace(Str& s) {

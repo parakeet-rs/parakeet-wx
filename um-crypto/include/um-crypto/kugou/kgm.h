@@ -1,6 +1,6 @@
 #pragma once
 
-#include "interface/IStreamCipher.h"
+#include "um-crypto/interface/IStreamCipher.h"
 
 namespace umc::kugou {
 

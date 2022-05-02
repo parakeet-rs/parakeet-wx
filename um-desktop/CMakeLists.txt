@@ -15,6 +15,7 @@ set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(OpenSSL REQUIRED) # used by um-crypto
 find_package(Boost COMPONENTS filesystem nowide thread REQUIRED system)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
+find_package(ZLIB REQUIRED) # Linux build complains without zlib.
 
 find_package(MediaInfoLib CONFIG)
 if (MediaInfoLib_FOUND)
@@ -46,6 +47,7 @@ link_libraries(
   ${MEDIAINFO_LIBRARIES}
   ${wxWidgets_LIBRARIES}
   ${Boost_LIBRARIES}
+  ${ZLIB_LIBRARIES}
   um-crypto_static
 )
 
