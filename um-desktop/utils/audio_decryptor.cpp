@@ -9,6 +9,7 @@
 
 using namespace umc;
 using namespace umd;
+using namespace umd::utils;
 
 const usize kDecryptBufferSize = 4 * 1024 * 1024;
 

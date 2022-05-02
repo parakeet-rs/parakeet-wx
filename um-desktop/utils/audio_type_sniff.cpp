@@ -7,7 +7,7 @@
 #include <wx/window.h>
 
 namespace nowide = boost::nowide;
-using namespace umd;
+using namespace umd::utils;
 
 std::string SniffAudioType(uint8_t* buf, size_t len) {
 #if BUILD_WITH_MEDIAINFO
