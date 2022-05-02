@@ -19,7 +19,7 @@ enum class FileProcessStatus {
 struct FileEntry {
   FileProcessStatus status;
   wxString file_path;
-  int index;
+  long index;
 };
 
 class MainAppFrame : public umd::ui_base::uiMainAppFrame {
