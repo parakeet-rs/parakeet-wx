@@ -25,7 +25,7 @@ struct FileEntry {
 class MainAppFrame : public umd::ui_base::uiMainAppFrame {
  public:
   MainAppFrame(wxWindow* parent, wxWindowID id = wxID_ANY);
-  void SetInProcess(bool in_process);
+  void SetDecryptionInProgress(bool in_progress);
 
  protected:
   std::atomic<unsigned int> file_entry_process_idx_ = 0;

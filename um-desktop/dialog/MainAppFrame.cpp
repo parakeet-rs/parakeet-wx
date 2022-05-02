@@ -37,8 +37,10 @@ void MainAppFrame::OnBtnClickOptions(wxCommandEvent& event) {
   optionsDialog->Destroy();
 }
 
-void MainAppFrame::SetInProcess(bool in_process) {
-  m_btnClearLogs->Enable(!in_process);
+void MainAppFrame::SetDecryptionInProgress(bool in_progress) {
+  m_btnClearLogs->Enable(!in_progress);
+  m_btnProcess->Enable(!in_progress);
+  m_btnOptions->Enable(!in_progress);
 }
 
 #define QMCv2_FILTER "*.mgg;*.mgg0;*.mgg1;*.mflac;*.mflac0;*.mflac1"
@@ -97,11 +99,11 @@ void MainAppFrame::OnButtonClick_ClearLogs(wxCommandEvent& event) {
 }
 
 void MainAppFrame::OnButtonClick_ProcessFiles(wxCommandEvent& event) {
-  SetInProcess(true);
+  SetDecryptionInProgress(true);
 
   const int len = file_entries_.size() - file_entry_complete_count_;
   if (len == 0) {
-    SetInProcess(false);
+    SetDecryptionInProgress(false);
     return;
   }
 
@@ -172,6 +174,6 @@ void MainAppFrame::ProcessNextFile() {
 void MainAppFrame::OnProcessSingleFileComplete() {
   int completion_count = file_entry_complete_count_.fetch_add(1) + 1;
   if (completion_count == file_entries_.size()) {
-    SetInProcess(false);
+    SetDecryptionInProgress(false);
   }
 }
