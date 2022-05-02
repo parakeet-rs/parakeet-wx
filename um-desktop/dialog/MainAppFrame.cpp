@@ -122,20 +122,27 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
   auto entry = file_entries_.at(idx);
   entry->status = status;
 
-  wxString status_text("?");
+  wxString status_text;
 
   switch (status) {
     case FileProcessStatus::kNotProcessed:
-      status_text = _("---");
+      status_text = _("Ready: ");
       break;
     case FileProcessStatus::kProcessedOk:
-      status_text = _("OK");
+      status_text = _("OK: ");
       break;
     case FileProcessStatus::kProcessFailed:
-      status_text = _("FAIL");
+      status_text = _("FAIL: ");
       break;
     case FileProcessStatus::kProcessing:
-      status_text = _("...");
+      status_text = _("  ...  ");
+      break;
+    case FileProcessStatus::kProcessNotSupported:
+      status_text = _("Unsupported: ");
+      break;
+
+    default:
+      status_text.Printf(_("Unknown state (code %d)"), (int)status);
       break;
   }
 
