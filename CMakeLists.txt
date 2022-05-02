@@ -11,6 +11,13 @@ if(MSVC)
     $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
     $<$<CONFIG:Release>:/MT> #--|
   )
+else()
+  add_compile_options($<$<CONFIG:RELEASE>:-s>)
+  add_link_options($<$<CONFIG:RELEASE>:-s>)
+endif()
+
+if(CMAKE_BUILD_TYPE STREQUAL "Release")
+  add_link_options(-DNDEBUG=1 -D_NDEBUG=1)
 endif()
 
 set(CMAKE_CXX_STANDARD 17)

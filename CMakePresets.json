@@ -29,32 +29,6 @@
       }
     },
     {
-      "name": "ninja-linux-rel",
-      "displayName": "Linux-Ninja-Rel",
-      "description": "Default build using ninja (Release)",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/ninja-multi-rel",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "CMAKE_BUILD_TYPE": "Release",
-        "VCPKG_BUILD_TYPE": "Release"
-      }
-    },
-    {
-      "name": "ninja-linux-dbg",
-      "displayName": "Linux-Ninja-Dbg",
-      "description": "Default build using ninja",
-      "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/ninja-multi-dbg",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "CMAKE_BUILD_TYPE": "Debug",
-        "VCPKG_BUILD_TYPE": "Debug"
-      }
-    },
-    {
       "name": "win64-2019-rel",
       "displayName": "Win64 (Release, MSVC 2019)",
       "description": "Win64 build using MSVC 2019",
