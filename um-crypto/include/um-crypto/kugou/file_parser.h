@@ -22,6 +22,7 @@ struct KGMParseResult {
 };
 
 class KGMFileParser {
+ public:
   static KGMParseError ParseFile(KGMParseResult& result, const Vec<u8>& header);
 };
 

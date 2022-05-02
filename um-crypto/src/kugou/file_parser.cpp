@@ -19,7 +19,8 @@ KGMParseError KGMFileParser::ParseFile(KGMParseResult& result,
   }
 
   result.bof_bytes_ignore = ReadLEU32(&header[0x10]);
-  result.file_key = Vec<u8>(&header[0x1C], &header[0x2C]);
+  result.file_key = Vec<u8>(&header[0x1C], &header[0x2D]);
+  result.file_key[16] = 0;  // last byte is always a "\x00";
 
   if (memcmp(file_header_kgm, header.data(), header_detect_size) == 0) {
     return KGMParseError::kSupportedKGM;
