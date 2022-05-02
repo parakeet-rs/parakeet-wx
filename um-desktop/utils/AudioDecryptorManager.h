@@ -19,7 +19,7 @@ class AudioDecryptorManager {
   bool DecryptAudioFile();
 
  private:
-  std::string file_path_;
+  std::string in_file_path_;
 
   std::shared_ptr<ADecryptor> active_decryptor_;
   Vec<std::shared_ptr<ADecryptor>> decryptors_;

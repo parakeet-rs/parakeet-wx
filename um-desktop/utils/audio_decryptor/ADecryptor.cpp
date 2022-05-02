@@ -10,7 +10,7 @@ void ADecryptor::Close() {
 
 void ADecryptor::Open(const std::string& in_file_path) {
   in_file_path_ = in_file_path;
-  in_file_.open(in_file_path);
+  in_file_.open(in_file_path, std::ifstream::binary | std::ifstream::in);
 
   // Get file size and seek to begining.
   in_file_.seekg(0, std::ifstream::end);

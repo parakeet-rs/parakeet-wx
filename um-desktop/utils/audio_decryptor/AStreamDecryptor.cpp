@@ -1,16 +1,17 @@
-#include "AXorDecryptor.h"
+#include "AStreamDecryptor.h"
 
 #include "um-crypto/abstract/AXorStreamCipher.h"
 
-#ifndef __UM_XOR_DECRYPT_BUFFER_LEN
-#define __UM_XOR_DECRYPT_BUFFER_LEN (4 * 1024 * 1024)
+#ifndef __UM_DECRYPT_BUFFER_LEN
+#define __UM_DECRYPT_BUFFER_LEN (4 * 1024 * 1024)
 #endif
 
 namespace umd::utils::audio_decryptor {
 
-const usize kXorDecryptBufferSize = __UM_XOR_DECRYPT_BUFFER_LEN;
+const usize kDecryptionBufferLen = __UM_DECRYPT_BUFFER_LEN;
+const usize kEncryptionBufferLen = kDecryptionBufferLen + 1024;
 
-bool AXorDecryptor::DecryptFirstBlock(u8* buf, usize len) {
+bool AStreamDecryptor::DecryptFirstBlock(u8* buf, usize len) {
   if (!cipher_ || !in_file_.is_open()) {
     return false;
   }
@@ -22,25 +23,28 @@ bool AXorDecryptor::DecryptFirstBlock(u8* buf, usize len) {
   auto bytes_read = Read(buf_in.data(), len);
 
   // Decrypt it.
-  return cipher_->XorStream(buf, buf_in.data(), bytes_read);
+  return cipher_->Decrypt(buf, len, buf_in.data(), bytes_read);
 }
 
-bool AXorDecryptor::DecryptEntireFile(const std::string& out_path) {
+bool AStreamDecryptor::DecryptEntireFile(const std::string& out_path) {
   if (!cipher_ || !in_file_.is_open()) {
     return false;
   }
 
   usize bytes_left = file_size_ - bof_bytes_ignore_ - eof_bytes_ignore_;
   boost::nowide::ofstream out_file(out_path, std::ofstream::binary);
-  Vec<u8> buf_encrypted(kXorDecryptBufferSize);
-  Vec<u8> buf_decrypted(kXorDecryptBufferSize);
+  Vec<u8> buf_encrypted(kEncryptionBufferLen);
+  Vec<u8> buf_decrypted(kDecryptionBufferLen);
+
+  u8* p_out = buf_encrypted.data();
+  u8* p_in = buf_decrypted.data();
 
   // Reset seek
   cipher_->Seek(0);
   in_file_.seekg(bof_bytes_ignore_, std::ifstream::beg);
 
   while (bytes_left > 0) {
-    const usize block_size = std::min(bytes_left, kXorDecryptBufferSize);
+    const usize block_size = std::min(bytes_left, kDecryptionBufferLen);
 
     // Read data
     const usize bytes_read = Read(buf_encrypted.data(), block_size);
@@ -49,8 +53,12 @@ bool AXorDecryptor::DecryptEntireFile(const std::string& out_path) {
       break;
     }
 
-    cipher_->XorStream(buf_decrypted.data(), buf_encrypted.data(), bytes_read);
-    out_file.write(reinterpret_cast<char*>(buf_decrypted.data()), bytes_read);
+    usize bytes_decrypted = kDecryptionBufferLen;
+    if (!cipher_->Decrypt(p_in, bytes_decrypted, p_out, bytes_read)) {
+      error_msg_ = _("Error: cipher reported failure.");
+      break;
+    }
+    out_file.write(reinterpret_cast<char*>(p_in), bytes_decrypted);
     bytes_left -= bytes_read;
   }
 

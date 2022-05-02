@@ -1,9 +1,9 @@
 #pragma once
-#include "AXorDecryptor.h"
+#include "AStreamDecryptor.h"
 
 namespace umd::utils::audio_decryptor {
 
-class QQMusicV2Decryptor : public AXorDecryptor {
+class QQMusicV2Decryptor : public AStreamDecryptor {
   EncryptionType GetEncryptionType() const override {
     return EncryptionType::kQQMusicV2;
   };

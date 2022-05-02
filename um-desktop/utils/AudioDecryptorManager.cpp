@@ -21,7 +21,7 @@ AudioDecryptorManager::AudioDecryptorManager() {
 }
 
 void AudioDecryptorManager::Open(const std::string& file_path) {
-  file_path_ = file_path;
+  in_file_path_ = file_path;
   Close();
 }
 
@@ -37,7 +37,7 @@ EncryptionType AudioDecryptorManager::SniffEncryption() {
 
   // Check each decryptor we have registered.
   for (auto& decryptor : decryptors_) {
-    decryptor->Open(file_path_);
+    decryptor->Open(in_file_path_);
     if (decryptor->SetupDecryptor()) {
       active_decryptor_ = decryptor;
       return decryptor->GetEncryptionType();
@@ -52,6 +52,15 @@ bool AudioDecryptorManager::DecryptAudioFile() {
   if (!active_decryptor_) {
     return false;
   }
+
+  Vec<u8> buf(40);
+  if (!active_decryptor_->DecryptFirstBlock(buf.data(), buf.size())) {
+    return false;
+  }
+
+  std::string extension = SniffAudioType(buf.data(), buf.size());
+  std::string output_path = in_file_path_ + "." + extension;
+  return active_decryptor_->DecryptEntireFile(output_path);
 }
 
 }  // namespace umd::utils
