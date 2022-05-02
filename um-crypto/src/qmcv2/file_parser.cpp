@@ -52,6 +52,7 @@ QMCParseError QMCFileParser::ParseAndroidQTagFile(QMCParsedData& result,
     result.bytes_required = required_len;
     return QMCParseError::kMoreBytesRequired;
   }
+  result.eof_bytes_ignore = required_len;
 
   auto metadata = ParseCSVLine(&eof_data.at(eof_len - 8 - meta_len), meta_len);
 
@@ -98,6 +99,7 @@ QMCParseError QMCFileParser::ParseWindowsEncryptedFile(
     result.bytes_required = required_len;
     return QMCParseError::kMoreBytesRequired;
   }
+  result.eof_bytes_ignore = required_len;
 
   const u8* eof_ekey = &eof_data[eof_len - 4];
   result.ekey_b64 = Str(eof_ekey - ekey_size, eof_ekey);

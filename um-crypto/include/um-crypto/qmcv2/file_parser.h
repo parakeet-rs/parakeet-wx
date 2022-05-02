@@ -17,6 +17,9 @@ struct QMCParsedData {
   Str song_id;
   Str ekey_b64;
 
+  // numbe of bytes to ignore at the end of file.
+  usize eof_bytes_ignore;
+
   // Error report
   usize bytes_required;
 };

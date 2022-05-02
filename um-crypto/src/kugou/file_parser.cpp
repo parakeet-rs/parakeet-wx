@@ -18,7 +18,7 @@ KGMParseError KGMFileParser::ParseFile(KGMParseResult& result,
     return KGMParseError::kNeedMoreData;
   }
 
-  result.encrypted_offset = ReadBEU32(&header[0x10]);
+  result.bof_bytes_ignore = ReadBEU32(&header[0x10]);
   result.file_key = Vec<u8>(&header[0x1C], &header[0x2C]);
 
   if (memcmp(file_header_kgm, header.data(), header_detect_size) == 0) {

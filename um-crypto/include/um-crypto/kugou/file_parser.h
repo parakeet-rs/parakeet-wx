@@ -13,7 +13,8 @@ enum class KGMParseError {
 };
 
 struct KGMParseResult {
-  u32 encrypted_offset;
+  // numbe of bytes to ignore at the beginning of file.
+  u32 bof_bytes_ignore;
   Vec<u8> file_key;
 
   // Error report
