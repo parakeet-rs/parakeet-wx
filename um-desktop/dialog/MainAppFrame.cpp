@@ -14,13 +14,11 @@
 
 #include <functional>
 
-const int state_width = 80;
 const int kThreadCount = 4;
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
-  m_decryptLogs->InsertColumn(0, _("State"), wxLIST_FORMAT_LEFT, state_width);
-  m_decryptLogs->InsertColumn(1, _("Path"), wxLIST_FORMAT_LEFT, 200);
+  m_decryptLogs->InsertColumn(0, _(""), wxLIST_FORMAT_LEFT, 100);
 
   m_btnAddDir->Hide();
 }
@@ -30,7 +28,7 @@ void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
 
   int w, h;
   this->m_decryptLogs->GetSize(&w, &h);
-  this->m_decryptLogs->SetColumnWidth(1, w - state_width);
+  this->m_decryptLogs->SetColumnWidth(0, w);
 };
 
 void MainAppFrame::OnBtnClickOptions(wxCommandEvent& event) {
@@ -73,7 +71,7 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   auto len = paths.GetCount();
   for (int i = 0; i < len; i++) {
     wxListItem new_item;
-    new_item.SetText(wxT("-"));
+    new_item.SetText(wxT("-    ") + paths.Item(i));
     new_item.SetId(m_decryptLogs->GetItemCount());
 
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
@@ -82,7 +80,6 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
         paths.Item(i),
         rowIndex,
     }));
-    m_decryptLogs->SetItem(rowIndex, 1, paths.Item(i));
   }
 }
 
@@ -136,6 +133,8 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
       status_text = _("...");
       break;
   }
+
+  status_text += "    " + entry->file_path;
 
   m_decryptLogs->SetItem(entry->index, 0, status_text);
 }
