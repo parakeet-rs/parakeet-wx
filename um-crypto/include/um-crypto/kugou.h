@@ -1,5 +1,6 @@
 #pragma once
 
-#include "kugou/file_parser.h"
-#include "kugou/kgm.h"
-#include "kugou/vpr.h"
+#include "kugou/KGMFileParser.h"
+
+#include "kugou/KGMCipher.h"
+#include "kugou/VPRCipher.h"

@@ -1,6 +1,7 @@
-#include "um-crypto/kugou/file_parser.h"
-#include "kgm_data.h"
+#include "um-crypto/kugou/KGMFileParser.h"
+
 #include "um-crypto/endian.h"
+#include "um-crypto/kugou/constants.h"
 
 #include <cstring>
 
@@ -19,14 +20,14 @@ KGMParseError KGMFileParser::ParseFile(KGMParseResult& result,
   }
 
   result.bof_bytes_ignore = ReadLEU32(&header[0x10]);
-  result.file_key = Vec<u8>(&header[0x1C], &header[0x2D]);
+  memcpy(result.file_key.data(), &header.at(0x1c), kFileKeySize);
   result.file_key[16] = 0;  // last byte is always a "\x00";
 
-  if (memcmp(file_header_kgm, header.data(), header_detect_size) == 0) {
+  if (memcmp(kFileHeaderKGM.data(), header.data(), kFormatHeaderSize) == 0) {
     return KGMParseError::kSupportedKGM;
   }
 
-  if (memcmp(file_header_vpr, header.data(), header_detect_size) == 0) {
+  if (memcmp(kFileHeaderVPR.data(), header.data(), kFormatHeaderSize) == 0) {
     return KGMParseError::kSupportedVPR;
   }
 

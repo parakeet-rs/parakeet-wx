@@ -25,12 +25,14 @@ class AXorStreamCipher : public IStreamCipher {
                        const u8* p_in,
                        usize in_len) override;
 
+  virtual void PostProcess(u8* p_out, usize len) {}
+
   // Fast seek, when the user seeks within the same block.
   void Seek(usize offset) override;
   virtual void HardSeek(usize offset) {
     offset_ = offset;
     buf_idx_ = buf_.size();
-  };
+  }
 
  protected:
   virtual void YieldNextXorBuf(Vec<u8>& buf) = 0;

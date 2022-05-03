@@ -1,4 +1,6 @@
 #include "um-crypto/abstract/AXorStreamCipher.h"
+
+#include "../internal/XorHelper.h"
 #include "um-crypto/common.h"
 
 #include <algorithm>
@@ -18,12 +20,6 @@ void AXorStreamCipher::Seek(usize new_offset) {
   // Soft seek - we are still within the same block.
   buf_idx_ = new_buf_index;
   offset_ = new_offset;
-}
-
-inline void XorBlock(u8* p_out, const u8* p_in, const u8* key, usize len) {
-  for (usize i = 0; i < len; i++) {
-    p_out[i] = p_in[i] ^ key[i];
-  }
 }
 
 bool AXorStreamCipher::Decrypt(u8* p_out,
@@ -54,6 +50,7 @@ bool AXorStreamCipher::Decrypt(u8* p_out,
 
     auto processed_len = std::min(len, bytes_available);
     XorBlock(p_out, p_in, &buf_[buf_idx_], processed_len);
+    PostProcess(p_out, processed_len);
 
     len -= processed_len;
     offset_ += processed_len;
