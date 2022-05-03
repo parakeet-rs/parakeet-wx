@@ -17,9 +17,13 @@ class AudioDecryptorManager {
 
   EncryptionType SniffEncryption();
   bool DecryptAudioFile();
+  const std::string& GetError() {
+    return active_decryptor_ ? active_decryptor_->GetErrorMessage() : error_;
+  }
 
  private:
   std::string in_file_path_;
+  std::string error_ = "unknown error";
 
   std::shared_ptr<ADecryptor> active_decryptor_;
   Vec<std::shared_ptr<ADecryptor>> decryptors_;

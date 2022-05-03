@@ -21,8 +21,10 @@ enum class FileProcessStatus {
 
 struct FileEntry {
   FileProcessStatus status;
-  wxString file_path;
+  wxFileName file_name;
   long index;
+  long process_time_ms;
+  wxString error;
 };
 
 class MainAppFrame : public umd::ui_base::uiMainAppFrame, wxFileDropTarget {

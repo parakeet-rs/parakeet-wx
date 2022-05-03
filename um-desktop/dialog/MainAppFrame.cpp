@@ -5,6 +5,7 @@
 #include "OptionsDialog.h"
 
 #include <wx/filedlg.h>
+#include <wx/filename.h>
 #include <wx/propgrid/propgrid.h>
 #include <wx/wfstream.h>
 
@@ -19,6 +20,9 @@
 #include "um-crypto/kugou/KGMMaskGenerator.h"
 
 const int kThreadCount = 4;
+
+using boost::chrono::system_clock;
+namespace nowide = boost::nowide;
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
@@ -86,24 +90,28 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
 
 bool MainAppFrame::OnDropFiles(wxCoord x,
                                wxCoord y,
-                               const wxArrayString& filenames) {
-  HandleAddFilesToQueue(filenames);
+                               const wxArrayString& file_paths) {
+  HandleAddFilesToQueue(file_paths);
   return true;
 }
 
-void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& filenames) {
-  auto len = filenames.GetCount();
+void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
+  auto len = file_paths.GetCount();
   for (int i = 0; i < len; i++) {
+    wxFileName file_path(file_paths.Item(i));
+
     wxListItem new_item;
-    new_item.SetText(wxT("  -  ") + filenames.Item(i));
+    new_item.SetText("");
     new_item.SetId(m_decryptLogs->GetItemCount());
 
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
     file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
         FileProcessStatus::kNotProcessed,
-        filenames.Item(i),
+        file_path,
         rowIndex,
+        0,
     }));
+    UpdateFileStatus(rowIndex, FileProcessStatus::kNotProcessed);
   }
 }
 
@@ -140,32 +148,31 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
 
   auto entry = file_entries_.at(idx);
   entry->status = status;
+  auto name = entry->file_name.GetFullName();
 
   wxString status_text;
-
   switch (status) {
     case FileProcessStatus::kNotProcessed:
-      status_text = _("Ready: ");
+      status_text.Printf(_("Ready: %s"), name);
       break;
     case FileProcessStatus::kProcessedOk:
-      status_text = _("OK: ");
+      status_text.Printf(_("Decode OK: %s (%lums)"), name,
+                         entry->process_time_ms);
       break;
     case FileProcessStatus::kProcessFailed:
-      status_text = _("FAIL: ");
+      status_text.Printf(_("FAIL: %s (%s)"), name, entry->error);
       break;
     case FileProcessStatus::kProcessing:
-      status_text = _("  ...  ");
+      status_text.Printf(_("Processing: %s"), name);
       break;
     case FileProcessStatus::kProcessNotSupported:
-      status_text = _("Unsupported: ");
+      status_text.Printf(_("Unsupported: %s"), name);
       break;
 
     default:
-      status_text.Printf(_("Unknown state (code %d)"), (int)status);
+      status_text.Printf(_("Unknown state (code %d): %s"), (int)status, name);
       break;
   }
-
-  status_text += "    " + entry->file_path;
 
   m_decryptLogs->SetItem(entry->index, 0, status_text);
 }
@@ -183,22 +190,32 @@ void MainAppFrame::ProcessNextFile() {
 
   UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
 
-  umd::utils::AudioDecryptorManager decryptor;
-  decryptor.Open(boost::nowide::narrow(entry->file_path.t_str()));
+  auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
+  decryptor->Open(nowide::narrow(entry->file_name.GetFullPath().t_str()));
 
-  auto encryption = decryptor.SniffEncryption();
-  if (encryption == EncryptionType::kNotEncrypted) {
-    UpdateFileStatus(current_index, FileProcessStatus::kProcessNotSupported);
-  } else if (encryption == EncryptionType::kUnsupported) {
-    UpdateFileStatus(current_index, FileProcessStatus::kProcessNotSupported);
+  system_clock::time_point time_before_process = system_clock::now();
+  FileProcessStatus status = FileProcessStatus::kProcessNotSupported;
+
+  auto encryption = decryptor->SniffEncryption();
+  if (encryption == EncryptionType::kNotEncrypted ||
+      encryption == EncryptionType::kUnsupported) {
+    status = FileProcessStatus::kProcessNotSupported;
   } else {
     // TODO: show encryption type
-    if (decryptor.DecryptAudioFile()) {
-      UpdateFileStatus(current_index, FileProcessStatus::kProcessedOk);
+    if (decryptor->DecryptAudioFile()) {
+      status = FileProcessStatus::kProcessedOk;
     } else {
-      UpdateFileStatus(current_index, FileProcessStatus::kProcessFailed);
+      status = FileProcessStatus::kProcessFailed;
     }
   }
+
+  system_clock::time_point time_after_process = system_clock::now();
+  auto t = boost::chrono::duration_cast<boost::chrono::milliseconds>(
+      time_after_process - time_before_process);
+  entry->process_time_ms = static_cast<long>(t.count());
+  entry->error = decryptor->GetError();
+
+  UpdateFileStatus(current_index, status);
 
   OnProcessSingleFileComplete();
 }
