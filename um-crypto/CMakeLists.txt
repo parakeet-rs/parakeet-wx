@@ -43,7 +43,7 @@ target_include_directories(${PROJECT_NAME}_static PUBLIC
 enable_testing()
 find_package(GTest CONFIG)
 
-if(GTEST_FOUND)
+if(TARGET GTest::gtest)
   file(GLOB TESTS_SOURCE src/*.test.cc src/**/*.test.cc)
   add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
   target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)

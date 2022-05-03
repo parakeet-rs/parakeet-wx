@@ -10,6 +10,9 @@ class AXorStreamCipher : public IStreamCipher {
   AXorStreamCipher(){};
   virtual ~AXorStreamCipher(){};
 
+  using IStreamCipher::Decrypt;
+  using IStreamCipher::Encrypt;
+
   virtual bool Encrypt(u8* p_out,
                        usize& out_len,
                        const u8* p_in,

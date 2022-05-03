@@ -30,7 +30,7 @@ class IStreamCipher {
                        usize in_len) = 0;
 
   // Dynamic output resize wrapper
-  bool Encrypt(Vec<u8>& out, const u8* p_in, usize in_len) {
+  virtual bool Encrypt(Vec<u8>& out, const u8* p_in, usize in_len) {
     usize initial_out_len = out.size();
     usize out_len = initial_out_len;
     bool ok = Encrypt(out.data(), out_len, p_in, in_len);
@@ -41,7 +41,7 @@ class IStreamCipher {
     }
     return ok;
   }
-  bool Decrypt(Vec<u8>& out, const u8* p_in, usize in_len) {
+  virtual bool Decrypt(Vec<u8>& out, const u8* p_in, usize in_len) {
     usize initial_out_len = out.size();
     usize out_len = initial_out_len;
     bool ok = Decrypt(out.data(), out_len, p_in, in_len);
@@ -54,16 +54,16 @@ class IStreamCipher {
   }
 
   // Simple wrappers.
-  bool Encrypt(Vec<u8> out, const Vec<u8>& in) {
+  virtual bool Encrypt(Vec<u8>& out, const Vec<u8>& in) {
     return Encrypt(out, in.data(), in.size());
   }
-  bool Decrypt(Vec<u8> out, const Vec<u8>& in) {
+  virtual bool Decrypt(Vec<u8>& out, const Vec<u8>& in) {
     return Decrypt(out, in.data(), in.size());
   }
-  bool Encrypt(u8* p_out, usize& out_len, const Vec<u8>& in) {
+  virtual bool Encrypt(u8* p_out, usize& out_len, const Vec<u8>& in) {
     return Encrypt(p_out, out_len, in.data(), in.size());
   }
-  bool Decrypt(u8* p_out, usize& out_len, const Vec<u8>& in) {
+  virtual bool Decrypt(u8* p_out, usize& out_len, const Vec<u8>& in) {
     return Decrypt(p_out, out_len, in.data(), in.size());
   }
 
