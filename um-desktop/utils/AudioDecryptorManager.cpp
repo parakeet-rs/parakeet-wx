@@ -4,6 +4,8 @@
 #include "audio_decryptor/KugouMusicDecryptor.h"
 #include "audio_decryptor/QQMusicV2Decryptor.h"
 
+#include <boost/filesystem.hpp>
+
 #include <algorithm>
 #include <fstream>
 #include <vector>
@@ -12,6 +14,7 @@ using namespace umc;
 using namespace umd;
 using namespace umd::utils::audio_decryptor;
 namespace nowide = boost::nowide;
+namespace fs = boost::filesystem;
 
 namespace umd::utils {
 
@@ -61,8 +64,9 @@ bool AudioDecryptorManager::DecryptAudioFile() {
   }
 
   std::string extension = SniffAudioType(buf.data(), buf.size());
-  std::string output_path = in_file_path_ + "." + extension;
-  return active_decryptor_->DecryptEntireFile(output_path);
+  fs::path in_file_path(in_file_path_);
+  in_file_path.replace_extension(extension);
+  return active_decryptor_->DecryptEntireFile(in_file_path.string());
 }
 
 }  // namespace umd::utils
