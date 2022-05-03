@@ -21,7 +21,7 @@
 using namespace umc;
 namespace umd::utils {
 
-inline bool is_mp3(u32 magic, size_t len) {
+inline bool is_mp3(u32 magic) {
   const u32 kID3Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
   const u32 kID3Value = 0x49'44'33'00u;  // 'ID3\x00'
   if ((magic & kID3Masks) == kID3Value) {
@@ -34,7 +34,7 @@ inline bool is_mp3(u32 magic, size_t len) {
   return ((magic & kMP3AndMasks) == kMP3Expected);
 }
 
-inline bool is_aac(u32 magic, size_t len) {
+inline bool is_aac(u32 magic) {
   const u32 kAacAndMasks = 0b1111'1111'1111'0110 << 16;
   const u32 kAacExpected = 0b1111'1111'1111'0000 << 16;
 
@@ -78,11 +78,11 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
     }
 
     // Compact header magics
-    if (is_aac(magic, len)) {
+    if (is_aac(magic)) {
       return "aac";
     }
 
-    if (is_mp3(magic, len)) {
+    if (is_mp3(magic)) {
       return "mp3";
     }
   }
