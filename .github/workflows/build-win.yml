@@ -18,27 +18,39 @@ jobs:
         with:
           submodules: recursive
 
-      - uses: lukka/get-cmake@latest
-
-      - name: Restore artifacts, or setup vcpkg
-        uses: lukka/run-vcpkg@v10
-
-      - name: Run CMake consuming vcpkg.json by mean of vcpkg.
-        uses: lukka/run-cmake@v10
+      - name: Cache vcpkg buildtrees
+        uses: actions/cache@v3
         with:
-          configurePreset: "win64-2019-rel"
-          buildPreset: "win64-2019-rel"
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            vcpkg/buildtrees
+            vcpkg/downloads
+            vcpkg/packages
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
+      - name: Bootstrap vcpkg
+        shell: cmd
+        run: .\vcpkg\bootstrap-vcpkg.bat
+
+      - name: Build localisation files
+        run: bash build-po.sh
+        shell: bash
+
+      - name: "CMake: Configure"
+        shell: cmd
+        run: cmake --preset win64-2019-rel
+
+      - name: "CMake: Build"
+        shell: cmd
+        run: cmake --build --preset win64-2019-rel
 
       - uses: actions/upload-artifact@v3
         with:
           name: win64-build
           path: |
             build/win64-2019-rel/um-desktop/Release/
-
-      - name: Compile localisation files
-        run: bash build-po.sh
-        shell: bash
-
       - uses: actions/upload-artifact@v3
         with:
           name: locale
