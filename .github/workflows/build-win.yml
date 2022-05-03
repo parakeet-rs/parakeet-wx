@@ -34,3 +34,13 @@ jobs:
           name: win64-build
           path: |
             build/win64-2019-rel/um-desktop/Release/
+
+      - name: Compile localisation files
+        run: bash build-po.sh
+        shell: bash
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: locale
+          path: |
+            build/win64-2019-rel/**/*.mo
