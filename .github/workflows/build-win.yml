@@ -26,7 +26,7 @@ jobs:
       - name: Run CMake consuming vcpkg.json by mean of vcpkg.
         uses: lukka/run-cmake@v10
         with:
-          configurePreset: "win64-2019"
+          configurePreset: "win64-2019-rel"
           buildPreset: "win64-2019-rel"
 
       - uses: actions/upload-artifact@v3
