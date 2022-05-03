@@ -13,6 +13,9 @@ jobs:
   build:
     runs-on: windows-2019
 
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -29,6 +32,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
+
+      - name: Create vcpkg cache folder
+        shell: bash
+        run: mkdir -p .vcpkg-bc
 
       - name: Bootstrap vcpkg
         shell: cmd
