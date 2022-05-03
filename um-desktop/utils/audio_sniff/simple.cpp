@@ -46,6 +46,7 @@ const u32 kMagic_OggS = 0x4F'67'67'53u;  // Ogg
 const u32 kMagic_FRM8 = 0x46'52'4D'38u;  // Direct Stream Digital (DSDIFF)
 const u32 kMagic_ftyp = 0x66'74'79'70u;  // MP4 Frame
 const u32 kMagic__wma = 0x30'26'B2'75u;  // Windows WMA/WMV/ASF
+const u32 kMagic_RIFF = 0x52'49'46'46u;  // Waveform Audio File Format (WAV)
 
 const u32 kMagic_ftyp_MSNV = 0x4d'53'4e'56u;  // MPEG-4 (.MP4) for SonyPSP
 const u32 kMagic_ftyp_NDAS = 0x4e'44'41'53u;  // Nero Digital AAC Audio
@@ -72,6 +73,8 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
         return "dff";
       case kMagic__wma:
         return "wma";
+      case kMagic_RIFF:
+        return "wav";
     }
 
     // Compact header magics
