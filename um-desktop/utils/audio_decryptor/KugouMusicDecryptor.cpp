@@ -34,7 +34,13 @@ bool KugouMusicDecryptor::SetupDecryptor() {
   if (error == kugou::KGMParseError::kSupportedKGM) {
     cipher_ = std::make_shared<kugou::KGMCipher>(result.file_key);
   } else if (error == kugou::KGMParseError::kSupportedVPR) {
-    cipher_ = std::make_shared<kugou::VPRCipher>(result.file_key);
+    // TODO: remove this key
+    std::array<uint8_t, 17> vpr_key = {
+        0x25, 0xdf, 0xe8, 0xa6, 0x75, 0x1e, 0x75, 0x0e, 0x2f,
+        0x80, 0xf3, 0x2d, 0xb8, 0xb6, 0xe3, 0x11, 0x00,
+    };
+
+    cipher_ = std::make_shared<kugou::VPRCipher>(result.file_key, vpr_key);
   } else {
     return false;
   }

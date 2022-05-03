@@ -14,11 +14,17 @@
 
 #include <functional>
 
+// TODO: remove this table
+#include "__priv_table.h"
+#include "um-crypto/kugou/KGMMaskGenerator.h"
+
 const int kThreadCount = 4;
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
   SetDropTarget(dynamic_cast<wxDropTarget*>(this));
+
+  umc::kugou::KGMMaskGenerator::GetInstance()->SetTable(t1, t2, v2);
 
   m_decryptLogs->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, 100);
 
