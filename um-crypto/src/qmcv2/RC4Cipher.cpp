@@ -1,5 +1,5 @@
-#include "um-crypto/qmcv2/rc4_cipher.h"
 #include "../internal/inline.h"
+#include "um-crypto/qmcv2/RC4Cipher.h"
 
 #include <algorithm>
 

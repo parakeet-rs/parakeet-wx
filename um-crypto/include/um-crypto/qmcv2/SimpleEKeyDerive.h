@@ -7,10 +7,10 @@ namespace umc::qmcv2 {
 /**
  * @brief Derive file key from ekey.
  */
-class EKeyDeriveBase {
+class AEKeyDerive {
  public:
-  EKeyDeriveBase(){};
-  virtual ~EKeyDeriveBase(){};
+  AEKeyDerive(){};
+  virtual ~AEKeyDerive(){};
 
   bool FromEKey(Vec<u8>& out, const Str ekey_b64) const;
   bool FromEKey(Vec<u8>& out, const Vec<u8> ekey) const;
@@ -27,9 +27,9 @@ class EKeyDeriveBase {
   Vec<u8> DeriveTEAKey(const Vec<u8> ekey) const;
 };
 
-class SimpleEKeyDerive : public EKeyDeriveBase {
+class SimpleEKeyDerive : public AEKeyDerive {
  public:
-  SimpleEKeyDerive(u8 seed = 106) : EKeyDeriveBase() { this->seed = seed; };
+  SimpleEKeyDerive(u8 seed = 106) : AEKeyDerive() { this->seed = seed; };
 
  protected:
   void MakeSimpleKey(Vec<u8>& out) const override;

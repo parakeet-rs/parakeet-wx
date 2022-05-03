@@ -1,5 +1,6 @@
-#include "um-crypto/qmcv2/key_derive.h"
-#include "../internal/str_helper.h"
+#include "um-crypto/qmcv2/AEKeyDerive.h"
+
+#include "../internal/StringHelper.h"
 #include "um-crypto/qmcv2.h"
 #include "um-crypto/tc_tea.h"
 
@@ -7,7 +8,6 @@
 #include <cmath>
 #include <cstdint>
 #include <cstring>
-
 #include <string>
 #include <vector>
 
@@ -16,7 +16,8 @@
 namespace base64 = boost::beast::detail::base64;
 
 namespace umc::qmcv2 {
-inline Vec<u8> EKeyDeriveBase::DeriveTEAKey(const Vec<u8> ekey) const {
+
+inline Vec<u8> AEKeyDerive::DeriveTEAKey(const Vec<u8> ekey) const {
   Vec<u8> tea_key(16);
   Vec<u8> simple_key(8);
   MakeSimpleKey(simple_key);
@@ -29,7 +30,7 @@ inline Vec<u8> EKeyDeriveBase::DeriveTEAKey(const Vec<u8> ekey) const {
   return tea_key;
 }
 
-bool EKeyDeriveBase::FromEKey(Vec<u8>& out, const Str ekey_b64) const {
+bool AEKeyDerive::FromEKey(Vec<u8>& out, const Str ekey_b64) const {
   std::string ekey_str(ekey_b64);
   RemoveWhitespace(ekey_str);
 
@@ -40,7 +41,7 @@ bool EKeyDeriveBase::FromEKey(Vec<u8>& out, const Str ekey_b64) const {
   return FromEKey(out, ekey);
 }
 
-bool EKeyDeriveBase::FromEKey(Vec<u8>& out, const Vec<u8> ekey) const {
+bool AEKeyDerive::FromEKey(Vec<u8>& out, const Vec<u8> ekey) const {
   const auto ekey_len = ekey.size();
 
   if (ekey_len < 8) {
@@ -52,23 +53,17 @@ bool EKeyDeriveBase::FromEKey(Vec<u8>& out, const Vec<u8> ekey) const {
   out.resize(ekey_len);
   memcpy(out.data(), ekey.data(), 8u);
 
-  size_t tea_decrypted_len;
-  if (!::umc::tc_tea::cbc_decrypt(&out[8], tea_decrypted_len, &ekey[8],
-                                  ekey_len - 8, tea_key.data())) {
+  auto data_len = ekey_len - 8;
+  auto p_key = tea_key.data();
+
+  size_t out_len;
+  if (!tc_tea::cbc_decrypt(&out[8], out_len, &ekey[8], data_len, p_key)) {
     out.resize(0);
     return false;
   };
 
-  out.resize(8 + tea_decrypted_len);
+  out.resize(8 + out_len);
   return true;
-}
-
-void SimpleEKeyDerive::MakeSimpleKey(Vec<u8>& out) const {
-  double seed = static_cast<double>(this->seed);
-  for (auto& byte : out) {
-    byte = static_cast<uint8_t>(fabs(tan(seed)) * 100.0);
-    seed += 0.1;
-  }
 }
 
 }  // namespace umc::qmcv2

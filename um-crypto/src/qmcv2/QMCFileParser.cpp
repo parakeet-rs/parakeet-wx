@@ -1,4 +1,4 @@
-#include "../internal/str_helper.h"
+#include "../internal/StringHelper.h"
 #include "um-crypto/endian.h"
 #include "um-crypto/qmcv2.h"
 
