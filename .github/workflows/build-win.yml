@@ -28,3 +28,9 @@ jobs:
         with:
           configurePreset: "win64-2019"
           buildPreset: "win64-2019-rel"
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: win64-build
+          path: |
+            build/win64-2019-rel/um-desktop/Release/
