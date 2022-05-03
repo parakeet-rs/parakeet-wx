@@ -20,7 +20,7 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
   SetDropTarget(dynamic_cast<wxDropTarget*>(this));
 
-  m_decryptLogs->InsertColumn(0, _(""), wxLIST_FORMAT_LEFT, 100);
+  m_decryptLogs->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, 100);
 
   m_btnAddDir->Hide();
 #if NDEBUG

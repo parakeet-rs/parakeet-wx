@@ -1,0 +1,148 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-05-03 00:44+0100\n"
+"PO-Revision-Date: 2022-05-03 00:52+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: zh_CN\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 3.0.1\n"
+"X-Poedit-Basepath: .\n"
+
+#: um-desktop/dialog/MainAppFrame.cpp:151
+msgid "  ...  "
+msgstr "  等待  "
+
+#: um-desktop/ui/ui.cpp:103
+msgid " a b c"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:37
+msgid "&Clear Logs"
+msgstr "清空 (&C)"
+
+#: um-desktop/ui/ui.cpp:52
+msgid "&Decrypt directory..."
+msgstr "解密目录 (&D)..."
+
+#: um-desktop/ui/ui.cpp:34
+msgid "&Options..."
+msgstr "选项... (&O)"
+
+#: um-desktop/dialog/MainAppFrame.cpp:67
+msgid "All files (*.*)|*"
+msgstr "所有文件 (*.*)|*"
+
+#: um-desktop/dialog/MainAppFrame.cpp:61
+msgid "All supported files"
+msgstr "所有支持的文件"
+
+#: um-desktop/dialog/MainAppFrame.cpp:29
+msgid "DEBUG Build"
+msgstr "调试版本"
+
+#: um-desktop/ui/ui.cpp:49
+msgid "Decrypt &file..."
+msgstr "解密文件 (&F)..."
+
+#: um-desktop/utils/audio_decryptor/AStreamDecryptor.cpp:52
+msgid "Error: Unexpected EOF when reading input."
+msgstr "错误：读取文件时提前结束。"
+
+#: um-desktop/utils/audio_decryptor/AStreamDecryptor.cpp:58
+msgid "Error: cipher reported failure."
+msgstr "错误：解密代码报告了错误。"
+
+#: um-desktop/dialog/MainAppFrame.cpp:148
+msgid "FAIL: "
+msgstr "错误： "
+
+#: um-desktop/ui/ui.cpp:110
+msgid "General"
+msgstr "通常"
+
+#: um-desktop/ui/ui.cpp:122
+msgid "KuGou Music"
+msgstr "酷狗音乐"
+
+#: um-desktop/dialog/MainAppFrame.cpp:65
+msgid "Kugou music (*.kgm;*.vpr)"
+msgstr "酷狗音乐文件 (*.kgm;*.vpr)"
+
+#: um-desktop/ui/ui.cpp:21
+msgid "Logs:"
+msgstr "文件记录："
+
+#: um-desktop/dialog/OptionsDialog.cpp:11
+msgid "Mask v2 (hex)"
+msgstr "加密表 v2（十六进制）"
+
+#: um-desktop/dialog/MainAppFrame.cpp:145
+msgid "OK: "
+msgstr "成功： "
+
+#: um-desktop/dialog/MainAppFrame.cpp:69
+msgid "Open encrypted music files"
+msgstr "选择加密的音乐文件"
+
+#: um-desktop/ui/ui.h:93
+msgid "Options"
+msgstr "选项"
+
+#: um-desktop/ui/ui.cpp:43
+msgid "Process"
+msgstr "处理"
+
+#: um-desktop/dialog/MainAppFrame.cpp:63
+msgid "QMCv2 files (*.mgg;*.mflac)"
+msgstr "腾讯音乐文件 (*.mgg;*.mflac)"
+
+#: um-desktop/dialog/MainAppFrame.cpp:142
+msgid "Ready: "
+msgstr "就绪： "
+
+#: um-desktop/dialog/OptionsDialog.cpp:5
+msgid "Table 1 (hex)"
+msgstr "加密表1（十六进制）"
+
+#: um-desktop/dialog/OptionsDialog.cpp:8
+msgid "Table 2 (hex)"
+msgstr "加密表2（十六进制）"
+
+#: um-desktop/ui/ui.cpp:102
+msgid "Thread count"
+msgstr "线程数量"
+
+#: um-desktop/ui/ui.cpp:101
+msgid "Threading"
+msgstr "多线程"
+
+#: um-desktop/dialog/MainAppFrame.cpp:158
+#, c-format
+msgid "Unknown state (code %d)"
+msgstr "未知状态（代码 %d）"
+
+#: um-desktop/dialog/MainAppFrame.cpp:154
+msgid "Unsupported: "
+msgstr "不支援的文件： "
+
+#: um-desktop/utils/audio_decryptor/QQMusicV2Decryptor.cpp:15
+msgid "could not derive file key from ekey"
+msgstr "无法从 ekey 解析出文件密钥"
+
+#: um-desktop/utils/audio_decryptor/QQMusicV2Decryptor.cpp:21
+msgid "key size == 0"
+msgstr "密钥大小为 0"
+
+#: um-desktop/ui/ui.h:64
+msgid "um Desktop"
+msgstr "um 桌面客户端"
+
+#: um-desktop/dialog/OptionsDialog.cpp:14
+msgid "vprTable (hex)"
+msgstr "vpr 加密表（十六进制）"
