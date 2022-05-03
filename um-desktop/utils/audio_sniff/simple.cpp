@@ -91,7 +91,7 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
   if (ReadBEU32(buf + 4) == kMagic_ftyp) {
     u32 magic = ReadBEU32(buf + 8);
 
-    if (magic == kMagic_ftyp_MSNV || kMagic_ftyp_NDAS) {
+    if (magic == kMagic_ftyp_MSNV || magic == kMagic_ftyp_NDAS) {
       return "m4a";
     }
 
