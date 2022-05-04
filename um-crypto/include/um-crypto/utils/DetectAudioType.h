@@ -7,7 +7,7 @@
 
 namespace umc::utils {
 
-const size_t kAudioTypeSniffBufferSize = 1024;
+constexpr size_t kAudioTypeSniffBufferSize = 4096;
 AudioType DetectAudioType(const u8* buf, usize len);
 
 inline Str DetectAudioExtension(const u8* buf, usize len) {
