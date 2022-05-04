@@ -20,7 +20,7 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
   add_compile_options(-DNDEBUG=1 -D_NDEBUG=1)
 endif()
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 
 add_subdirectory(um-crypto)
 add_subdirectory(um-desktop)
