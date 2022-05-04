@@ -30,6 +30,9 @@ using isize = i32;
 template <class T>
 using Vec = std::vector<T>;
 
+template <class T, usize S>
+using Arr = std::array<T, S>;
+
 using Str = std::string;
 using U8Str = std::u8string;
 using Path = std::filesystem::path;

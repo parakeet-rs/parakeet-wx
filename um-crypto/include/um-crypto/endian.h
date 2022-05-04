@@ -5,7 +5,6 @@
 #if _MSC_VER
 // Windows
 #include <stdlib.h>
-#include <winsock2.h>
 
 #if BYTE_ORDER == LITTLE_ENDIAN
 // We are LE.

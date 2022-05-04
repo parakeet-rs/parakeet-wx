@@ -9,3 +9,4 @@
 
 #include "tencent/MapCipher.h"
 #include "tencent/RC4Cipher.h"
+#include "tencent/StaticStreamCipher.h"

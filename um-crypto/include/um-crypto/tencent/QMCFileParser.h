@@ -1,6 +1,7 @@
 #pragma once
 
 #include "um-crypto/types.h"
+#include "um-crypto/utils/DetectAudioType.h"
 
 #include <utility>
 
@@ -24,10 +25,13 @@ struct QMCParsedData {
   usize bytes_required;
 };
 
+constexpr usize kLegacyQMCDetectionSize = utils::kAudioTypeSniffBufferSize;
 class QMCFileParser {
  public:
   QMCFileParser(){};
   virtual ~QMCFileParser(){};
+
+  static bool IsLegacyQMCFile(const Vec<u8>& bof_data);
 
   static QMCParseError ParseFile(QMCParsedData& result,
                                  const Vec<u8>& eof_data);

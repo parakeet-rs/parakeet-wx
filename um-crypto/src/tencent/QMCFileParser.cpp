@@ -1,10 +1,9 @@
 #include "../internal/StringHelper.h"
 #include "um-crypto/endian.h"
 #include "um-crypto/tencent.h"
+#include "um-crypto/utils/DetectAudioType.h"
 
-#include <cstdint>
-#include <cstdlib>
-#include <cstring>
+#include <algorithm>
 
 namespace umc::tencent {
 
@@ -117,6 +116,21 @@ QMCParseError QMCFileParser::ParseWindowsEncryptedFile(
   result.song_id = Str("");
 
   return QMCParseError::kOk;
+}
+
+bool QMCFileParser::IsLegacyQMCFile(const Vec<u8>& bof_data) {
+  using umc::utils::AudioType;
+  using umc::utils::IsAudioBufferRecognised;
+
+  usize len = std::min(bof_data.size(), kLegacyQMCDetectionSize);
+  Vec<u8> buf_decrypted = bof_data;
+
+  auto cipher = std::make_unique<StaticStreamCipher>();
+  if (!cipher->Decrypt(buf_decrypted.data(), len, bof_data.data(), len)) {
+    return false;
+  }
+
+  return IsAudioBufferRecognised(buf_decrypted);
 }
 
 }  // namespace umc::tencent
