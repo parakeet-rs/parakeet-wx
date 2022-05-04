@@ -1,4 +1,6 @@
 #include "../audio_type_sniff.h"
+#include "AudioTagDetection.h"
+
 #include "um-crypto/common.h"
 #include "um-crypto/endian.h"
 
@@ -22,19 +24,14 @@ using namespace umc;
 namespace umd::utils {
 
 inline bool is_mp3(u32 magic) {
-  const u32 kID3Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
-  const u32 kID3Value = 0x49'44'33'00u;  // 'ID3\x00'
-  if ((magic & kID3Masks) == kID3Value) {
-    return true;
-  }
-
+  // Framesync, should have first 11-bits set to 1.
   const u32 kMP3AndMasks = 0b1111'1111'1110'0000u << 16;
   const u32 kMP3Expected = 0b1111'1111'1110'0000u << 16;
-  // Framesync, should have 11 bits set to 1.
   return ((magic & kMP3AndMasks) == kMP3Expected);
 }
 
 inline bool is_aac(u32 magic) {
+  // Framesync, should have first 12-bits set to 1.
   const u32 kAacAndMasks = 0b1111'1111'1111'0110 << 16;
   const u32 kAacExpected = 0b1111'1111'1111'0000 << 16;
 
@@ -54,9 +51,20 @@ const u32 kMagic_ftyp_NDAS = 0x4e'44'41'53u;  // Nero Digital AAC Audio
 const u32 kMagic_ftyp_M4A = 0x4d'34'41u;  // iTunes AAC-LC (.M4A) Audio
 const u32 kMagic_ftyp_M4B = 0x4d'34'42u;  // iTunes AAC-LC (.M4B) Audio Book
 
+const char* kUnknownFormatFallback = "bin";
+
 std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
+  // Seek optional id3 tag.
+  usize audio_header_meta_size = GetAudioHeaderMetadataSize(buf, len);
+  if (audio_header_meta_size > len) {
+    return kUnknownFormatFallback;
+  } else if (audio_header_meta_size > 0) {
+    buf += audio_header_meta_size;
+    len -= audio_header_meta_size;
+  }
+
   if (len < 16) {
-    return "";
+    return kUnknownFormatFallback;
   }
 
   {
@@ -77,12 +85,10 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
         return "wav";
     }
 
-    // Compact header magics
+    // Detect type by its frame header
     if (is_aac(magic)) {
       return "aac";
-    }
-
-    if (is_mp3(magic)) {
+    } else if (is_mp3(magic)) {
       return "mp3";
     }
   }
@@ -103,7 +109,7 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
     }
   }
 
-  return "bin";
+  return kUnknownFormatFallback;
 }
 
 }  // namespace umd::utils

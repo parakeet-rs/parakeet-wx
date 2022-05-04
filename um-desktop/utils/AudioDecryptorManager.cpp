@@ -58,7 +58,7 @@ bool AudioDecryptorManager::DecryptAudioFile() {
     return false;
   }
 
-  Vec<u8> buf(40);
+  Vec<u8> buf(kAudioTypeSniffBufferSize);
   if (!active_decryptor_->DecryptFirstBlock(buf.data(), buf.size())) {
     return false;
   }
