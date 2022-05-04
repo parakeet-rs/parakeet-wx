@@ -2,15 +2,6 @@
 
 ## 构建说明
 
-### Mediainfo
-
-(可选) 你可以启用 Mediainfo 来进行文件类型识别。
-
-更改 `vcpkg.json`，并加入下述内容到 `dependencies` 项目内：
-
-    "libmediainfo",
-    "libzen",
-
 ### Windows 下构建
 
 - 安装 CMake

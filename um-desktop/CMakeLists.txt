@@ -17,20 +17,7 @@ find_package(Boost COMPONENTS thread REQUIRED system)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
 find_package(ZLIB REQUIRED) # Linux build complains without zlib.
 
-# Optional: use mediainfo for audio format detection.
-find_package(MediaInfoLib CONFIG)
-if (MediaInfoLib_FOUND)
-  find_package(ZenLib CONFIG)
-  set(MEDIAINFO_LIBRARIES ${ZenLib_LIBRARY} ${MediaInfoLib_LIBRARY})
-  add_definitions(-DBUILD_WITH_MEDIAINFO=1)
-else()
-  add_definitions(-DBUILD_WITH_MEDIAINFO=0)
-  set(MEDIAINFO_LIBRARIES)
-endif()
-
-
 set(QMD_LINK_TARGETS
-  ${MEDIAINFO_LIBRARIES}
   ${Boost_LIBRARIES}
   ${ZLIB_LIBRARIES}
   ${wxWidgets_LIBRARIES}
