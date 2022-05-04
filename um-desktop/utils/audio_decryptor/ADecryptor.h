@@ -10,10 +10,11 @@ namespace umd::utils::audio_decryptor {
 
 enum class EncryptionType {
   kNotEncrypted = 0,
-  kUnsupported,
-  kQQMusicV1,
+  kUnsupported = 1,
+  kQQMusicV1 = 0x10,
   kQQMusicV2,
-  kKugouMusic,
+  kKugouMusic = 0x20,
+  kXimalayaX2M = 0x30,
 };
 
 class ADecryptor {

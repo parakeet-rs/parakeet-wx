@@ -3,6 +3,7 @@
 
 #include "audio_decryptor/KugouMusicDecryptor.h"
 #include "audio_decryptor/QQMusicV2Decryptor.h"
+#include "audio_decryptor/XimalayaX2MDecryptor.h"
 
 #include <boost/filesystem.hpp>
 
@@ -23,6 +24,7 @@ const usize kDecryptBufferSize = 4 * 1024 * 1024;
 AudioDecryptorManager::AudioDecryptorManager() {
   Add(std::make_shared<QQMusicV2Decryptor>());
   Add(std::make_shared<KugouMusicDecryptor>());
+  Add(std::make_shared<XimalayaX2MDecryptor>());
 }
 
 void AudioDecryptorManager::Open(const std::string& file_path) {
