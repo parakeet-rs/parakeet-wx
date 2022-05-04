@@ -1,8 +1,8 @@
 #pragma once
 
 #include "um-crypto/abstract/AXorStreamCipher.h"
-#include "um-crypto/common.h"
 #include "um-crypto/interface/IStreamCipher.h"
+#include "um-crypto/types.h"
 
 namespace umc::qmcv2 {
 

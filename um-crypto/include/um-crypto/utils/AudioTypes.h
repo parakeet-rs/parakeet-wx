@@ -1,6 +1,6 @@
 #pragma once
 
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 namespace umc::utils {
 const u32 kAudioTypeMaskLossless = 1 << 5;

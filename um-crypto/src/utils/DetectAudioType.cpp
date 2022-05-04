@@ -17,8 +17,8 @@
 #include "um-crypto/utils/DetectAudioType.h"
 #include "um-crypto/utils/AudioMetadata.h"
 
-#include "um-crypto/common.h"
 #include "um-crypto/endian.h"
+#include "um-crypto/types.h"
 
 namespace umc::utils {
 

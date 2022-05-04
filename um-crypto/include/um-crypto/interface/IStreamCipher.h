@@ -1,6 +1,6 @@
 #pragma once
 #include <cassert>
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 namespace umc {
 

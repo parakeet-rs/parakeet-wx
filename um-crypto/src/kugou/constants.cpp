@@ -1,5 +1,5 @@
 #include "um-crypto/kugou/constants.h"
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 namespace umc::kugou {
 

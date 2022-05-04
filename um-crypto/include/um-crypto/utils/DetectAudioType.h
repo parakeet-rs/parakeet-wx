@@ -3,7 +3,7 @@
 #include "AudioMetadata.h"
 #include "AudioTypes.h"
 
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 namespace umc::utils {
 

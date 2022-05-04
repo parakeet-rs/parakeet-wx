@@ -1,5 +1,5 @@
 #pragma once
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 #include <cassert>
 #include <cstdint>

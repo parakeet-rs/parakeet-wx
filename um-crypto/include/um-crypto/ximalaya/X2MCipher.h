@@ -2,7 +2,7 @@
 #include "common.h"
 
 #include "um-crypto/abstract/AXorStreamCipher.h"
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 #include <array>
 

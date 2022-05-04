@@ -1,7 +1,7 @@
 #pragma once
 
-#include "um-crypto/common.h"
 #include "um-crypto/kugou/KGMCipher.h"
+#include "um-crypto/types.h"
 
 #include <array>
 #include <atomic>

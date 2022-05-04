@@ -1,7 +1,7 @@
 #include "um-crypto/abstract/AXorStreamCipher.h"
 
 #include "../internal/XorHelper.h"
-#include "um-crypto/common.h"
+#include "um-crypto/types.h"
 
 #include <algorithm>
 

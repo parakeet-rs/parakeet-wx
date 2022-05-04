@@ -1,6 +1,6 @@
 #pragma once
+#include "../types.h"
 #include "audio_decryptor/ADecryptor.h"
-#include "common.h"
 
 #include <memory>
 
