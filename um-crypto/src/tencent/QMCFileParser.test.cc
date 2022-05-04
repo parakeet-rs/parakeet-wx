@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "um-crypto/qmcv2/QMCFileParser.h"
+#include "um-crypto/tencent/QMCFileParser.h"
 
 using ::testing::ElementsAreArray;
 using namespace umc;

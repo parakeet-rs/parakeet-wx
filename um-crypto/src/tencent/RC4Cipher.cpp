@@ -1,5 +1,5 @@
+#include "um-crypto/tencent/RC4Cipher.h"
 #include "../internal/inline.h"
-#include "um-crypto/qmcv2/RC4Cipher.h"
 
 #include <algorithm>
 

@@ -1,8 +1,8 @@
-#include "um-crypto/qmcv2/AEKeyDerive.h"
+#include "um-crypto/tencent/AEKeyDerive.h"
 
 #include "../internal/StringHelper.h"
+#include "tc_tea/tc_tea_cbc.h"
 #include "um-crypto/qmcv2.h"
-#include "um-crypto/tc_tea.h"
 
 #include <cassert>
 #include <cmath>

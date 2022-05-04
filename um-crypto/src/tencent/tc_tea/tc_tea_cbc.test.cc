@@ -1,7 +1,7 @@
 #include <gmock/gmock.h>
 #include <gtest/gtest.h>
 
-#include "um-crypto/tc_tea.h"
+#include "tc_tea_cbc.h"
 
 #include <cstdint>
 #include <vector>
