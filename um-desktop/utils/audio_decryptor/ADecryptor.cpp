@@ -1,5 +1,7 @@
 #include "ADecryptor.h"
 
+#include <filesystem>
+
 namespace umd::utils::audio_decryptor {
 
 void ADecryptor::Close() {
@@ -8,7 +10,7 @@ void ADecryptor::Close() {
   }
 }
 
-void ADecryptor::Open(const std::string& in_file_path) {
+void ADecryptor::Open(const std::filesystem::path& in_file_path) {
   in_file_path_ = in_file_path;
   in_file_.open(in_file_path, std::ifstream::binary | std::ifstream::in);
 

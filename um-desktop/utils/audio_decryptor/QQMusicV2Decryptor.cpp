@@ -23,9 +23,9 @@ inline bool QQMusicV2Decryptor::SetupXorCipher(Str& ekey_b64) {
   }
 
   if (key_size < 300) {
-    cipher_ = std::make_shared<qmcv2::MapCipher>(file_key);
+    cipher_ = std::make_unique<qmcv2::MapCipher>(file_key);
   } else {
-    cipher_ = std::make_shared<qmcv2::RC4Cipher>(file_key);
+    cipher_ = std::make_unique<qmcv2::RC4Cipher>(file_key);
   }
 
   return true;

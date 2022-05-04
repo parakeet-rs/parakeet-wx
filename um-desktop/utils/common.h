@@ -18,6 +18,9 @@ using umc::i8;
 using umc::isize;
 
 using umc::Str;
+using umc::U8Str;
 using umc::Vec;
+
+using umc::Path;
 
 }  // namespace umd

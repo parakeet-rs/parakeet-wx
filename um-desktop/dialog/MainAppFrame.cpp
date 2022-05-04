@@ -10,7 +10,6 @@
 #include <wx/wfstream.h>
 
 #include <boost/chrono.hpp>
-#include <boost/nowide/convert.hpp>
 #include <boost/thread/thread.hpp>
 
 #include <functional>
@@ -22,7 +21,6 @@
 const int kThreadCount = 4;
 
 using boost::chrono::system_clock;
-namespace nowide = boost::nowide;
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
@@ -191,7 +189,8 @@ void MainAppFrame::ProcessNextFile() {
   UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
 
   auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
-  decryptor->Open(nowide::narrow(entry->file_name.GetFullPath().t_str()));
+  auto path = umc::U8StrFromStr(entry->file_name.GetFullPath().utf8_string());
+  decryptor->Open(std::filesystem::path(path));
 
   system_clock::time_point time_before_process = system_clock::now();
   FileProcessStatus status = FileProcessStatus::kProcessNotSupported;

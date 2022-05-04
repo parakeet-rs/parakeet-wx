@@ -34,7 +34,7 @@ using Str = std::string;
 using U8Str = std::u8string;
 using Path = std::filesystem::path;
 
-inline U8Str AsciiStrToU8Str(const Str& s) {
+inline U8Str U8StrFromStr(const Str& s) {
   return U8Str(s.begin(), s.end());
 }
 

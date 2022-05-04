@@ -2,8 +2,6 @@
 #include "dialog/MainAppFrame.h"
 #include "utils/threading.h"
 
-#include <boost/nowide/filesystem.hpp>
-
 #include <wx/stdpaths.h>
 
 IMPLEMENT_APP(umDesktopApp)
@@ -49,7 +47,6 @@ void initLanguageSupport() {
 }
 
 bool umDesktopApp::OnInit() {
-  boost::nowide::nowide_filesystem();
   umd::io_service_start();
 
   initLanguageSupport();

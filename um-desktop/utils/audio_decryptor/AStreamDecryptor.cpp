@@ -26,13 +26,13 @@ bool AStreamDecryptor::DecryptFirstBlock(u8* buf, usize len) {
   return cipher_->Decrypt(buf, len, buf_in.data(), bytes_read);
 }
 
-bool AStreamDecryptor::DecryptEntireFile(const std::string& out_path) {
+bool AStreamDecryptor::DecryptEntireFile(const Path& out_path) {
   if (!cipher_ || !in_file_.is_open()) {
     return false;
   }
 
   usize bytes_left = file_size_ - bof_bytes_ignore_ - eof_bytes_ignore_;
-  boost::nowide::ofstream out_file(out_path, std::ofstream::binary);
+  std::ofstream out_file(out_path, std::ofstream::binary);
   Vec<u8> buf_encrypted(kEncryptionBufferLen);
   Vec<u8> buf_decrypted(kDecryptionBufferLen);
 

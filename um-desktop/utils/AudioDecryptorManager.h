@@ -1,5 +1,6 @@
 #pragma once
 #include "audio_decryptor/ADecryptor.h"
+#include "common.h"
 
 #include <memory>
 
@@ -12,18 +13,18 @@ class AudioDecryptorManager {
   AudioDecryptorManager();
   virtual ~AudioDecryptorManager(){};
 
-  void Open(const std::string& file_path);
+  void Open(const Path& file_path);
   void Close();
 
   EncryptionType SniffEncryption();
   bool DecryptAudioFile();
-  const std::string& GetError() {
+  const Str& GetError() {
     return active_decryptor_ ? active_decryptor_->GetErrorMessage() : error_;
   }
 
  private:
-  std::string in_file_path_;
-  std::string error_ = "unknown error";
+  Path in_file_path_;
+  Str error_ = "unknown error";
 
   std::shared_ptr<ADecryptor> active_decryptor_;
   Vec<std::shared_ptr<ADecryptor>> decryptors_;

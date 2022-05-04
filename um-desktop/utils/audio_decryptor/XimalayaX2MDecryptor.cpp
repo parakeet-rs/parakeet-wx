@@ -18,7 +18,7 @@ bool XimalayaX2MDecryptor::SetupDecryptor() {
 
   bof_bytes_ignore_ = 0;
   eof_bytes_ignore_ = 0;
-  cipher_ = std::make_shared<X2MCipher>(header);
+  cipher_ = std::make_unique<X2MCipher>(header);
   return true;
 }
 

@@ -15,7 +15,7 @@ inline Str DetectAudioExtension(const u8* buf, usize len) {
 }
 
 inline U8Str DetectAudioExtensionU8(const u8* buf, usize len) {
-  return AsciiStrToU8Str(DetectAudioExtension(buf, len));
+  return U8StrFromStr(DetectAudioExtension(buf, len));
 }
 
 }  // namespace umc::utils

@@ -1,8 +1,7 @@
 #pragma once
 #include "../common.h"
 
-#include <boost/nowide/fstream.hpp>
-
+#include <filesystem>
 #include <fstream>
 #include <string>
 
@@ -23,7 +22,7 @@ class ADecryptor {
   virtual ~ADecryptor() { Close(); }
   virtual EncryptionType GetEncryptionType() const = 0;
 
-  virtual void Open(const std::string& in_file_path);
+  virtual void Open(const std::filesystem::path& in_file_path);
   virtual void Close();
 
   /**
@@ -44,15 +43,15 @@ class ADecryptor {
    * @return false
    */
   virtual bool DecryptFirstBlock(u8* buf, usize len = 40) = 0;
-  virtual bool DecryptEntireFile(const std::string& out_path) = 0;
+  virtual bool DecryptEntireFile(const std::filesystem::path& out_path) = 0;
 
-  inline const std::string& GetErrorMessage() { return error_msg_; }
+  inline const Str& GetErrorMessage() { return error_msg_; }
 
  protected:
-  boost::nowide::ifstream in_file_;
+  std::ifstream in_file_;
   usize file_size_;
-  std::string in_file_path_;
-  std::string error_msg_;
+  std::filesystem::path in_file_path_;
+  Str error_msg_;
 
   // Inline helpers
   inline usize Read(u8* buf, usize len) {
