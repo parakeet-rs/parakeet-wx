@@ -11,3 +11,4 @@ vcpkg_overlays/
 local/
 tset-sample/
 
+.vs/
