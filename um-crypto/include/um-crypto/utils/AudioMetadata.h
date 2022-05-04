@@ -7,8 +7,9 @@ namespace umc::utils {
 
 inline isize ParseID3SyncSafeInt(const u8* p) {
   auto raw = umc::ReadBEU32(p);
+
   // Sync safe int should use only lower 7-bits of each byte.
-  if (raw & 0x80808080u != 0) {
+  if ((raw & 0x80808080u) != 0) {
     return 0;
   }
 
