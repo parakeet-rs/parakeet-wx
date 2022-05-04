@@ -20,7 +20,7 @@ endif()
 
 set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS YES CACHE BOOL "Export all symbols")
 
-file(GLOB SOURCES src/*.cpp src/**/*.cpp)
+file(GLOB_RECURSE SOURCES *.cpp *.h)
 
 # Add source to this project's executable.
 add_library (${PROJECT_NAME} OBJECT ${SOURCES})
@@ -44,7 +44,7 @@ enable_testing()
 find_package(GTest CONFIG)
 
 if(TARGET GTest::gtest)
-  file(GLOB TESTS_SOURCE src/*.test.cc src/**/*.test.cc)
+  file(GLOB_RECURSE TESTS_SOURCE *.test.cc)
   add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
   target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
   target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
