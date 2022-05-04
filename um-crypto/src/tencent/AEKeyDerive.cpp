@@ -15,7 +15,7 @@
 
 namespace base64 = boost::beast::detail::base64;
 
-namespace umc::qmcv2 {
+namespace umc::tencent {
 
 inline Vec<u8> AEKeyDerive::DeriveTEAKey(const Vec<u8> ekey) const {
   Vec<u8> tea_key(16);
@@ -66,4 +66,4 @@ bool AEKeyDerive::FromEKey(Vec<u8>& out, const Vec<u8> ekey) const {
   return true;
 }
 
-}  // namespace umc::qmcv2
+}  // namespace umc::tencent

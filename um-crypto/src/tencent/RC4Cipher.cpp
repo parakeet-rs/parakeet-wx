@@ -4,7 +4,7 @@
 #include <algorithm>
 
 using namespace umc;
-using namespace umc::qmcv2;
+using namespace umc::tencent;
 
 const usize FIRST_SEGMENT_SIZE = 0x80;
 const usize OTHER_SEGMENT_SIZE = 0x1400;

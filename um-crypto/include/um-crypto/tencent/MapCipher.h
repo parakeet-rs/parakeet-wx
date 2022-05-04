@@ -4,7 +4,7 @@
 #include "um-crypto/interface/IStreamCipher.h"
 #include "um-crypto/types.h"
 
-namespace umc::qmcv2 {
+namespace umc::tencent {
 
 class MapCipher : public AXorStreamCipher {
  public:
@@ -20,4 +20,4 @@ class MapCipher : public AXorStreamCipher {
   std::pair<u8, u8> first_bytes;
 };
 
-}  // namespace umc::qmcv2
+}  // namespace umc::tencent

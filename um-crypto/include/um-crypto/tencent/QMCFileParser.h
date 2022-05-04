@@ -4,7 +4,7 @@
 
 #include <utility>
 
-namespace umc::qmcv2 {
+namespace umc::tencent {
 enum class QMCParseError {
   kOk = 0,
   kInvalidMetadata,
@@ -37,4 +37,4 @@ class QMCFileParser {
                                                  const Vec<u8>& eof_data);
 };
 
-}  // namespace umc::qmcv2
+}  // namespace umc::tencent

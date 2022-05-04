@@ -2,7 +2,7 @@
 
 #include "um-crypto/types.h"
 
-namespace umc::qmcv2 {
+namespace umc::tencent {
 
 /**
  * @brief Derive file key from ekey.
@@ -38,4 +38,4 @@ class SimpleEKeyDerive : public AEKeyDerive {
   u8 seed;
 };
 
-}  // namespace umc::qmcv2
+}  // namespace umc::tencent

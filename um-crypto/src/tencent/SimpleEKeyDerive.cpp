@@ -1,6 +1,6 @@
 #include "um-crypto/tencent/SimpleEKeyDerive.h"
 
-namespace umc::qmcv2 {
+namespace umc::tencent {
 
 void SimpleEKeyDerive::MakeSimpleKey(Vec<u8>& out) const {
   double seed = static_cast<double>(this->seed);
@@ -10,4 +10,4 @@ void SimpleEKeyDerive::MakeSimpleKey(Vec<u8>& out) const {
   }
 }
 
-}  // namespace umc::qmcv2
+}  // namespace umc::tencent

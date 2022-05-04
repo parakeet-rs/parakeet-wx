@@ -1,7 +1,7 @@
 #include "um-crypto/tencent/MapCipher.h"
 
 using namespace umc;
-using namespace umc::qmcv2;
+using namespace umc::tencent;
 
 const usize kSegmentLen = 0x7fff;
 const usize kDoubleSegmentLen = kSegmentLen * 2;

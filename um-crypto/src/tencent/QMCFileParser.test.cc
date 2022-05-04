@@ -8,7 +8,7 @@
 
 using ::testing::ElementsAreArray;
 using namespace umc;
-using namespace umc::qmcv2;
+using namespace umc::tencent;
 
 TEST(QMCFileParser, ParseWindowsEncryptedFile) {
   QMCParsedData result;

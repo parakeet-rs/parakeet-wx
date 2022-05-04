@@ -7,7 +7,7 @@
 #include <cstring>
 
 using namespace umc;
-using namespace umc::qmcv2;
+using namespace umc::tencent;
 
 const u32 kMagicQTag = 0x51546167;  // 'QTag'
 const u32 kMagicSTag = 0x53546167;  // 'STag'

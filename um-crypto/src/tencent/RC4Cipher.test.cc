@@ -9,7 +9,7 @@
 
 using ::testing::ElementsAreArray;
 
-using umc::qmcv2::RC4Cipher;
+using umc::tencent::RC4Cipher;
 using namespace umc;
 
 inline Vec<u8> InitKey(usize len) {

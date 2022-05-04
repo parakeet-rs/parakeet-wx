@@ -5,7 +5,7 @@
 
 #include "um-crypto/types.h"
 
-namespace umc::qmcv2 {
+namespace umc::tencent {
 
 class RC4Cipher : public AXorStreamCipher {
  public:
@@ -33,4 +33,4 @@ class RC4Cipher : public AXorStreamCipher {
   u64 GetSegmentKey(usize segment_id, u64 seed) const;
 };
 
-}  // namespace umc::qmcv2
+}  // namespace umc::tencent
