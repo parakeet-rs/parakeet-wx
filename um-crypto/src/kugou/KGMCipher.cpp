@@ -8,7 +8,7 @@
 
 namespace umc::kugou {
 
-const usize kPageSize = 4 * 1024 * 1024;
+constexpr usize kPageSize = 4 * 1024 * 1024;
 
 KGMCipher::KGMCipher(const KugouFileKey& file_key) : AXorStreamCipher() {
   buf_.resize(kPageSize);

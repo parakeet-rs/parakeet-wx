@@ -6,7 +6,7 @@ using namespace umc;
 
 namespace umd::utils::audio_decryptor {
 
-const usize kInitialDetectionSize = 100;
+constexpr usize kInitialDetectionSize = 100;
 
 inline bool QQMusicV2Decryptor::SetupXorCipher(Str& ekey_b64) {
   auto deriver = std::make_unique<tencent::SimpleEKeyDerive>();

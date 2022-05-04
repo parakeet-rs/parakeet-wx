@@ -6,7 +6,7 @@
 
 namespace umc::kugou {
 
-const usize kPageSize = 1024 * 4;
+constexpr usize kPageSize = 4096;
 
 VPRCipher::VPRCipher(const KugouFileKey& file_key, const KugouFileKey& vpr_key)
     : KGMCipher(file_key) {

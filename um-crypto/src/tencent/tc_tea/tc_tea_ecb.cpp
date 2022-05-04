@@ -3,8 +3,8 @@
 
 namespace umc::tc_tea {
 
-const uint32_t ROUNDS = 16;
-const uint32_t DELTA = 0x9e3779b9;
+constexpr uint32_t ROUNDS = 16;
+constexpr uint32_t DELTA = 0x9e3779b9;
 
 inline uint32_t single_round_arithmetic(uint32_t value,
                                         uint32_t sum,

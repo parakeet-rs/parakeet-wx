@@ -3,7 +3,7 @@
 #include "um-crypto/types.h"
 
 namespace umc::utils {
-const u32 kAudioTypeMaskLossless = 1 << 5;
+constexpr u32 kAudioTypeMaskLossless = 1 << 5;
 
 enum class AudioType : u32 {
   kUnknownType = 0,

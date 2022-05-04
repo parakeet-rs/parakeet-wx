@@ -6,8 +6,8 @@
 using namespace umc;
 using namespace umc::tencent;
 
-const usize FIRST_SEGMENT_SIZE = 0x80;
-const usize OTHER_SEGMENT_SIZE = 0x1400;
+constexpr usize FIRST_SEGMENT_SIZE = 0x80;
+constexpr usize OTHER_SEGMENT_SIZE = 0x1400;
 
 RC4Cipher::RC4Cipher(const Vec<u8>& key) : AXorStreamCipher() {
   key_ = key;

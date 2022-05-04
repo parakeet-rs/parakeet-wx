@@ -18,8 +18,6 @@
 #include "__priv_table.h"
 #include "um-crypto/kugou/KGMMaskGenerator.h"
 
-const int kThreadCount = 4;
-
 using boost::chrono::system_clock;
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)

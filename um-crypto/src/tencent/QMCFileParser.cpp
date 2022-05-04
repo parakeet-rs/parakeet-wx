@@ -7,8 +7,8 @@
 
 namespace umc::tencent {
 
-const u32 kMagicQTag = 0x51546167;  // 'QTag'
-const u32 kMagicSTag = 0x53546167;  // 'STag'
+constexpr u32 kMagicQTag = 0x51546167;  // 'QTag'
+constexpr u32 kMagicSTag = 0x53546167;  // 'STag'
 
 // "UVF..." = base64_encode("QQMusic EncV2,Key:")
 // Found in ekey section of mflac.

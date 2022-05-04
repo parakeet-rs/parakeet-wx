@@ -6,7 +6,7 @@ using namespace umc;
 
 namespace umd::utils::audio_decryptor {
 
-const usize kInitialDetectionSize = 100;
+constexpr usize kInitialDetectionSize = 100;
 
 bool KugouMusicDecryptor::SetupDecryptor() {
   if (file_size_ < kInitialDetectionSize) {

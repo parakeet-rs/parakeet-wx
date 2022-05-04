@@ -3,8 +3,8 @@
 using namespace umc;
 using namespace umc::tencent;
 
-const usize kSegmentLen = 0x7fff;
-const usize kDoubleSegmentLen = kSegmentLen * 2;
+constexpr usize kSegmentLen = 0x7fff;
+constexpr usize kDoubleSegmentLen = kSegmentLen * 2;
 
 inline u8 Rotate(u8 value, usize bits) {
   usize shift_amount = (bits + 4) % 8;

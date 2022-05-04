@@ -8,9 +8,9 @@
 
 namespace umc::tc_tea {
 
-const size_t SALT_LEN = 2;
-const size_t ZERO_LEN = 7;
-const size_t FIXED_PADDING_LEN = 1 + SALT_LEN + ZERO_LEN;
+constexpr size_t SALT_LEN = 2;
+constexpr size_t ZERO_LEN = 7;
+constexpr size_t FIXED_PADDING_LEN = 1 + SALT_LEN + ZERO_LEN;
 
 void cbc_parse_key(uint32_t* result, const uint8_t* key) {
   auto key_u32_be = reinterpret_cast<const uint32_t*>(key);

@@ -8,7 +8,7 @@
 using namespace umc;
 using namespace umc::kugou;
 
-const usize kMinimumKGMHeaderSize = 0x2c;
+constexpr usize kMinimumKGMHeaderSize = 0x2c;
 
 KGMParseError KGMFileParser::ParseFile(KGMParseResult& result,
                                        const Vec<u8>& header) {

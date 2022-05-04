@@ -7,7 +7,7 @@
 
 namespace umc::ximalaya {
 
-const u32 kMagic_ftyp = 0x66'74'79'70u;  // m4a header
+constexpr u32 kMagic_ftyp = 0x66'74'79'70u;  // m4a header
 
 bool XimalayaFileParser::IsX2MFile(const X2MHeader& header) {
   u8 buf[4];

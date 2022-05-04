@@ -23,14 +23,14 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
   }
 
   // ID3v1 and ID3v1.1: flat 128 bytes
-  const u32 kID3v1Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
-  const u32 kID3v1Value = 0x54'41'47'00u;  // 'TAG\x00'
+  constexpr u32 kID3v1Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
+  constexpr u32 kID3v1Value = 0x54'41'47'00u;  // 'TAG\x00'
   if ((magic & kID3v1Masks) == kID3v1Value) {
     return 128;
   }
 
-  const u32 kID3v2Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
-  const u32 kID3v2Value = 0x49'44'33'00u;  // 'ID3\x00'
+  constexpr u32 kID3v2Masks = 0xFF'FF'FF'00u;  // Select first 3 bytes
+  constexpr u32 kID3v2Value = 0x49'44'33'00u;  // 'ID3\x00'
   if ((magic & kID3v2Masks) != kID3v2Value) {
     return 0;
   }
@@ -51,15 +51,15 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
 
 inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
   u32 magic2 = umc::ReadBEU32(&buf[4]);
-  const u32 kAPEv2Magic1 = 0x41'50'45'54u;  // 'APET'
-  const u32 kAPEv2Magic2 = 0x41'47'45'58u;  // 'AGEX'
+  constexpr u32 kAPEv2Magic1 = 0x41'50'45'54u;  // 'APET'
+  constexpr u32 kAPEv2Magic2 = 0x41'47'45'58u;  // 'AGEX'
 
   if (magic1 != kAPEv2Magic1 || magic2 != kAPEv2Magic2) {
     return 0;
   }
 
   // Tag size in bytes including footer and all tag items excluding the header.
-  const usize kAPEv2HeaderSize = 32;
+  constexpr usize kAPEv2HeaderSize = 32;
   return umc::ReadLEU32(&buf[0x0c]) + kAPEv2HeaderSize;
 }
 

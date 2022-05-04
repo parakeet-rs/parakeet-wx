@@ -17,7 +17,7 @@ using namespace umd::utils::audio_decryptor;
 
 namespace umd::utils {
 
-const usize kDecryptBufferSize = 4 * 1024 * 1024;
+constexpr usize kDecryptBufferSize = 4 * 1024 * 1024;
 
 AudioDecryptorManager::AudioDecryptorManager() {
   Add(std::make_shared<QQMusicV1Decryptor>());
