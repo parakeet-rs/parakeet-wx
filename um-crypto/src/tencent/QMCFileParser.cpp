@@ -4,12 +4,17 @@
 
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 
 using namespace umc;
 using namespace umc::qmcv2;
 
 const u32 kMagicQTag = 0x51546167;  // 'QTag'
 const u32 kMagicSTag = 0x53546167;  // 'STag'
+
+// "UVF..." = base64_encode("QQMusic EncV2,Key:")
+// Found in ekey section of mflac.
+const char* kQQMusicEncV2KeyHeader = "UVFNdXNpYyBFbmNWMixLZXk6";
 
 QMCParseError QMCFileParser::ParseFile(QMCParsedData& result,
                                        const Vec<u8>& eof_data) {
@@ -102,7 +107,14 @@ QMCParseError QMCFileParser::ParseWindowsEncryptedFile(
   result.eof_bytes_ignore = required_len;
 
   const u8* eof_ekey = &eof_data[eof_len - 4];
-  result.ekey_b64 = Str(eof_ekey - ekey_size, eof_ekey);
+  const std::string ekey_b64 = Str(eof_ekey - ekey_size, eof_ekey);
+
+  // Unsupported, key derivation has changed.
+  if (ekey_b64.starts_with(kQQMusicEncV2KeyHeader)) {
+    return QMCParseError::kUnsupportedFormat;
+  }
+
+  result.ekey_b64 = ekey_b64;
   result.song_id = Str("");
 
   return QMCParseError::kOk;
