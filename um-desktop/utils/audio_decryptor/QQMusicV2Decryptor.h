@@ -4,6 +4,7 @@
 namespace umd::utils::audio_decryptor {
 
 class QQMusicV2Decryptor : public AStreamDecryptor {
+ public:
   EncryptionType GetEncryptionType() const override {
     return EncryptionType::kQQMusicV2;
   };
