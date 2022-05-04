@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../common.h"
+#include "um-crypto/common.h"
 #include "um-crypto/endian.h"
 
-namespace umd::utils {
+namespace umc::utils {
 
-inline isize ParseSyncSafeInt(const u8* p) {
+inline isize ParseID3SyncSafeInt(const u8* p) {
   auto raw = umc::ReadBEU32(p);
   // Sync safe int should use only lower 7-bits of each byte.
   if (raw & 0x80808080u != 0) {
@@ -40,7 +40,7 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
   //        u32(inner_tag_size)
   //        byte[inner_tag_size] id3v2 data
   //        byte[*] original_file_content
-  const isize id3v2InnerTagSize = ParseSyncSafeInt(&buf[6]);
+  const isize id3v2InnerTagSize = ParseID3SyncSafeInt(&buf[6]);
   if (id3v2InnerTagSize == 0) {
     return 0;
   }
@@ -48,7 +48,7 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
   return 10 + id3v2InnerTagSize;
 }
 
-inline usize GetAPEv2HeaderSize(u32 magic1, const u8* buf, usize len) {
+inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
   u32 magic2 = umc::ReadBEU32(&buf[4]);
   const u32 kAPEv2Magic1 = 0x41'50'45'54u;  // 'APET'
   const u32 kAPEv2Magic2 = 0x41'47'45'58u;  // 'AGEX'
@@ -58,8 +58,8 @@ inline usize GetAPEv2HeaderSize(u32 magic1, const u8* buf, usize len) {
   }
 
   // Tag size in bytes including footer and all tag items excluding the header.
-  // header size: 32
-  return umc::ReadLEU32(&buf[0x0c]) + 32;
+  const usize kAPEv2HeaderSize = 32;
+  return umc::ReadLEU32(&buf[0x0c]) + kAPEv2HeaderSize;
 }
 
 /**
@@ -84,7 +84,7 @@ inline usize GetAudioHeaderMetadataSize(const u8* buf, usize len) {
   }
 
   // It's possible to have APEv2 header at the beginning of a file, though rare.
-  usize ape_meta_size = GetAPEv2HeaderSize(magic, buf, len);
+  usize ape_meta_size = GetAPEv2FullSize(magic, buf, len);
   if (ape_meta_size) {
     return ape_meta_size;
   }
@@ -92,4 +92,4 @@ inline usize GetAudioHeaderMetadataSize(const u8* buf, usize len) {
   return 0;
 }
 
-}  // namespace umd::utils
+}  // namespace umc::utils

@@ -1,9 +1,3 @@
-#include "../audio_type_sniff.h"
-#include "AudioTagDetection.h"
-
-#include "um-crypto/common.h"
-#include "um-crypto/endian.h"
-
 // References:
 // - General sniff code:
 //   https://github.com/unlock-music/cli/blob/master/algo/common/sniff.go
@@ -20,8 +14,13 @@
 // - fytp:
 //   https://www.ftyps.com/
 
-using namespace umc;
-namespace umd::utils {
+#include "um-crypto/utils/DetectAudioType.h"
+#include "um-crypto/utils/AudioMetadata.h"
+
+#include "um-crypto/common.h"
+#include "um-crypto/endian.h"
+
+namespace umc::utils {
 
 inline bool is_mp3(u32 magic) {
   // Framesync, should have first 11-bits set to 1.
@@ -52,20 +51,18 @@ const u32 kMagic_ftyp_NDAS = 0x4e'44'41'53u;  // Nero Digital AAC Audio
 const u32 kMagic_ftyp_M4A = 0x4d'34'41u;  // iTunes AAC-LC (.M4A) Audio
 const u32 kMagic_ftyp_M4B = 0x4d'34'42u;  // iTunes AAC-LC (.M4B) Audio Book
 
-const char* kUnknownFormatFallback = "bin";
-
-std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
+AudioType DetectAudioType(const u8* buf, usize len) {
   // Seek optional id3 tag.
   usize audio_header_meta_size = GetAudioHeaderMetadataSize(buf, len);
   if (audio_header_meta_size > len) {
-    return kUnknownFormatFallback;
+    return AudioType::kUnknownType;
   } else if (audio_header_meta_size > 0) {
     buf += audio_header_meta_size;
     len -= audio_header_meta_size;
   }
 
   if (len < 16) {
-    return kUnknownFormatFallback;
+    return AudioType::kUnknownType;
   }
 
   {
@@ -75,24 +72,24 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
     // 4 byte magics
     switch (magic) {
       case kMagic_fLaC:
-        return "flac";
+        return AudioType::kAudioTypeFLAC;
       case kMagic_OggS:
-        return "ogg";
+        return AudioType::kAudioTypeOGG;
       case kMagic_FRM8:
-        return "dff";
+        return AudioType::kAudioTypeDFF;
       case kMagic__wma:
-        return "wma";
+        return AudioType::kAudioTypeWMA;
       case kMagic_RIFF:
-        return "wav";
+        return AudioType::kAudioTypeWAV;
       case kMagic__MAC:
-        return "ape";
+        return AudioType::kAudioTypeAPE;
     }
 
     // Detect type by its frame header
     if (is_aac(magic)) {
-      return "aac";
+      return AudioType::kAudioTypeAAC;
     } else if (is_mp3(magic)) {
-      return "mp3";
+      return AudioType::kAudioTypeMP3;
     }
   }
 
@@ -101,18 +98,18 @@ std::string AudioSniffSimple(const uint8_t* buf, size_t len) {
     u32 magic = ReadBEU32(buf + 8);
 
     if (magic == kMagic_ftyp_MSNV || magic == kMagic_ftyp_NDAS) {
-      return "m4a";
+      return AudioType::kAudioTypeM4A;
     }
 
     switch (magic >> 8) {
       case kMagic_ftyp_M4A:
-        return "m4a";
+        return AudioType::kAudioTypeM4A;
       case kMagic_ftyp_M4B:
-        return "m4b";
+        return AudioType::kAudioTypeM4B;
     }
   }
 
-  return kUnknownFormatFallback;
+  return AudioType::kUnknownType;
 }
 
-}  // namespace umd::utils
+}  // namespace umc::utils

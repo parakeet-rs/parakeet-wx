@@ -2,6 +2,8 @@
 
 #include <cstddef>
 #include <cstdint>
+
+#include <filesystem>
 #include <string>
 #include <vector>
 
@@ -29,5 +31,11 @@ template <class T>
 using Vec = std::vector<T>;
 
 using Str = std::string;
+using U8Str = std::u8string;
+using Path = std::filesystem::path;
+
+inline U8Str AsciiStrToU8Str(const Str& s) {
+  return U8Str(s.begin(), s.end());
+}
 
 }  // namespace umc
