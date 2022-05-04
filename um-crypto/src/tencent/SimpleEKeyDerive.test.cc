@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <vector>
 
-#include "um-crypto/qmcv2.h"
+#include "um-crypto/tencent.h"
 
 using ::testing::ElementsAreArray;
 using namespace umc;

@@ -2,7 +2,7 @@
 
 #include "../internal/StringHelper.h"
 #include "tc_tea/tc_tea_cbc.h"
-#include "um-crypto/qmcv2.h"
+#include "um-crypto/tencent.h"
 
 #include <cassert>
 #include <cmath>

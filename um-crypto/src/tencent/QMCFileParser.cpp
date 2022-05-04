@@ -1,13 +1,12 @@
 #include "../internal/StringHelper.h"
 #include "um-crypto/endian.h"
-#include "um-crypto/qmcv2.h"
+#include "um-crypto/tencent.h"
 
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
 
-using namespace umc;
-using namespace umc::tencent;
+namespace umc::tencent {
 
 const u32 kMagicQTag = 0x51546167;  // 'QTag'
 const u32 kMagicSTag = 0x53546167;  // 'STag'
@@ -119,3 +118,5 @@ QMCParseError QMCFileParser::ParseWindowsEncryptedFile(
 
   return QMCParseError::kOk;
 }
+
+}  // namespace umc::tencent
