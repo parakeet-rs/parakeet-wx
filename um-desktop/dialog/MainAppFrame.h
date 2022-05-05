@@ -1,14 +1,14 @@
 #pragma once
 #include "../ui/ui.h"
 
-#include <boost/asio/io_service.hpp>
-#include <boost/asio/thread_pool.hpp>
-
 #include <wx/dnd.h>
 
+#include <atomic>
 #include <memory>
 #include <mutex>
 #include <vector>
+
+#include <um-crypto/types.h>
 
 enum class FileProcessStatus {
   kNotProcessed = 0,
@@ -21,13 +21,27 @@ enum class FileProcessStatus {
 
 struct FileEntry {
   FileProcessStatus status;
-  wxFileName file_name;
+  umc::Path file_path;
   long index;
   long process_time_ms;
   wxString error;
 };
 
-class MainAppFrame : public umd::ui_base::uiMainAppFrame, wxFileDropTarget {
+class MainAppFrame;
+
+class MainAppDropTarget : public wxFileDropTarget {
+ public:
+  MainAppDropTarget(MainAppFrame* app_frame)
+      : wxFileDropTarget(), app_frame_(app_frame) {}
+  bool OnDropFiles(wxCoord x,
+                   wxCoord y,
+                   const wxArrayString& filenames) override;
+
+ private:
+  MainAppFrame* app_frame_;
+};
+
+class MainAppFrame : public umd::ui_base::uiMainAppFrame {
  public:
   MainAppFrame(wxWindow* parent, wxWindowID id = wxID_ANY);
   void SetDecryptionInProgress(bool in_progress);
@@ -43,13 +57,13 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame, wxFileDropTarget {
   void OnButtonClick_AddDirectory(wxCommandEvent& event) override;
   void OnButtonClick_ClearLogs(wxCommandEvent& event) override;
   void OnButtonClick_ProcessFiles(wxCommandEvent& event) override;
-  bool OnDropFiles(wxCoord x,
-                   wxCoord y,
-                   const wxArrayString& filenames) override;
   void HandleAddFilesToQueue(const wxArrayString& filenames);
 
   std::mutex update_status_mutex_;
   void UpdateFileStatus(int idx, FileProcessStatus status);
   void ProcessNextFile();
   void OnProcessSingleFileComplete();
+
+ private:
+  friend class MainAppDropTarget;
 };

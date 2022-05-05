@@ -1,4 +1,5 @@
 #include "um-crypto/tencent/SimpleEKeyDerive.h"
+#include <cmath>
 
 namespace umc::tencent {
 

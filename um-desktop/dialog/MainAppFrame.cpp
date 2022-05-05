@@ -20,9 +20,16 @@
 
 using boost::chrono::system_clock;
 
+bool MainAppDropTarget::OnDropFiles(wxCoord x,
+                                    wxCoord y,
+                                    const wxArrayString& file_paths) {
+  app_frame_->HandleAddFilesToQueue(file_paths);
+  return true;
+}
+
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
-  SetDropTarget(dynamic_cast<wxDropTarget*>(this));
+  SetDropTarget(new MainAppDropTarget(this));
 
   umc::kugou::KGMMaskGenerator::GetInstance()->SetTable(t1, t2, v2);
 
@@ -51,6 +58,7 @@ void MainAppFrame::OnBtnClickOptions(wxCommandEvent& event) {
 }
 
 void MainAppFrame::SetDecryptionInProgress(bool in_progress) {
+  std::lock_guard<std::mutex> guard(update_status_mutex_);
   m_btnClearLogs->Enable(!in_progress);
   m_btnProcess->Enable(!in_progress);
   m_btnOptions->Enable(!in_progress);
@@ -95,26 +103,19 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   HandleAddFilesToQueue(paths);
 }
 
-bool MainAppFrame::OnDropFiles(wxCoord x,
-                               wxCoord y,
-                               const wxArrayString& file_paths) {
-  HandleAddFilesToQueue(file_paths);
-  return true;
-}
-
 void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
   for (int i = 0; i < len; i++) {
-    wxFileName file_path(file_paths.Item(i));
+    umc::Path item_path(umc::U8StrFromStr(file_paths.Item(i).utf8_string()));
 
     wxListItem new_item;
-    new_item.SetText("");
+    new_item.SetText(wxT(""));
     new_item.SetId(m_decryptLogs->GetItemCount());
 
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
     file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
         FileProcessStatus::kNotProcessed,
-        file_path,
+        item_path,
         rowIndex,
         0,
     }));
@@ -155,7 +156,8 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
 
   auto entry = file_entries_.at(idx);
   entry->status = status;
-  auto name = entry->file_name.GetFullName();
+  auto name_u8 = entry->file_path.filename().u8string();
+  auto name = wxString::FromUTF8(reinterpret_cast<const char*>(name_u8.data()));
 
   wxString status_text;
   switch (status) {
@@ -198,8 +200,7 @@ void MainAppFrame::ProcessNextFile() {
   UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
 
   auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
-  auto path = umc::U8StrFromStr(entry->file_name.GetFullPath().utf8_string());
-  decryptor->Open(std::filesystem::path(path));
+  decryptor->Open(entry->file_path);
 
   system_clock::time_point time_before_process = system_clock::now();
   FileProcessStatus status = FileProcessStatus::kProcessNotSupported;
