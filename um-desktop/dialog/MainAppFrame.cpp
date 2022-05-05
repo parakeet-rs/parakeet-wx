@@ -81,7 +81,7 @@ void MainAppFrame::SetDecryptionInProgress(bool in_progress) {
 #define QMCv2_FILTER "*.mgg;*.mgg0;*.mgg1;*.mflac;*.mflac0;*.mflac1"
 #define Kugou_FILTER "*.kgm;*.vpr"
 #define Kuwo_FILTER "*.kwm"
-#define Ximalaya_FILTER "*.x2m"
+#define Ximalaya_FILTER "*.x2m;*.x3m"
 #define Xiami_FILTER "*.xm"
 #define ALL_SUPPORTED_FILTER                                     \
   QMCv1_FILTER ";" QMCv2_FILTER ";" Kugou_FILTER ";" Kuwo_FILTER \
@@ -101,7 +101,7 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   filter += wxT("|" Kugou_FILTER "|");
   filter += _("Kuwo music (*.kwm)");
   filter += wxT("|" Kuwo_FILTER "|");
-  filter += _("Ximalaya audio file (*.x2m)");
+  filter += _("Ximalaya audio file (*.x2m; *.x3m)");
   filter += wxT("|" Ximalaya_FILTER "|");
   filter += _("Xiami music (*.xm)");
   filter += wxT("|" Xiami_FILTER "|");
