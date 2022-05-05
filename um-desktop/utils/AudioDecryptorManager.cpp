@@ -2,6 +2,7 @@
 #include "um-crypto/utils/DetectAudioType.h"
 
 #include "audio_decryptor/KugouMusicDecryptor.h"
+#include "audio_decryptor/KuwoMusicDecryptor.h"
 #include "audio_decryptor/QQMusicV1Decryptor.h"
 #include "audio_decryptor/QQMusicV2Decryptor.h"
 #include "audio_decryptor/XimalayaX2MDecryptor.h"
@@ -24,6 +25,7 @@ AudioDecryptorManager::AudioDecryptorManager() {
   Add(std::make_shared<QQMusicV2Decryptor>());
   Add(std::make_shared<KugouMusicDecryptor>());
   Add(std::make_shared<XimalayaX2MDecryptor>());
+  Add(std::make_shared<KuwoMusicDecryptor>());
 }
 
 void AudioDecryptorManager::Open(const Path& file_path) {
