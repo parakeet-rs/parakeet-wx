@@ -50,7 +50,7 @@ class ADecryptor {
 
  protected:
   std::ifstream in_file_;
-  usize file_size_;
+  usize file_size_ = 0;
   std::filesystem::path in_file_path_;
   Str error_msg_;
 
