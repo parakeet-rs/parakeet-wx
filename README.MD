@@ -1,5 +1,13 @@
 # um-desktop
 
+对 unlock-music 的非官方实现，使用 wxWidgets 作为基础 GUI 库开发。
+
+![主界面截图](./.github/assets/app-main.png)
+
+链接：[支持的格式一览][sup_format]
+
+[sup_format]: https://github.com/jixunmoe/um-desktop/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
+
 ## 构建说明
 
 ### Windows 下构建
@@ -44,7 +52,7 @@ cmake --build --preset win64-2019-rel
 #### Linux (Ubuntu 22.04)
 
 - 安装工具链： `sudo apt-get install build-essential cmake ninja-build`
-- 安装下述构建依赖：
+- 安装下述构建依赖（可能有缺失，如果编译失败请发 issue）：
 
   ```sh
   sudo apt-get install \
