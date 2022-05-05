@@ -5,6 +5,7 @@
 #include "audio_decryptor/KuwoMusicDecryptor.h"
 #include "audio_decryptor/QQMusicV1Decryptor.h"
 #include "audio_decryptor/QQMusicV2Decryptor.h"
+#include "audio_decryptor/XiamiMusicDecryptor.h"
 #include "audio_decryptor/XimalayaX2MDecryptor.h"
 
 #include <algorithm>
@@ -26,6 +27,7 @@ AudioDecryptorManager::AudioDecryptorManager() {
   Add(std::make_shared<KugouMusicDecryptor>());
   Add(std::make_shared<XimalayaX2MDecryptor>());
   Add(std::make_shared<KuwoMusicDecryptor>());
+  Add(std::make_shared<XiamiMusicDecryptor>());
 }
 
 void AudioDecryptorManager::Open(const Path& file_path) {

@@ -82,9 +82,10 @@ void MainAppFrame::SetDecryptionInProgress(bool in_progress) {
 #define Kugou_FILTER "*.kgm;*.vpr"
 #define Kuwo_FILTER "*.kwm"
 #define Ximalaya_FILTER "*.x2m"
+#define Xiami_FILTER "*.xm"
 #define ALL_SUPPORTED_FILTER                                     \
   QMCv1_FILTER ";" QMCv2_FILTER ";" Kugou_FILTER ";" Kuwo_FILTER \
-               ";" Ximalaya_FILTER
+               ";" Ximalaya_FILTER ";" Xiami_FILTER
 
 void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   event.Skip();
@@ -102,6 +103,8 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   filter += wxT("|" Kuwo_FILTER "|");
   filter += _("Ximalaya audio file (*.x2m)");
   filter += wxT("|" Ximalaya_FILTER "|");
+  filter += _("Xiami music (*.xm)");
+  filter += wxT("|" Xiami_FILTER "|");
   filter += _("All files (*.*)|*");
 
   wxFileDialog openFileDialog(this, _("Open encrypted music files"), "", "",

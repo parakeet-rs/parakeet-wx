@@ -15,6 +15,7 @@ enum class EncryptionType {
   kKugouMusic = 0x20,
   kXimalayaX2M = 0x30,
   kKuwoMusic = 0x40,
+  kXiamiMusic = 0x50,
 };
 
 class ADecryptor {
