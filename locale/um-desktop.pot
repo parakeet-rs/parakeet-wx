@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#: um-desktop/dialog/MainAppFrame.cpp:23
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-03 00:44+0100\n"
+"POT-Creation-Date: 2022-05-06 00:28+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,10 +16,6 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-#: um-desktop/dialog/MainAppFrame.cpp:151
-msgid "  ...  "
-msgstr ""
 
 #: um-desktop/ui/ui.cpp:103
 msgid " a b c"
@@ -38,16 +33,21 @@ msgstr ""
 msgid "&Options..."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:67
+#: um-desktop/dialog/MainAppFrame.cpp:108
 msgid "All files (*.*)|*"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:61
+#: um-desktop/dialog/MainAppFrame.cpp:94
 msgid "All supported files"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:29
+#: um-desktop/dialog/MainAppFrame.cpp:55
 msgid "DEBUG Build"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:190
+#, c-format
+msgid "Decode OK: %s (%lums)"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:49
@@ -62,8 +62,9 @@ msgstr ""
 msgid "Error: cipher reported failure."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:148
-msgid "FAIL: "
+#: um-desktop/dialog/MainAppFrame.cpp:194
+#, c-format
+msgid "FAIL: %s (%s)"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:110
@@ -74,8 +75,12 @@ msgstr ""
 msgid "KuGou Music"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:65
+#: um-desktop/dialog/MainAppFrame.cpp:100
 msgid "Kugou music (*.kgm;*.vpr)"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:102
+msgid "Kuwo music (*.kwm)"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:21
@@ -86,11 +91,7 @@ msgstr ""
 msgid "Mask v2 (hex)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:145
-msgid "OK: "
-msgstr ""
-
-#: um-desktop/dialog/MainAppFrame.cpp:69
+#: um-desktop/dialog/MainAppFrame.cpp:110
 msgid "Open encrypted music files"
 msgstr ""
 
@@ -102,12 +103,22 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:63
+#: um-desktop/dialog/MainAppFrame.cpp:197
+#, c-format
+msgid "Processing: %s"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:96
+msgid "QMCv1 files (*.qmcflac;*.qmc)"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:98
 msgid "QMCv2 files (*.mgg;*.mflac)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:142
-msgid "Ready: "
+#: um-desktop/dialog/MainAppFrame.cpp:187
+#, c-format
+msgid "Ready: %s"
 msgstr ""
 
 #: um-desktop/dialog/OptionsDialog.cpp:5
@@ -126,13 +137,22 @@ msgstr ""
 msgid "Threading"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:158
+#: um-desktop/dialog/MainAppFrame.cpp:204
 #, c-format
-msgid "Unknown state (code %d)"
+msgid "Unknown state (code %d): %s"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:154
-msgid "Unsupported: "
+#: um-desktop/dialog/MainAppFrame.cpp:200
+#, c-format
+msgid "Unsupported: %s"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:106
+msgid "Xiami music (*.xm)"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:104
+msgid "Ximalaya audio file (*.x2m; *.x3m)"
 msgstr ""
 
 #: um-desktop/utils/audio_decryptor/QQMusicV2Decryptor.cpp:15

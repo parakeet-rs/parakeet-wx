@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-03 00:44+0100\n"
-"PO-Revision-Date: 2022-05-03 00:52+0100\n"
+"POT-Creation-Date: 2022-05-06 00:28+0100\n"
+"PO-Revision-Date: 2022-05-06 00:29+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -13,10 +13,6 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Generator: Poedit 3.0.1\n"
 "X-Poedit-Basepath: .\n"
-
-#: um-desktop/dialog/MainAppFrame.cpp:151
-msgid "  ...  "
-msgstr "  等待  "
 
 #: um-desktop/ui/ui.cpp:103
 msgid " a b c"
@@ -34,17 +30,22 @@ msgstr "解密目录 (&D)..."
 msgid "&Options..."
 msgstr "选项... (&O)"
 
-#: um-desktop/dialog/MainAppFrame.cpp:67
+#: um-desktop/dialog/MainAppFrame.cpp:108
 msgid "All files (*.*)|*"
 msgstr "所有文件 (*.*)|*"
 
-#: um-desktop/dialog/MainAppFrame.cpp:61
+#: um-desktop/dialog/MainAppFrame.cpp:94
 msgid "All supported files"
 msgstr "所有支持的文件"
 
-#: um-desktop/dialog/MainAppFrame.cpp:29
+#: um-desktop/dialog/MainAppFrame.cpp:55
 msgid "DEBUG Build"
 msgstr "调试版本"
+
+#: um-desktop/dialog/MainAppFrame.cpp:190
+#, c-format
+msgid "Decode OK: %s (%lums)"
+msgstr "解码完成：%s (%lums)"
 
 #: um-desktop/ui/ui.cpp:49
 msgid "Decrypt &file..."
@@ -58,9 +59,10 @@ msgstr "错误：读取文件时提前结束。"
 msgid "Error: cipher reported failure."
 msgstr "错误：解密代码报告了错误。"
 
-#: um-desktop/dialog/MainAppFrame.cpp:148
-msgid "FAIL: "
-msgstr "错误： "
+#: um-desktop/dialog/MainAppFrame.cpp:194
+#, c-format
+msgid "FAIL: %s (%s)"
+msgstr "错误：%s (%s)"
 
 #: um-desktop/ui/ui.cpp:110
 msgid "General"
@@ -70,9 +72,13 @@ msgstr "通常"
 msgid "KuGou Music"
 msgstr "酷狗音乐"
 
-#: um-desktop/dialog/MainAppFrame.cpp:65
+#: um-desktop/dialog/MainAppFrame.cpp:100
 msgid "Kugou music (*.kgm;*.vpr)"
 msgstr "酷狗音乐文件 (*.kgm;*.vpr)"
+
+#: um-desktop/dialog/MainAppFrame.cpp:102
+msgid "Kuwo music (*.kwm)"
+msgstr "酷我音乐文件 (*.kwm)"
 
 #: um-desktop/ui/ui.cpp:21
 msgid "Logs:"
@@ -82,11 +88,7 @@ msgstr "文件记录："
 msgid "Mask v2 (hex)"
 msgstr "加密表 v2（十六进制）"
 
-#: um-desktop/dialog/MainAppFrame.cpp:145
-msgid "OK: "
-msgstr "成功： "
-
-#: um-desktop/dialog/MainAppFrame.cpp:69
+#: um-desktop/dialog/MainAppFrame.cpp:110
 msgid "Open encrypted music files"
 msgstr "选择加密的音乐文件"
 
@@ -98,13 +100,23 @@ msgstr "选项"
 msgid "Process"
 msgstr "处理"
 
-#: um-desktop/dialog/MainAppFrame.cpp:63
-msgid "QMCv2 files (*.mgg;*.mflac)"
-msgstr "腾讯音乐文件 (*.mgg;*.mflac)"
+#: um-desktop/dialog/MainAppFrame.cpp:197
+#, c-format
+msgid "Processing: %s"
+msgstr "正在处理： %s"
 
-#: um-desktop/dialog/MainAppFrame.cpp:142
-msgid "Ready: "
-msgstr "就绪： "
+#: um-desktop/dialog/MainAppFrame.cpp:96
+msgid "QMCv1 files (*.qmcflac;*.qmc)"
+msgstr "腾讯音乐 QMCv1 文件 (*.qmcflac;*.qmc)"
+
+#: um-desktop/dialog/MainAppFrame.cpp:98
+msgid "QMCv2 files (*.mgg;*.mflac)"
+msgstr "腾讯音乐 QMCv2 文件 (*.mgg;*.mflac)"
+
+#: um-desktop/dialog/MainAppFrame.cpp:187
+#, c-format
+msgid "Ready: %s"
+msgstr "就绪：%s"
 
 #: um-desktop/dialog/OptionsDialog.cpp:5
 msgid "Table 1 (hex)"
@@ -122,14 +134,23 @@ msgstr "线程数量"
 msgid "Threading"
 msgstr "多线程"
 
-#: um-desktop/dialog/MainAppFrame.cpp:158
+#: um-desktop/dialog/MainAppFrame.cpp:204
 #, c-format
-msgid "Unknown state (code %d)"
-msgstr "未知状态（代码 %d）"
+msgid "Unknown state (code %d): %s"
+msgstr "未知状态（代码 %d）：%s"
 
-#: um-desktop/dialog/MainAppFrame.cpp:154
-msgid "Unsupported: "
-msgstr "不支援的文件： "
+#: um-desktop/dialog/MainAppFrame.cpp:200
+#, c-format
+msgid "Unsupported: %s"
+msgstr "不支援：%s"
+
+#: um-desktop/dialog/MainAppFrame.cpp:106
+msgid "Xiami music (*.xm)"
+msgstr "虾米音乐文件 (*.xm)"
+
+#: um-desktop/dialog/MainAppFrame.cpp:104
+msgid "Ximalaya audio file (*.x2m; *.x3m)"
+msgstr "喜马拉雅音频文件 (*.x2m; *.x3m)"
 
 #: um-desktop/utils/audio_decryptor/QQMusicV2Decryptor.cpp:15
 msgid "could not derive file key from ekey"
@@ -146,3 +167,9 @@ msgstr "um 桌面客户端"
 #: um-desktop/dialog/OptionsDialog.cpp:14
 msgid "vprTable (hex)"
 msgstr "vpr 加密表（十六进制）"
+
+#~ msgid "  ...  "
+#~ msgstr "  等待  "
+
+#~ msgid "OK: "
+#~ msgstr "成功： "
