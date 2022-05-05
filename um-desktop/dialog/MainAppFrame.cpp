@@ -56,9 +56,14 @@ void MainAppFrame::SetDecryptionInProgress(bool in_progress) {
   m_btnOptions->Enable(!in_progress);
 }
 
+#define QMCv1_FILTER "*.qmcflac;*.qmcflac0;*.qmc;*.qmc0;"
 #define QMCv2_FILTER "*.mgg;*.mgg0;*.mgg1;*.mflac;*.mflac0;*.mflac1"
 #define Kugou_FILTER "*.kgm;*.vpr"
-#define ALL_SUPPORTED_FILTER QMCv2_FILTER ";" Kugou_FILTER
+#define Kuwo_FILTER "*.kwm"
+#define Ximalaya_FILTER "*.x2m"
+#define ALL_SUPPORTED_FILTER                                     \
+  QMCv1_FILTER ";" QMCv2_FILTER ";" Kugou_FILTER ";" Kuwo_FILTER \
+               ";" Ximalaya_FILTER
 
 void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   event.Skip();
@@ -66,10 +71,16 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   wxString filter;
   filter += _("All supported files");
   filter += wxT("|" ALL_SUPPORTED_FILTER "|");
+  filter += _("QMCv1 files (*.qmcflac;*.qmc)");
+  filter += wxT("|" QMCv1_FILTER "|");
   filter += _("QMCv2 files (*.mgg;*.mflac)");
   filter += wxT("|" QMCv2_FILTER "|");
   filter += _("Kugou music (*.kgm;*.vpr)");
   filter += wxT("|" Kugou_FILTER "|");
+  filter += _("Kuwo music (*.kwm)");
+  filter += wxT("|" Kuwo_FILTER "|");
+  filter += _("Ximalaya audio file (*.x2m)");
+  filter += wxT("|" Ximalaya_FILTER "|");
   filter += _("All files (*.*)|*");
 
   wxFileDialog openFileDialog(this, _("Open encrypted music files"), "", "",
