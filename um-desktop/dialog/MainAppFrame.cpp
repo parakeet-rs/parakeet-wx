@@ -27,8 +27,21 @@ bool MainAppDropTarget::OnDropFiles(wxCoord x,
   return true;
 }
 
+void MainAppFrame::OnThreadEvent(wxThreadEvent& event) {
+  switch (event.GetId()) {
+    case 0x102030:
+      wxMessageBox(wxT("received message 0x102030"));
+      break;
+
+    default:
+      event.Skip();
+  }
+}
+
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
+  this->Connect(wxEVT_THREAD, wxThreadEventHandler(MainAppFrame::OnThreadEvent),
+                NULL, this);
   SetDropTarget(new MainAppDropTarget(this));
 
   umc::kugou::KGMMaskGenerator::GetInstance()->SetTable(t1, t2, v2);
@@ -147,7 +160,13 @@ void MainAppFrame::OnButtonClick_ProcessFiles(wxCommandEvent& event) {
   }
 
   for (int i = len - 1; i >= 0; i--) {
+    // FIXME: Cross thread interaction with wxWidgets.
+
+#if _WIN32
     umd::io_service.post([this]() { this->ProcessNextFile(); });
+#else
+    this->ProcessNextFile();
+#endif
   }
 }
 

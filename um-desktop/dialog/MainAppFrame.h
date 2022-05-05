@@ -57,12 +57,13 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
   void OnButtonClick_AddDirectory(wxCommandEvent& event) override;
   void OnButtonClick_ClearLogs(wxCommandEvent& event) override;
   void OnButtonClick_ProcessFiles(wxCommandEvent& event) override;
-  void HandleAddFilesToQueue(const wxArrayString& filenames);
+  void OnThreadEvent(wxThreadEvent& event);
 
   std::mutex update_status_mutex_;
   void UpdateFileStatus(int idx, FileProcessStatus status);
   void ProcessNextFile();
   void OnProcessSingleFileComplete();
+  void HandleAddFilesToQueue(const wxArrayString& filenames);
 
  private:
   friend class MainAppDropTarget;
