@@ -6,9 +6,9 @@
 
 namespace umc::ximalaya {
 
-class X2MCipher : public AXimalayaAndroidHeaderCipher {
+class X3MCipher : public AXimalayaAndroidHeaderCipher {
  public:
-  X2MCipher(const XimalayaAndroidFileHeader& header);
+  X3MCipher(const XimalayaAndroidFileHeader& header);
 
  private:
   const static XimalayaHeaderScrambleTable scramble_table_;
