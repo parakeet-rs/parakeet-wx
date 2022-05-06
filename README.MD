@@ -8,6 +8,18 @@
 
 [sup_format]: https://github.com/jixunmoe/um-desktop/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
 
+## 下载
+
+自动构建的文件可以在 GitHub Action 产生的文件内找到。
+
+|  名称  | 链接                        |
+| :----: | :-------------------------- |
+| Win64  | [win64-build.zip][dl_win64] |
+| 语言包 | [locale.zip][dl_locale]     |
+
+[dl_locale]: https://nightly.link/jixunmoe/um-desktop/workflows/build-win/main/locale.zip
+[dl_win64]: https://nightly.link/jixunmoe/um-desktop/workflows/build-win/main/win64-build.zip
+
 ## 构建说明
 
 ### Windows 下构建
