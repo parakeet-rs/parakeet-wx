@@ -1,4 +1,4 @@
-# um-desktop
+# Parakeet
 
 对 unlock-music 的非官方实现，使用 wxWidgets 作为基础 GUI 库开发。
 
