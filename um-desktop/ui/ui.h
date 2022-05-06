@@ -26,7 +26,7 @@
 #include <wx/propgrid/propgrid.h>
 #include <wx/propgrid/advprops.h>
 #include <wx/panel.h>
-#include <wx/listbook.h>
+#include <wx/notebook.h>
 #include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -75,13 +75,26 @@ namespace umd::ui_base
 		private:
 
 		protected:
-			wxListbook* m_tabsOptions;
+			wxNotebook* m_notebook1;
 			wxPanel* m_panelGeneral;
 			wxPropertyGrid* m_propertyGrid2;
 			wxPGProperty* m_propGeneralCat1;
 			wxPGProperty* m_generalThreadPoolSize;
 			wxPanel* m_panelKugou;
 			wxPropertyGrid* m_propGridKugou;
+			wxPGProperty* m_propertyGridItem3;
+			wxPGProperty* m_kugouT1;
+			wxPGProperty* m_kugouT2;
+			wxPGProperty* m_kugouV2;
+			wxPGProperty* m_propertyGridItem6;
+			wxPGProperty* m_kugouVPR;
+			wxPanel* m_panelXimalaya;
+			wxPropertyGrid* m_propertyGrid4;
+			wxPGProperty* m_propertyGridItem25;
+			wxPGProperty* m_xmlyX2MContentKey;
+			wxPGProperty* m_propertyGridItem26;
+			wxPGProperty* m_xmlyX3MContentKey;
+			wxPGProperty* m_xmlyX3MScrambleKey;
 
 			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
@@ -90,7 +103,7 @@ namespace umd::ui_base
 
 		public:
 
-			uiOptionsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 381,279 ), long style = wxDEFAULT_DIALOG_STYLE );
+			uiOptionsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 487,287 ), long style = wxDEFAULT_DIALOG_STYLE );
 
 			~uiOptionsDialog();
 

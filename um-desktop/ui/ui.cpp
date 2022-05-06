@@ -92,12 +92,12 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer4;
 	bSizer4 = new wxBoxSizer( wxVERTICAL );
 
-	m_tabsOptions = new wxListbook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLB_DEFAULT );
-	m_panelGeneral = new wxPanel( m_tabsOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_notebook1 = new wxNotebook( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panelGeneral = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid2 = new wxPropertyGrid(m_panelGeneral, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxPG_STATIC_LAYOUT|wxPG_TOOLTIPS|wxTAB_TRAVERSAL);
+	m_propertyGrid2 = new wxPropertyGrid(m_panelGeneral, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propGeneralCat1 = m_propertyGrid2->Append( new wxPropertyCategory( _("Threading"), _("Threading") ) );
 	m_generalThreadPoolSize = m_propertyGrid2->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
 	m_propertyGrid2->SetPropertyHelpString( m_generalThreadPoolSize, _(" a b c") );
@@ -107,30 +107,44 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panelGeneral->SetSizer( bSizer6 );
 	m_panelGeneral->Layout();
 	bSizer6->Fit( m_panelGeneral );
-	m_tabsOptions->AddPage( m_panelGeneral, _("General"), true );
-	m_panelKugou = new wxPanel( m_tabsOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_notebook1->AddPage( m_panelGeneral, _("General"), true );
+	m_panelKugou = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 
-	m_propGridKugou = new wxPropertyGrid(m_panelKugou, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxPG_STATIC_LAYOUT|wxTAB_TRAVERSAL);
+	m_propGridKugou = new wxPropertyGrid(m_panelKugou, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_propertyGridItem3 = m_propGridKugou->Append( new wxPropertyCategory( _("KGM Decryption"), _("KGM Decryption") ) );
+	m_kugouT1 = m_propGridKugou->Append( new wxLongStringProperty( _("Table t1 (272 bytes)"), _("Table t1 (272 bytes)") ) );
+	m_kugouT2 = m_propGridKugou->Append( new wxLongStringProperty( _("Table t2 (272 bytes)"), _("Table t2 (272 bytes)") ) );
+	m_kugouV2 = m_propGridKugou->Append( new wxLongStringProperty( _("Table v2 (272 bytes)"), _("Table v2 (272 bytes)") ) );
+	m_propertyGridItem6 = m_propGridKugou->Append( new wxPropertyCategory( _("VPR Decryption"), _("VPR Decryption") ) );
+	m_kugouVPR = m_propGridKugou->Append( new wxLongStringProperty( _("VPR Key (16 bytes)"), _("VPR Key (16 bytes)") ) );
 	bSizer5->Add( m_propGridKugou, 1, wxALL|wxEXPAND, 5 );
 
 
 	m_panelKugou->SetSizer( bSizer5 );
 	m_panelKugou->Layout();
 	bSizer5->Fit( m_panelKugou );
-	m_tabsOptions->AddPage( m_panelKugou, _("KuGou Music"), false );
-	#ifdef __WXGTK__ // Small icon style not supported in GTK
-	wxListView* m_tabsOptionsListView = m_tabsOptions->GetListView();
-	long m_tabsOptionsFlags = m_tabsOptionsListView->GetWindowStyleFlag();
-	if( m_tabsOptionsFlags & wxLC_SMALL_ICON )
-	{
-		m_tabsOptionsFlags = ( m_tabsOptionsFlags & ~wxLC_SMALL_ICON ) | wxLC_ICON;
-	}
-	m_tabsOptionsListView->SetWindowStyleFlag( m_tabsOptionsFlags );
-	#endif
+	m_notebook1->AddPage( m_panelKugou, _("Kugou"), false );
+	m_panelXimalaya = new wxPanel( m_notebook1, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer7;
+	bSizer7 = new wxBoxSizer( wxVERTICAL );
 
-	bSizer4->Add( m_tabsOptions, 1, wxEXPAND | wxALL, 5 );
+	m_propertyGrid4 = new wxPropertyGrid(m_panelXimalaya, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_propertyGridItem25 = m_propertyGrid4->Append( new wxPropertyCategory( _("X2M"), _("X2M") ) );
+	m_xmlyX2MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Content Key (32 bytes)"), _("X2M Content Key (32 bytes)") ) );
+	m_propertyGridItem26 = m_propertyGrid4->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
+	m_xmlyX3MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Content Key (32 bytes)"), _("X3M Content Key (32 bytes)") ) );
+	m_xmlyX3MScrambleKey = m_propertyGrid4->Append( new wxLongStringProperty( _("Scramble Table (u16; 1024 values)"), _("Scramble Table (u16; 1024 values)") ) );
+	bSizer7->Add( m_propertyGrid4, 1, wxALL|wxEXPAND, 5 );
+
+
+	m_panelXimalaya->SetSizer( bSizer7 );
+	m_panelXimalaya->Layout();
+	bSizer7->Fit( m_panelXimalaya );
+	m_notebook1->AddPage( m_panelXimalaya, _("Ximalaya"), false );
+
+	bSizer4->Add( m_notebook1, 1, wxEXPAND | wxALL, 5 );
 
 
 	this->SetSizer( bSizer4 );
