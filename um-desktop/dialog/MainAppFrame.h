@@ -1,5 +1,6 @@
 #pragma once
 #include "../ui/ui.h"
+#include "../utils/wxMainThreadRunner.hpp"
 
 #include <wx/dnd.h>
 
@@ -44,6 +45,8 @@ class MainAppDropTarget : public wxFileDropTarget {
 class MainAppFrame : public umd::ui_base::uiMainAppFrame {
  public:
   MainAppFrame(wxWindow* parent, wxWindowID id = wxID_ANY);
+  virtual ~MainAppFrame();
+
   void SetDecryptionInProgress(bool in_progress);
 
  protected:
@@ -67,4 +70,5 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
 
  private:
   friend class MainAppDropTarget;
+  umd::utils::wxMainThreadRunner main_thread_runner_;
 };

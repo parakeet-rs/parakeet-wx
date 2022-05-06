@@ -13,6 +13,7 @@
 #include <boost/thread/thread.hpp>
 
 #include <functional>
+#include <thread>
 
 // TODO: remove this table
 #include "__priv_table.h"
@@ -28,24 +29,28 @@ bool MainAppDropTarget::OnDropFiles(wxCoord x,
 }
 
 void MainAppFrame::OnThreadEvent(wxThreadEvent& event) {
-  switch (event.GetId()) {
-    case 0x102030:
-      wxMessageBox(wxT("received message 0x102030"));
-      break;
-
-    default:
-      event.Skip();
+  if (!main_thread_runner_.HandleMainThreadEvent(event)) {
+    event.Skip();
   }
+}
+
+MainAppFrame::~MainAppFrame() {
+  Unbind(wxEVT_THREAD, &MainAppFrame::OnThreadEvent, this);
 }
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
-  this->Connect(wxEVT_THREAD, wxThreadEventHandler(MainAppFrame::OnThreadEvent),
-                NULL, this);
+  // Bootstrap Multi-thread handling
+  main_thread_runner_.SetMainThreadRunnerEventHandler(GetEventHandler());
+  Bind(wxEVT_THREAD, &MainAppFrame::OnThreadEvent, this);
+
+  // Bootstrap drag & drop
   SetDropTarget(new MainAppDropTarget(this));
 
+  // Setup KGM table...
   umc::kugou::KGMMaskGenerator::GetInstance()->SetTable(t1, t2, v2);
 
+  // Setup decryptions logs
   m_decryptLogs->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, 100);
 
   m_btnAddDir->Hide();
@@ -163,12 +168,10 @@ void MainAppFrame::OnButtonClick_ProcessFiles(wxCommandEvent& event) {
   }
 
   for (int i = len - 1; i >= 0; i--) {
-    // FIXME: Cross thread interaction with wxWidgets.
-
-#if _WIN32
-    umd::io_service.post([this]() { this->ProcessNextFile(); });
-#else
+#if __UMD_SINGLE_THREAD_MODE
     this->ProcessNextFile();
+#else
+    umd::io_service.post([this]() { this->ProcessNextFile(); });
 #endif
   }
 }
@@ -219,7 +222,9 @@ void MainAppFrame::ProcessNextFile() {
 
   auto entry = file_entries_.at(current_index);
 
-  UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
+  main_thread_runner_.PostInMainThread([this, current_index]() {
+    UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
+  });
 
   auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
   decryptor->Open(entry->file_path);
@@ -246,9 +251,11 @@ void MainAppFrame::ProcessNextFile() {
   entry->process_time_ms = static_cast<long>(t.count());
   entry->error = decryptor->GetError();
 
-  UpdateFileStatus(current_index, status);
+  main_thread_runner_.PostInMainThread([this, current_index, status]() {
+    UpdateFileStatus(current_index, status);
 
-  OnProcessSingleFileComplete();
+    OnProcessSingleFileComplete();
+  });
 }
 
 void MainAppFrame::OnProcessSingleFileComplete() {
