@@ -1,18 +1,25 @@
 project(um-crypto)
 
-find_package(OpenSSL REQUIRED)
+message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
+
 find_package(Boost REQUIRED)
+find_package(Botan REQUIRED)
 
-include_directories(include)
-
-include_directories(
-  ${OPENSSL_INCLUDE_DIR}
-  ${BOOST_INCLUDE_DIRS}
-)
-link_libraries(
-  ${OPENSSL_CRYPTO_LIBRARY}
+set(umCrypto_LIBRARIES
   ${Boost_LIBRARIES}
+  ${BOTAN_LIBRARIES}
 )
+
+set(umCrypto_INCLUDE_DIRS
+  "include"
+  ${BOOST_INCLUDE_DIRS}
+  ${BOTAN_INCLUDE_DIRS}
+)
+
+# FIXME: Expose the following variables so it can be used
+#        outside of this repo.
+include_directories(${umCrypto_INCLUDE_DIRS})
+link_libraries(${umCrypto_LIBRARIES})
 
 if (!MSVC)
 	link_libraries(m)
