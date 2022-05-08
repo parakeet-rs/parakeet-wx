@@ -38,8 +38,7 @@ bool KugouMusicDecryptor::SetupDecryptor() {
     cipher_ = std::make_unique<kugou::KGMCipher>(result.file_key);
   } else if (error == kugou::KGMParseError::kSupportedVPR) {
     const auto inst = umd::config::AppConfigStore::GetInstance();
-    const auto vpr_key = MakeArrayFromVector<kugou::kFileKeySize>(
-        inst->GetLoadedConfig().kugou.vpr_key);
+    const auto vpr_key = inst->GetLoadedConfig().kugou.vpr_key;
     cipher_ = std::make_unique<kugou::VPRCipher>(result.file_key, vpr_key);
   } else {
     return false;

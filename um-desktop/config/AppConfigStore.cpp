@@ -52,8 +52,6 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
     json::WriteValue(doc, childJSON, #KEY, childConf.KEY);        \
   }
 
-  Vec<u8> empty_bytes;
-
   // General config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, general) {
     MANIP_JSON_ITEM(thread_count, (int)4);
@@ -62,18 +60,20 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
 
   // Kugou config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, kugou) {
-    MANIP_JSON_ITEM(t1, empty_bytes);
-    MANIP_JSON_ITEM(t2, empty_bytes);
-    MANIP_JSON_ITEM(v2, empty_bytes);
-    MANIP_JSON_ITEM(vpr_key, empty_bytes);
+    using namespace umc::kugou;
+    MANIP_JSON_ITEM(t1, KugouTable{});
+    MANIP_JSON_ITEM(t2, KugouTable{});
+    MANIP_JSON_ITEM(v2, KugouTable{});
+    MANIP_JSON_ITEM(vpr_key, KugouFileKey{});
   }
   END_MANIP_NAMESPACED_VALUE()
 
   // Ximalaya config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, xmly) {
-    MANIP_JSON_ITEM(x2m_content_key, empty_bytes);
-    MANIP_JSON_ITEM(x3m_content_key, empty_bytes);
-    MANIP_JSON_ITEM(x3m_scramble_indexes, empty_bytes);
+    using namespace umc::ximalaya;
+    MANIP_JSON_ITEM(x2m_content_key, XimalayaX2MContentKey{});
+    MANIP_JSON_ITEM(x3m_content_key, XimalayaHeaderContentKey{});
+    MANIP_JSON_ITEM(x3m_scramble_indexes, XimalayaHeaderScrambleTable{});
   }
   END_MANIP_NAMESPACED_VALUE()
 

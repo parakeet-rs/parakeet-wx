@@ -9,9 +9,16 @@ namespace umc::ximalaya {
 class X3MCipher : public AXimalayaAndroidHeaderCipher {
  public:
   X3MCipher(const XimalayaAndroidFileHeader& header);
+  X3MCipher(const XimalayaAndroidFileHeader& header,
+            const XimalayaHeaderContentKey& content_key,
+            const XimalayaHeaderScrambleTable& scramble_table);
+
+  static void SetScrambleTable(const XimalayaHeaderScrambleTable& table);
+  static void SetContentKey(const XimalayaHeaderContentKey& key);
 
  private:
-  const static XimalayaHeaderScrambleTable scramble_table_;
+  static XimalayaHeaderScrambleTable scramble_table_;
+  static XimalayaHeaderContentKey content_key_;
   XimalayaAndroidFileHeader header_;
 };
 

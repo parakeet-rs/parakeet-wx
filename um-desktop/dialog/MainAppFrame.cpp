@@ -17,7 +17,8 @@
 #include <functional>
 #include <thread>
 
-#include "um-crypto/kugou/KGMMaskGenerator.h"
+#include <um-crypto/kugou/KGMMaskGenerator.h>
+#include <um-crypto/ximalaya.h>
 
 using boost::chrono::system_clock;
 
@@ -67,9 +68,11 @@ void MainAppFrame::ApplyConfigFromStore() {
 
   auto& config = AppConfigStore::GetInstance()->GetLoadedConfig();
   kugou::KGMMaskGenerator::GetInstance()->SetTable(
-      MakeArrayFromVector<kugou::kTableSize>(config.kugou.t1),
-      MakeArrayFromVector<kugou::kTableSize>(config.kugou.t2),
-      MakeArrayFromVector<kugou::kTableSize>(config.kugou.v2));
+      config.kugou.t1, config.kugou.t2, config.kugou.v2);
+
+  ximalaya::X2MCipher::SetContentKey(config.xmly.x2m_content_key);
+  ximalaya::X3MCipher::SetContentKey(config.xmly.x3m_content_key);
+  ximalaya::X3MCipher::SetScrambleTable(config.xmly.x3m_scramble_indexes);
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {

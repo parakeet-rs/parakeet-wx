@@ -39,24 +39,33 @@ XimalayaHeaderScrambleTable X2MCipher::scramble_table_ = []() {
   return scramble_table;
 }();
 
-XimalayaHeaderContentKey X2MCipher::content_key_ = {};
+XimalayaX2MContentKey X2MCipher::content_key_ = {};
+
+constexpr inline XimalayaHeaderContentKey X2MContentKeyUpgrade(
+    const XimalayaX2MContentKey& key) {
+  XimalayaHeaderContentKey result;
+  auto p_input = key.data();
+  for (auto p = result.begin(); p < result.end(); p += 4) {
+    std::copy_n(p_input, 4, p);
+  }
+  return result;
+}
 
 X2MCipher::X2MCipher(const XimalayaAndroidFileHeader& header,
-                     const XimalayaHeaderContentKey& content_key,
+                     const XimalayaX2MContentKey& content_key,
                      const XimalayaHeaderScrambleTable& scramble_table)
-    : AXimalayaAndroidHeaderCipher(header, content_key, scramble_table) {}
+    : AXimalayaAndroidHeaderCipher(header,
+                                   X2MContentKeyUpgrade(content_key),
+                                   scramble_table) {}
 
 X2MCipher::X2MCipher(const XimalayaAndroidFileHeader& header)
     : X2MCipher(header, content_key_, scramble_table_) {}
 
 void X2MCipher::SetScrambleTable(const XimalayaHeaderScrambleTable& table) {
-  auto p_input = table.data();
-  for (auto p = scramble_table_.begin(); p < scramble_table_.end(); p += 4) {
-    std::copy_n(p_input, 4, p);
-  }
+  scramble_table_ = table;
 }
 
-void X2MCipher::SetContentKey(const XimalayaHeaderContentKey& key) {
+void X2MCipher::SetContentKey(const XimalayaX2MContentKey& key) {
   content_key_ = key;
 }
 

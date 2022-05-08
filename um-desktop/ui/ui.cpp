@@ -107,7 +107,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panelGeneral->SetSizer( bSizer6 );
 	m_panelGeneral->Layout();
 	bSizer6->Fit( m_panelGeneral );
-	m_notebookOptions->AddPage( m_panelGeneral, _("General"), false );
+	m_notebookOptions->AddPage( m_panelGeneral, _("General"), true );
 	m_panelKugou = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
@@ -135,14 +135,14 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_xmlyX2MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Content Key (hex; 4 bytes)"), _("X2M Content Key (hex; 4 bytes)") ) );
 	m_propertyGridItem26 = m_propertyGrid4->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
 	m_xmlyX3MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Content Key (hex; 32 bytes)"), _("X3M Content Key (hex; 32 bytes)") ) );
-	m_xmlyX3MScrambleKey = m_propertyGrid4->Append( new wxLongStringProperty( _("Scramble Table (hex; 1024 u16 LE)"), _("Scramble Table (hex; 1024 u16 LE)") ) );
+	m_xmlyX3MScrambleKey = m_propertyGrid4->Append( new wxLongStringProperty( _("Scramble Table (hex; 1024 u16)"), _("Scramble Table (hex; 1024 u16)") ) );
 	bSizer7->Add( m_propertyGrid4, 1, wxALL|wxEXPAND, 5 );
 
 
 	m_panelXimalaya->SetSizer( bSizer7 );
 	m_panelXimalaya->Layout();
 	bSizer7->Fit( m_panelXimalaya );
-	m_notebookOptions->AddPage( m_panelXimalaya, _("Ximalaya"), true );
+	m_notebookOptions->AddPage( m_panelXimalaya, _("Ximalaya"), false );
 
 	bSizer4->Add( m_notebookOptions, 1, wxEXPAND | wxALL, 5 );
 

@@ -75,13 +75,13 @@ inline A ReadBigEndian(const void* p) {
 // Pointer access - Write
 
 template <std::integral A>
-inline void WriteLittleEndian(const void* p, A value) {
-  *reinterpret_cast<const A*>(p) = SwapHostToLittleEndian(value);
+inline void WriteLittleEndian(void* p, A value) {
+  *reinterpret_cast<A*>(p) = SwapHostToLittleEndian(value);
 }
 
 template <std::integral A>
-inline void WriteBigEndian(const void* p, A value) {
-  *reinterpret_cast<const A*>(p) = SwapHostToBigEndian(value);
+inline void WriteBigEndian(void* p, A value) {
+  *reinterpret_cast<A*>(p) = SwapHostToBigEndian(value);
 }
 
 }  // namespace umc

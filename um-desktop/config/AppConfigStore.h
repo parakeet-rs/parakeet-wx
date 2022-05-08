@@ -5,6 +5,8 @@
 #include <filesystem>
 #include <memory>
 
+#include <um-crypto.h>
+
 namespace umd::config {
 
 struct GeneralConfig {
@@ -12,18 +14,18 @@ struct GeneralConfig {
 };
 
 struct KugouConfig {
-  Vec<u8> t1;
-  Vec<u8> t2;
-  Vec<u8> v2;
+  umc::kugou::KugouTable t1;
+  umc::kugou::KugouTable t2;
+  umc::kugou::KugouTable v2;
 
-  Vec<u8> vpr_key;
+  umc::kugou::KugouFileKey vpr_key;
 };
 
 struct XimalayaConfig {
-  Vec<u8> x2m_content_key;
+  umc::ximalaya::XimalayaX2MContentKey x2m_content_key;
 
-  Vec<u8> x3m_content_key;
-  Vec<u8> x3m_scramble_indexes;
+  umc::ximalaya::XimalayaHeaderContentKey x3m_content_key;
+  umc::ximalaya::XimalayaHeaderScrambleTable x3m_scramble_indexes;
 };
 
 struct AppConfig {
