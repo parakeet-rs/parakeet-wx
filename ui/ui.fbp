@@ -693,7 +693,7 @@
                         <object class="notebookpage" expanded="1">
                             <property name="bitmap"></property>
                             <property name="label">General</property>
-                            <property name="select">1</property>
+                            <property name="select">0</property>
                             <object class="wxPanel" expanded="1">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
@@ -997,7 +997,7 @@
                         <object class="notebookpage" expanded="1">
                             <property name="bitmap"></property>
                             <property name="label">Ximalaya</property>
-                            <property name="select">0</property>
+                            <property name="select">1</property>
                             <object class="wxPanel" expanded="1">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
@@ -1122,7 +1122,7 @@
                                             </object>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>
-                                                <property name="label">X2M Content Key (hex; 4 or 32 bytes)</property>
+                                                <property name="label">X2M Content Key (hex; 4 bytes)</property>
                                                 <property name="name">m_xmlyX2MContentKey</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">LongString</property>
