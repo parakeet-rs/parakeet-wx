@@ -9,8 +9,8 @@
     "boost-filesystem",
     "boost-system",
     "boost-thread",
+    "botan",
     "gtest",
-    "openssl",
     "rapidjson",
     "wxwidgets",
     "zlib"
