@@ -1,5 +1,7 @@
 project(um-desktop)
 
+add_compile_options(-DAPP_INTERNAL_NAME=\"Parakeet\")
+
 include_directories()
 
 if(MSVC)
@@ -15,12 +17,15 @@ set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(OpenSSL REQUIRED) # used by um-crypto
 find_package(Boost COMPONENTS thread REQUIRED system)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
+find_package(RapidJSON CONFIG REQUIRED)
+
 find_package(ZLIB REQUIRED) # Linux build complains without zlib.
 
 set(QMD_LINK_TARGETS
   ${Boost_LIBRARIES}
   ${ZLIB_LIBRARIES}
   ${wxWidgets_LIBRARIES}
+  rapidjson
   um-crypto_static
 )
 

@@ -2,6 +2,9 @@
 
 #include <um-crypto/kugou.h>
 
+#include "../../config/AppConfigStore.h"
+#include "../MakeArray.h"
+
 using namespace umc;
 
 namespace umd::utils::audio_decryptor {
@@ -34,12 +37,9 @@ bool KugouMusicDecryptor::SetupDecryptor() {
   if (error == kugou::KGMParseError::kSupportedKGM) {
     cipher_ = std::make_unique<kugou::KGMCipher>(result.file_key);
   } else if (error == kugou::KGMParseError::kSupportedVPR) {
-    // TODO: remove this key
-    std::array<uint8_t, 17> vpr_key = {
-        0x25, 0xdf, 0xe8, 0xa6, 0x75, 0x1e, 0x75, 0x0e, 0x2f,
-        0x80, 0xf3, 0x2d, 0xb8, 0xb6, 0xe3, 0x11, 0x00,
-    };
-
+    const auto inst = umd::config::AppConfigStore::GetInstance();
+    const auto vpr_key = MakeArrayFromVector<kugou::kFileKeySize>(
+        inst->GetLoadedConfig().kugou.vpr_key);
     cipher_ = std::make_unique<kugou::VPRCipher>(result.file_key, vpr_key);
   } else {
     return false;

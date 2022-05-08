@@ -1,4 +1,5 @@
 #pragma once
+#include "../config/AppConfigStore.h"
 #include "../ui/ui.h"
 #include "../utils/wxMainThreadRunner.hpp"
 
@@ -71,4 +72,6 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
  private:
   friend class MainAppDropTarget;
   umd::utils::wxMainThreadRunner main_thread_runner_;
+
+  void ApplyConfigFromStore();
 };

@@ -75,7 +75,7 @@ namespace umd::ui_base
 		private:
 
 		protected:
-			wxNotebook* m_notebook1;
+			wxNotebook* m_notebookOptions;
 			wxPanel* m_panelGeneral;
 			wxPropertyGrid* m_propertyGrid2;
 			wxPGProperty* m_propGeneralCat1;
@@ -95,15 +95,18 @@ namespace umd::ui_base
 			wxPGProperty* m_propertyGridItem26;
 			wxPGProperty* m_xmlyX3MContentKey;
 			wxPGProperty* m_xmlyX3MScrambleKey;
+			wxButton* m_btnCancel;
+			wxButton* m_btnOK;
 
 			// Virtual event handlers, override them in your derived class
 			virtual void OnActivate( wxActivateEvent& event ) { event.Skip(); }
-			virtual void OnPropertyGridChanged_KuGou( wxPropertyGridEvent& event ) { event.Skip(); }
+			virtual void OnButtonClick_Cancel( wxCommandEvent& event ) { event.Skip(); }
+			virtual void OnButtonClick_OK( wxCommandEvent& event ) { event.Skip(); }
 
 
 		public:
 
-			uiOptionsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 487,287 ), long style = wxDEFAULT_DIALOG_STYLE );
+			uiOptionsDialog( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Options"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 642,407 ), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER );
 
 			~uiOptionsDialog();
 

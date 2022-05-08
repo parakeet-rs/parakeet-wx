@@ -1,8 +1,10 @@
 #include "MainAppFrame.h"
-
-#include "../utils/AudioDecryptorManager.h"
-#include "../utils/threading.h"
 #include "OptionsDialog.h"
+
+#include "../constants.h"
+#include "../utils/AudioDecryptorManager.h"
+#include "../utils/MakeArray.h"
+#include "../utils/threading.h"
 
 #include <wx/filedlg.h>
 #include <wx/filename.h>
@@ -15,8 +17,6 @@
 #include <functional>
 #include <thread>
 
-// TODO: remove this table
-#include "__priv_table.h"
 #include "um-crypto/kugou/KGMMaskGenerator.h"
 
 using boost::chrono::system_clock;
@@ -47,18 +47,29 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
   // Bootstrap drag & drop
   SetDropTarget(new MainAppDropTarget(this));
 
-  // Setup KGM table...
-  umc::kugou::KGMMaskGenerator::GetInstance()->SetTable(t1, t2, v2);
+  // Apply config
+  umd::config::AppConfigStore::GetInstance()->LoadConfigFromDisk();
+  ApplyConfigFromStore();
 
   // Setup decryptions logs
   m_decryptLogs->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, 100);
 
   m_btnAddDir->Hide();
-#if NDEBUG
-  m_btnOptions->Hide();
-#else
+#if !NDEBUG
   SetTitle(GetTitle() + "  [" + _("DEBUG Build") + "]");
 #endif
+}
+
+void MainAppFrame::ApplyConfigFromStore() {
+  using namespace umd::config;
+  using namespace umd::utils;
+  using namespace umc;
+
+  auto& config = AppConfigStore::GetInstance()->GetLoadedConfig();
+  kugou::KGMMaskGenerator::GetInstance()->SetTable(
+      MakeArrayFromVector<kugou::kTableSize>(config.kugou.t1),
+      MakeArrayFromVector<kugou::kTableSize>(config.kugou.t2),
+      MakeArrayFromVector<kugou::kTableSize>(config.kugou.v2));
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
@@ -72,6 +83,20 @@ void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
 void MainAppFrame::OnBtnClickOptions(wxCommandEvent& event) {
   auto optionsDialog = new OptionsDialog(this);
   optionsDialog->ShowModal();
+  if (optionsDialog->IsConfigSaved()) {
+    const auto& config = optionsDialog->GetSavedConfig();
+    const auto config_store = umd::config::AppConfigStore::GetInstance();
+    config_store->UpdateConfig(config);
+
+    if (config_store->SaveConfigToDisk()) {
+      ApplyConfigFromStore();
+      wxMessageBox(_("Config saved. Some config may require restart to work."),
+                   LOCALISED_APP_NAME);
+    } else {
+      wxMessageBox(_("Could not save config."), LOCALISED_APP_NAME,
+                   wxICON_ERROR);
+    }
+  }
   optionsDialog->Destroy();
 }
 

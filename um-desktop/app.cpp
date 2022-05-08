@@ -1,4 +1,5 @@
 #include "app.h"
+#include "config/AppConfigStore.h"
 #include "dialog/MainAppFrame.h"
 #include "utils/threading.h"
 
@@ -47,6 +48,9 @@ void initLanguageSupport() {
 }
 
 bool umDesktopApp::OnInit() {
+  auto config_store = umd::config::AppConfigStore::GetInstance();
+  config_store->LoadConfigFromDisk();
+
   umd::io_service_start();
 
   initLanguageSupport();

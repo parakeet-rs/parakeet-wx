@@ -5,9 +5,13 @@
     "boost-algorithm",
     "boost-asio",
     "boost-beast",
+    "boost-dll",
+    "boost-filesystem",
+    "boost-system",
     "boost-thread",
     "gtest",
     "openssl",
+    "rapidjson",
     "wxwidgets",
     "zlib"
   ]

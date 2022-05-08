@@ -17,6 +17,7 @@ using umc::i64;
 using umc::i8;
 using umc::isize;
 
+using umc::Arr;
 using umc::Str;
 using umc::U8Str;
 using umc::Vec;
