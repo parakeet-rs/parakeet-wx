@@ -10,10 +10,14 @@ namespace umc::kugou {
 
 constexpr usize kPageSize = 4 * 1024 * 1024;
 
-KGMCipher::KGMCipher(const KugouFileKey& file_key) : AXorStreamCipher() {
+KGMCipher::KGMCipher(const KugouFileKey& file_key)
+    : KGMCipher(file_key, KGMMaskGenerator::GetInstance()){};
+
+KGMCipher::KGMCipher(const KugouFileKey& file_key,
+                     KGMMaskGenerator::Ptr mask_generator)
+    : AXorStreamCipher(), file_key_(file_key), mask_generator_(mask_generator) {
   buf_.resize(kPageSize);
   buf_idx_ = kPageSize;
-  file_key_ = file_key;
 }
 
 void KGMCipher::PostProcess(u8* p_out, usize len) {

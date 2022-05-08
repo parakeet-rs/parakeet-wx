@@ -1,6 +1,6 @@
 #pragma once
 
-#include "um-crypto/kugou/KGMCipher.h"
+#include "constants.h"
 #include "um-crypto/types.h"
 
 #include <array>
