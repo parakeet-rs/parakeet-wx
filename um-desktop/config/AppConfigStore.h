@@ -28,8 +28,14 @@ struct XimalayaConfig {
   umc::ximalaya::XimalayaHeaderScrambleTable x3m_scramble_indexes;
 };
 
+struct TencentConfig {
+  int ekey_seed;
+  umc::tencent::StaticCipherKey static_key;
+};
+
 struct AppConfig {
   GeneralConfig general;
+  TencentConfig tencent;
   KugouConfig kugou;
   XimalayaConfig xmly;
 };

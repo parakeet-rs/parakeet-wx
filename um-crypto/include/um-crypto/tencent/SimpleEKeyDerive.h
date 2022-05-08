@@ -29,7 +29,7 @@ class AEKeyDerive {
 
 class SimpleEKeyDerive : public AEKeyDerive {
  public:
-  SimpleEKeyDerive(u8 seed = 106) : AEKeyDerive() { this->seed = seed; };
+  SimpleEKeyDerive(u8 seed) : AEKeyDerive() { this->seed = seed; };
 
  protected:
   void MakeSimpleKey(Vec<u8>& out) const override;

@@ -126,6 +126,22 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panelKugou->Layout();
 	bSizer5->Fit( m_panelKugou );
 	m_notebookOptions->AddPage( m_panelKugou, _("Kugou"), false );
+	m_panelTencent = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer9;
+	bSizer9 = new wxBoxSizer( wxVERTICAL );
+
+	m_propertyGrid41 = new wxPropertyGrid(m_panelTencent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_propertyGridItem14 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv1"), _("QMCv1") ) );
+	m_tencentStaticTable = m_propertyGrid41->Append( new wxLongStringProperty( _("Static Key (hex; 128 bytes)"), _("Static Key (hex; 128 bytes)") ) );
+	m_propertyGridItem16 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2"), _("QMCv2") ) );
+	m_tencentEKeySeed = m_propertyGrid41->Append( new wxIntProperty( _("EKey derive seed"), _("EKey derive seed") ) );
+	bSizer9->Add( m_propertyGrid41, 1, wxALL|wxEXPAND, 5 );
+
+
+	m_panelTencent->SetSizer( bSizer9 );
+	m_panelTencent->Layout();
+	bSizer9->Fit( m_panelTencent );
+	m_notebookOptions->AddPage( m_panelTencent, _("QQ Music"), false );
 	m_panelXimalaya = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );

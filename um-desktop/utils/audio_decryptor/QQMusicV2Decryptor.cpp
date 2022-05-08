@@ -1,6 +1,7 @@
 #include "QQMusicV2Decryptor.h"
 
 #include <um-crypto/tencent.h>
+#include "../../config/AppConfigStore.h"
 
 using namespace umc;
 
@@ -9,7 +10,9 @@ namespace umd::utils::audio_decryptor {
 constexpr usize kInitialDetectionSize = 100;
 
 inline bool QQMusicV2Decryptor::SetupXorCipher(Str& ekey_b64) {
-  auto deriver = std::make_unique<tencent::SimpleEKeyDerive>();
+  auto& config = umd::config::AppConfigStore::GetInstance()->GetLoadedConfig();
+  const auto ekey_seed = u8(config.tencent.ekey_seed);
+  auto deriver = std::make_unique<tencent::SimpleEKeyDerive>(ekey_seed);
   Vec<u8> file_key;
   if (!deriver->FromEKey(file_key, ekey_b64)) {
     error_msg_ = _("could not derive file key from ekey");

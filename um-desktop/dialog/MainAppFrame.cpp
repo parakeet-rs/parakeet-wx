@@ -73,6 +73,8 @@ void MainAppFrame::ApplyConfigFromStore() {
   ximalaya::X2MCipher::SetContentKey(config.xmly.x2m_content_key);
   ximalaya::X3MCipher::SetContentKey(config.xmly.x3m_content_key);
   ximalaya::X3MCipher::SetScrambleTable(config.xmly.x3m_scramble_indexes);
+
+  tencent::StaticStreamCipher::SetStaticKey(config.tencent.static_key);
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {

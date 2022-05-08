@@ -68,6 +68,14 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   }
   END_MANIP_NAMESPACED_VALUE()
 
+  // QQ Music (Tencent) config
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, tencent) {
+    using namespace umc::tencent;
+    MANIP_JSON_ITEM(ekey_seed, 0);
+    MANIP_JSON_ITEM(static_key, umc::tencent::StaticCipherKey{});
+  }
+  END_MANIP_NAMESPACED_VALUE()
+
   // Ximalaya config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, xmly) {
     using namespace umc::ximalaya;

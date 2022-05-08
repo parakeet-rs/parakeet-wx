@@ -30,6 +30,9 @@ void OptionsDialog::ConfigGlueCode() {
   DEFINE_CTRL_PROP(m_kugouV2, config.kugou.v2);
   DEFINE_CTRL_PROP(m_kugouVPR, config.kugou.vpr_key);
 
+  DEFINE_CTRL_PROP(m_tencentEKeySeed, config.tencent.ekey_seed);
+  DEFINE_CTRL_PROP(m_tencentStaticTable, config.tencent.static_key);
+
   DEFINE_CTRL_PROP(m_xmlyX2MContentKey, config.xmly.x2m_content_key);
   DEFINE_CTRL_PROP(m_xmlyX3MContentKey, config.xmly.x3m_content_key);
   DEFINE_CTRL_PROP(m_xmlyX3MScrambleKey, config.xmly.x3m_scramble_indexes);

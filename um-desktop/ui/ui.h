@@ -88,6 +88,12 @@ namespace umd::ui_base
 			wxPGProperty* m_kugouV2;
 			wxPGProperty* m_propertyGridItem6;
 			wxPGProperty* m_kugouVPR;
+			wxPanel* m_panelTencent;
+			wxPropertyGrid* m_propertyGrid41;
+			wxPGProperty* m_propertyGridItem14;
+			wxPGProperty* m_tencentStaticTable;
+			wxPGProperty* m_propertyGridItem16;
+			wxPGProperty* m_tencentEKeySeed;
 			wxPanel* m_panelXimalaya;
 			wxPropertyGrid* m_propertyGrid4;
 			wxPGProperty* m_propertyGridItem25;
