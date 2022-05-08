@@ -12,7 +12,7 @@ static_assert(kX2MInitialDelta > 0.0 && kX2MInitialDelta < 1.0,
 static_assert(kX2MMultiplier > 3.56994 && kX2MMultiplier < 4.0,
               "X2M: Invalid multiplier.");
 
-const XimalayaHeaderScrambleTable kX2MHeaderScrambleTable = []() {
+XimalayaHeaderScrambleTable X2MCipher::scramble_table_ = []() {
   XimalayaHeaderScrambleTable scramble_table = {};
   Arr<double, kXimalayaEncryptedHeaderSize> table;
 
@@ -39,21 +39,25 @@ const XimalayaHeaderScrambleTable kX2MHeaderScrambleTable = []() {
   return scramble_table;
 }();
 
-const XimalayaHeaderContentKey kX2MHeaderContentKey = []() {
-  XimalayaHeaderContentKey key = {};
-  for (int i = 0; i < kXimalayaHeaderContentKeySize; i += 4) {
-    key[i + 0] = 'x';
-    key[i + 1] = 'm';
-    key[i + 2] = 'l';
-    key[i + 3] = 'y';
-  }
+XimalayaHeaderContentKey X2MCipher::content_key_ = {};
 
-  return key;
-}();
+X2MCipher::X2MCipher(const XimalayaAndroidFileHeader& header,
+                     const XimalayaHeaderContentKey& content_key,
+                     const XimalayaHeaderScrambleTable& scramble_table)
+    : AXimalayaAndroidHeaderCipher(header, content_key, scramble_table) {}
 
 X2MCipher::X2MCipher(const XimalayaAndroidFileHeader& header)
-    : AXimalayaAndroidHeaderCipher(header,
-                                   kX2MHeaderContentKey,
-                                   kX2MHeaderScrambleTable) {}
+    : X2MCipher(header, content_key_, scramble_table_) {}
+
+void X2MCipher::SetScrambleTable(const XimalayaHeaderScrambleTable& table) {
+  auto p_input = table.data();
+  for (auto p = scramble_table_.begin(); p < scramble_table_.end(); p += 4) {
+    std::copy_n(p_input, 4, p);
+  }
+}
+
+void X2MCipher::SetContentKey(const XimalayaHeaderContentKey& key) {
+  content_key_ = key;
+}
 
 }  // namespace umc::ximalaya

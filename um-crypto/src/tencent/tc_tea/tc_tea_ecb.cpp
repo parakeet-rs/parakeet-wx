@@ -16,8 +16,8 @@ inline uint32_t single_round_arithmetic(uint32_t value,
 void ecb_decrypt(void* block, uint32_t* k) {
   auto block_u32 = reinterpret_cast<uint32_t*>(block);
 
-  uint32_t y = umc_betoh_u32(block_u32[0]);
-  uint32_t z = umc_betoh_u32(block_u32[1]);
+  uint32_t y = SwapBigEndianToHost(block_u32[0]);
+  uint32_t z = SwapBigEndianToHost(block_u32[1]);
   uint32_t sum = DELTA * ROUNDS;
 
   for (int i = 0; i < ROUNDS; i++) {
@@ -26,8 +26,8 @@ void ecb_decrypt(void* block, uint32_t* k) {
     sum -= DELTA;
   }
 
-  block_u32[0] = umc_htobe_u32(y);
-  block_u32[1] = umc_htobe_u32(z);
+  block_u32[0] = SwapHostToBigEndian(y);
+  block_u32[1] = SwapHostToBigEndian(z);
 }
 
 }  // namespace umc::tc_tea

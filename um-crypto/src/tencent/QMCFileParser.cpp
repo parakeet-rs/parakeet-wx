@@ -25,7 +25,7 @@ QMCParseError QMCFileParser::ParseFile(QMCParsedData& result,
     return QMCParseError::kMoreBytesRequired;
   }
 
-  auto eof = ReadBEU32(&eof_data[eof_len - 4]);
+  auto eof = ReadBigEndian<u32>(&eof_data[eof_len - 4]);
   if (eof == kMagicQTag) {
     return ParseAndroidQTagFile(result, eof_data);
   } else if (eof == kMagicSTag) {
@@ -50,7 +50,7 @@ QMCParseError QMCFileParser::ParseAndroidQTagFile(QMCParsedData& result,
     return QMCParseError::kMoreBytesRequired;
   }
 
-  auto meta_len = ReadBEU32(&eof_data[eof_len - 8]);
+  auto meta_len = ReadBigEndian<u32>(&eof_data[eof_len - 8]);
 
   size_t required_len = meta_len + 8;
   if (eof_len < required_len) {
@@ -91,8 +91,7 @@ QMCParseError QMCFileParser::ParseWindowsEncryptedFile(
     return QMCParseError::kMoreBytesRequired;
   }
 
-  auto ekey_size = ReadLEU32(&eof_data[eof_len - 4]);
-  ekey_size = umc_letoh_u32(ekey_size);
+  auto ekey_size = ReadLittleEndian<u32>(&eof_data[eof_len - 4]);
 
   // Currently known & supported largest key size, is 0x02C0 (704)
   if (ekey_size > 0x300) {

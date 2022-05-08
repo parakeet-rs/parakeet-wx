@@ -67,7 +67,7 @@ AudioType DetectAudioType(const u8* buf, usize len) {
 
   {
     // Magic: first 4 bytes
-    u32 magic = ReadBEU32(buf);
+    u32 magic = ReadBigEndian<u32>(buf);
 
     // 4 byte magics
     switch (magic) {
@@ -94,8 +94,8 @@ AudioType DetectAudioType(const u8* buf, usize len) {
   }
 
   // ftyp
-  if (ReadBEU32(buf + 4) == kMagic_ftyp) {
-    u32 magic = ReadBEU32(buf + 8);
+  if (ReadBigEndian<u32>(buf + 4) == kMagic_ftyp) {
+    u32 magic = ReadBigEndian<u32>(buf + 8);
 
     if (magic == kMagic_ftyp_MSNV || magic == kMagic_ftyp_NDAS) {
       return AudioType::kAudioTypeM4A;

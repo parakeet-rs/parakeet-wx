@@ -18,7 +18,7 @@ bool XimalayaFileParser::IsX2MFile(const XimalayaAndroidFileHeader& header) {
   decryptor->Seek(4);
   decryptor->Decrypt(buf, len, header.data(), len);
 
-  return ReadBEU32(buf) == kMagic_ftyp;
+  return ReadBigEndian<u32>(buf) == kMagic_ftyp;
 }
 
 bool XimalayaFileParser::IsX3MFile(const XimalayaAndroidFileHeader& header) {
@@ -29,7 +29,7 @@ bool XimalayaFileParser::IsX3MFile(const XimalayaAndroidFileHeader& header) {
   decryptor->Seek(4);
   decryptor->Decrypt(buf, len, header.data(), len);
 
-  return ReadBEU32(buf) == kMagic_ftyp;
+  return ReadBigEndian<u32>(buf) == kMagic_ftyp;
 }
 
 };  // namespace umc::ximalaya

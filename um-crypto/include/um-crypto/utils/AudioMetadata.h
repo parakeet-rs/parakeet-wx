@@ -6,7 +6,7 @@
 namespace umc::utils {
 
 inline isize ParseID3SyncSafeInt(const u8* p) {
-  auto raw = umc::ReadBEU32(p);
+  auto raw = umc::ReadBigEndian<u32>(p);
 
   // Sync safe int should use only lower 7-bits of each byte.
   if ((raw & 0x80808080u) != 0) {
@@ -50,7 +50,7 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
 }
 
 inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
-  u32 magic2 = umc::ReadBEU32(&buf[4]);
+  u32 magic2 = umc::ReadBigEndian<u32>(&buf[4]);
   constexpr u32 kAPEv2Magic1 = 0x41'50'45'54u;  // 'APET'
   constexpr u32 kAPEv2Magic2 = 0x41'47'45'58u;  // 'AGEX'
 
@@ -60,7 +60,7 @@ inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
 
   // Tag size in bytes including footer and all tag items excluding the header.
   constexpr usize kAPEv2HeaderSize = 32;
-  return umc::ReadLEU32(&buf[0x0c]) + kAPEv2HeaderSize;
+  return umc::ReadLittleEndian<u32>(&buf[0x0c]) + kAPEv2HeaderSize;
 }
 
 /**
@@ -78,7 +78,7 @@ inline usize GetAudioHeaderMetadataSize(const u8* buf, usize len) {
     return 0;
   }
 
-  u32 magic = umc::ReadBEU32(buf);
+  u32 magic = umc::ReadBigEndian<u32>(buf);
   usize id3_meta_size = GetID3HeaderSize(magic, buf, len);
   if (id3_meta_size) {
     return id3_meta_size;

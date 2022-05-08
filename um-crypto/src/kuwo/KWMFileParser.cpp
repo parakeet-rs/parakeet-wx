@@ -19,7 +19,7 @@ std::unique_ptr<KWMConfig> KWMFileParser::ParseKWMFile(const u8* header,
   }
 
   auto kwm_config = std::make_unique<KWMConfig>();
-  kwm_config->file_key = ReadLEU64(&header[0x18]);
+  kwm_config->file_key = ReadLittleEndian<u64>(&header[0x18]);
   return std::move(kwm_config);
 }
 

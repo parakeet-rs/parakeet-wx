@@ -19,7 +19,7 @@ KGMParseError KGMFileParser::ParseFile(KGMParseResult& result,
     return KGMParseError::kNeedMoreData;
   }
 
-  result.bof_bytes_ignore = ReadLEU32(&header[0x10]);
+  result.bof_bytes_ignore = ReadLittleEndian<u32>(&header[0x10]);
   memcpy(result.file_key.data(), &header.at(0x1c), kFileKeySize);
   result.file_key[16] = 0;  // last byte is always a "\x00";
 

@@ -16,7 +16,7 @@ void cbc_parse_key(uint32_t* result, const uint8_t* key) {
   auto key_u32_be = reinterpret_cast<const uint32_t*>(key);
 
   for (int i = 0; i < 4; i++) {
-    result[i] = umc_betoh_u32(key_u32_be[i]);
+    result[i] = SwapBigEndianToHost(key_u32_be[i]);
   }
 }
 
