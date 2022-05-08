@@ -1,8 +1,6 @@
-#include "um-crypto/tencent/AEKeyDerive.h"
-
-#include "../internal/StringHelper.h"
 #include "tc_tea/tc_tea_cbc.h"
 #include "um-crypto/tencent.h"
+#include "um-crypto/utils/base64.h"
 
 #include <cassert>
 #include <cmath>
@@ -10,10 +8,6 @@
 #include <cstring>
 #include <string>
 #include <vector>
-
-#include <boost/beast/core/detail/base64.hpp>
-
-namespace base64 = boost::beast::detail::base64;
 
 namespace umc::tencent {
 
@@ -31,13 +25,7 @@ inline Vec<u8> AEKeyDerive::DeriveTEAKey(const Vec<u8> ekey) const {
 }
 
 bool AEKeyDerive::FromEKey(Vec<u8>& out, const Str ekey_b64) const {
-  std::string ekey_str(ekey_b64);
-  RemoveWhitespace(ekey_str);
-
-  std::vector<uint8_t> ekey(base64::decoded_size(ekey_str.size()));
-  auto result = base64::decode(ekey.data(), ekey_str.data(), ekey_str.size());
-  ekey.resize(result.first);
-
+  auto ekey = utils::Base64Decode(ekey_b64);
   return FromEKey(out, ekey);
 }
 

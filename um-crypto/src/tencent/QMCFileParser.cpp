@@ -1,9 +1,11 @@
-#include "../internal/StringHelper.h"
 #include "um-crypto/endian.h"
 #include "um-crypto/tencent.h"
 #include "um-crypto/utils/DetectAudioType.h"
+#include "um-crypto/utils/StringHelper.h"
 
 #include <algorithm>
+
+using umc::utils::ParseCSVLine;
 
 namespace umc::tencent {
 
