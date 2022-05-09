@@ -12,7 +12,7 @@ if(MSVC)
 endif()
 
 set(Boost_NO_WARN_NEW_VERSIONS 1)
-find_package(Boost COMPONENTS thread REQUIRED system)
+find_package(Boost COMPONENTS thread REQUIRED system filesystem)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
 find_package(RapidJSON CONFIG REQUIRED)
 find_package(Botan REQUIRED) # From um-crypto

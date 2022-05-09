@@ -33,7 +33,7 @@ void FromString(T& out, const Str& input);
 namespace detail {
 
 #pragma region  // Str <--> Container<A> (internal)
-template <std::unsigned_integral A, class TContainer, usize S = -1>
+template <std::unsigned_integral A, class TContainer>
 inline Str ContainerToString(const TContainer& input) {
   if (input.size() == 0) return "";
 
@@ -43,11 +43,14 @@ inline Str ContainerToString(const TContainer& input) {
   result.resize(buf_size);
 
   const char* fmt;
+  static_assert(
+      sizeof(A) == 1 || sizeof(A) == 2 || sizeof(A) == 4 || sizeof(A) == 8,
+      "'A' should be one of the unsigned int.");
+
   if constexpr (sizeof(A) == 8) fmt = "0x%016x, ";
   else if constexpr (sizeof(A) == 4) fmt = "0x%08x, ";
   else if constexpr (sizeof(A) == 2) fmt = "0x%04x, ";
   else if constexpr (sizeof(A) == 1) fmt = "0x%02x, ";
-  else static_assert(false, "'A' should be one of the unsigned int.");
 
   char* p_out = result.data();
   for (auto p_in = input.begin(); p_in < input.end(); p_in++) {

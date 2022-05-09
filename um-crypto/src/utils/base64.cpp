@@ -1,4 +1,3 @@
-#pragma once
 #include "um-crypto/utils/base64.h"
 #include "um-crypto/utils/StringHelper.h"
 

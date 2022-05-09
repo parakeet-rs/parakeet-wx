@@ -1,7 +1,7 @@
 find_path(BOTAN_INCLUDE_DIRS NAMES botan/botan.h)
 
-# botan.lib
-find_library(BOTAN_LIBRARIES NAMES botan)
+# botan.lib; libbotan-2.a
+find_library(BOTAN_LIBRARIES NAMES botan-2 botan)
 
 # Use some standard module to handle the QUIETLY and REQUIRED arguments, and
 # set BOTAN_FOUND to TRUE if these two variables are set.
