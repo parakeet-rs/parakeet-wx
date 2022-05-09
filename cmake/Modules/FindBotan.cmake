@@ -1,16 +1,27 @@
 find_path(BOTAN_INCLUDE_DIRS NAMES botan/botan.h)
 
-# botan.lib; libbotan-2.a
-find_library(BOTAN_LIBRARIES NAMES botan-2 botan)
+get_filename_component(_prefix_path ${BOTAN_INCLUDE_DIRS} PATH)
 
-# Use some standard module to handle the QUIETLY and REQUIRED arguments, and
-# set BOTAN_FOUND to TRUE if these two variables are set.
+find_library(
+    BOTAN_LIBRARY_DEBUG
+    NAMES botan-static botan botan-2-static botan-2 botan2-static botan2
+    PATHS ${_prefix_path}/debug/lib
+    NO_DEFAULT_PATH
+)
+find_library(
+    BOTAN_LIBRARY_RELEASE
+    NAMES botan-static botan botan-2-static botan-2 botan2-static botan2
+    PATHS ${_prefix_path}/lib
+    NO_DEFAULT_PATH
+)
+
+unset(_prefix_path)
+
+include(SelectLibraryConfigurations)
+select_library_configurations(BOTAN)
+
 include(FindPackageHandleStandardArgs)
-find_package_handle_standard_args(BOTAN REQUIRED_VARS BOTAN_LIBRARIES BOTAN_INCLUDE_DIRS)
-
-if(BOTAN_FOUND)
-  set(BOTAN_LIBRARY ${BOTAN_LIBRARIES})
-  set(BOTAN_INCLUDE_DIR ${BOTAN_INCLUDE_DIRS})
-endif()
-
-mark_as_advanced(BOTAN_INCLUDE_DIRS BOTAN_LIBRARIES)
+find_package_handle_standard_args(
+    Botan
+    REQUIRED_VARS BOTAN_LIBRARIES BOTAN_INCLUDE_DIRS
+)

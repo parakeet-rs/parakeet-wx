@@ -3,17 +3,17 @@ project(um-crypto)
 message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
 find_package(Boost REQUIRED)
-find_package(Botan REQUIRED)
+find_package(CryptoPP REQUIRED)
 
 set(umCrypto_LIBRARIES
   ${Boost_LIBRARIES}
-  ${BOTAN_LIBRARIES}
+  ${CRYPTOPP_LIBRARIES}
 )
 
 set(umCrypto_INCLUDE_DIRS
   "include"
   ${BOOST_INCLUDE_DIRS}
-  ${BOTAN_INCLUDE_DIRS}
+  ${CRYPTOPP_INCLUDE_DIRS}
 )
 
 # FIXME: Expose the following variables so it can be used

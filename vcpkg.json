@@ -10,6 +10,7 @@
     "boost-system",
     "boost-thread",
     "botan",
+    "cryptopp",
     "gtest",
     "rapidjson",
     "wxwidgets",

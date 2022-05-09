@@ -15,13 +15,9 @@ set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost COMPONENTS thread REQUIRED system filesystem)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
 find_package(RapidJSON CONFIG REQUIRED)
-find_package(Botan REQUIRED) # From um-crypto
-find_package(ZLIB REQUIRED) # Linux build complains without zlib.
 
 set(QMD_LINK_TARGETS
   ${Boost_LIBRARIES}
-  ${BOTAN_LIBRARIES}
-  ${ZLIB_LIBRARIES}
   ${wxWidgets_LIBRARIES}
   rapidjson
   um-crypto_static

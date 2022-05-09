@@ -12,3 +12,8 @@ local/
 tset-sample/
 
 .vs/
+
+*.local.test.cc
+*.local.cpp
+*.local.hpp
+*.local.h
