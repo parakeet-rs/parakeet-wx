@@ -1,6 +1,22 @@
+diff -ru vcpkg/ports/wxwidgets/portfile.cmake vcpkg_overlays/wxwidgets/portfile.cmake
+--- vcpkg/ports/wxwidgets/portfile.cmake	2022-04-29 10:18:35.956039300 +0100
++++ vcpkg_overlays/wxwidgets/portfile.cmake	2022-05-10 09:37:49.596120300 +0100
+@@ -43,11 +43,7 @@
+     )
+ endif()
+ 
+-if(VCPKG_TARGET_IS_WINDOWS OR VCPKG_TARGET_IS_OSX)
+-    list(APPEND OPTIONS -DwxUSE_WEBREQUEST_CURL=OFF)
+-else()
+-    list(APPEND OPTIONS -DwxUSE_WEBREQUEST_CURL=ON)
+-endif()
++list(APPEND OPTIONS -DwxUSE_WEBREQUEST=OFF)
+ 
+ # wxWidgets on Linux currently needs to find the system's `gtk+-3.0.pc`.
+ # vcpkg's port pkgconf would prevent this lookup.
 diff -ru vcpkg/ports/wxwidgets/vcpkg.json vcpkg_overlays/wxwidgets/vcpkg.json
 --- vcpkg/ports/wxwidgets/vcpkg.json	2022-04-30 12:26:24.117484949 +0100
-+++ vcpkg_overlays/wxwidgets/vcpkg.json	2022-05-02 18:49:17.198618941 +0100
++++ vcpkg_overlays/wxwidgets/vcpkg.json	2022-05-10 09:37:35.937461300 +0100
 @@ -1,7 +1,7 @@
  {
    "name": "wxwidgets",
@@ -10,15 +26,13 @@ diff -ru vcpkg/ports/wxwidgets/vcpkg.json vcpkg_overlays/wxwidgets/vcpkg.json
    "description": [
      "Widget toolkit and tools library for creating graphical user interfaces (GUIs) for cross-platform applications. ",
      "Set WXWIDGETS_USE_STL in a custom triplet to build with the wxUSE_STL build option.",
-@@ -16,10 +16,18 @@
-       "default-features": false,
-       "platform": "!windows & !osx"
-     },
--    "expat",
--    "libjpeg-turbo",
--    "libpng",
--    "tiff",
-+    {
+@@ -12,14 +12,17 @@
+   "supports": "!uwp",
+   "dependencies": [
+     {
+-      "name": "curl",
+-      "default-features": false,
+-      "platform": "!windows & !osx"
 +      "name": "expat",
 +      "platform": "!linux"
 +    },
@@ -29,7 +43,11 @@ diff -ru vcpkg/ports/wxwidgets/vcpkg.json vcpkg_overlays/wxwidgets/vcpkg.json
 +    {
 +      "name": "tiff",
 +      "platform": "!linux"
-+    },
+     },
+-    "expat",
+-    "libjpeg-turbo",
+-    "libpng",
+-    "tiff",
      {
        "name": "vcpkg-cmake",
        "host": true
