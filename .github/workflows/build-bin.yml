@@ -52,7 +52,9 @@ jobs:
 
       - name: "apt-get: install dependencies"
         if: ${{ matrix.apt_packages }}
-        run: sudo apt-get install -y ${{ matrix.apt_packages }}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ${{ matrix.apt_packages }}
 
       - name: "vcpkg: create binary cache folder"
         shell: bash
