@@ -1,4 +1,4 @@
-#include "um-crypto/decryption/tencent/joox.h"
+#include "um-crypto/decryption/tencent/JooxFileLoader.h"
 #include "um-crypto/endian.h"
 
 #include <cryptopp/aes.h>
