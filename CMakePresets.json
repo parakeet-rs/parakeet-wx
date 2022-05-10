@@ -11,10 +11,20 @@
       "displayName": "Default Linux",
       "description": "Default build using Make + gcc",
       "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/build/default",
+      "binaryDir": "${sourceDir}/build/default"
+    },
+    {
+      "name": "default-linux-rel",
+      "inherits": "default",
+      "displayName": "Linux-Make (vcpkg)",
+      "description": "Default build using Makefile + vcpkg",
+      "binaryDir": "${sourceDir}/build/linux-rel",
       "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays",
         "CMAKE_BUILD_TYPE": "Release",
-        "VCPKG_BUILD_TYPE": "Release"
+        "VCPKG_BUILD_TYPE": "Release",
+        "VCPKG_TARGET_TRIPLET": "x64-linux"
       }
     },
     {
@@ -67,6 +77,11 @@
     {
       "name": "default",
       "configurePreset": "default"
+    },
+    {
+      "name": "default-linux-rel",
+      "configurePreset": "default-linux-rel",
+      "configuration": "Release"
     },
     {
       "name": "win64-2019-rel",
