@@ -1,8 +1,7 @@
 #pragma once
 
 #include <algorithm>
-#include <filesystem>
-#include <fstream>
+#include <memory>
 
 #include "um-crypto/types.h"
 
@@ -10,6 +9,16 @@ namespace umc::decryption {
 
 class DecryptionStream {
  public:
+  /**
+   * @brief Reset and seek to begin of file.
+   *
+   */
+  virtual void Reset() {
+    buf_in_.resize(0);
+    buf_out_.resize(0);
+    offset_ = 0;
+  }
+
   /**
    * @brief Write encrypted data stream to the file loader.
    *
@@ -22,6 +31,8 @@ class DecryptionStream {
    */
   virtual bool End() = 0;
 
+  virtual Str GetName() = 0;
+
   /**
    * @brief Return true if the decryptor is in an error state.
    *
@@ -29,16 +40,6 @@ class DecryptionStream {
    * @return false
    */
   virtual bool IsBad() const { return error_; }
-
-  /**
-   * @brief Reset and seek to begin of file.
-   *
-   */
-  virtual void Reset() {
-    buf_in_.resize(0);
-    buf_out_.resize(0);
-    offset_ = 0;
-  }
 
   inline usize GetOutputSize() { return buf_out_.size(); }
   inline usize Peek(u8* out, usize len) {
