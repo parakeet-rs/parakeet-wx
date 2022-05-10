@@ -8,7 +8,7 @@ typedef Vec<u8> QMCv1Key;
 
 class QMCv1Loader : public DecryptionStream {
  public:
-  virtual Str GetName() override { return "QMCv1"; };
+  virtual const Str GetName() const override { return "QMCv1(static/map)"; };
 
   static std::unique_ptr<QMCv1Loader> CreateStatic(const QMCv1Key& key);
   static std::unique_ptr<QMCv1Loader> CreateMap(const QMCv1Key& key);

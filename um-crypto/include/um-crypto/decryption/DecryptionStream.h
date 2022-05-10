@@ -31,7 +31,7 @@ class DecryptionStream {
    */
   virtual bool End() = 0;
 
-  virtual Str GetName() = 0;
+  virtual const Str GetName() const = 0;
 
   /**
    * @brief Return true if the decryptor is in an error state.
