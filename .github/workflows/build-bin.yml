@@ -19,6 +19,8 @@ jobs:
             build_profile: win64-2019-rel
             build_dir: build/win64-2019-rel
           - os: ubuntu-20.04
+            cc: gcc-10
+            cxx: g++-10
             build_po: false
             setup_ninja: true
             os_name: "linux-x86_64"
@@ -40,6 +42,8 @@ jobs:
     runs-on: ${{ matrix.os }}
     env:
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
 
     steps:
       - uses: actions/checkout@v3
