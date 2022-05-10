@@ -1,0 +1,81 @@
+name: "Build (Win + Linux)"
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
+        include:
+          - os: windows-2019
+            build_po: true
+            os_name: "win64"
+            config_profile: win64-2019-rel
+            build_profile: win64-2019-rel
+            build_dir: build/win64-2019-rel
+          - os: ubuntu-20.04
+            build_po: false
+            os_name: "linux-x86_64"
+            config_profile: ninja-linux
+            build_profile: ninja-rel
+            build_dir: build/ninja-multi
+
+    runs-on: ${{ matrix.os }}
+
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: "vcpkg: create binary cache folder"
+        shell: bash
+        run: mkdir -p .vcpkg-bc
+
+      - name: "vcpkg: setup binary cache"
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            .vcpkg-bc
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
+      - name: "Bootstrap vcpkg (Win64)"
+        if: ${{ startsWith(matrix.os, "windows") }}
+        run: .\vcpkg\bootstrap-vcpkg.bat
+
+      - name: "Bootstrap vcpkg (Ubuntu)"
+        if: ${{ startsWith(matrix.os, "ubuntu") }}
+        run: bash ./vcpkg/bootstrap-vcpkg.sh
+
+      - name: "CMake: Configure"
+        run: cmake --preset ${{ matrix.config_profile }}
+
+      - name: "CMake: Build"
+        run: cmake --build --preset ${{ matrix.build_profile }}
+
+      - uses: actions/upload-artifact@v3
+        name: "Upload binary"
+        with:
+          name: win64-build
+          path: |
+            ${{ matrix.build_dir }}/um-desktop/Release/
+
+      - name: Build localisation files
+        if: ${{ build_po }}
+        run: bash build-po.sh
+
+      - uses: actions/upload-artifact@v3
+        if: ${{ build_po }}
+        with:
+          name: locale
+          path: |
+            ${{ matrix.build_dir }}/**/*.mo
