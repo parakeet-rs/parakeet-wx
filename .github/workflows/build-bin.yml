@@ -28,6 +28,7 @@ jobs:
             build_files: |
               build/linux-rel/um-desktop/um-desktop
             apt_packages: >-
+              get-text
               libgcrypt20-dev
               libgtk-3-dev
               libjpeg-dev
