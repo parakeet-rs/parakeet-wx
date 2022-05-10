@@ -25,9 +25,19 @@ jobs:
             config_profile: default-linux-rel
             build_profile: default-linux-rel
             build_dir: build/linux-rel
+            apt_packages: >-
+              libgcrypt20-dev
+              libgtk-3-dev
+              libjpeg-dev
+              libpng-dev
+              libsecret-1-dev
+              libsystemd-dev
+              libtiff-dev
+              libwebp-dev
+              libzstd-dev
+              pkg-config
 
     runs-on: ${{ matrix.os }}
-
     env:
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
 
@@ -35,6 +45,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
+
+      - name: "apt-get: install dependencies"
+        if: ${{ matrix.apt_packages }}
+        run: sudo apt-get install -y ${{ matrix.apt_packages }}
 
       - name: "vcpkg: create binary cache folder"
         shell: bash
