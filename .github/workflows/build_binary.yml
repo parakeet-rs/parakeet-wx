@@ -60,6 +60,7 @@ jobs:
           if [ "$RUNNER_OS" == "Windows" ]; then
             MSYS_NO_PATHCONV=1 cmd /c ./vcpkg/bootstrap-vcpkg.bat
           else
+            bash ./prepare.linux.sh
             bash ./vcpkg/bootstrap-vcpkg.sh
           fi
 
