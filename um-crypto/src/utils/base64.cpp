@@ -19,8 +19,7 @@ Vec<u8> Base64Decode(const Str& input) {
 }
 
 Str Base64Encode(const Vec<u8>& input) {
-  Str buf;
-  buf.resize(base64::encoded_size(input.size()));
+  Str buf(base64::encoded_size(input.size()), 0);
 
   const auto bytes_written =
       base64::encode(buf.data(), input.data(), input.size());

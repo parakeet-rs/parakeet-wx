@@ -39,8 +39,7 @@ inline Str ContainerToString(const TContainer& input) {
 
   constexpr usize buf_single_size = sizeof(A) * 2 + 4;  // ", 0x"
   const usize buf_size = input.size() * buf_single_size;
-  Str result;
-  result.resize(buf_size);
+  Str result(buf_size, 0);
 
   const char* fmt;
   static_assert(
