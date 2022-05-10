@@ -74,12 +74,10 @@ jobs:
       - name: "Bootstrap vcpkg"
         shell: bash
         run: |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-            MSYS_NO_PATHCONV=1 cmd /c .\\vcpkg\\bootstrap-vcpkg.bat
-          else
+          if [ "$RUNNER_OS" != "Windows" ]; then
             bash ./prepare.linux.sh
-            bash ./vcpkg/bootstrap-vcpkg.sh
           fi
+          bash ./vcpkg/bootstrap-vcpkg.sh  --disableMetrics
 
       - name: "CMake: Configure"
         run: cmake --preset ${{ matrix.config_profile }}

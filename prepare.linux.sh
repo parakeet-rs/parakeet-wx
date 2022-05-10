@@ -2,7 +2,7 @@
 
 pushd "$(dirname -- "${BASH_SOURCE[0]}")"
 
-./vcpkg/bootstrap-vcpkg.sh || {
+./vcpkg/bootstrap-vcpkg.sh --disableMetrics || {
   echo "ERROR: could not bootstrap vcpkg."
   exit 1
 }
