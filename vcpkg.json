@@ -9,7 +9,6 @@
     "boost-filesystem",
     "boost-system",
     "boost-thread",
-    "botan",
     "cryptopp",
     "gtest",
     "rapidjson",

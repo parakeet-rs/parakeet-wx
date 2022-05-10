@@ -1,0 +1,99 @@
+name: "Build (Win + Linux)"
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
+        include:
+          - os: windows-2019
+            setup_ninja: false
+            os_name: "win64"
+            config_profile: win64-2019-rel
+            build_profile: win64-2019-rel
+            build_files: |
+              build/win64-2019-rel/um-desktop/Release/
+          - os: ubuntu-20.04
+            cc: gcc-10
+            cxx: g++-10
+            setup_ninja: true
+            os_name: "linux-x86_64"
+            config_profile: default-linux-rel
+            build_profile: default-linux-rel
+            build_files: |
+              build/linux-rel/um-desktop/um-desktop
+            apt_packages: >-
+              gettext
+              libgcrypt20-dev
+              libgtk-3-dev
+              libjpeg-dev
+              libpng-dev
+              libsecret-1-dev
+              libsystemd-dev
+              libtiff-dev
+              libwebp-dev
+              libzstd-dev
+              pkg-config
+
+    runs-on: ${{ matrix.os }}
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+      CC: ${{ matrix.cc }}
+      CXX: ${{ matrix.cxx }}
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: "apt-get: install dependencies"
+        if: ${{ matrix.apt_packages }}
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ${{ matrix.apt_packages }}
+
+      - name: "vcpkg: create binary cache folder"
+        shell: bash
+        run: mkdir -p .vcpkg-bc
+
+      - name: "vcpkg: setup binary cache"
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            .vcpkg-bc
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
+      - name: "Bootstrap vcpkg"
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            MSYS_NO_PATHCONV=1 cmd /c .\\vcpkg\\bootstrap-vcpkg.bat
+          else
+            bash ./prepare.linux.sh
+            bash ./vcpkg/bootstrap-vcpkg.sh
+          fi
+
+      - name: "CMake: Configure"
+        run: cmake --preset ${{ matrix.config_profile }}
+
+      - name: "CMake: Build"
+        run: cmake --build --preset ${{ matrix.build_profile }}
+
+      - name: "Build locale"
+        run: bash build-po.sh
+
+      - name: "Upload binary & locale"
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ matrix.os_name }}-build
+          path: |
+            ${{ matrix.build_files }}
+            locale/**/*.mo
