@@ -1,5 +1,6 @@
 #include "um-crypto/decryption/tencent/QMCv1Loader.h"
 #include "um-crypto/endian.h"
+#include "um-crypto/utils/StringHelper.h"
 
 #include <cassert>
 
@@ -30,8 +31,14 @@ class QMCv1LoaderImpl : public QMCv1Loader {
     return key[index];
   }
 
+  Str name_;
+
  public:
-  QMCv1LoaderImpl(const QMCv1Key& key, usize idx_offset) {
+  QMCv1LoaderImpl(const QMCv1Key& key,
+                  usize idx_offset,
+                  const char* subtype_name) {
+    name_ = utils::Format("QMCv1(%s)", subtype_name);
+
 #define QMC_GET_VALUE_AT_IDX(IDX) (GetCacheIndex(key, idx_offset, IDX, n))
     auto n = key.size();
     idx_offset = idx_offset % n;
@@ -43,6 +50,8 @@ class QMCv1LoaderImpl : public QMCv1Loader {
     value_page_other_ = QMC_GET_VALUE_AT_IDX(0);
 #undef QMC_GET_VALUE_AT_IDX
   }
+
+  virtual const Str GetName() const override { return name_; };
 
  private:
   u8 value_page_one_;
@@ -88,12 +97,16 @@ class QMCv1LoaderImpl : public QMCv1Loader {
 
 // Public interface
 
-std::unique_ptr<QMCv1Loader> QMCv1Loader::CreateStatic(const QMCv1Key& key) {
-  return std::make_unique<detail::QMCv1LoaderImpl<false>>(key, 80923);
-}
-
-std::unique_ptr<QMCv1Loader> QMCv1Loader::CreateMap(const QMCv1Key& key) {
-  return std::make_unique<detail::QMCv1LoaderImpl<true>>(key, 71214);
+std::unique_ptr<QMCv1Loader> QMCv1Loader::Create(const QMCv1Key& key,
+                                                 QMCv1Type type) {
+  if (type == QMCv1Type::kStaticCipher) {
+    return std::make_unique<detail::QMCv1LoaderImpl<false>>(key, 80923,
+                                                            "static");
+  } else if (type == QMCv1Type::kMapCipher) {
+    return std::make_unique<detail::QMCv1LoaderImpl<true>>(key, 71214, "map");
+  } else {
+    throw std::invalid_argument("Unknown type for QMCv1");
+  }
 }
 
 }  // namespace umc::decryption::tencent
