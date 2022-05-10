@@ -28,7 +28,7 @@ MapCipher::MapCipher(const Vec<u8>& key) : AXorStreamCipher() {
   u8* buf = buf_.data();
   const u8* p_key = key.data();
   for (usize i = 0; i < kSegmentLen; i++) {
-    buf[i] = GetMaskByte(p_key, N, offset_ + i);
+    buf[i] = GetMaskByte(p_key, N, i);
   }
   first_bytes.first = buf[0];
   first_bytes.second = GetMaskByte(p_key, N, kSegmentLen);
