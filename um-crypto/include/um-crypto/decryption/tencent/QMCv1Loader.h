@@ -22,6 +22,8 @@ enum class QMCv1Type {
    * Used by QQ Music client (with extension e.g. `mflac`).
    * Same cipher but with a different key for each file.
    * Key derivation parameter is different than {@link kStaticCipher}
+   *
+   * Do _not_ feed the file footer to this crypto.
    */
   kMapCipher,
 };
