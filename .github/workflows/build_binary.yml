@@ -66,20 +66,21 @@ jobs:
       - name: "CMake: Build"
         run: cmake --build --preset ${{ matrix.build_profile }}
 
-      - uses: actions/upload-artifact@v3
-        name: "Upload binary"
+      - name: "Upload binary"
+        uses: actions/upload-artifact@v3
         with:
           name: win64-build
           path: |
             ${{ matrix.build_dir }}/um-desktop/Release/
 
-      - name: Build localisation files
+      - name: "Build locale"
         if: ${{ matrix.build_po }}
         run: bash build-po.sh
 
-      - uses: actions/upload-artifact@v3
+      - name: "Upload locale"
+        uses: actions/upload-artifact@v3
         if: ${{ matrix.build_po }}
         with:
           name: locale
           path: |
-            ${{ matrix.build_dir }}/**/*.mo
+            locale/**/*.mo
