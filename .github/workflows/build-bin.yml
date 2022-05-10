@@ -12,7 +12,6 @@ jobs:
         os: [ubuntu-20.04, windows-2019]
         include:
           - os: windows-2019
-            build_po: true
             setup_ninja: false
             os_name: "win64"
             config_profile: win64-2019-rel
@@ -22,7 +21,6 @@ jobs:
           - os: ubuntu-20.04
             cc: gcc-10
             cxx: g++-10
-            build_po: false
             setup_ninja: true
             os_name: "linux-x86_64"
             config_profile: default-linux-rel
@@ -88,20 +86,13 @@ jobs:
       - name: "CMake: Build"
         run: cmake --build --preset ${{ matrix.build_profile }}
 
-      - name: "Upload binary"
-        uses: actions/upload-artifact@v3
-        with:
-          name: win64-build
-          path: ${{ matrix.build_files }}
-
       - name: "Build locale"
-        if: ${{ matrix.build_po }}
         run: bash build-po.sh
 
-      - name: "Upload locale"
+      - name: "Upload binary & locale"
         uses: actions/upload-artifact@v3
-        if: ${{ matrix.build_po }}
         with:
-          name: locale
+          name: ${{ matrix.os_name }}-build
           path: |
+            ${{ matrix.build_files }}
             locale/**/*.mo
