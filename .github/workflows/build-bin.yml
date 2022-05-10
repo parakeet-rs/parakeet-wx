@@ -17,7 +17,8 @@ jobs:
             os_name: "win64"
             config_profile: win64-2019-rel
             build_profile: win64-2019-rel
-            build_dir: build/win64-2019-rel
+            build_files: |
+              build/win64-2019-rel/um-desktop/Release/
           - os: ubuntu-20.04
             cc: gcc-10
             cxx: g++-10
@@ -26,7 +27,8 @@ jobs:
             os_name: "linux-x86_64"
             config_profile: default-linux-rel
             build_profile: default-linux-rel
-            build_dir: build/linux-rel
+            build_files: |
+              build/linux-rel/um-desktop/um-desktop
             apt_packages: >-
               libgcrypt20-dev
               libgtk-3-dev
@@ -90,8 +92,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: win64-build
-          path: |
-            ${{ matrix.build_dir }}/um-desktop/Release/
+          path: ${{ matrix.build_files }}
 
       - name: "Build locale"
         if: ${{ matrix.build_po }}
