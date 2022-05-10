@@ -10,18 +10,13 @@ diff -ru vcpkg/ports/wxwidgets/vcpkg.json vcpkg_overlays/wxwidgets/vcpkg.json
    "description": [
      "Widget toolkit and tools library for creating graphical user interfaces (GUIs) for cross-platform applications. ",
      "Set WXWIDGETS_USE_STL in a custom triplet to build with the wxUSE_STL build option.",
-@@ -16,10 +16,18 @@
-       "default-features": false,
+@@ -17,9 +17,14 @@
        "platform": "!windows & !osx"
      },
--    "expat",
+     "expat",
 -    "libjpeg-turbo",
 -    "libpng",
 -    "tiff",
-+    {
-+      "name": "expat",
-+      "platform": "!linux"
-+    },
 +    {
 +      "name": "libpng",
 +      "platform": "!linux"

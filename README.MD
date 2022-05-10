@@ -83,3 +83,14 @@ cmake --build --preset win64-2019-rel
     libzstd-dev \
     pkg-config
   ```
+
+#### Linux (Fedora 36)
+
+- 安装工具链：
+
+  ```sh
+  sudo dnf install gcc cmake extra-cmake-modules \
+                   ninja-build make \
+                   perl-{FindBin,IPC-Cmd,File-Copy,Compare} \
+                   {gtk3,wxGTK,libwebp,libzstd,jbigkit,systemd}-devel
+  ```
