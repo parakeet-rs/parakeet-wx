@@ -48,13 +48,14 @@ jobs:
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
 
-      - name: "Bootstrap vcpkg (Win64)"
-        if: ${{ startsWith(matrix.os, "windows") }}
-        run: .\vcpkg\bootstrap-vcpkg.bat
-
-      - name: "Bootstrap vcpkg (Ubuntu)"
-        if: ${{ startsWith(matrix.os, "ubuntu") }}
-        run: bash ./vcpkg/bootstrap-vcpkg.sh
+      - name: "Bootstrap vcpkg"
+        shell: bash
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            MSYS_NO_PATHCONV=1 cmd /c ./vcpkg/bootstrap-vcpkg.bat
+          else
+            bash ./vcpkg/bootstrap-vcpkg.sh
+          fi
 
       - name: "CMake: Configure"
         run: cmake --preset ${{ matrix.config_profile }}
