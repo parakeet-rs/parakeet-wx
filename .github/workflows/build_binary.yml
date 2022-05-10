@@ -71,11 +71,11 @@ jobs:
             ${{ matrix.build_dir }}/um-desktop/Release/
 
       - name: Build localisation files
-        if: ${{ build_po }}
+        if: ${{ matrix.build_po }}
         run: bash build-po.sh
 
       - uses: actions/upload-artifact@v3
-        if: ${{ build_po }}
+        if: ${{ matrix.build_po }}
         with:
           name: locale
           path: |
