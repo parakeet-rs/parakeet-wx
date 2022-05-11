@@ -7,6 +7,9 @@
 
 namespace umc::decryption {
 
+constexpr usize kDetectionBufferLen = 4096;
+typedef Arr<u8, kDetectionBufferLen> DetectionBuffer;
+
 class DecryptionStream {
  public:
   /**
@@ -18,6 +21,14 @@ class DecryptionStream {
     buf_out_.resize(0);
     offset_ = 0;
   }
+
+  /**
+   * @brief Initialise decryptor with data found in file footer.
+   *
+   * @param buf
+   * @return usize Bytes to reserve and don't seed to this decryptor.
+   */
+  virtual usize InitWithFileFooter(const DetectionBuffer& buf) { return 0; }
 
   /**
    * @brief Write encrypted data stream to the file loader.
