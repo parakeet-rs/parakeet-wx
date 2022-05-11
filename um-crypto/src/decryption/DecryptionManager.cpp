@@ -39,6 +39,14 @@ class DecryptionManagerImpl : public DecryptionManager {
       result.push_back(std::move(item));
     }
 
+    std::sort(result.begin(), result.end(),
+              [](std::unique_ptr<DetectionResult>& left,
+                 std::unique_ptr<DetectionResult>& right) -> bool {
+                // Prefer audio_type with higher rank;
+                //   lossless > lossy > unknown (bin)
+                return left->audio_type > right->audio_type;
+              });
+
     return result;
   };
 
