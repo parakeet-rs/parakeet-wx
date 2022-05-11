@@ -4,6 +4,7 @@
 #include "kuwo/KuwoFileLoader.h"
 #include "tencent/JooxFileLoader.h"
 #include "tencent/QMCv1Loader.h"
+#include "tencent/QMCv2Loader.h"
 #include "xiami/XiamiFileLoader.h"
 #include "ximalaya/XimalayaFileLoader.h"
 
