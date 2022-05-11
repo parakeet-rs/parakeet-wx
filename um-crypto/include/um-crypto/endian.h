@@ -19,8 +19,29 @@ namespace detail {
 constexpr bool is_le = std::endian::native == std::endian::little;
 constexpr bool is_be = std::endian::native == std::endian::big;
 
+// MSVC workaround: https://stackoverflow.com/a/36937049
+#if _MSC_VER
+template <class T, std::size_t... N>
+constexpr T msvc_constexpr_bswap_impl(T i, std::index_sequence<N...>) {
+  return ((((i >> (N * CHAR_BIT)) & (T)(unsigned char)(-1))
+           << ((sizeof(T) - 1 - N) * CHAR_BIT)) |
+          ...);
+};
+
+template <class T, class U = typename std::make_unsigned<T>::type>
+constexpr U msvc_constexpr_bswap(T i) {
+  return msvc_constexpr_bswap_impl<U>(i, std::make_index_sequence<sizeof(T)>{});
+}
+#endif
+
 template <std::integral T>
 constexpr T swap_bytes(T input) {
+#if _MSC_VER
+  if (std::is_constant_evaluated()) {
+    return msvc_constexpr_bswap(input);
+  }
+#endif
+
   if constexpr (sizeof(T) == 8) return T(__builtin_bswap64(uint64_t(input)));
   if constexpr (sizeof(T) == 4) return T(__builtin_bswap32(uint32_t(input)));
   if constexpr (sizeof(T) == 2) return T(__builtin_bswap16(uint16_t(input)));
@@ -35,25 +56,25 @@ constexpr T swap_bytes(T input) {
 // Otherwise: swap
 
 template <std::integral T>
-inline T SwapHostToLittleEndian(T input) {
+constexpr inline T SwapHostToLittleEndian(T input) {
   if constexpr (detail::is_le) return input;
   return detail::swap_bytes(input);
 }
 
 template <std::integral T>
-inline T SwapHostToBigEndian(T input) {
+constexpr inline T SwapHostToBigEndian(T input) {
   if constexpr (detail::is_be) return input;
   return detail::swap_bytes(input);
 }
 
 template <std::integral T>
-inline T SwapLittleEndianToHost(T input) {
+constexpr inline T SwapLittleEndianToHost(T input) {
   if constexpr (detail::is_le) return input;
   return detail::swap_bytes(input);
 }
 
 template <std::integral T>
-inline T SwapBigEndianToHost(T input) {
+constexpr inline T SwapBigEndianToHost(T input) {
   if constexpr (detail::is_be) return input;
   return detail::swap_bytes(input);
 }
