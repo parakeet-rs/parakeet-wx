@@ -34,22 +34,28 @@ enum class State {
 
 class JooxFileLoaderImpl : public JooxFileLoader {
  public:
-  JooxFileLoaderImpl(const Str& install_uuid, const JooxSalt& salt) {
-    u8 derived[CryptoPP::SHA1::DIGESTSIZE];
-    CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA1> pbkdf;
-    CryptoPP::byte unused = 0;
-    pbkdf.DeriveKey(derived, sizeof(derived), 0 /* unused */,
-                    reinterpret_cast<const u8*>(install_uuid.c_str()),
-                    install_uuid.size(), salt.data(), salt.size(), 1000, 0);
-
-    aes.SetKey(derived, kAESBlockSize);
-  }
+  JooxFileLoaderImpl(const Str& install_uuid, const JooxSalt& salt)
+      : uuid_(install_uuid), salt_(salt) {}
 
  private:
   CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption aes;
 
+  Str uuid_;
+  JooxSalt salt_;
   State state_ = State::kWaitForHeader;
   usize block_count_ = 0;
+
+  inline void SetupKey() {
+    u8 derived[CryptoPP::SHA1::DIGESTSIZE];
+    CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA1> pbkdf;
+    CryptoPP::byte unused = 0;
+    pbkdf.DeriveKey(derived, sizeof(derived), 0 /* unused */,
+                    reinterpret_cast<const u8*>(uuid_.c_str()), uuid_.size(),
+                    salt_.data(), salt_.size(), 1000, 0);
+
+    aes.SetKey(derived, kAESBlockSize);
+  }
+
   bool Write(const u8* in, usize len) override {
     buf_out_.reserve(buf_out_.size() + len);
 
@@ -65,6 +71,8 @@ class JooxFileLoaderImpl : public JooxFileLoader {
         case State::kSeekToBody:
           if (ReadUntilOffset(in, len, kVer4HeaderSize)) {
             buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kVer4HeaderSize);
+            SetupKey();
+
             state_ = State::kFastFirstPageDecryption;
           }
           break;
