@@ -38,6 +38,10 @@ class QMCv1LoaderImpl : public QMCv1Loader {
                   usize idx_offset,
                   const char* subtype_name) {
     name_ = utils::Format("QMCv1(%s)", subtype_name);
+    if (key.empty()) {
+      error_ = true;
+      return;
+    }
 
     auto n = key.size();
     idx_offset = idx_offset % n;
@@ -57,6 +61,8 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   QMCv1Cache cache_;
 
   bool Write(const u8* in, usize len) override {
+    if (error_) return false;
+
     usize out_size = buf_out_.size();
     buf_out_.resize(out_size + len);
     auto p_out = &buf_out_.at(out_size);
