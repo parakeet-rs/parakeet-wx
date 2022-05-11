@@ -14,17 +14,23 @@ namespace umc::decryption::tencent {
 
 namespace detail_joox_v4 {
 
-constexpr usize kJooxMagicSize = 4;
-constexpr usize kJooxVer4HeaderSize = 12; /* 'E!04' + u64_be(file size) */
+constexpr usize kMagicSize = 4;
+constexpr usize kVer4HeaderSize = 12; /* 'E!04' + u64_be(file size) */
 
 constexpr u32 kMagicJooxV4 = 0x45'21'30'34;  // 'E!04'
 
 // Input block + padding 16 bytes (of 0x10)
-constexpr usize kJooxV4EncryptionBlockSize = 0x100000;
-constexpr usize kJooxV4DecryptionBlockSize = kJooxV4EncryptionBlockSize + 0x10;
+constexpr usize kAESBlockSize = 0x10;
+constexpr usize kEncryptionBlockSize = 0x100000;
+constexpr usize kDecryptionBlockSize = kEncryptionBlockSize + 0x10;
+constexpr usize kBlockCountPerIteration = kEncryptionBlockSize / kAESBlockSize;
 
-constexpr usize kJooxAESByteSize = 16;
-constexpr usize kJooxKeyDeriveIter = 1000;
+enum class State {
+  kWaitForHeader = 0,
+  kSeekToBody,
+  kFastFirstPageDecryption,
+  kDecryptPaddingBlock,
+};
 
 class JooxFileLoaderImpl : public JooxFileLoader {
  public:
@@ -36,58 +42,100 @@ class JooxFileLoaderImpl : public JooxFileLoader {
                     reinterpret_cast<const u8*>(install_uuid.c_str()),
                     install_uuid.size(), salt.data(), salt.size(), 1000, 0);
 
-    aes.SetKey(derived, kJooxAESByteSize);
+    aes.SetKey(derived, kAESBlockSize);
   }
 
  private:
   CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption aes;
 
+  State state_ = State::kWaitForHeader;
+  usize block_count_ = 0;
   bool Write(const u8* in, usize len) override {
-    if (ReadUntilOffset(in, len, kJooxMagicSize)) {
-      error_ = ReadBigEndian<u32>(buf_in_.data()) != kMagicJooxV4;
-    }
-    if (error_) return false;
+    buf_out_.reserve(buf_out_.size() + len);
 
-    if (ReadUntilOffset(in, len, kJooxVer4HeaderSize)) {
-      buf_in_.resize(0);
-      buf_in_.reserve(kJooxV4DecryptionBlockSize);
-    }
-
-    while (ReadBlock(in, len, kJooxV4DecryptionBlockSize)) {
-      if (!DecryptAesEcbPkcs5()) {
-        return false;
+    while (len) {
+      switch (state_) {
+        case State::kWaitForHeader:
+          if (ReadUntilOffset(in, len, kMagicSize)) {
+            error_ = ReadBigEndian<u32>(buf_in_.data()) != kMagicJooxV4;
+            if (error_) return false;
+            state_ = State::kSeekToBody;
+          }
+          break;
+        case State::kSeekToBody:
+          if (ReadUntilOffset(in, len, kVer4HeaderSize)) {
+            buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kVer4HeaderSize);
+            state_ = State::kFastFirstPageDecryption;
+          }
+          break;
+        case State::kFastFirstPageDecryption:
+          // Always reserve last 16 bytes, as it could be the padding.
+          while (ReadBlock(in, len, kAESBlockSize * 2)) {
+            if (!DecryptAesBlock()) {
+              error_ = true;
+              return false;
+            }
+            block_count_++;
+            if (block_count_ == kBlockCountPerIteration) {
+              state_ = State::kDecryptPaddingBlock;
+              break;
+            }
+          }
+          break;
+        case State::kDecryptPaddingBlock:
+          if (ReadBlock(in, len, kAESBlockSize)) {
+            if (!DecryptPaddingBlock()) {
+              error_ = true;
+              return false;
+            }
+            state_ = State::kFastFirstPageDecryption;
+            block_count_ = 0;
+          }
+          break;
       }
     }
-
-    assert(len == 0);
 
     return true;
   }
 
-  bool End() { return DecryptAesEcbPkcs5(); }
+  inline bool DecryptAesBlock() {
+    auto pos = buf_out_.size();
+    buf_out_.resize(pos + kAESBlockSize);
 
-  bool DecryptAesEcbPkcs5() {
-    const usize n = buf_in_.size();
-    if (n % kJooxAESByteSize != 0) {
+    aes.ProcessData(&buf_out_[pos], buf_in_.data(), kAESBlockSize);
+
+    offset_ += kAESBlockSize;
+    buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kAESBlockSize);
+    return true;
+  }
+
+  inline bool DecryptPaddingBlock() {
+    u8 block[kAESBlockSize];
+    aes.ProcessData(block, buf_in_.data(), kAESBlockSize);
+
+    // Trim data
+    usize len = kAESBlockSize - block[kAESBlockSize - 1];
+    if (len) {
+      buf_out_.insert(buf_out_.end(), block, block + len);
+    }
+
+    offset_ += kAESBlockSize;
+    buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kAESBlockSize);
+    return true;
+  }
+
+  bool End() override {
+    if (error_) return false;
+    if (buf_in_.size() == 0) return true;
+
+    if (buf_in_.size() != 16) {
       error_ = true;
       return false;
     }
 
-    u8* p_in = buf_in_.data();
-    u8* end = p_in + n - kJooxAESByteSize;
-    for (; p_in < end; p_in += kJooxAESByteSize) {
-      aes.ProcessData(p_in, p_in, kJooxAESByteSize);
-      buf_out_.insert(buf_out_.end(), p_in, p_in + kJooxAESByteSize);
-    }
-
-    aes.ProcessData(p_in, p_in, kJooxAESByteSize);
-
-    // Trim padding
-    usize len = kJooxAESByteSize - usize{p_in[kJooxAESByteSize - 1]};
-    buf_out_.insert(buf_out_.end(), p_in, p_in + len);
-    buf_in_.resize(0);
-
-    return true;
+    auto ok = DecryptPaddingBlock();
+    error_ = !ok;
+    return ok;
   }
 };
 

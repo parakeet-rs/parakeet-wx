@@ -81,6 +81,8 @@ class DecryptionStream {
   inline bool ReadUntilOffset(const u8*& p, usize& len, usize target_offset) {
     if (offset_ < target_offset) {
       auto read_size = std::min(target_offset - offset_, len);
+      if (read_size == 0) return false;
+
       buf_in_.insert(buf_in_.end(), p, p + read_size);
 
       offset_ += read_size;
@@ -104,11 +106,12 @@ class DecryptionStream {
   inline bool ReadBlock(const u8*& p, usize& len, usize block_size) {
     if (buf_in_.size() < block_size) {
       auto read_size = std::min(block_size - buf_in_.size(), len);
+      if (read_size == 0) return false;
+
       buf_in_.insert(buf_in_.end(), p, p + read_size);
 
       p += read_size;
       len -= read_size;
-      offset_ += read_size;
     }
 
     return buf_in_.size() == block_size;

@@ -19,7 +19,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   inline usize GetCacheIndex(const QMCv1Key& key,
                              usize idx_offset,
                              usize i,
-                             usize n) {
+                             usize n) const {
     usize index = (i * i + idx_offset) % n;
 
     if constexpr (RotateValueWithIndex) {
@@ -39,15 +39,14 @@ class QMCv1LoaderImpl : public QMCv1Loader {
                   const char* subtype_name) {
     name_ = utils::Format("QMCv1(%s)", subtype_name);
 
-#define QMC_GET_VALUE_AT_IDX(IDX) (GetCacheIndex(key, idx_offset, IDX, n))
     auto n = key.size();
     idx_offset = idx_offset % n;
 
+#define QMC_GET_VALUE_AT_IDX(IDX) (GetCacheIndex(key, idx_offset, IDX, n))
     for (usize i = 0; i < kStaticCipherPageSize; i++) {
       cache_[i] = QMC_GET_VALUE_AT_IDX(i);
     }
     value_page_one_ = QMC_GET_VALUE_AT_IDX(kStaticCipherPageSize);
-    value_page_other_ = QMC_GET_VALUE_AT_IDX(0);
 #undef QMC_GET_VALUE_AT_IDX
   }
 
@@ -55,42 +54,25 @@ class QMCv1LoaderImpl : public QMCv1Loader {
 
  private:
   u8 value_page_one_;
-  u8 value_page_other_;
   QMCv1Cache cache_;
 
   bool Write(const u8* in, usize len) override {
-    while (ReadBlock(in, len, kStaticCipherPageSize)) {
-      DecryptBlock();
-    }
+    usize out_size = buf_out_.size();
+    buf_out_.resize(out_size + len);
+    auto p_out = &buf_out_.at(out_size);
 
-    assert(len == 0);
-    return true;
-  }
-
-  bool End() override {
-    DecryptBlock();
-    return true;
-  }
-
-  bool DecryptBlock() {
-    usize len = buf_in_.size();
-
-    u8* p_in = buf_in_.data();
-
-    if (len > 0) {
-      // Offset starts at (offset_ - len)
-      *p_in ^= ((offset_ - len) == kStaticCipherPageSize) ? value_page_one_
-                                                          : value_page_other_;
-      for (usize i = 1; i < len; i++) {
-        p_in[i] ^= cache_[i];
+    for (usize i = 0; i < len; i++, offset_++) {
+      if (offset_ == kStaticCipherPageSize) {
+        p_out[i] = in[i] ^ value_page_one_;
+      } else {
+        p_out[i] = in[i] ^ cache_[offset_ % kStaticCipherPageSize];
       }
     }
 
-    buf_out_.insert(buf_out_.end(), buf_in_.begin(), buf_in_.end());
-    buf_in_.resize(0);
-
     return true;
   }
+
+  bool End() override { return !error_; }
 };
 
 }  // namespace detail
