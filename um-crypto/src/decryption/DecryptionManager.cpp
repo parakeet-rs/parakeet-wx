@@ -69,8 +69,7 @@ class DecryptionManagerImpl : public DecryptionManager {
         tencent::JooxFileLoader::Create(c.joox.install_uuid, c.joox.salt));
 
     // Add QMCv1 (static)
-    result.push_back(tencent::QMCv1Loader::Create(
-        c.qmc.static_cipher_key, tencent::QMCv1Type::kStaticCipher));
+    result.push_back(tencent::QMCv1Loader::Create(c.qmc.static_cipher_key));
 
     // Add QMCv2 (map)
     result.push_back(tencent::QMCv1Loader::Create(
