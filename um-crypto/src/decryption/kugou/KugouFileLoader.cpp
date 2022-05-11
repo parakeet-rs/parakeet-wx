@@ -27,11 +27,23 @@ enum class KugouCryptoType {
 
 namespace detail {
 
+constexpr usize kFileMagicSize = 0x10;
 constexpr usize kMinimalHeaderSize = 0x40;
 typedef Arr<u8, 17> KugouFileKey;
 
+const Arr<u8, kFileMagicSize> kKGMFileMagic = {
+    0x7c, 0xd5, 0x32, 0xeb, 0x86, 0x02, 0x7f, 0x4b,
+    0xa8, 0xaf, 0xa6, 0x8e, 0x0f, 0xff, 0x99, 0x14,
+};
+
+const Arr<u8, kFileMagicSize> kVPRFileMagic = {
+    0x05, 0x28, 0xbc, 0x96, 0xe9, 0xe4, 0x5a, 0x43,
+    0x91, 0xaa, 0xbd, 0xd0, 0x7a, 0xf5, 0x36, 0x31,
+};
+
 enum class State {
-  kWaitForHeader = 0,
+  kReadFileMagic = 0,
+  kWaitForHeader,
   kSeekToBody,
   kDecrypt,
 };
@@ -49,10 +61,11 @@ class KugouFileLoaderImpl : public KugouFileLoader {
 
     name_ = utils::Format("Kugou(%s,%s)", subtype, kCacheType);
   }
+  virtual const Str GetName() const override { return name_; };
 
  private:
   Str name_;
-  virtual const Str GetName() const override { return name_; };
+  State state_ = State::kReadFileMagic;
 
   KugouInternalTable t1_;
   KugouInternalTable t2_;
@@ -66,19 +79,6 @@ class KugouFileLoaderImpl : public KugouFileLoader {
 
   usize header_size_ = 0x400;
   KugouFileKey file_key_;
-
-  State state_ = State::kWaitForHeader;
-
-  inline void ParseHeader(const u8*& in, usize& len) {
-    if (ReadUntilOffset(in, len, kMinimalHeaderSize)) {
-      header_size_ = ReadLittleEndian<u32>(&buf_in_[0x10]);
-
-      std::copy_n(&buf_in_[0x1c], 0x10, file_key_.begin());
-      file_key_[0x10] = 0;
-
-      state_ = State::kSeekToBody;
-    }
-  }
 
   Vec<u8> cache_;
   inline void PopulateCacheUntil(usize required_offset) {
@@ -148,8 +148,35 @@ class KugouFileLoaderImpl : public KugouFileLoader {
   bool Write(const u8* in, usize len) override {
     while (len) {
       switch (state_) {
+        case State::kReadFileMagic:
+          if (ReadUntilOffset(in, len, kFileMagicSize)) {
+            if constexpr (Type == KugouCryptoType::kKGM) {
+              error_ = !std::equal(kKGMFileMagic.begin(), kKGMFileMagic.end(),
+                                   buf_in_.begin());
+            } else if constexpr (Type == KugouCryptoType::kVPR) {
+              error_ = !std::equal(kVPRFileMagic.begin(), kVPRFileMagic.end(),
+                                   buf_in_.begin());
+            } else {
+              error_ = true;
+            }
+
+            if (error_) {
+              return false;
+            }
+
+            state_ = State::kWaitForHeader;
+          }
+          break;
+
         case State::kWaitForHeader:
-          ParseHeader(in, len);
+          if (ReadUntilOffset(in, len, kMinimalHeaderSize)) {
+            header_size_ = ReadLittleEndian<u32>(&buf_in_[0x10]);
+
+            std::copy_n(&buf_in_[0x1c], 0x10, file_key_.begin());
+            file_key_[0x10] = 0;
+
+            state_ = State::kSeekToBody;
+          }
           break;
 
         case State::kSeekToBody:
