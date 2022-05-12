@@ -71,4 +71,10 @@ if (MSVC)
     add_definitions(-D_WIN64=1)
   endif()
   target_sources(${PROJECT_NAME} PRIVATE app.rc)
+else()
+  set_source_files_properties(
+    ui/ui.cpp ui/ui.h
+    PROPERTIES
+    COMPILE_FLAGS "-w"
+  )
 endif()
