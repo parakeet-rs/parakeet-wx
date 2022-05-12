@@ -1,6 +1,6 @@
 {
   "name": "um-desktop",
-  "version-string": "0.1.1-dev",
+  "version-string": "0.1.2-dev",
   "dependencies": [
     "boost-asio",
     "boost-dll",
