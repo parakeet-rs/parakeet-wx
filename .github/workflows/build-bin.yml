@@ -102,3 +102,12 @@ jobs:
         with:
           name: ${{ matrix.os_name }}-build
           path: dist/
+
+  package_appimage:
+    needs: [build]
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: "check: current folder"
+        run: |
+          ls -al && ls -al build
