@@ -80,7 +80,7 @@ class KuwoFileLoaderImpl : public KuwoFileLoader {
     return len == 0;
   };
 
-  bool End() override { return !error_; };
+  bool End() override { return !InErrorState(); }
 };
 
 }  // namespace detail

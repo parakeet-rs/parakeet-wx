@@ -60,7 +60,7 @@ class XimalayaFileLoaderImpl : public XimalayaFileLoader {
     return len == 0;
   };
 
-  bool End() override { return !error_; };
+  bool End() override { return !InErrorState(); }
 };
 
 }  // namespace detail

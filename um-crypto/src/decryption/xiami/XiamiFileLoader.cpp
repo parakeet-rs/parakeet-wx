@@ -54,7 +54,7 @@ class XiamiFileLoaderImpl : public XiamiFileLoader {
         case State::kReadHeader:
           if (ReadUntilOffset(in, len, kHeaderSize)) {
             if (!ParseFileHeader()) {
-              error_ = true;
+              error_ = "file header magic not found";
               return false;
             }
             buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kHeaderSize);
@@ -94,7 +94,7 @@ class XiamiFileLoaderImpl : public XiamiFileLoader {
     return len == 0;
   };
 
-  bool End() override { return !error_; };
+  bool End() override { return !InErrorState(); }
 };
 
 }  // namespace detail

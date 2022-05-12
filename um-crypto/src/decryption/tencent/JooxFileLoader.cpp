@@ -63,8 +63,10 @@ class JooxFileLoaderImpl : public JooxFileLoader {
       switch (state_) {
         case State::kWaitForHeader:
           if (ReadUntilOffset(in, len, kMagicSize)) {
-            error_ = ReadBigEndian<u32>(buf_in_.data()) != kMagicJooxV4;
-            if (error_) return false;
+            if (ReadBigEndian<u32>(buf_in_.data()) != kMagicJooxV4) {
+              error_ = "file header magic not found";
+              return false;
+            }
             state_ = State::kSeekToBody;
           }
           break;
@@ -79,10 +81,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
         case State::kFastFirstPageDecryption:
           // Always reserve last 16 bytes, as it could be the padding.
           while (ReadBlock(in, len, kAESBlockSize * 2)) {
-            if (!DecryptAesBlock()) {
-              error_ = true;
-              return false;
-            }
+            DecryptAesBlock();
             block_count_++;
             if (block_count_ == kBlockCountPerIteration) {
               state_ = State::kDecryptPaddingBlock;
@@ -92,10 +91,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
           break;
         case State::kDecryptPaddingBlock:
           if (ReadBlock(in, len, kAESBlockSize)) {
-            if (!DecryptPaddingBlock()) {
-              error_ = true;
-              return false;
-            }
+            DecryptPaddingBlock();
             state_ = State::kFastFirstPageDecryption;
             block_count_ = 0;
           }
@@ -106,7 +102,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
     return true;
   }
 
-  inline bool DecryptAesBlock() {
+  inline void DecryptAesBlock() {
     auto pos = buf_out_.size();
     buf_out_.resize(pos + kAESBlockSize);
 
@@ -114,10 +110,9 @@ class JooxFileLoaderImpl : public JooxFileLoader {
 
     offset_ += kAESBlockSize;
     buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kAESBlockSize);
-    return true;
   }
 
-  inline bool DecryptPaddingBlock() {
+  inline void DecryptPaddingBlock() {
     u8 block[kAESBlockSize];
     aes.ProcessData(block, buf_in_.data(), kAESBlockSize);
 
@@ -129,21 +124,20 @@ class JooxFileLoaderImpl : public JooxFileLoader {
 
     offset_ += kAESBlockSize;
     buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kAESBlockSize);
-    return true;
   }
 
   bool End() override {
-    if (error_) return false;
+    if (InErrorState()) return false;
     if (buf_in_.size() == 0) return true;
 
-    if (buf_in_.size() != 16) {
-      error_ = true;
+    if (buf_in_.size() != kAESBlockSize) {
+      error_ = "unexpected file EOF";
       return false;
     }
 
-    auto ok = DecryptPaddingBlock();
-    error_ = !ok;
-    return ok;
+    // Last block.
+    DecryptPaddingBlock();
+    return true;
   }
 };
 

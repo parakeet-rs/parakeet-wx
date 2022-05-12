@@ -36,7 +36,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
       }
     }
 
-    error_ = true;
+    error_ = "QMC footer parser not set";
     return 0;
   }
 
@@ -59,7 +59,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
     return len == 0;
   };
 
-  bool End() override { return !error_; };
+  bool End() override { return !InErrorState(); };
 
  private:
   Vec<u8> key_;
