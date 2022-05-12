@@ -278,21 +278,21 @@ void MainAppFrame::ProcessNextFile() {
       f_in.seekg(0, std::ios::end);
       umc::usize len = umc::usize(f_in.tellg());
       if (len == 0) {
-        // FIXME: error reporting
+        entry->error = _("empty input file");
         ok = false;
         break;
       }
       auto discard_len = entry->decryptor->footer_discard_len +
                          umc::decryption::kDetectionBufferLen;
       if (discard_len > len) {
-        // FIXME: error reporting
+        entry->error = _("unexpected eof when reading input file");
         ok = false;
         break;
       }
+      len -= discard_len;
       f_in.seekg(umc::decryption::kDetectionBufferLen, std::ios::beg);
 
       auto& decryptor = entry->decryptor->decryptor;
-      // FIXME: use a larger buffer?
       umc::u8 buf[4096];
       while (len) {
         umc::usize bytes_to_read = std::min(sizeof(buf), len);
@@ -313,13 +313,15 @@ void MainAppFrame::ProcessNextFile() {
       }
 
       ok = len == 0;
+      if (!ok) {
+        entry->error = decryptor->GetErrorMessage();
+      }
     }
   } while (false);
 
   if (ok) {
     status = FileProcessStatus::kProcessedOk;
   } else {
-    // TODO: Error reporting - what went wrong?
     status = FileProcessStatus::kProcessFailed;
   }
 
