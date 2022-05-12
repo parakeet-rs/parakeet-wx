@@ -18,7 +18,10 @@ class DecryptionManagerImpl : public DecryptionManager {
 
   Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
       const DetectionBuffer& header,
-      const DetectionBuffer& footer) {
+      const DetectionBuffer& footer,
+      bool remove_unknown_format) {
+    using utils::AudioType;
+
     Vec<std::unique_ptr<DetectionResult>> result;
 
     for (auto& decryptor : GetDecryptorsFromConfig()) {
@@ -31,11 +34,16 @@ class DecryptionManagerImpl : public DecryptionManager {
       Vec<u8> decrypted_peek(decrypted_size);
       decryptor->Peek(decrypted_peek.data(), decrypted_size);
 
+      auto audio_type = utils::DetectAudioType(decrypted_peek);
+      if (remove_unknown_format && audio_type == AudioType::kUnknownType) {
+        continue;
+      }
+
       auto item = std::make_unique<DetectionResult>();
       item->decryptor = std::move(decryptor);
       item->footer_discard_len = footer_len;
-      item->audio_type = utils::DetectAudioType(decrypted_peek);
-      item->audio_ext = utils::GetAudioTypeExtension(item->audio_type);
+      item->audio_type = audio_type;
+      item->audio_ext = utils::GetAudioTypeExtension(audio_type);
       result.push_back(std::move(item));
     }
 

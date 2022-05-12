@@ -79,7 +79,8 @@ class DecryptionManager {
    */
   virtual Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
       const DetectionBuffer& header,
-      const DetectionBuffer& footer) = 0;
+      const DetectionBuffer& footer,
+      bool remove_unknown_format = true) = 0;
 
   /**
    * @brief Get the first working decryptor.
@@ -92,8 +93,9 @@ class DecryptionManager {
    */
   std::unique_ptr<DetectionResult> DetectDecryptor(
       const DetectionBuffer& header,
-      const DetectionBuffer& footer) {
-    auto result = DetectDecryptors(header, footer);
+      const DetectionBuffer& footer,
+      bool remove_unknown_format = true) {
+    auto result = DetectDecryptors(header, footer, remove_unknown_format);
     if (result.size() > 0) {
       return std::move(result[0]);
     }
