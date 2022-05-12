@@ -20,6 +20,7 @@ namespace umd::config {
 AppConfigStore* AppConfigStore::instance_ = new AppConfigStore();
 
 AppConfigStore::AppConfigStore() {
+  manager_ = umc::decryption::DecryptionManager::Create();
   config_file_path_ = umd::utils::GetUserDataDirectory() / "config.json5";
 }
 
@@ -119,6 +120,7 @@ bool AppConfigStore::LoadConfigFromDisk() {
 
   config_ = {};
   JSONManipulate<kModeReadConfigFromJSON>(config_, d);
+  manager_->SetConfig(config_.decryption);
 
   return true;
 }

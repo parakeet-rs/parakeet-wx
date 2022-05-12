@@ -13,6 +13,7 @@
 #include <boost/chrono.hpp>
 #include <boost/thread/thread.hpp>
 
+#include <fstream>
 #include <functional>
 #include <thread>
 
@@ -44,10 +45,6 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
   // Bootstrap drag & drop
   SetDropTarget(new MainAppDropTarget(this));
 
-  // Apply config
-  umd::config::AppConfigStore::GetInstance()->LoadConfigFromDisk();
-  ApplyConfigFromStore();
-
   // Setup decryptions logs
   m_decryptLogs->InsertColumn(0, wxT(""), wxLIST_FORMAT_LEFT, 100);
 
@@ -55,22 +52,6 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
 #if !NDEBUG
   SetTitle(GetTitle() + "  [" + _("DEBUG Build") + "]");
 #endif
-}
-
-void MainAppFrame::ApplyConfigFromStore() {
-  using namespace umd::config;
-  using namespace umd::utils;
-  using namespace umc;
-
-  auto& config = AppConfigStore::GetInstance()->GetLoadedConfig();
-  // kugou::KGMMaskGenerator::GetInstance()->SetTable(
-  //     config.kugou.t1, config.kugou.t2, config.kugou.v2);
-
-  // ximalaya::X2MCipher::SetContentKey(config.xmly.x2m_content_key);
-  // ximalaya::X3MCipher::SetContentKey(config.xmly.x3m_content_key);
-  // ximalaya::X3MCipher::SetScrambleTable(config.xmly.x3m_scramble_indexes);
-
-  // tencent::StaticStreamCipher::SetStaticKey(config.tencent.static_key);
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
@@ -90,7 +71,6 @@ void MainAppFrame::OnBtnClickOptions(wxCommandEvent& event) {
     config_store->UpdateConfig(config);
 
     if (config_store->SaveConfigToDisk()) {
-      ApplyConfigFromStore();
       wxMessageBox(_("Config saved. Some config may require restart to work."),
                    LOCALISED_APP_NAME);
     } else {
@@ -152,8 +132,20 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
 
 void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
+  auto decryption_manager =
+      umd::config::AppConfigStore::GetInstance()->GetDecryptionManager();
+
   for (int i = 0; i < len; i++) {
     umc::Path item_path(umc::U8StrFromStr(file_paths.Item(i).utf8_string()));
+    umc::decryption::DetectionBuffer header;
+    umc::decryption::DetectionBuffer footer;
+    std::ifstream f_in(item_path, std::ios::in | std::ios::binary);
+    f_in.read((char*)header.data(), header.size());
+    f_in.seekg(-footer.size(), std::ios::end);
+    f_in.read((char*)footer.data(), footer.size());
+    f_in.close();
+    auto decryptor = decryption_manager->DetectDecryptor(header, footer, true);
+    auto supported = decryptor != nullptr;
 
     wxListItem new_item;
     new_item.SetText(wxT(""));
@@ -161,12 +153,16 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
 
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
     file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
-        FileProcessStatus::kNotProcessed,
-        item_path,
-        rowIndex,
-        0,
+        .status = FileProcessStatus::kNotProcessed,
+        .file_path = item_path,
+        .index = rowIndex,
+        .process_time_ms = 0,
+        .error = wxT(""),
+        .decryptor = std::move(decryptor),
     }));
-    UpdateFileStatus(rowIndex, FileProcessStatus::kNotProcessed);
+    UpdateFileStatus(rowIndex, supported
+                                   ? FileProcessStatus::kNotProcessed
+                                   : FileProcessStatus::kProcessNotSupported);
   }
 }
 
@@ -210,20 +206,30 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
   auto name_u8 = entry->file_path.filename().u8string();
   auto name = wxString::FromUTF8(reinterpret_cast<const char*>(name_u8.data()));
 
+  wxString encrypted_type = "unknown";
+  wxString audio_ext = "unknown";
+  if (entry->decryptor) {
+    encrypted_type = entry->decryptor->decryptor->GetName();
+    audio_ext = entry->decryptor->audio_ext;
+  }
+
   wxString status_text;
   switch (status) {
     case FileProcessStatus::kNotProcessed:
-      status_text.Printf(_("Ready: %s"), name);
+      status_text.Printf(_("Ready [%s -> %s]: %s"), encrypted_type, audio_ext,
+                         name);
       break;
     case FileProcessStatus::kProcessedOk:
-      status_text.Printf(_("Decode OK: %s (%lums)"), name,
-                         entry->process_time_ms);
+      status_text.Printf(_("Decode OK [%s -> %s]: %s (%lums)"), encrypted_type,
+                         audio_ext, name, entry->process_time_ms);
       break;
     case FileProcessStatus::kProcessFailed:
-      status_text.Printf(_("FAIL: %s (%s)"), name, entry->error);
+      status_text.Printf(_("FAIL [%s]: %s (%s)"), encrypted_type, name,
+                         entry->error);
       break;
     case FileProcessStatus::kProcessing:
-      status_text.Printf(_("Processing: %s"), name);
+      status_text.Printf(_("Converting from %s to %s: %s"), encrypted_type,
+                         audio_ext, name);
       break;
     case FileProcessStatus::kProcessNotSupported:
       status_text.Printf(_("Unsupported: %s"), name);
@@ -248,28 +254,74 @@ void MainAppFrame::ProcessNextFile() {
 
   auto entry = file_entries_.at(current_index);
 
-  main_thread_runner_.PostInMainThread([this, current_index]() {
-    UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
-  });
-
-  // auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
-  // decryptor->Open(entry->file_path);
+  if (entry->status != FileProcessStatus::kNotProcessed) {
+    main_thread_runner_.PostInMainThread(
+        [this]() { OnProcessSingleFileComplete(); });
+    return;
+  }
 
   system_clock::time_point time_before_process = system_clock::now();
   FileProcessStatus status = FileProcessStatus::kProcessNotSupported;
 
-  // auto encryption = decryptor->SniffEncryption();
-  // if (encryption == EncryptionType::kNotEncrypted ||
-  //     encryption == EncryptionType::kUnsupported) {
-  //   status = FileProcessStatus::kProcessNotSupported;
-  // } else {
-  //   // TODO: show encryption type
-  //   if (decryptor->DecryptAudioFile()) {
-  //     status = FileProcessStatus::kProcessedOk;
-  //   } else {
-  //     status = FileProcessStatus::kProcessFailed;
-  //   }
-  // }
+  bool ok = false;
+  do {
+    if (entry->decryptor) {
+      main_thread_runner_.PostInMainThread([this, current_index]() {
+        UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
+      });
+
+      auto path_out = std::filesystem::path(entry->file_path)
+                          .replace_extension(entry->decryptor->audio_ext);
+      std::ifstream f_in(entry->file_path, std::ios::in | std::ios::binary);
+      std::ofstream f_out(path_out, std::ios::out | std::ios::binary);
+
+      f_in.seekg(0, std::ios::end);
+      umc::usize len = umc::usize(f_in.tellg());
+      if (len == 0) {
+        // FIXME: error reporting
+        ok = false;
+        break;
+      }
+      auto discard_len = entry->decryptor->footer_discard_len +
+                         umc::decryption::kDetectionBufferLen;
+      if (discard_len > len) {
+        // FIXME: error reporting
+        ok = false;
+        break;
+      }
+      f_in.seekg(umc::decryption::kDetectionBufferLen, std::ios::beg);
+
+      auto& decryptor = entry->decryptor->decryptor;
+      // FIXME: use a larger buffer?
+      umc::u8 buf[4096];
+      while (len) {
+        umc::usize bytes_to_read = std::min(sizeof(buf), len);
+        f_in.read(reinterpret_cast<char*>(buf), bytes_to_read);
+        umc::usize bytes_read = f_in.gcount();
+        if (!decryptor->Write(buf, bytes_read)) {
+          break;
+        }
+        len -= bytes_read;
+        if (len == 0) {
+          if (!decryptor->End()) break;
+        }
+
+        while (decryptor->GetOutputSize() > 0) {
+          bytes_read = decryptor->Read(buf, sizeof(buf));
+          f_out.write(reinterpret_cast<char*>(buf), bytes_read);
+        }
+      }
+
+      ok = len == 0;
+    }
+  } while (false);
+
+  if (ok) {
+    status = FileProcessStatus::kProcessedOk;
+  } else {
+    // TODO: Error reporting - what went wrong?
+    status = FileProcessStatus::kProcessFailed;
+  }
 
   system_clock::time_point time_after_process = system_clock::now();
   auto t = boost::chrono::duration_cast<boost::chrono::milliseconds>(

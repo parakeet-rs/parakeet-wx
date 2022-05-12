@@ -27,6 +27,7 @@ struct FileEntry {
   long index;
   long process_time_ms;
   wxString error;
+  std::unique_ptr<umc::decryption::DetectionResult> decryptor;
 };
 
 class MainAppFrame;
@@ -72,6 +73,4 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
  private:
   friend class MainAppDropTarget;
   umd::utils::wxMainThreadRunner main_thread_runner_;
-
-  void ApplyConfigFromStore();
 };
