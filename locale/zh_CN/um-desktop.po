@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-12 22:32+0100\n"
-"PO-Revision-Date: 2022-05-12 22:34+0100\n"
+"POT-Creation-Date: 2022-05-12 22:35+0100\n"
+"PO-Revision-Date: 2022-05-12 22:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -138,9 +138,9 @@ msgstr "选择加密的音乐文件"
 msgid "Options"
 msgstr "选项"
 
-#: um-desktop/constants.h:1
-msgid "Parakeet Music Decoder"
-msgstr "Parakeet 音乐解码客户端"
+#: um-desktop/constants.h:1 um-desktop/ui/ui.h:64
+msgid "Parakeet Desktop"
+msgstr "小鹦鹉桌面客户端"
 
 #: um-desktop/ui/ui.cpp:43
 msgid "Process"
@@ -257,13 +257,15 @@ msgstr "喜马拉雅音频文件 (*.x2m; *.x3m)"
 msgid "empty input file"
 msgstr "输入文件为空文件"
 
-#: um-desktop/ui/ui.h:64
-msgid "um Desktop"
-msgstr "um 桌面客户端"
-
 #: um-desktop/dialog/MainAppFrame.cpp:288
 msgid "unexpected eof when reading input file"
 msgstr "读取文件时提前结束"
+
+#~ msgid "Parakeet Music Decoder"
+#~ msgstr "Parakeet 音乐解码客户端"
+
+#~ msgid "um Desktop"
+#~ msgstr "um 桌面客户端"
 
 #~ msgid "Error: cipher reported failure."
 #~ msgstr "错误：解密代码报告了错误。"

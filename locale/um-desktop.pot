@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-12 22:32+0100\n"
+"POT-Creation-Date: 2022-05-12 22:35+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -141,8 +141,8 @@ msgstr ""
 msgid "Options"
 msgstr ""
 
-#: um-desktop/constants.h:1
-msgid "Parakeet Music Decoder"
+#: um-desktop/constants.h:1 um-desktop/ui/ui.h:64
+msgid "Parakeet Desktop"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:43
@@ -258,10 +258,6 @@ msgstr ""
 
 #: um-desktop/dialog/MainAppFrame.cpp:281
 msgid "empty input file"
-msgstr ""
-
-#: um-desktop/ui/ui.h:64
-msgid "um Desktop"
 msgstr ""
 
 #: um-desktop/dialog/MainAppFrame.cpp:288

@@ -61,7 +61,7 @@ namespace umd::ui_base
 
 		public:
 
-			uiMainAppFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("um Desktop"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 679,362 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+			uiMainAppFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("Parakeet Desktop"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 679,362 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 			~uiMainAppFrame();
 

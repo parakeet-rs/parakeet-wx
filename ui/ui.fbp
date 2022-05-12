@@ -50,7 +50,7 @@
             <property name="size">679,362</property>
             <property name="style">wxDEFAULT_FRAME_STYLE</property>
             <property name="subclass">; ; forward_declare</property>
-            <property name="title">um Desktop</property>
+            <property name="title">Parakeet Desktop</property>
             <property name="tooltip"></property>
             <property name="two_step_creation">0</property>
             <property name="window_extra_style"></property>
