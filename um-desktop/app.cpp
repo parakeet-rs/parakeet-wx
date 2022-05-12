@@ -50,8 +50,9 @@ void initLanguageSupport() {
 bool umDesktopApp::OnInit() {
   auto config_store = umd::config::AppConfigStore::GetInstance();
   config_store->LoadConfigFromDisk();
+  auto& general_config = config_store->GetLoadedConfig().desktop.general;
 
-  umd::io_service_start();
+  umd::io_service_start(general_config.thread_count);
 
   initLanguageSupport();
   wxFrame* frame = new MainAppFrame(nullptr);

@@ -58,10 +58,6 @@ OptionsDialog::OptionsDialog(wxWindow* parent) : uiOptionsDialog(parent) {
   auto inst = umd::config::AppConfigStore::GetInstance();
   saved_config_ = inst->GetLoadedConfig();
   ConfigGlueCode<kModeUpdateControl>();
-
-#if NDEBUG
-  m_notebookOptions->DeletePage(0);  // unused: general
-#endif
 }
 
 void OptionsDialog::OnButtonClick_Cancel(wxCommandEvent& event) {
