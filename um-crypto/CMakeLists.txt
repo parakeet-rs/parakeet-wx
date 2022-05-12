@@ -1,5 +1,14 @@
 project(um-crypto)
 
+# UMC_PREFER_SMALL_MEMORY_PRINT:
+#   Prefer smaller memory print, over large cache.
+#   You should enable this if memory usage is the key.
+option(UMC_PREFER_SMALL_MEMORY_PRINT "Prefer small memory print over speed." OFF)
+
+if (UMC_PREFER_SMALL_MEMORY_PRINT)
+  add_definitions(-DUMC_PREFER_SMALL_MEMORY_PRINT=1)
+endif()
+
 message("CMAKE_MODULE_PATH: ${CMAKE_MODULE_PATH}")
 
 find_package(Boost REQUIRED)

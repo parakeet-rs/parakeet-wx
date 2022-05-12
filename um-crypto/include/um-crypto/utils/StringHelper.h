@@ -5,6 +5,17 @@
 
 namespace umc::utils {
 
+template <typename... Args>
+Str Format(const char* fmt, Args... args) {
+  auto text_len = std::snprintf(nullptr, 0, fmt, args...);
+  if (text_len < 0) return "";
+
+  // String contains the extra '\x00' at the end.
+  Str formatted(text_len, 0);
+  std::snprintf(formatted.data(), text_len + 1, fmt, args...);
+  return formatted;
+}
+
 inline bool IsWhitespaceOrNull(char c) {
   return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' ||
          c == '\x00' || c == '\n';

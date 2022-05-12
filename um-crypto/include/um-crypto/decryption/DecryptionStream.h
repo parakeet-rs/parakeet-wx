@@ -1,15 +1,35 @@
 #pragma once
 
 #include <algorithm>
-#include <filesystem>
-#include <fstream>
+#include <memory>
 
 #include "um-crypto/types.h"
 
 namespace umc::decryption {
 
+constexpr usize kDetectionBufferLen = 4096;
+typedef Arr<u8, kDetectionBufferLen> DetectionBuffer;
+
 class DecryptionStream {
  public:
+  /**
+   * @brief Reset and seek to begin of file.
+   *
+   */
+  virtual void Reset() {
+    buf_in_.resize(0);
+    buf_out_.resize(0);
+    offset_ = 0;
+  }
+
+  /**
+   * @brief Initialise decryptor with data found in file footer.
+   *
+   * @param buf
+   * @return usize Bytes to reserve and don't seed to this decryptor.
+   */
+  virtual usize InitWithFileFooter(const DetectionBuffer& buf) { return 0; }
+
   /**
    * @brief Write encrypted data stream to the file loader.
    *
@@ -22,6 +42,8 @@ class DecryptionStream {
    */
   virtual bool End() = 0;
 
+  virtual const Str GetName() const = 0;
+
   /**
    * @brief Return true if the decryptor is in an error state.
    *
@@ -29,16 +51,6 @@ class DecryptionStream {
    * @return false
    */
   virtual bool IsBad() const { return error_; }
-
-  /**
-   * @brief Reset and seek to begin of file.
-   *
-   */
-  virtual void Reset() {
-    buf_in_.resize(0);
-    buf_out_.resize(0);
-    offset_ = 0;
-  }
 
   inline usize GetOutputSize() { return buf_out_.size(); }
   inline usize Peek(u8* out, usize len) {
@@ -80,6 +92,8 @@ class DecryptionStream {
   inline bool ReadUntilOffset(const u8*& p, usize& len, usize target_offset) {
     if (offset_ < target_offset) {
       auto read_size = std::min(target_offset - offset_, len);
+      if (read_size == 0) return false;
+
       buf_in_.insert(buf_in_.end(), p, p + read_size);
 
       offset_ += read_size;
@@ -103,11 +117,12 @@ class DecryptionStream {
   inline bool ReadBlock(const u8*& p, usize& len, usize block_size) {
     if (buf_in_.size() < block_size) {
       auto read_size = std::min(block_size - buf_in_.size(), len);
+      if (read_size == 0) return false;
+
       buf_in_.insert(buf_in_.end(), p, p + read_size);
 
       p += read_size;
       len -= read_size;
-      offset_ += read_size;
     }
 
     return buf_in_.size() == block_size;
