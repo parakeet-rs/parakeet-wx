@@ -750,11 +750,11 @@
                                     <property name="name">bSizer6</property>
                                     <property name="orient">wxVERTICAL</property>
                                     <property name="permission">none</property>
-                                    <object class="sizeritem" expanded="0">
+                                    <object class="sizeritem" expanded="1">
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGrid" expanded="1">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -822,6 +822,13 @@
                                                 <property name="name">m_generalThreadPoolSize</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">Int</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="1">
+                                                <property name="help"></property>
+                                                <property name="label">Locale Code</property>
+                                                <property name="name">m_generalLocale</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">String</property>
                                             </object>
                                         </object>
                                     </object>

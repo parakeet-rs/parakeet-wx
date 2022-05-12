@@ -26,6 +26,7 @@ void OptionsDialog::ConfigGlueCode() {
   {
     auto& desktop = config.desktop;
     DEFINE_CTRL_PROP(m_generalThreadPoolSize, desktop.general.thread_count);
+    DEFINE_CTRL_PROP(m_generalLocale, desktop.general.locale);
   }
 
   {

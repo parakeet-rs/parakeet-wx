@@ -80,6 +80,7 @@ namespace umd::ui_base
 			wxPropertyGrid* m_propertyGrid2;
 			wxPGProperty* m_propGeneralCat1;
 			wxPGProperty* m_generalThreadPoolSize;
+			wxPGProperty* m_generalLocale;
 			wxPanel* m_panelKugou;
 			wxPropertyGrid* m_propGridKugou;
 			wxPGProperty* m_propertyGridItem3;

@@ -101,6 +101,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propGeneralCat1 = m_propertyGrid2->Append( new wxPropertyCategory( _("Threading"), _("Threading") ) );
 	m_generalThreadPoolSize = m_propertyGrid2->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
 	m_propertyGrid2->SetPropertyHelpString( m_generalThreadPoolSize, _(" a b c") );
+	m_generalLocale = m_propertyGrid2->Append( new wxStringProperty( _("Locale Code"), _("Locale Code") ) );
 	bSizer6->Add( m_propertyGrid2, 1, wxEXPAND, 5 );
 
 

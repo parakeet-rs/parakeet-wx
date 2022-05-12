@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-12 22:03+0100\n"
+"POT-Creation-Date: 2022-05-12 22:32+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid " a b c"
 msgstr ""
 
-#: um-desktop/dialog/OptionsDialog.cpp:55
+#: um-desktop/dialog/OptionsDialog.cpp:56
 #, c-format
 msgid "%s - Options"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:201
+#: um-desktop/ui/ui.cpp:202
 msgid "&Cancel"
 msgstr ""
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "&Decrypt directory..."
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:204
+#: um-desktop/ui/ui.cpp:205
 msgid "&OK"
 msgstr ""
 
@@ -80,7 +80,7 @@ msgstr ""
 msgid "Decrypt &file..."
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:151
+#: um-desktop/ui/ui.cpp:152
 msgid "EKey derive seed"
 msgstr ""
 
@@ -89,23 +89,23 @@ msgstr ""
 msgid "FAIL [%s]: %s (%s)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:110
+#: um-desktop/ui/ui.cpp:111
 msgid "General"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:165
+#: um-desktop/ui/ui.cpp:166
 msgid "Installation UUID"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:164 um-desktop/ui/ui.cpp:173
+#: um-desktop/ui/ui.cpp:165 um-desktop/ui/ui.cpp:174
 msgid "Joox"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:116
+#: um-desktop/ui/ui.cpp:117
 msgid "KGM Decryption"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:128
+#: um-desktop/ui/ui.cpp:129
 msgid "Kugou"
 msgstr ""
 
@@ -113,7 +113,7 @@ msgstr ""
 msgid "Kugou music (*.kgm;*.vpr)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:134 um-desktop/ui/ui.cpp:142
+#: um-desktop/ui/ui.cpp:135 um-desktop/ui/ui.cpp:143
 msgid "Kuwo"
 msgstr ""
 
@@ -121,11 +121,15 @@ msgstr ""
 msgid "Kuwo music (*.kwm)"
 msgstr ""
 
+#: um-desktop/ui/ui.cpp:104
+msgid "Locale Code"
+msgstr ""
+
 #: um-desktop/ui/ui.cpp:21
 msgid "Logs:"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:135
+#: um-desktop/ui/ui.cpp:136
 msgid "Name"
 msgstr ""
 
@@ -133,7 +137,7 @@ msgstr ""
 msgid "Open encrypted music files"
 msgstr ""
 
-#: um-desktop/ui/ui.h:125
+#: um-desktop/ui/ui.h:126
 msgid "Options"
 msgstr ""
 
@@ -145,7 +149,7 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:148
+#: um-desktop/ui/ui.cpp:149
 msgid "QMCv1"
 msgstr ""
 
@@ -153,7 +157,7 @@ msgstr ""
 msgid "QMCv1 files (*.qmcflac;*.qmc)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:150
+#: um-desktop/ui/ui.cpp:151
 msgid "QMCv2"
 msgstr ""
 
@@ -161,7 +165,7 @@ msgstr ""
 msgid "QMCv2 files (*.mgg;*.mflac)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:158
+#: um-desktop/ui/ui.cpp:159
 msgid "QQ Music"
 msgstr ""
 
@@ -170,23 +174,23 @@ msgstr ""
 msgid "Ready [%s -> %s]: %s"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:166
+#: um-desktop/ui/ui.cpp:167
 msgid "Salt"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:149
+#: um-desktop/ui/ui.cpp:150
 msgid "Static Key (hex; 128 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:117
+#: um-desktop/ui/ui.cpp:118
 msgid "Table t1 (hex; 272 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:118
+#: um-desktop/ui/ui.cpp:119
 msgid "Table t2 (hex; 272 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:119
+#: um-desktop/ui/ui.cpp:120
 msgid "Table v2 (hex; 272 bytes)"
 msgstr ""
 
@@ -208,35 +212,35 @@ msgstr ""
 msgid "Unsupported: %s"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:120
+#: um-desktop/ui/ui.cpp:121
 msgid "VPR Decryption"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:121
+#: um-desktop/ui/ui.cpp:122
 msgid "VPR Key (hex; 17 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:179
+#: um-desktop/ui/ui.cpp:180
 msgid "X2M"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:180
+#: um-desktop/ui/ui.cpp:181
 msgid "X2M Content Key (hex; 4 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:181
+#: um-desktop/ui/ui.cpp:182
 msgid "X2M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:182
+#: um-desktop/ui/ui.cpp:183
 msgid "X3M"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:183
+#: um-desktop/ui/ui.cpp:184
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:184
+#: um-desktop/ui/ui.cpp:185
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
@@ -244,7 +248,7 @@ msgstr ""
 msgid "Xiami music (*.xm)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:191
+#: um-desktop/ui/ui.cpp:192
 msgid "Ximalaya"
 msgstr ""
 
