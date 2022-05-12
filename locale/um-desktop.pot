@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-08 02:12+0100\n"
+"POT-Creation-Date: 2022-05-12 22:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid " a b c"
 msgstr ""
 
-#: um-desktop/dialog/OptionsDialog.cpp:74
+#: um-desktop/dialog/OptionsDialog.cpp:55
 #, c-format
 msgid "%s - Options"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:155
+#: um-desktop/ui/ui.cpp:201
 msgid "&Cancel"
 msgstr ""
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "&Decrypt directory..."
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:158
+#: um-desktop/ui/ui.cpp:204
 msgid "&OK"
 msgstr ""
 
@@ -46,50 +46,59 @@ msgstr ""
 msgid "&Options..."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:138
+#: um-desktop/dialog/MainAppFrame.cpp:119
 msgid "All files (*.*)|*"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:124
+#: um-desktop/dialog/MainAppFrame.cpp:105
 msgid "All supported files"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:93
+#: um-desktop/dialog/MainAppFrame.cpp:74
 msgid "Config saved. Some config may require restart to work."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:96
+#: um-desktop/dialog/MainAppFrame.cpp:231
+#, c-format
+msgid "Converting from %s to %s: %s"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:77
 msgid "Could not save config."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:59
+#: um-desktop/dialog/MainAppFrame.cpp:53
 msgid "DEBUG Build"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:218
+#: um-desktop/dialog/MainAppFrame.cpp:223
 #, c-format
-msgid "Decode OK: %s (%lums)"
+msgid "Decode OK [%s -> %s]: %s (%lums)"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:49
 msgid "Decrypt &file..."
 msgstr ""
 
-#: um-desktop/utils/audio_decryptor/AStreamDecryptor.cpp:52
-msgid "Error: Unexpected EOF when reading input."
+#: um-desktop/ui/ui.cpp:151
+msgid "EKey derive seed"
 msgstr ""
 
-#: um-desktop/utils/audio_decryptor/AStreamDecryptor.cpp:58
-msgid "Error: cipher reported failure."
-msgstr ""
-
-#: um-desktop/dialog/MainAppFrame.cpp:222
+#: um-desktop/dialog/MainAppFrame.cpp:227
 #, c-format
-msgid "FAIL: %s (%s)"
+msgid "FAIL [%s]: %s (%s)"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:110
 msgid "General"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:165
+msgid "Installation UUID"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:164 um-desktop/ui/ui.cpp:173
+msgid "Joox"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:116
@@ -100,11 +109,15 @@ msgstr ""
 msgid "Kugou"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:130
+#: um-desktop/dialog/MainAppFrame.cpp:111
 msgid "Kugou music (*.kgm;*.vpr)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:132
+#: um-desktop/ui/ui.cpp:134 um-desktop/ui/ui.cpp:142
+msgid "Kuwo"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:113
 msgid "Kuwo music (*.kwm)"
 msgstr ""
 
@@ -112,11 +125,15 @@ msgstr ""
 msgid "Logs:"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:140
+#: um-desktop/ui/ui.cpp:135
+msgid "Name"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:121
 msgid "Open encrypted music files"
 msgstr ""
 
-#: um-desktop/ui/ui.h:109
+#: um-desktop/ui/ui.h:125
 msgid "Options"
 msgstr ""
 
@@ -128,26 +145,37 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:225
-#, c-format
-msgid "Processing: %s"
+#: um-desktop/ui/ui.cpp:148
+msgid "QMCv1"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:126
+#: um-desktop/dialog/MainAppFrame.cpp:107
 msgid "QMCv1 files (*.qmcflac;*.qmc)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:128
+#: um-desktop/ui/ui.cpp:150
+msgid "QMCv2"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:109
 msgid "QMCv2 files (*.mgg;*.mflac)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:215
-#, c-format
-msgid "Ready: %s"
+#: um-desktop/ui/ui.cpp:158
+msgid "QQ Music"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:138
-msgid "Scramble Table (hex; 1024 u16 LE)"
+#: um-desktop/dialog/MainAppFrame.cpp:219
+#, c-format
+msgid "Ready [%s -> %s]: %s"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:166
+msgid "Salt"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:149
+msgid "Static Key (hex; 128 bytes)"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:117
@@ -170,12 +198,12 @@ msgstr ""
 msgid "Threading"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:232
+#: um-desktop/dialog/MainAppFrame.cpp:239
 #, c-format
 msgid "Unknown state (code %d): %s"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:228
+#: um-desktop/dialog/MainAppFrame.cpp:235
 #, c-format
 msgid "Unsupported: %s"
 msgstr ""
@@ -188,42 +216,50 @@ msgstr ""
 msgid "VPR Key (hex; 17 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:134
+#: um-desktop/ui/ui.cpp:179
 msgid "X2M"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:135
-msgid "X2M Content Key (hex; 4 or 32 bytes)"
+#: um-desktop/ui/ui.cpp:180
+msgid "X2M Content Key (hex; 4 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:136
+#: um-desktop/ui/ui.cpp:181
+msgid "X2M Scramble Table (hex; 1024 u16)"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:182
 msgid "X3M"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:137
+#: um-desktop/ui/ui.cpp:183
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:136
+#: um-desktop/ui/ui.cpp:184
+msgid "X3M Scramble Table (hex; 1024 u16)"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:117
 msgid "Xiami music (*.xm)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:145
+#: um-desktop/ui/ui.cpp:191
 msgid "Ximalaya"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:134
+#: um-desktop/dialog/MainAppFrame.cpp:115
 msgid "Ximalaya audio file (*.x2m; *.x3m)"
 msgstr ""
 
-#: um-desktop/utils/audio_decryptor/QQMusicV2Decryptor.cpp:15
-msgid "could not derive file key from ekey"
-msgstr ""
-
-#: um-desktop/utils/audio_decryptor/QQMusicV2Decryptor.cpp:21
-msgid "key size == 0"
+#: um-desktop/dialog/MainAppFrame.cpp:281
+msgid "empty input file"
 msgstr ""
 
 #: um-desktop/ui/ui.h:64
 msgid "um Desktop"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:288
+msgid "unexpected eof when reading input file"
 msgstr ""
