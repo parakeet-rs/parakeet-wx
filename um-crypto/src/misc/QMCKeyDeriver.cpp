@@ -1,7 +1,10 @@
 #include "um-crypto/misc/QMCKeyDeriver.h"
+#include "um-crypto/utils/base64.h"
 
-#include <cryptopp/base64.h>
 #include "tc_tea/tc_tea.h"
+
+#include <algorithm>
+#include <cmath>
 
 namespace umc::misc::tencent {
 
@@ -16,12 +19,7 @@ class QMCKeyDeriverImpl : public QMCKeyDeriver {
   QMCKeyDeriverImpl(u8 seed) : seed_(seed) {}
 
   bool FromEKey(Vec<u8>& out, const Str ekey_b64) const override {
-    CryptoPP::Base64Decoder decoder;
-    decoder.Put(reinterpret_cast<const u8*>(ekey_b64.data()), ekey_b64.size());
-    decoder.MessageEnd();
-
-    Vec<u8> ekey(decoder.MaxRetrievable());
-    decoder.Get(ekey.data(), ekey.size());
+    Vec<u8> ekey = utils::Base64Decode(ekey_b64);
     return FromEKey(out, ekey);
   }
 
@@ -35,7 +33,7 @@ class QMCKeyDeriverImpl : public QMCKeyDeriver {
 
     auto tea_key = DeriveTEAKey(ekey);
     out.resize(ekey_len);
-    memcpy(out.data(), ekey.data(), 8u);
+    std::copy_n(ekey.begin(), 8u, out.begin());
 
     auto data_len = ekey_len - 8;
     auto p_key = tea_key.data();

@@ -1,31 +1,28 @@
 #include "um-crypto/utils/base64.h"
 #include "um-crypto/utils/StringHelper.h"
 
-#include <boost/beast/core/detail/base64.hpp>
-
-namespace base64 = boost::beast::detail::base64;
+#include <cryptopp/base64.h>
 
 namespace umc::utils {
 
 Vec<u8> Base64Decode(const Str& input) {
-  std::string input_clean = RemoveWhitespace(input);
-  Vec<u8> buf(base64::decoded_size(input_clean.size()));
+  CryptoPP::Base64Decoder decoder;
+  decoder.Put(reinterpret_cast<const u8*>(input.data()), input.size());
+  decoder.MessageEnd();
 
-  const auto bytes_written =
-      base64::decode(buf.data(), input_clean.data(), input_clean.size()).first;
-  buf.resize(bytes_written);
-
-  return buf;
+  Vec<u8> result(decoder.MaxRetrievable());
+  decoder.Get(result.data(), result.size());
+  return result;
 }
 
 Str Base64Encode(const Vec<u8>& input) {
-  Str buf(base64::encoded_size(input.size()), 0);
+  CryptoPP::Base64Encoder encoder;
+  encoder.Put(input.data(), input.size());
+  encoder.MessageEnd();
 
-  const auto bytes_written =
-      base64::encode(buf.data(), input.data(), input.size());
-  buf.resize(bytes_written);
-
-  return buf;
+  Str result(encoder.MaxRetrievable(), 0);
+  encoder.Get(reinterpret_cast<u8*>(result.data()), result.size());
+  return result;
 }
 
 }  // namespace umc::utils

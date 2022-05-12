@@ -2,9 +2,7 @@
   "name": "um-desktop",
   "version-string": "0.1.1-dev",
   "dependencies": [
-    "boost-algorithm",
     "boost-asio",
-    "boost-beast",
     "boost-dll",
     "boost-filesystem",
     "boost-system",
