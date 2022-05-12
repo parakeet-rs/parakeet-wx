@@ -11,9 +11,10 @@ enum class AudioType : u32 {
   // Lossy
   kAudioTypeOGG,
   kAudioTypeAAC,
+  kAudioTypeMP3,
   kAudioTypeM4A,
   kAudioTypeM4B,
-  kAudioTypeMP3,
+  kAudioTypeMP4,
 
   // Lossless
   kAudioTypeFLAC = kAudioTypeMaskLossless | 0,
@@ -29,12 +30,14 @@ inline Str GetAudioTypeExtension(AudioType type) {
       return "ogg";
     case AudioType::kAudioTypeAAC:
       return "aac";
+    case AudioType::kAudioTypeMP3:
+      return "mp3";
     case AudioType::kAudioTypeM4A:
       return "m4a";
     case AudioType::kAudioTypeM4B:
       return "m4b";
-    case AudioType::kAudioTypeMP3:
-      return "mp3";
+    case AudioType::kAudioTypeMP4:
+      return "mp4";
     case AudioType::kAudioTypeFLAC:
       return "flac";
     case AudioType::kAudioTypeDFF:

@@ -47,6 +47,8 @@ constexpr u32 kMagic__MAC = 0x4D'41'43'20u;  // Monkey's Audio (APE; u8 "MAC ")
 
 constexpr u32 kMagic_ftyp_MSNV = 0x4d'53'4e'56u;  // MPEG-4 (.MP4) for SonyPSP
 constexpr u32 kMagic_ftyp_NDAS = 0x4e'44'41'53u;  // Nero Digital AAC Audio
+constexpr u32 kMagic_ftyp_isom = 0x69'73'6F'6Du;  // isom - MP4 (audio only?)
+constexpr u32 kMagic_ftyp_iso2 = 0x69'73'6F'32u;  // iso2 - MP4 (audio only?)
 
 constexpr u32 kMagic_ftyp_M4A = 0x4d'34'41u;  // iTunes AAC-LC (.M4A) Audio
 constexpr u32 kMagic_ftyp_M4B = 0x4d'34'42u;  // iTunes AAC-LC (.M4B) Audio Book
@@ -97,8 +99,14 @@ AudioType DetectAudioType(const u8* buf, usize len) {
   if (ReadBigEndian<u32>(buf + 4) == kMagic_ftyp) {
     u32 magic = ReadBigEndian<u32>(buf + 8);
 
-    if (magic == kMagic_ftyp_MSNV || magic == kMagic_ftyp_NDAS) {
-      return AudioType::kAudioTypeM4A;
+    switch (magic) {
+      case kMagic_ftyp_isom:
+      case kMagic_ftyp_iso2:
+        return AudioType::kAudioTypeMP4;
+
+      case kMagic_ftyp_MSNV:
+      case kMagic_ftyp_NDAS:
+        return AudioType::kAudioTypeM4A;
     }
 
     switch (magic >> 8) {
