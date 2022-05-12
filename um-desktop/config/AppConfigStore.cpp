@@ -56,6 +56,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // General config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, desktop, general) {
     MANIP_JSON_ITEM(thread_count, int(4));
+    MANIP_JSON_ITEM(locale, Str("zh_CN"));
   }
   END_MANIP_NAMESPACED_VALUE()
 

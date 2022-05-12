@@ -11,6 +11,7 @@ namespace umd::config {
 
 struct GeneralConfig {
   int thread_count;
+  Str locale;
 };
 
 struct DesktopConfig {

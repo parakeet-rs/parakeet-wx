@@ -1,3 +1,4 @@
+#include "AppDataPath.h"
 // Example implementation taken from:
 //   https://github.com/Malvineous/cfgpath/blob/16b438c/cfgpath.h#L185-L187
 //  *   Windows: C:\Users\jcitizen\AppData\Roaming\appname\
@@ -23,8 +24,7 @@ inline fs::path GetExecutablePath() {
 
 inline fs::path GetLatestUserDataDirectory() {
   // Check if we are running portable mode
-  auto exe_path = GetExecutablePath();
-  auto exe_portable_folder = exe_path.parent_path() / APP_INTERNAL_NAME;
+  auto exe_portable_folder = GetExecutableDirectory() / APP_INTERNAL_NAME;
   if (fs::is_directory(exe_portable_folder)) {
     return exe_portable_folder;
   }
@@ -43,6 +43,13 @@ inline fs::path GetLatestUserDataDirectory() {
   }
 
   return user_app_data;
+}
+
+// return a cached copy instead.
+const std::filesystem::path& GetExecutableDirectory() {
+  static std::filesystem::path exe_dir = GetExecutablePath().parent_path();
+
+  return exe_dir;
 }
 
 // return a cached copy instead.
