@@ -27,7 +27,7 @@ inline void WriteValue(D& d, V& v, const char* key, const T& value);
 #pragma endregion
 
 #pragma region  // JSON <--> Str
-template <std::unsigned_integral A, size_t Size>
+template <>
 inline void ReadValue(const V& v,
                       const char* key,
                       Str& out,
@@ -65,6 +65,25 @@ inline void WriteValue(D& d, V& v, const char* key, const int& value) {
   __UMD_PREPARE_WRITE_JSON_VALUE(V(value));
 }
 
+#pragma endregion
+
+#pragma region  // JSON <--> u8
+template <>
+inline void ReadValue(const V& v,
+                      const char* key,
+                      u8& out,
+                      const u8& def_value) {
+  if (v.HasMember(key) && v[key].IsUint()) {
+    out = v[key].GetUint();
+  } else {
+    out = def_value;
+  }
+}
+
+template <>
+inline void WriteValue(D& d, V& v, const char* key, const u8& value) {
+  __UMD_PREPARE_WRITE_JSON_VALUE(V(int(value)));
+}
 #pragma endregion
 
 #pragma region  // JSON <--> Vec<u8>

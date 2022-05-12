@@ -33,15 +33,15 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
     doc.SetObject();
   }
 
-#define BEGIN_MANIP_NAMESPACED_VALUE(PARENT, NAMESPACE)                      \
-  {                                                                          \
-    if (!PARENT.HasMember(#NAMESPACE)) {                                     \
-      PARENT.AddMember(#NAMESPACE, Value().SetObject(), doc.GetAllocator()); \
-    }                                                                        \
-    auto& childConf = config.NAMESPACE;                                      \
-    auto& childJSON = PARENT[#NAMESPACE];                                    \
-    if (!childJSON.IsObject()) {                                             \
-      childJSON.SetObject();                                                 \
+#define BEGIN_MANIP_NAMESPACED_VALUE(PARENT, NAMESPACE, SUBKEY)           \
+  {                                                                       \
+    if (!PARENT.HasMember(#SUBKEY)) {                                     \
+      PARENT.AddMember(#SUBKEY, Value().SetObject(), doc.GetAllocator()); \
+    }                                                                     \
+    auto& childConf = config.NAMESPACE.SUBKEY;                            \
+    auto& childJSON = PARENT[#SUBKEY];                                    \
+    if (!childJSON.IsObject()) {                                          \
+      childJSON.SetObject();                                              \
     }
 #define END_MANIP_NAMESPACED_VALUE() }
 
@@ -53,35 +53,51 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   }
 
   // General config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, general) {
-    MANIP_JSON_ITEM(thread_count, (int)4);
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, desktop, general) {
+    MANIP_JSON_ITEM(thread_count, int(4));
   }
   END_MANIP_NAMESPACED_VALUE()
 
   // Kugou config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, kugou) {
-    using namespace umc::kugou;
-    MANIP_JSON_ITEM(t1, KugouTable{});
-    MANIP_JSON_ITEM(t2, KugouTable{});
-    MANIP_JSON_ITEM(v2, KugouTable{});
-    MANIP_JSON_ITEM(vpr_key, KugouFileKey{});
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kugou) {
+    using namespace umc::decryption::kugou;
+    MANIP_JSON_ITEM(t1, KugouInternalTable{});
+    MANIP_JSON_ITEM(t2, KugouInternalTable{});
+    MANIP_JSON_ITEM(v2, KugouInternalTable{});
+    MANIP_JSON_ITEM(vpr_key, KugouVPRKey{});
+  }
+  END_MANIP_NAMESPACED_VALUE()
+
+  // Kuwo config
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kuwo) {
+    using namespace umc::decryption::kuwo;
+    MANIP_JSON_ITEM(key, KuwoKey{});
   }
   END_MANIP_NAMESPACED_VALUE()
 
   // QQ Music (Tencent) config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, tencent) {
-    using namespace umc::tencent;
-    MANIP_JSON_ITEM(ekey_seed, 0);
-    MANIP_JSON_ITEM(static_key, umc::tencent::StaticCipherKey{});
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, qmc) {
+    using namespace umc::decryption::tencent;
+    MANIP_JSON_ITEM(ekey_seed, u8(0));
+    MANIP_JSON_ITEM(static_cipher_key, QMCv1Key{});
+  }
+  END_MANIP_NAMESPACED_VALUE()
+
+  // Joox (Tencent) config
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, joox) {
+    using namespace umc::decryption::tencent;
+    MANIP_JSON_ITEM(install_uuid, Str("ffffffffffffffffffffffffffffffff"));
+    MANIP_JSON_ITEM(salt, JooxSalt{});
   }
   END_MANIP_NAMESPACED_VALUE()
 
   // Ximalaya config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, xmly) {
-    using namespace umc::ximalaya;
-    MANIP_JSON_ITEM(x2m_content_key, XimalayaX2MContentKey{});
-    MANIP_JSON_ITEM(x3m_content_key, XimalayaHeaderContentKey{});
-    MANIP_JSON_ITEM(x3m_scramble_indexes, XimalayaHeaderScrambleTable{});
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, ximalaya) {
+    using namespace umc::decryption::ximalaya;
+    MANIP_JSON_ITEM(x2m_content_key, X2MContentKey{});
+    MANIP_JSON_ITEM(x2m_scramble_table, ScrambleTable{});
+    MANIP_JSON_ITEM(x3m_content_key, X3MContentKey{});
+    MANIP_JSON_ITEM(x3m_scramble_table, ScrambleTable{});
   }
   END_MANIP_NAMESPACED_VALUE()
 

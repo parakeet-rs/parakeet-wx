@@ -5,7 +5,7 @@
 #include <filesystem>
 #include <memory>
 
-#include <um-crypto.h>
+#include <um-crypto/decryption/DecryptionManager.h>
 
 namespace umd::config {
 
@@ -13,31 +13,13 @@ struct GeneralConfig {
   int thread_count;
 };
 
-struct KugouConfig {
-  umc::kugou::KugouTable t1;
-  umc::kugou::KugouTable t2;
-  umc::kugou::KugouTable v2;
-
-  umc::kugou::KugouFileKey vpr_key;
-};
-
-struct XimalayaConfig {
-  umc::ximalaya::XimalayaX2MContentKey x2m_content_key;
-
-  umc::ximalaya::XimalayaHeaderContentKey x3m_content_key;
-  umc::ximalaya::XimalayaHeaderScrambleTable x3m_scramble_indexes;
-};
-
-struct TencentConfig {
-  int ekey_seed;
-  umc::tencent::StaticCipherKey static_key;
+struct DesktopConfig {
+  GeneralConfig general;
 };
 
 struct AppConfig {
-  GeneralConfig general;
-  TencentConfig tencent;
-  KugouConfig kugou;
-  XimalayaConfig xmly;
+  DesktopConfig desktop;
+  umc::decryption::config::DecryptionConfig decryption;
 };
 
 class AppConfigStore {

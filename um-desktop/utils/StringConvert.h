@@ -129,12 +129,21 @@ inline void FromString(Vec<u8>& out, const Str& input) {
 #pragma region  // String <--> int
 template <>
 inline Str ToString(const int& input) {
-  std::stringstream ss;
-  ss << input;
-  return ss.str();
+  return umc::utils::Format("%d", int(input));
 }
 template <>
 inline void FromString(int& out, const Str& input) {
+  out = atoi(input.c_str());
+}
+#pragma endregion
+
+#pragma region  // String <--> u8
+template <>
+inline Str ToString(const u8& input) {
+  return umc::utils::Format("%d", int(input));
+}
+template <>
+inline void FromString(u8& out, const Str& input) {
   out = atoi(input.c_str());
 }
 #pragma endregion

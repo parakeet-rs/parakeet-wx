@@ -2,7 +2,6 @@
 #include "OptionsDialog.h"
 
 #include "../constants.h"
-#include "../utils/AudioDecryptorManager.h"
 #include "../utils/MakeArray.h"
 #include "../utils/threading.h"
 
@@ -16,9 +15,6 @@
 
 #include <functional>
 #include <thread>
-
-#include <um-crypto/kugou/KGMMaskGenerator.h>
-#include <um-crypto/ximalaya.h>
 
 using boost::chrono::system_clock;
 
@@ -67,14 +63,14 @@ void MainAppFrame::ApplyConfigFromStore() {
   using namespace umc;
 
   auto& config = AppConfigStore::GetInstance()->GetLoadedConfig();
-  kugou::KGMMaskGenerator::GetInstance()->SetTable(
-      config.kugou.t1, config.kugou.t2, config.kugou.v2);
+  // kugou::KGMMaskGenerator::GetInstance()->SetTable(
+  //     config.kugou.t1, config.kugou.t2, config.kugou.v2);
 
-  ximalaya::X2MCipher::SetContentKey(config.xmly.x2m_content_key);
-  ximalaya::X3MCipher::SetContentKey(config.xmly.x3m_content_key);
-  ximalaya::X3MCipher::SetScrambleTable(config.xmly.x3m_scramble_indexes);
+  // ximalaya::X2MCipher::SetContentKey(config.xmly.x2m_content_key);
+  // ximalaya::X3MCipher::SetContentKey(config.xmly.x3m_content_key);
+  // ximalaya::X3MCipher::SetScrambleTable(config.xmly.x3m_scramble_indexes);
 
-  tencent::StaticStreamCipher::SetStaticKey(config.tencent.static_key);
+  // tencent::StaticStreamCipher::SetStaticKey(config.tencent.static_key);
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
@@ -241,7 +237,7 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
   m_decryptLogs->SetItem(entry->index, 0, status_text);
 }
 
-using umd::utils::EncryptionType;
+// using umd::utils::EncryptionType;
 
 void MainAppFrame::ProcessNextFile() {
   auto current_index = file_entry_process_idx_.fetch_add(1);
@@ -256,30 +252,30 @@ void MainAppFrame::ProcessNextFile() {
     UpdateFileStatus(current_index, FileProcessStatus::kProcessing);
   });
 
-  auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
-  decryptor->Open(entry->file_path);
+  // auto decryptor = std::make_unique<umd::utils::AudioDecryptorManager>();
+  // decryptor->Open(entry->file_path);
 
   system_clock::time_point time_before_process = system_clock::now();
   FileProcessStatus status = FileProcessStatus::kProcessNotSupported;
 
-  auto encryption = decryptor->SniffEncryption();
-  if (encryption == EncryptionType::kNotEncrypted ||
-      encryption == EncryptionType::kUnsupported) {
-    status = FileProcessStatus::kProcessNotSupported;
-  } else {
-    // TODO: show encryption type
-    if (decryptor->DecryptAudioFile()) {
-      status = FileProcessStatus::kProcessedOk;
-    } else {
-      status = FileProcessStatus::kProcessFailed;
-    }
-  }
+  // auto encryption = decryptor->SniffEncryption();
+  // if (encryption == EncryptionType::kNotEncrypted ||
+  //     encryption == EncryptionType::kUnsupported) {
+  //   status = FileProcessStatus::kProcessNotSupported;
+  // } else {
+  //   // TODO: show encryption type
+  //   if (decryptor->DecryptAudioFile()) {
+  //     status = FileProcessStatus::kProcessedOk;
+  //   } else {
+  //     status = FileProcessStatus::kProcessFailed;
+  //   }
+  // }
 
   system_clock::time_point time_after_process = system_clock::now();
   auto t = boost::chrono::duration_cast<boost::chrono::milliseconds>(
       time_after_process - time_before_process);
   entry->process_time_ms = static_cast<long>(t.count());
-  entry->error = decryptor->GetError();
+  // entry->error = decryptor->GetError();
 
   main_thread_runner_.PostInMainThread([this, current_index, status]() {
     UpdateFileStatus(current_index, status);

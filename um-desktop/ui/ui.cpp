@@ -101,7 +101,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propGeneralCat1 = m_propertyGrid2->Append( new wxPropertyCategory( _("Threading"), _("Threading") ) );
 	m_generalThreadPoolSize = m_propertyGrid2->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
 	m_propertyGrid2->SetPropertyHelpString( m_generalThreadPoolSize, _(" a b c") );
-	bSizer6->Add( m_propertyGrid2, 1, wxALL|wxEXPAND, 5 );
+	bSizer6->Add( m_propertyGrid2, 1, wxEXPAND, 5 );
 
 
 	m_panelGeneral->SetSizer( bSizer6 );
@@ -119,29 +119,58 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_kugouV2 = m_propGridKugou->Append( new wxLongStringProperty( _("Table v2 (hex; 272 bytes)"), _("Table v2 (hex; 272 bytes)") ) );
 	m_propertyGridItem6 = m_propGridKugou->Append( new wxPropertyCategory( _("VPR Decryption"), _("VPR Decryption") ) );
 	m_kugouVPR = m_propGridKugou->Append( new wxLongStringProperty( _("VPR Key (hex; 17 bytes)"), _("VPR Key (hex; 17 bytes)") ) );
-	bSizer5->Add( m_propGridKugou, 1, wxALL|wxEXPAND, 5 );
+	bSizer5->Add( m_propGridKugou, 1, wxEXPAND, 5 );
 
 
 	m_panelKugou->SetSizer( bSizer5 );
 	m_panelKugou->Layout();
 	bSizer5->Fit( m_panelKugou );
 	m_notebookOptions->AddPage( m_panelKugou, _("Kugou"), false );
-	m_panelTencent = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	m_panelKuwo = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer12;
+	bSizer12 = new wxBoxSizer( wxVERTICAL );
+
+	m_propertyGrid8 = new wxPropertyGrid(m_panelKuwo, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_propertyGridItem36 = m_propertyGrid8->Append( new wxPropertyCategory( _("Kuwo"), _("Kuwo") ) );
+	m_kuwoKey = m_propertyGrid8->Append( new wxLongStringProperty( _("Name"), _("Name") ) );
+	bSizer12->Add( m_propertyGrid8, 1, wxEXPAND, 5 );
+
+
+	m_panelKuwo->SetSizer( bSizer12 );
+	m_panelKuwo->Layout();
+	bSizer12->Fit( m_panelKuwo );
+	m_notebookOptions->AddPage( m_panelKuwo, _("Kuwo"), false );
+	m_panelQQMusic = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid41 = new wxPropertyGrid(m_panelTencent, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_propertyGrid41 = new wxPropertyGrid(m_panelQQMusic, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propertyGridItem14 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv1"), _("QMCv1") ) );
 	m_tencentStaticTable = m_propertyGrid41->Append( new wxLongStringProperty( _("Static Key (hex; 128 bytes)"), _("Static Key (hex; 128 bytes)") ) );
-	m_propertyGridItem16 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2"), _("QMCv2") ) );
+	m_propertyGridItem35 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2"), _("QMCv2") ) );
 	m_tencentEKeySeed = m_propertyGrid41->Append( new wxIntProperty( _("EKey derive seed"), _("EKey derive seed") ) );
-	bSizer9->Add( m_propertyGrid41, 1, wxALL|wxEXPAND, 5 );
+	bSizer9->Add( m_propertyGrid41, 1, wxEXPAND, 5 );
 
 
-	m_panelTencent->SetSizer( bSizer9 );
-	m_panelTencent->Layout();
-	bSizer9->Fit( m_panelTencent );
-	m_notebookOptions->AddPage( m_panelTencent, _("QQ Music"), false );
+	m_panelQQMusic->SetSizer( bSizer9 );
+	m_panelQQMusic->Layout();
+	bSizer9->Fit( m_panelQQMusic );
+	m_notebookOptions->AddPage( m_panelQQMusic, _("QQ Music"), false );
+	m_panelJoox = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer91;
+	bSizer91 = new wxBoxSizer( wxVERTICAL );
+
+	m_propertyGridJoox = new wxPropertyGrid(m_panelJoox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_HeaderJoox = m_propertyGridJoox->Append( new wxPropertyCategory( _("Joox"), _("Joox") ) );
+	m_jooxUUID = m_propertyGridJoox->Append( new wxStringProperty( _("Installation UUID"), _("Installation UUID") ) );
+	m_jooxSalt = m_propertyGridJoox->Append( new wxLongStringProperty( _("Salt"), _("Salt") ) );
+	bSizer91->Add( m_propertyGridJoox, 1, wxEXPAND, 5 );
+
+
+	m_panelJoox->SetSizer( bSizer91 );
+	m_panelJoox->Layout();
+	bSizer91->Fit( m_panelJoox );
+	m_notebookOptions->AddPage( m_panelJoox, _("Joox"), false );
 	m_panelXimalaya = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
@@ -149,10 +178,11 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propertyGrid4 = new wxPropertyGrid(m_panelXimalaya, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propertyGridItem25 = m_propertyGrid4->Append( new wxPropertyCategory( _("X2M"), _("X2M") ) );
 	m_xmlyX2MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Content Key (hex; 4 bytes)"), _("X2M Content Key (hex; 4 bytes)") ) );
+	m_xmlyX2MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Scramble Table (hex; 1024 u16)"), _("X2M Scramble Table (hex; 1024 u16)") ) );
 	m_propertyGridItem26 = m_propertyGrid4->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
 	m_xmlyX3MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Content Key (hex; 32 bytes)"), _("X3M Content Key (hex; 32 bytes)") ) );
-	m_xmlyX3MScrambleKey = m_propertyGrid4->Append( new wxLongStringProperty( _("Scramble Table (hex; 1024 u16)"), _("Scramble Table (hex; 1024 u16)") ) );
-	bSizer7->Add( m_propertyGrid4, 1, wxALL|wxEXPAND, 5 );
+	m_xmlyX3MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Scramble Table (hex; 1024 u16)"), _("X3M Scramble Table (hex; 1024 u16)") ) );
+	bSizer7->Add( m_propertyGrid4, 1, wxEXPAND, 5 );
 
 
 	m_panelXimalaya->SetSizer( bSizer7 );

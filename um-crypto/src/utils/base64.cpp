@@ -16,7 +16,7 @@ Vec<u8> Base64Decode(const Str& input) {
 }
 
 Str Base64Encode(const Vec<u8>& input) {
-  CryptoPP::Base64Encoder encoder;
+  CryptoPP::Base64Encoder encoder(nullptr, false);
   encoder.Put(input.data(), input.size());
   encoder.MessageEnd();
 
