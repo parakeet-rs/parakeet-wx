@@ -16,8 +16,7 @@ jobs:
             os_name: "win64"
             config_profile: win64-2019-rel
             build_profile: win64-2019-rel
-            build_files: |
-              build/win64-2019-rel/um-desktop/Release/
+            executable_path: build/win64-2019-rel/um-desktop/Release/um-desktop.exe
           - os: ubuntu-20.04
             cc: gcc-10
             cxx: g++-10
@@ -25,8 +24,7 @@ jobs:
             os_name: "linux-x86_64"
             config_profile: default-linux-rel
             build_profile: default-linux-rel
-            build_files: |
-              build/linux-rel/um-desktop/um-desktop
+            executable_path: build/linux-rel/um-desktop/um-desktop
             apt_packages: >-
               gettext
               libgcrypt20-dev
@@ -88,10 +86,19 @@ jobs:
       - name: "Build locale"
         run: bash build-po.sh
 
+      - name: "Prepare dist"
+        shell: bash
+        run: |
+          mkdir -p dist
+          cp ${{ matrix.executable_path }} dist/
+          cp -R locale/. dist/
+          find dist -name '*.po' -delete
+          find dist -name '*.pot' -delete
+          cp readme.enduser.txt dist/readme.txt
+          cp LICENSE dist/
+
       - name: "Upload binary & locale"
         uses: actions/upload-artifact@v3
         with:
           name: ${{ matrix.os_name }}-build
-          path: |
-            ${{ matrix.build_files }}
-            locale/**/*.mo
+          path: dist/
