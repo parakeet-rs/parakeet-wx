@@ -23,7 +23,7 @@ using umc::utils::Unhex;
 
 #pragma region  // Template signature
 template <typename T>
-Str ToString(const T& input);
+void ToString(Str& out, const T& input);
 
 template <typename T>
 void FromString(T& out, const Str& input);
@@ -34,12 +34,15 @@ namespace detail {
 
 #pragma region  // Str <--> Container<A> (internal)
 template <std::unsigned_integral A, class TContainer>
-inline Str ContainerToString(const TContainer& input) {
-  if (input.size() == 0) return "";
+inline void ContainerToString(Str& out, const TContainer& input) {
+  if (input.size() == 0) {
+    out = "";
+    return;
+  }
 
   constexpr usize buf_single_size = sizeof(A) * 2 + 4;  // ", 0x"
   const usize buf_size = input.size() * buf_single_size;
-  Str result(buf_size, 0);
+  out.resize(buf_size);
 
   const char* fmt;
   static_assert(
@@ -51,13 +54,12 @@ inline Str ContainerToString(const TContainer& input) {
   else if constexpr (sizeof(A) == 2) fmt = "0x%04x, ";
   else if constexpr (sizeof(A) == 1) fmt = "0x%02x, ";
 
-  char* p_out = result.data();
+  char* p_out = out.data();
   for (auto p_in = input.begin(); p_in < input.end(); p_in++) {
     sprintf(p_out, fmt, *p_in);
     p_out += buf_single_size;
   }
-  result.erase(buf_size - 2);
-  return result;
+  out.resize(buf_size - 2);
 }
 
 template <std::integral A, class TContainer>
@@ -106,8 +108,8 @@ inline void ContainerFromString(TContainer& out, const Str& input) {
 
 #pragma region  // Base case: String to String
 template <>
-inline Str ToString(const Str& input) {
-  return input;
+inline void ToString(Str& out, const Str& input) {
+  out = input;
 }
 template <>
 inline void FromString(Str& out, const Str& input) {
@@ -117,8 +119,8 @@ inline void FromString(Str& out, const Str& input) {
 
 #pragma region  // String <--> Vec<u8>
 template <>
-inline Str ToString(const Vec<u8>& input) {
-  return Hex(input);
+inline void ToString(Str& out, const Vec<u8>& input) {
+  out = Hex(input);
 }
 template <>
 inline void FromString(Vec<u8>& out, const Str& input) {
@@ -128,8 +130,8 @@ inline void FromString(Vec<u8>& out, const Str& input) {
 
 #pragma region  // String <--> int
 template <>
-inline Str ToString(const int& input) {
-  return umc::utils::Format("%d", int(input));
+inline void ToString(Str& out, const int& input) {
+  out = umc::utils::Format("%d", int(input));
 }
 template <>
 inline void FromString(int& out, const Str& input) {
@@ -139,8 +141,8 @@ inline void FromString(int& out, const Str& input) {
 
 #pragma region  // String <--> u8
 template <>
-inline Str ToString(const u8& input) {
-  return umc::utils::Format("%d", int(input));
+inline void ToString(Str& out, const u8& input) {
+  out = umc::utils::Format("%d", int(input));
 }
 template <>
 inline void FromString(u8& out, const Str& input) {
@@ -150,8 +152,8 @@ inline void FromString(u8& out, const Str& input) {
 
 #pragma region  // Str <--> Arr<A, Size>
 template <std::unsigned_integral A, size_t Size>
-inline Str ToString(const Arr<A, Size>& input) {
-  return detail::ContainerToString<A>(input);
+inline void ToString(Str& out, const Arr<A, Size>& input) {
+  detail::ContainerToString<A>(out, input);
 }
 
 template <std::integral A, size_t Size>
@@ -166,8 +168,8 @@ inline void FromString(Arr<A, Size>& out, const Str& input) {
 
 #pragma region  // Str <--> Vec<A>
 template <std::unsigned_integral A>
-inline Str ToString(const Vec<A>& input) {
-  return detail::ContainerToString<A>(input);
+inline void ToString(Str& out, const Vec<A>& input) {
+  detail::ContainerToString<A>(out, input);
 }
 
 template <std::integral A>

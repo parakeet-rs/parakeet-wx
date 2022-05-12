@@ -17,7 +17,9 @@ void OptionsDialog::ConfigGlueCode() {
 
 #define DEFINE_CTRL_PROP(CONTROL, KEY)                                     \
   if (M == kModeUpdateControl) {                                           \
-    CONTROL->SetValueFromString(wxString::FromUTF8(conv::ToString(KEY)));  \
+    umc::Str str_value;                                                    \
+    conv::ToString(str_value, KEY);                                        \
+    CONTROL->SetValueFromString(wxString::FromUTF8(str_value));            \
   } else {                                                                 \
     auto value = CONTROL->GetValueAsString(wxPG_FULL_VALUE).utf8_string(); \
     conv::FromString(KEY, value);                                          \
