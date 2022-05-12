@@ -26,9 +26,9 @@ class DecryptionManagerImpl : public DecryptionManager {
 
     for (auto& decryptor : GetDecryptorsFromConfig()) {
       auto footer_len = decryptor->InitWithFileFooter(footer);
-      if (decryptor->IsBad()) continue;
+      if (decryptor->InErrorState()) continue;
       if (!decryptor->Write(header.data(), header.size())) continue;
-      if (decryptor->IsBad()) continue;
+      if (decryptor->InErrorState()) continue;
 
       usize decrypted_size = decryptor->GetOutputSize();
       Vec<u8> decrypted_peek(decrypted_size);

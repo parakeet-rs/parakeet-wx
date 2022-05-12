@@ -23,19 +23,31 @@ void OptionsDialog::ConfigGlueCode() {
     conv::FromString(KEY, value);                                          \
   }
 
-  DEFINE_CTRL_PROP(m_generalThreadPoolSize, config.general.thread_count);
+  {
+    auto& desktop = config.desktop;
+    DEFINE_CTRL_PROP(m_generalThreadPoolSize, desktop.general.thread_count);
+  }
 
-  DEFINE_CTRL_PROP(m_kugouT1, config.kugou.t1);
-  DEFINE_CTRL_PROP(m_kugouT2, config.kugou.t2);
-  DEFINE_CTRL_PROP(m_kugouV2, config.kugou.v2);
-  DEFINE_CTRL_PROP(m_kugouVPR, config.kugou.vpr_key);
+  {
+    auto& d = config.decryption;
+    DEFINE_CTRL_PROP(m_kugouT1, d.kugou.t1);
+    DEFINE_CTRL_PROP(m_kugouT2, d.kugou.t2);
+    DEFINE_CTRL_PROP(m_kugouV2, d.kugou.v2);
+    DEFINE_CTRL_PROP(m_kugouVPR, d.kugou.vpr_key);
 
-  DEFINE_CTRL_PROP(m_tencentEKeySeed, config.tencent.ekey_seed);
-  DEFINE_CTRL_PROP(m_tencentStaticTable, config.tencent.static_key);
+    DEFINE_CTRL_PROP(m_kuwoKey, d.kuwo.key);
 
-  DEFINE_CTRL_PROP(m_xmlyX2MContentKey, config.xmly.x2m_content_key);
-  DEFINE_CTRL_PROP(m_xmlyX3MContentKey, config.xmly.x3m_content_key);
-  DEFINE_CTRL_PROP(m_xmlyX3MScrambleKey, config.xmly.x3m_scramble_indexes);
+    DEFINE_CTRL_PROP(m_tencentEKeySeed, d.qmc.ekey_seed);
+    DEFINE_CTRL_PROP(m_tencentStaticTable, d.qmc.static_cipher_key);
+
+    DEFINE_CTRL_PROP(m_jooxUUID, d.joox.install_uuid);
+    DEFINE_CTRL_PROP(m_jooxSalt, d.joox.salt);
+
+    DEFINE_CTRL_PROP(m_xmlyX2MContentKey, d.ximalaya.x2m_content_key);
+    DEFINE_CTRL_PROP(m_xmlyX2MScrambleTable, d.ximalaya.x2m_scramble_table);
+    DEFINE_CTRL_PROP(m_xmlyX3MContentKey, d.ximalaya.x3m_content_key);
+    DEFINE_CTRL_PROP(m_xmlyX3MScrambleTable, d.ximalaya.x3m_scramble_table);
+  }
 }
 
 OptionsDialog::OptionsDialog(wxWindow* parent) : uiOptionsDialog(parent) {

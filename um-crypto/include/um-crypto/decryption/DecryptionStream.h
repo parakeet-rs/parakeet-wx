@@ -50,7 +50,14 @@ class DecryptionStream {
    * @return true
    * @return false
    */
-  virtual bool IsBad() const { return error_; }
+  virtual bool InErrorState() const { return !error_.empty(); }
+
+  /**
+   * @brief Get the Error Message object
+   *
+   * @return const Str&
+   */
+  virtual const Str& GetErrorMessage() const { return error_; }
 
   inline usize GetOutputSize() { return buf_out_.size(); }
   inline usize Peek(u8* out, usize len) {
@@ -67,17 +74,10 @@ class DecryptionStream {
 
  protected:
   usize offset_ = 0;
-  bool error_ = false;
+  Str error_ = "";
 
   Vec<u8> buf_in_;
   Vec<u8> buf_out_;
-
-  /**
-   * @brief Downgrade state to error and no upgrades.
-   *
-   * @param good The current operation status.
-   */
-  inline void UpdateErrorBasedOnGood(bool good) { error_ = error_ || !good; }
 
   /**
    * @brief Encrypted file - header/offset process helper.

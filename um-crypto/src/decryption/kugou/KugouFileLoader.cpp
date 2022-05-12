@@ -150,17 +150,20 @@ class KugouFileLoaderImpl : public KugouFileLoader {
       switch (state_) {
         case State::kReadFileMagic:
           if (ReadUntilOffset(in, len, kFileMagicSize)) {
+            bool header_magic_match = false;
             if constexpr (Type == KugouCryptoType::kKGM) {
-              error_ = !std::equal(kKGMFileMagic.begin(), kKGMFileMagic.end(),
-                                   buf_in_.begin());
+              header_magic_match = std::equal(
+                  kKGMFileMagic.begin(), kKGMFileMagic.end(), buf_in_.begin());
             } else if constexpr (Type == KugouCryptoType::kVPR) {
-              error_ = !std::equal(kVPRFileMagic.begin(), kVPRFileMagic.end(),
-                                   buf_in_.begin());
+              header_magic_match = std::equal(
+                  kVPRFileMagic.begin(), kVPRFileMagic.end(), buf_in_.begin());
             } else {
-              error_ = true;
+              error_ = "invalid file type enum";
+              return false;
             }
 
-            if (error_) {
+            if (!header_magic_match) {
+              error_ = "file header magic not found";
               return false;
             }
 

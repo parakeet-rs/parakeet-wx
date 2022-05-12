@@ -71,12 +71,11 @@ class QMCv1LoaderImpl : public QMCv1Loader {
 
   inline void SetKey(const QMCv1Key& key) {
     if (key.empty()) {
-      error_ = true;
+      error_ = "key is empty.";
       return;
     }
 
-    error_ = false;
-
+    error_ = "";
     auto n = key.size();
     usize idx_offset = idx_offset_ % n;
 
@@ -105,7 +104,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
       }
     }
 
-    error_ = true;
+    error_ = "QMC footer parser not set";
     return 0;
   }
 
@@ -116,7 +115,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   std::shared_ptr<misc::tencent::QMCFooterParser> parser_;
 
   bool Write(const u8* in, usize len) override {
-    if (error_) return false;
+    if (InErrorState()) return false;
 
     usize out_size = buf_out_.size();
     buf_out_.resize(out_size + len);
@@ -133,7 +132,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
     return true;
   }
 
-  bool End() override { return !error_; }
+  bool End() override { return !InErrorState(); }
 };
 
 }  // namespace detail
