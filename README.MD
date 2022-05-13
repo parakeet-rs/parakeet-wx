@@ -6,7 +6,7 @@
 
 链接：[支持的格式一览][sup_format]
 
-[sup_format]: https://github.com/jixunmoe/um-desktop/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
+[sup_format]: https://github.com/jixunmoe/parakeet/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
 
 ## 下载
 
@@ -18,9 +18,9 @@
 | Linux ( x86_64 / Ubuntu 20.04 ) | [`linux-x86_64.zip`][dl_win64]    |
 |   Linux ( x86_64 / AppImage )   | [`AppImage-x86_64.zip`][dl_win64] |
 
-[dl_win64]: https://nightly.link/jixunmoe/um-desktop/workflows/build-win64/main/win64.zip
-[dl_linux_x86_64]: https://nightly.link/jixunmoe/um-desktop/workflows/build-linux-x86_64/main/linux-x86_64.zip
-[dl_appimage_x86_64]: https://nightly.link/jixunmoe/um-desktop/workflows/build-linux-x86_64/main/AppImage-x86_64.zip
+[dl_win64]: https://nightly.link/jixunmoe/parakeet/workflows/build-win64/main/win64.zip
+[dl_linux_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/linux-x86_64.zip
+[dl_appimage_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/AppImage-x86_64.zip
 
 ## 构建说明
 
