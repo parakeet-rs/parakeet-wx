@@ -1,0 +1,81 @@
+name: Build
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "Build Binary"
+    strategy:
+      matrix:
+        os: [ubuntu-20.04, windows-2019]
+        include:
+          - os: ubuntu-20.04
+            os_name: "linux-x86_64"
+            config_profile: default-linux-rel
+            build_profile: default-linux-rel
+            executable_path: build/linux-rel/um-desktop/um-desktop
+
+    runs-on: ${{ matrix.os }}
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+      CC: gcc-10
+      CXX: g++-10
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: "🖼️ Setup scene..."
+        run: |
+          mkdir -p .vcpkg-bc
+          bash build-setup-ubuntu.sh
+          bash prepare.linux.sh
+
+      - name: "🏭 vcpkg: setup binary cache"
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            .vcpkg-bc
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
+      - name: "🔧 CMake: Configure"
+        run: cmake --preset default-linux-rel
+
+      - name: "🛠️ CMake: Build"
+        run: cmake --build --preset default-linux-rel -- -j$(nproc)
+
+      - name: "📦 Packaging"
+        shell: bash
+        run: |
+          bash build-prepare.sh
+          cp build/linux-rel/um-desktop/um-desktop \
+             dist/Parakeet-linux-x86_64
+
+      - name: "🚀 Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-x86_64-build
+          path: dist/
+
+  package_appimage:
+    name: "Package AppImage"
+    needs: [build]
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: "Checkout repo"
+        uses: actions/checkout@v3
+
+      - name: "check: current folder"
+        run: |
+          ls -al
+
+      # TODO: Download LinuxDeploy
+      # TODO: Package to
