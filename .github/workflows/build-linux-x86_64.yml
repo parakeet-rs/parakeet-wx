@@ -81,16 +81,19 @@ jobs:
           wget -c "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
           chmod +x linuxdeploy-plugin-gtk.sh linuxdeploy-x86_64.AppImage
 
-          mkdir -p Packaging
-          cp -r dist/. AppDir/. Packaging/.
-          mv Packaging/Parakeet-linux-x86_64 Packaging/AppRun
-
       - name: "📦 Package to appimage"
         run: |
+          mkdir -p Packaging
+          mv dist/Parakeet-linux-x86_64 Packaging/AppRun
+          mv dist/*/ Packaging/.
+          cp -r AppDir/. Packaging/.
+          chmod a+x Packaging/AppRun
+
           ./linuxdeploy-x86_64.AppImage --appdir Packaging --plugin gtk --output appimage -e Packaging/AppRun
+          mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/Parakeet_Desktop-*-x86_64.AppImage
 
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
           name: AppImage-x86_64
-          path: ./Parakeet_Desktop-*-x86_64.AppImage
+          path: dist/
