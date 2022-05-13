@@ -4,7 +4,7 @@ packaging/
 vcpkg_installed/
 *.o
 *.AppImage
-linuxdeploy*
+linuxdeploy-*.sh
 *.mo
 vcpkg_overlays/
 
@@ -19,3 +19,6 @@ tset-sample/
 *.local.h
 
 .vscode/launch.json
+
+/Packaging/
+/Parakeet/

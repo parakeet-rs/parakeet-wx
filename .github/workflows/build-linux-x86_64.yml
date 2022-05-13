@@ -1,0 +1,99 @@
+name: Build Linux x86_64
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "Build Linux Binary"
+
+    runs-on: ubuntu-20.04
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+      CC: gcc-10
+      CXX: g++-10
+
+    steps:
+      - name: "⏳ Clone repo..."
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: "🖼️ Setup scene..."
+        run: |
+          mkdir -p .vcpkg-bc
+          bash build-setup-ubuntu.sh
+          bash prepare.linux.sh
+
+      - name: "🏭 vcpkg: setup binary cache"
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            .vcpkg-bc
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
+      - name: "🔧 CMake: Configure"
+        run: cmake --preset default-linux-rel
+
+      - name: "🛠️ CMake: Build"
+        run: cmake --build --preset default-linux-rel -- -j$(nproc)
+
+      - name: "📦 Packaging"
+        shell: bash
+        run: |
+          bash build-prepare.sh
+          cp build/linux-rel/um-desktop/um-desktop \
+             dist/Parakeet-linux-x86_64
+
+      - name: "🚀 Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: linux-x86_64
+          path: dist/
+
+  package_appimage:
+    name: "Package AppImage"
+    needs: [build]
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: "⏳ Clone repo..."
+        uses: actions/checkout@v3
+
+      - name: "🖼️ Setup scene..."
+        run: |
+          bash build-setup-ubuntu.sh
+
+      - name: "🍱 Fetching built artifact..."
+        uses: actions/download-artifact@v2
+        with:
+          name: linux-x86_64
+          path: dist
+
+      - name: "🛠️ Setup LinuxDeploy script"
+        run: |
+          wget -q "https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh"
+          wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+          chmod +x linuxdeploy-plugin-gtk.sh linuxdeploy-x86_64.AppImage
+
+      - name: "📦 Package to appimage"
+        run: |
+          mkdir -p Packaging
+          mv dist/Parakeet-linux-x86_64 Packaging/AppRun
+          mv dist/*/ Packaging/.
+          cp -r AppDir/. Packaging/.
+          chmod a+x Packaging/AppRun
+
+          ./linuxdeploy-x86_64.AppImage --appdir Packaging --plugin gtk --output appimage -e Packaging/AppRun
+          mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
+
+      - name: "🚀 Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: AppImage-x86_64
+          path: dist/

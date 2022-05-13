@@ -1,0 +1,55 @@
+name: Build Win64
+
+on: [push, pull_request]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: "Build Win64 Binary"
+
+    runs-on: windows-2019
+    env:
+      VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
+
+    steps:
+      - name: "⏳ Clone repo..."
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: "🖼️ Setup scene..."
+        shell: bash
+        run: |
+          mkdir -p .vcpkg-bc
+          bash ./vcpkg/bootstrap-vcpkg.sh  --disableMetrics
+
+      - name: "🏭 vcpkg: setup binary cache"
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            .vcpkg-bc
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
+      - name: "🔧 CMake: Configure"
+        run: cmake --preset win64-2019-rel
+
+      - name: "🛠️ CMake: Build"
+        run: cmake --build --preset win64-2019-rel
+
+      - name: "📦 Packaging"
+        shell: bash
+        run: |
+          bash build-prepare.sh
+          cp build/win64-2019-rel/um-desktop/Release/um-desktop.exe \
+             dist/Parakeet-win64.exe
+
+      - name: "🚀 Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: win64
+          path: dist/
