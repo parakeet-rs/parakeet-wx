@@ -14,7 +14,8 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
 
     steps:
-      - uses: actions/checkout@v3
+      - name: "⏳ Clone repo..."
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
@@ -50,5 +51,5 @@ jobs:
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: win64-build
+          name: win64
           path: dist/

@@ -16,7 +16,8 @@ jobs:
       CXX: g++-10
 
     steps:
-      - uses: actions/checkout@v3
+      - name: "⏳ Clone repo..."
+        uses: actions/checkout@v3
         with:
           submodules: recursive
 
@@ -52,7 +53,7 @@ jobs:
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: linux-x86_64-build
+          name: linux-x86_64
           path: dist/
 
   package_appimage:
@@ -61,21 +62,35 @@ jobs:
     runs-on: ubuntu-20.04
 
     steps:
-      - name: "Checkout repo"
+      - name: "⏳ Clone repo..."
         uses: actions/checkout@v3
 
       - name: "🖼️ Setup scene..."
         run: |
           bash build-setup-ubuntu.sh
 
-      - uses: actions/download-artifact@v2
+      - name: "🍱 Fetching built artifact..."
+        uses: actions/download-artifact@v2
         with:
-          name: linux-x86_64-build
+          name: linux-x86_64
           path: dist
 
-      - name: "check: current folder"
+      - name: "🛠️ Setup LinuxDeploy script"
         run: |
-          ls -al && ls -al dist
+          wget -c "https://raw.githubusercontent.com/linuxdeploy/linuxdeploy-plugin-gtk/master/linuxdeploy-plugin-gtk.sh"
+          wget -c "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
+          chmod +x linuxdeploy-plugin-gtk.sh linuxdeploy-x86_64.AppImage
 
-      # TODO: Download LinuxDeploy
-      # TODO: Package as AppImage file
+          mkdir -p Packaging
+          cp -r dist/. AppDir/. Packaging/.
+          mv Packaging/Parakeet-linux-x86_64 Packaging/AppRun
+
+      - name: "📦 Package to appimage"
+        run: |
+          ./linuxdeploy-x86_64.AppImage --appdir Packaging --plugin gtk --output appimage -e Packaging/AppRun
+
+      - name: "🚀 Upload artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: AppImage-x86_64
+          path: ./Parakeet_Desktop-*-x86_64.AppImage
