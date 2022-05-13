@@ -12,6 +12,7 @@
 #include <wx/config.h>
 #include <boost/dll/runtime_symbol_info.hpp>
 
+#include <cstddef>
 #include <filesystem>
 
 namespace fs = std::filesystem;
@@ -22,9 +23,17 @@ inline fs::path GetExecutablePath() {
   return fs::path(boost::dll::program_location().native());
 }
 
+inline fs::path GetAppImagePathOrExePath() {
+  if (const char* env_AppImagePath = std::getenv("APPIMAGE")) {
+    return fs::path(env_AppImagePath);
+  }
+
+  return GetExecutablePath();
+}
+
 inline fs::path GetLatestUserDataDirectory() {
   // Check if we are running portable mode
-  auto exe_portable_folder = GetExecutableDirectory() / APP_INTERNAL_NAME;
+  auto exe_portable_folder = GetAppImageDirOrExeDirectory() / APP_INTERNAL_NAME;
   if (fs::is_directory(exe_portable_folder)) {
     return exe_portable_folder;
   }
@@ -48,6 +57,13 @@ inline fs::path GetLatestUserDataDirectory() {
 // return a cached copy instead.
 const std::filesystem::path& GetExecutableDirectory() {
   static std::filesystem::path exe_dir = GetExecutablePath().parent_path();
+
+  return exe_dir;
+}
+
+const std::filesystem::path& GetAppImageDirOrExeDirectory() {
+  static std::filesystem::path exe_dir =
+      GetAppImagePathOrExePath().parent_path();
 
   return exe_dir;
 }
