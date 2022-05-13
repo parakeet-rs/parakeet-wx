@@ -64,9 +64,18 @@ jobs:
       - name: "Checkout repo"
         uses: actions/checkout@v3
 
+      - name: "🖼️ Setup scene..."
+        run: |
+          bash build-setup-ubuntu.sh
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: linux-x86_64-build
+          path: dist
+
       - name: "check: current folder"
         run: |
-          ls -al
+          ls -al && ls -al dist
 
       # TODO: Download LinuxDeploy
-      # TODO: Package to
+      # TODO: Package as AppImage file
