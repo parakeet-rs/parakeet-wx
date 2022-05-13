@@ -7,16 +7,7 @@ permissions:
 
 jobs:
   build:
-    name: "Build Binary"
-    strategy:
-      matrix:
-        os: [ubuntu-20.04, windows-2019]
-        include:
-          - os: ubuntu-20.04
-            os_name: "linux-x86_64"
-            config_profile: default-linux-rel
-            build_profile: default-linux-rel
-            executable_path: build/linux-rel/um-desktop/um-desktop
+    name: "Build Linux Binary"
 
     runs-on: ${{ matrix.os }}
     env:

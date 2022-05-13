@@ -7,7 +7,7 @@ permissions:
 
 jobs:
   build:
-    name: "Build Binary"
+    name: "Build Win64 Binary"
 
     runs-on: windows-2019
     env:
