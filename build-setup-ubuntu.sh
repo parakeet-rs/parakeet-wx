@@ -5,6 +5,7 @@ set -ex
 sudo apt-get update -y
 
 sudo apt-get install -y \
+  curl \
   gettext \
   libgcrypt20-dev \
   libgtk-3-dev \
