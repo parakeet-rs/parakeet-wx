@@ -40,6 +40,8 @@ void OptionsDialog::ConfigGlueCode() {
 
     DEFINE_CTRL_PROP(m_kuwoKey, d.kuwo.key);
 
+    DEFINE_CTRL_PROP(m_neteaseNCMContentKeyAESKey, d.netease.key);
+
     DEFINE_CTRL_PROP(m_tencentEKeySeed, d.qmc.ekey_seed);
     DEFINE_CTRL_PROP(m_tencentStaticTable, d.qmc.static_cipher_key);
 

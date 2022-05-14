@@ -77,6 +77,13 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   }
   END_MANIP_NAMESPACED_VALUE()
 
+  // Kugou config
+  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, netease) {
+    using namespace umc::decryption::netease;
+    MANIP_JSON_ITEM(key, NCMContentKeyProtectionKey{});
+  }
+  END_MANIP_NAMESPACED_VALUE()
+
   // QQ Music (Tencent) config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, qmc) {
     using namespace umc::decryption::tencent;

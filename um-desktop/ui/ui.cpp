@@ -141,6 +141,20 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_panelKuwo->Layout();
 	bSizer12->Fit( m_panelKuwo );
 	m_notebookOptions->AddPage( m_panelKuwo, _("Kuwo"), false );
+	m_panelNetease = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer121;
+	bSizer121 = new wxBoxSizer( wxVERTICAL );
+
+	m_propertyGrid81 = new wxPropertyGrid(m_panelNetease, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+	m_propertyGridItem361 = m_propertyGrid81->Append( new wxPropertyCategory( _("NCM Decryption"), _("NCM Decryption") ) );
+	m_neteaseNCMContentKeyAESKey = m_propertyGrid81->Append( new wxLongStringProperty( _("AES key for NCM content key"), _("AES key for NCM content key") ) );
+	bSizer121->Add( m_propertyGrid81, 1, wxEXPAND, 5 );
+
+
+	m_panelNetease->SetSizer( bSizer121 );
+	m_panelNetease->Layout();
+	bSizer121->Fit( m_panelNetease );
+	m_notebookOptions->AddPage( m_panelNetease, _("Netease"), false );
 	m_panelQQMusic = new wxPanel( m_notebookOptions, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxVERTICAL );

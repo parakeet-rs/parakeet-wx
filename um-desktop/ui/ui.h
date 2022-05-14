@@ -93,6 +93,10 @@ namespace umd::ui_base
 			wxPropertyGrid* m_propertyGrid8;
 			wxPGProperty* m_propertyGridItem36;
 			wxPGProperty* m_kuwoKey;
+			wxPanel* m_panelNetease;
+			wxPropertyGrid* m_propertyGrid81;
+			wxPGProperty* m_propertyGridItem361;
+			wxPGProperty* m_neteaseNCMContentKeyAESKey;
 			wxPanel* m_panelQQMusic;
 			wxPropertyGrid* m_propertyGrid41;
 			wxPGProperty* m_propertyGridItem14;

@@ -70,12 +70,17 @@ class NCMFileLoaderImpl : public NCMFileLoader {
       key ^= 0x64;
     }
 
-    AES aes(key_.data(), key_.size());
-    StreamTransformationFilter decryptor(
-        aes, nullptr, StreamTransformationFilter::PKCS_PADDING);
-    decryptor.PutMessageEnd(file_key.data(), file_key.size());
-    content_key_.resize(decryptor.MaxRetrievable());
-    decryptor.Get(content_key_.data(), content_key_.size());
+    try {
+      AES aes(key_.data(), key_.size());
+      StreamTransformationFilter decryptor(
+          aes, nullptr, StreamTransformationFilter::PKCS_PADDING);
+      decryptor.PutMessageEnd(file_key.data(), file_key.size());
+      content_key_.resize(decryptor.MaxRetrievable());
+      decryptor.Get(content_key_.data(), content_key_.size());
+    } catch (const std::exception& ex) {
+      error_ = utils::Format("could not decrypt content key: ", ex.what());
+      return false;
+    }
 
     if (!std::equal(kContentKeyPrefix.begin(), kContentKeyPrefix.end(),
                     content_key_.begin())) {
