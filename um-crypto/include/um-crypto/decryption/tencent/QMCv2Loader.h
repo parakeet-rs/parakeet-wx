@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../DecryptionStream.h"
+#include "um-crypto/decryption/DecryptionStream.h"
 #include "um-crypto/misc/QMCFooterParser.h"
 #include "um-crypto/misc/QMCKeyDeriver.h"
 

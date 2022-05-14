@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../DecryptionStream.h"
+#include "um-crypto/decryption/DecryptionStream.h"
 
 namespace umc::decryption::kuwo {
 

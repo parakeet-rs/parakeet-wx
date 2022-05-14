@@ -1,5 +1,6 @@
 #include "um-crypto/decryption/xiami/XiamiFileLoader.h"
-#include "../../internal/XorHelper.h"
+
+#include "internal/XorHelper.h"
 #include "um-crypto/endian.h"
 #include "um-crypto/utils/StringHelper.h"
 

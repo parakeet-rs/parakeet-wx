@@ -1,6 +1,6 @@
 #include "um-crypto/decryption/ximalaya/XimalayaFileLoader.h"
 
-#include "../../internal/XorHelper.h"
+#include "internal/XorHelper.h"
 #include "um-crypto/utils/StringHelper.h"
 
 namespace umc::decryption::ximalaya {

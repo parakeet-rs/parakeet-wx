@@ -40,6 +40,7 @@ file(GLOB_RECURSE SOURCES *.cpp *.h)
 
 # Add source to this project's executable.
 add_library (${PROJECT_NAME} OBJECT ${SOURCES})
+target_include_directories(${PROJECT_NAME} PRIVATE src)
 set_property(TARGET ${PROJECT_NAME} PROPERTY POSITION_INDEPENDENT_CODE 1)
 
 # shared and static libraries built from the same object files
@@ -60,7 +61,7 @@ enable_testing()
 find_package(GTest CONFIG)
 
 if(TARGET GTest::gtest)
-  file(GLOB_RECURSE TESTS_SOURCE *.test.cc)
+  file(GLOB_RECURSE TESTS_SOURCE *.test.cc *.test.hh)
   add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
   target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
   target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})

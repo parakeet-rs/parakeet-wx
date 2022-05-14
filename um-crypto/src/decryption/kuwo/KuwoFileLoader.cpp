@@ -2,7 +2,7 @@
 #include "um-crypto/endian.h"
 #include "um-crypto/utils/StringHelper.h"
 
-#include "../../internal/XorHelper.h"
+#include "internal/XorHelper.h"
 
 #include <cinttypes>
 
