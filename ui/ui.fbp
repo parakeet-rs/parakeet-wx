@@ -1129,7 +1129,7 @@
                                             </object>
                                             <object class="propGridItem" expanded="1">
                                                 <property name="help"></property>
-                                                <property name="label">Name</property>
+                                                <property name="label">Kuwo decryption table</property>
                                                 <property name="name">m_kuwoKey</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">LongString</property>

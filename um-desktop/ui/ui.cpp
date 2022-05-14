@@ -133,7 +133,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 
 	m_propertyGrid8 = new wxPropertyGrid(m_panelKuwo, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propertyGridItem36 = m_propertyGrid8->Append( new wxPropertyCategory( _("Kuwo"), _("Kuwo") ) );
-	m_kuwoKey = m_propertyGrid8->Append( new wxLongStringProperty( _("Name"), _("Name") ) );
+	m_kuwoKey = m_propertyGrid8->Append( new wxLongStringProperty( _("Kuwo decryption table"), _("Kuwo decryption table") ) );
 	bSizer12->Add( m_propertyGrid8, 1, wxEXPAND, 5 );
 
 
