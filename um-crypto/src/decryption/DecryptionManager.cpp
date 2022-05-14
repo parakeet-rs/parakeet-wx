@@ -72,6 +72,9 @@ class DecryptionManagerImpl : public DecryptionManager {
     // Add kuwo ciphers
     result.push_back(kuwo::KuwoFileLoader::Create(c.kuwo.key));
 
+    // Add Netease ciphers
+    result.push_back(netease::NCMFileLoader::Create(c.netease.key));
+
     // Add Joox
     result.push_back(
         tencent::JooxFileLoader::Create(c.joox.install_uuid, c.joox.salt));

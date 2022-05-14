@@ -2,6 +2,7 @@
 
 #include "kugou/KugouFileLoader.h"
 #include "kuwo/KuwoFileLoader.h"
+#include "netease/NCMFileLoader.h"
 #include "tencent/JooxFileLoader.h"
 #include "tencent/QMCv1Loader.h"
 #include "tencent/QMCv2Loader.h"
@@ -25,6 +26,10 @@ struct KuwoConfig {
   kuwo::KuwoKey key;
 };
 
+struct NeteaseConfig {
+  netease::NCMContentKeyProtectionKey key;
+};
+
 struct JooxConfig {
   Str install_uuid;
   tencent::JooxSalt salt;
@@ -45,6 +50,7 @@ struct XimalayaConfig {
 struct DecryptionConfig {
   KugouConfig kugou;
   KuwoConfig kuwo;
+  NeteaseConfig netease;
   JooxConfig joox;
   QMCConfig qmc;
   XimalayaConfig ximalaya;
