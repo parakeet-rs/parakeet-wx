@@ -75,7 +75,7 @@ class DecryptionManagerImpl : public DecryptionManager {
           stream.read(reinterpret_cast<char*>(p_in), bytes_to_read);
           bytes_left_in_buffer = stream.gcount();
           if (bytes_left_in_buffer < bytes_to_read) {
-            auto x = stream.tellg();
+            // io error?
             bad = true;
             break;
           }
@@ -87,8 +87,7 @@ class DecryptionManagerImpl : public DecryptionManager {
             std::min(kDetectionBufferLen, bytes_left_in_buffer);
         if (!decryptor->Write(p_in, bytes_written) ||
             decryptor->InErrorState()) {
-          auto err =
-              decryptor->GetName() + " -- " + decryptor->GetErrorMessage();
+          // decryption error?
           bad = true;
           break;
         }
