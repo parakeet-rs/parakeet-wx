@@ -28,17 +28,10 @@
       }
     },
     {
-      "name": "ninja-linux-syslib",
-      "displayName": "Linux-Ninja (syslib)",
-      "description": "Default build using ninja",
-      "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/build/ninja-multi-syslib"
-    },
-    {
       "name": "ninja-linux",
-      "inherits": "ninja-linux-syslib",
       "displayName": "Linux-Ninja (vcpkg)",
       "description": "Default build using ninja + vcpkg",
+      "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/ninja-multi",
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
@@ -104,18 +97,6 @@
     {
       "name": "ninja-rel",
       "configurePreset": "ninja-linux",
-      "displayName": "Ninja (Release)",
-      "configuration": "Release"
-    },
-    {
-      "name": "ninja-dbg-syslib",
-      "configurePreset": "ninja-linux-syslib",
-      "displayName": "Ninja (Debug)",
-      "configuration": "Debug"
-    },
-    {
-      "name": "ninja-rel-syslib",
-      "configurePreset": "ninja-linux-syslib",
       "displayName": "Ninja (Release)",
       "configuration": "Release"
     }
