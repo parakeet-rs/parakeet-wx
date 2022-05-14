@@ -78,9 +78,7 @@ class XiamiFileLoaderImpl : public XiamiFileLoader {
         }
 
         case State::kDecryptWithKey: {
-          usize pos = buf_out_.size();
-          buf_out_.resize(pos + len);
-          u8* p_out = &buf_out_[pos];
+          u8* p_out = ExpandOutputBuffer(len);
 
           for (usize i = 0; i < len; i++) {
             p_out[i] = file_key_ - in[i];

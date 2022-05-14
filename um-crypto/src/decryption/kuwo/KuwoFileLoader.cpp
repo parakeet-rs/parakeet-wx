@@ -40,9 +40,7 @@ class KuwoFileLoaderImpl : public KuwoFileLoader {
   }
 
   inline void Decrypt(const u8* in, usize len) {
-    usize pos = buf_out_.size();
-    buf_out_.resize(pos + len);
-    u8* p_out = &buf_out_[pos];
+    u8* p_out = ExpandOutputBuffer(len);
 
     XorBlock(p_out, in, len, key_.data(), key_.size(), offset_);
     offset_ += len;

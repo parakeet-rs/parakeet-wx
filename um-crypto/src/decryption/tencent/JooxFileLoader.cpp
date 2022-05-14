@@ -72,7 +72,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
           break;
         case State::kSeekToBody:
           if (ReadUntilOffset(in, len, kVer4HeaderSize)) {
-            buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kVer4HeaderSize);
+            ConsumeInput(kVer4HeaderSize);
             SetupKey();
 
             state_ = State::kFastFirstPageDecryption;
@@ -103,13 +103,11 @@ class JooxFileLoaderImpl : public JooxFileLoader {
   }
 
   inline void DecryptAesBlock() {
-    auto pos = buf_out_.size();
-    buf_out_.resize(pos + kAESBlockSize);
+    auto p_out = ExpandOutputBuffer(kAESBlockSize);
 
-    aes.ProcessData(&buf_out_[pos], buf_in_.data(), kAESBlockSize);
+    aes.ProcessData(p_out, buf_in_.data(), kAESBlockSize);
 
-    offset_ += kAESBlockSize;
-    buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kAESBlockSize);
+    ConsumeInput(kAESBlockSize);
   }
 
   inline void DecryptPaddingBlock() {
@@ -122,8 +120,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
       buf_out_.insert(buf_out_.end(), block, block + len);
     }
 
-    offset_ += kAESBlockSize;
-    buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kAESBlockSize);
+    ConsumeInput(kAESBlockSize);
   }
 
   bool End() override {

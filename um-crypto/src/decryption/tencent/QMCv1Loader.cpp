@@ -117,9 +117,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   bool Write(const u8* in, usize len) override {
     if (InErrorState()) return false;
 
-    usize out_size = buf_out_.size();
-    buf_out_.resize(out_size + len);
-    auto p_out = &buf_out_.at(out_size);
+    auto p_out = ExpandOutputBuffer(len);
 
     for (usize i = 0; i < len; i++, offset_++) {
       if (offset_ == kStaticCipherPageSize) {

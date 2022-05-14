@@ -127,6 +127,22 @@ class DecryptionStream {
 
     return buf_in_.size() == block_size;
   }
+
+  inline u8* ExpandOutputBuffer(usize len) {
+    usize pos = buf_out_.size();
+    buf_out_.resize(pos + len);
+    return &buf_out_[pos];
+  }
+
+  inline void ConsumeInput(usize len) {
+    buf_in_.erase(buf_in_.begin(), buf_in_.begin() + len);
+    offset_ += len;
+  }
+
+  inline void ConsumeInput(void* out, usize len) {
+    std::copy_n(buf_in_.begin(), len, reinterpret_cast<u8*>(out));
+    ConsumeInput(len);
+  }
 };
 
 }  // namespace umc::decryption

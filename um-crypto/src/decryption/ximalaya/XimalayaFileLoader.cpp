@@ -33,11 +33,11 @@ class XimalayaFileLoaderImpl : public XimalayaFileLoader {
   virtual const Str GetName() const override { return name_; };
 
   void DoHeaderDecryption() {
-    buf_out_.resize(kEncryptedHeaderSize);
+    auto p_out = ExpandOutputBuffer(kEncryptedHeaderSize);
 
     for (usize i = 0; i < kEncryptedHeaderSize; i++) {
       usize idx = scramble_table_[i];
-      buf_out_[i] = buf_in_[idx] ^ content_key_[i % ContentKeySize];
+      p_out[i] = buf_in_[idx] ^ content_key_[i % ContentKeySize];
     }
   }
 

@@ -100,9 +100,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
 
   void DecryptFirstSegment() {
     usize N = N_;
-    usize pos = buf_out_.size();
-    buf_out_.resize(pos + kFirstSegmentSize);
-    u8* p_out = &buf_out_[pos];
+    auto p_out = ExpandOutputBuffer(kFirstSegmentSize);
     u8* p_in = buf_in_.data();
 
     for (usize i = 0; i < kFirstSegmentSize; i++) {
@@ -110,8 +108,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
       p_out[i] = p_in[i] ^ key_[GetSegmentKey(i, seed) % N];
     }
 
-    buf_in_.erase(buf_in_.begin(), buf_in_.begin() + kFirstSegmentSize);
-    offset_ = kFirstSegmentSize;
+    ConsumeInput(kFirstSegmentSize);
 
     ResetOtherSegment(kFirstSegmentSize);
   }
@@ -164,9 +161,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
   }
 
   void DecryptOtherSegment(const u8* in, usize len) {
-    usize pos = buf_out_.size();
-    buf_out_.resize(pos + len);
-    u8* p_out = &buf_out_[pos];
+    auto p_out = ExpandOutputBuffer(len);
 
     auto& S = S_;
     const auto N = N_;

@@ -131,9 +131,7 @@ class KugouFileLoaderImpl : public KugouFileLoader {
   }
 
   inline void DecryptInput(const u8*& in, usize& len) {
-    auto current_out_size = buf_out_.size();
-    buf_out_.resize(current_out_size + len);
-    auto p_out = &buf_out_.at(current_out_size);
+    auto p_out = ExpandOutputBuffer(len);
 
     usize offset = offset_ - header_size_;
     PopulateCacheUntil(offset + len);
