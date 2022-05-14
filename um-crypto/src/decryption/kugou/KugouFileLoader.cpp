@@ -28,7 +28,7 @@ enum class KugouCryptoType {
 namespace detail {
 
 constexpr usize kFileMagicSize = 0x10;
-constexpr usize kMinimalHeaderSize = 0x40;
+constexpr usize kMinimalHeaderSize = 0x2c;
 typedef Arr<u8, 17> KugouFileKey;
 
 const Arr<u8, kFileMagicSize> kKGMFileMagic = {
