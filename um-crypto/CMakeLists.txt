@@ -65,6 +65,7 @@ if(TARGET GTest::gtest)
   add_executable(${PROJECT_NAME}_test ${TESTS_SOURCE})
   target_link_libraries(${PROJECT_NAME}_test GTest::gmock GTest::gtest GTest::gmock_main GTest::gtest_main)
   target_link_libraries(${PROJECT_NAME}_test ${PROJECT_NAME})
+  target_include_directories(${PROJECT_NAME}_test PRIVATE src)
 
   include(GoogleTest)
   gtest_discover_tests(${PROJECT_NAME}_test)
