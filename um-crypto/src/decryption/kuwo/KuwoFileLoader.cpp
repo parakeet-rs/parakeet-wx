@@ -54,6 +54,7 @@ class KuwoFileLoaderImpl : public KuwoFileLoader {
             // Validate header.
             if (!std::equal(kKuwoMagicHeader.begin(), kKuwoMagicHeader.end(),
                             buf_in_.begin())) {
+              error_ = "file header magic not found";
               return false;
             }
 
