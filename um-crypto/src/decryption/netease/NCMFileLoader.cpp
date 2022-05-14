@@ -61,8 +61,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
 
   bool ParseFileKey() {
     using AES = CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption;
-    using StreamTransformationFilter = CryptoPP::StreamTransformationFilter;
-    using StreamTransformationFilter::PKCS_PADDING;
+    using Filter = CryptoPP::StreamTransformationFilter;
 
     Vec<u8> file_key(content_key_size_);
     ConsumeInput(file_key.data(), content_key_size_);
@@ -72,8 +71,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
 
     try {
       AES aes(key_.data(), key_.size());
-      StreamTransformationFilter decryptor(
-          aes, nullptr, StreamTransformationFilter::PKCS_PADDING);
+      Filter decryptor(aes, nullptr, Filter::PKCS_PADDING);
       decryptor.PutMessageEnd(file_key.data(), file_key.size());
       content_key_.resize(decryptor.MaxRetrievable());
       decryptor.Get(content_key_.data(), content_key_.size());
