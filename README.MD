@@ -1,5 +1,7 @@
 # Parakeet
 
+[![Build Linux x86_64](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml) [![Build Win64](https://github.com/jixunmoe/parakeet/actions/workflows/build-win64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-win64.yml)
+
 对 unlock-music 的非官方实现，使用 wxWidgets 作为基础 GUI 库开发。
 
 ![主界面截图](./.github/assets/app-main.png)
