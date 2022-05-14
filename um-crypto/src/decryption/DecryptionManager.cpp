@@ -1,6 +1,8 @@
 #include "um-crypto/decryption/DecryptionManager.h"
 #include "um-crypto/utils/DetectAudioType.h"
 
+#include <sstream>
+
 namespace umc::decryption {
 
 namespace detail {
@@ -20,15 +22,82 @@ class DecryptionManagerImpl : public DecryptionManager {
       const DetectionBuffer& header,
       const DetectionBuffer& footer,
       bool remove_unknown_format) {
+    std::stringstream ss;
+    ss.write(reinterpret_cast<const char*>(header.data()), header.size());
+
+    // add some padding
+    ss.write(Str(header.size(), 0).c_str(), header.size());
+
+    ss.write(reinterpret_cast<const char*>(footer.data()), footer.size());
+    return DetectDecryptors(ss, remove_unknown_format);
+  };
+
+  Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
+      std::istream& stream,
+      bool remove_unknown_format = true) override {
     using utils::AudioType;
 
     Vec<std::unique_ptr<DetectionResult>> result;
 
+    Vec<u8> header(kDetectionBufferLen);  // initial header size.
+    DetectionBuffer footer;
+    stream.seekg(0, std::ios::beg);
+    stream.read(reinterpret_cast<char*>(header.data()), kDetectionBufferLen);
+    if (stream.gcount() < kDetectionBufferLen) {
+      // buffer too small
+      return result;
+    }
+    stream.seekg(-kDetectionBufferLen, std::ios::end);
+    stream.read(reinterpret_cast<char*>(footer.data()), kDetectionBufferLen);
+    usize file_len = stream.tellg();
+    usize bytes_left = file_len - kDetectionBufferLen;
+    stream.seekg(kDetectionBufferLen, std::ios::beg);
+
     for (auto& decryptor : GetDecryptorsFromConfig()) {
+      auto name = decryptor->GetName();
       auto footer_len = decryptor->InitWithFileFooter(footer);
       if (decryptor->InErrorState()) continue;
-      if (!decryptor->Write(header.data(), header.size())) continue;
-      if (decryptor->InErrorState()) continue;
+
+      // We want to decrypt at least `kDetectionBufferLen` bytes of data.
+      bool bad = false;
+      auto p_in = header.data();
+      while (bytes_left > 0 &&
+             decryptor->GetOutputSize() < kDetectionBufferLen) {
+        usize bytes_left_in_buffer = &*header.end() - p_in;
+
+        // Should we feed more data?
+        if (bytes_left_in_buffer == 0) {
+          usize bytes_to_read = std::min(kDetectionBufferLen, bytes_left);
+          usize pos = header.size();
+          header.resize(pos + bytes_to_read);
+
+          p_in = &header[pos];
+          stream.read(reinterpret_cast<char*>(p_in), bytes_to_read);
+          bytes_left_in_buffer = stream.gcount();
+          if (bytes_left_in_buffer < bytes_to_read) {
+            auto x = stream.tellg();
+            bad = true;
+            break;
+          }
+
+          bytes_left -= bytes_to_read;
+        }
+
+        usize bytes_written =
+            std::min(kDetectionBufferLen, bytes_left_in_buffer);
+        if (!decryptor->Write(p_in, bytes_written) ||
+            decryptor->InErrorState()) {
+          auto err =
+              decryptor->GetName() + " -- " + decryptor->GetErrorMessage();
+          bad = true;
+          break;
+        }
+
+        bytes_left_in_buffer -= bytes_written;
+        p_in += bytes_written;
+      }
+
+      if (bad) continue;
 
       usize decrypted_size = decryptor->GetOutputSize();
       Vec<u8> decrypted_peek(decrypted_size);
@@ -41,6 +110,7 @@ class DecryptionManagerImpl : public DecryptionManager {
 
       auto item = std::make_unique<DetectionResult>();
       item->decryptor = std::move(decryptor);
+      item->header_discard_len = p_in - header.data();
       item->footer_discard_len = footer_len;
       item->audio_type = audio_type;
       item->audio_ext = utils::GetAudioTypeExtension(audio_type);

@@ -140,11 +140,7 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
     umc::decryption::DetectionBuffer header;
     umc::decryption::DetectionBuffer footer;
     std::ifstream f_in(item_path, std::ios::in | std::ios::binary);
-    f_in.read((char*)header.data(), header.size());
-    f_in.seekg(-footer.size(), std::ios::end);
-    f_in.read((char*)footer.data(), footer.size());
-    f_in.close();
-    auto decryptor = decryption_manager->DetectDecryptor(header, footer, true);
+    auto decryptor = decryption_manager->DetectDecryptor(f_in, true);
     auto supported = decryptor != nullptr;
 
     wxListItem new_item;
@@ -159,6 +155,7 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
         .process_time_ms = 0,
         .error = wxT(""),
         .decryptor = std::move(decryptor),
+        .input_stream = std::move(f_in),
     }));
     UpdateFileStatus(rowIndex, supported
                                    ? FileProcessStatus::kNotProcessed
@@ -272,7 +269,7 @@ void MainAppFrame::ProcessNextFile() {
 
       auto path_out = std::filesystem::path(entry->file_path)
                           .replace_extension(entry->decryptor->audio_ext);
-      std::ifstream f_in(entry->file_path, std::ios::in | std::ios::binary);
+      auto f_in = std::move(entry->input_stream);
       std::ofstream f_out(path_out, std::ios::out | std::ios::binary);
 
       f_in.seekg(0, std::ios::end);
@@ -282,15 +279,15 @@ void MainAppFrame::ProcessNextFile() {
         ok = false;
         break;
       }
-      auto discard_len = entry->decryptor->footer_discard_len +
-                         umc::decryption::kDetectionBufferLen;
+      auto discard_len = entry->decryptor->header_discard_len +
+                         entry->decryptor->footer_discard_len;
       if (discard_len > len) {
         entry->error = _("unexpected eof when reading input file");
         ok = false;
         break;
       }
       len -= discard_len;
-      f_in.seekg(umc::decryption::kDetectionBufferLen, std::ios::beg);
+      f_in.seekg(entry->decryptor->header_discard_len, std::ios::beg);
 
       auto& decryptor = entry->decryptor->decryptor;
       umc::u8 buf[4096];

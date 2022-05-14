@@ -11,6 +11,8 @@
 
 #include "um-crypto/utils/AudioTypes.h"
 
+#include <istream>
+
 namespace umc::decryption {
 
 namespace config {
@@ -64,6 +66,10 @@ struct DetectionResult {
    * This is usually the padding that was used by the detection.
    */
   usize footer_discard_len;
+  /**
+   * @brief Number of bytes to skip when reading the file.
+   */
+  usize header_discard_len;
   utils::AudioType audio_type;
   Str audio_ext;
   std::unique_ptr<DecryptionStream> decryptor;
@@ -76,9 +82,10 @@ class DecryptionManager {
 
   /**
    * @brief Get a list of detected decryptor.
-   * Header will be supplied to the decryptor,
-   *   feed decryptor with rest of the file.
+   * Header will be supplied to the decryptor;
+   *   when decrypting, feed decryptor with rest of the file.
    *
+   * @deprecated Use the `std::istream` varient instead.
    * @param header File header
    * @param footer File footer
    * @return Vec<std::unique_ptr<DetectionResult>>
@@ -89,9 +96,23 @@ class DecryptionManager {
       bool remove_unknown_format = true) = 0;
 
   /**
+   * @brief Get a list of detected decryptor.
+   * Header will be supplied to the decryptor;
+   *   when decrypting, feed decryptor with rest of the file.
+   *
+   * @param stream Input stream. For memory stream, use `std::stringstream`.
+   *               Ensure stream has at least `kDetectionBufferLen * 3` bytes.
+   * @return Vec<std::unique_ptr<DetectionResult>>
+   */
+  virtual Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
+      std::istream& stream,
+      bool remove_unknown_format = true) = 0;
+
+  /**
    * @brief Get the first working decryptor.
-   * Header will be supplied to the decryptor,
-   *   feed decryptor with rest of the file.
+   * Header will be supplied to the decryptor;
+   *   when decrypting, feed decryptor with rest of the file.
+   * @deprecated Use the `std::istream` varient instead.
    *
    * @param header
    * @param footer
@@ -102,6 +123,25 @@ class DecryptionManager {
       const DetectionBuffer& footer,
       bool remove_unknown_format = true) {
     auto result = DetectDecryptors(header, footer, remove_unknown_format);
+    if (result.size() > 0) {
+      return std::move(result[0]);
+    }
+    return nullptr;
+  }
+
+  /**
+   * @brief Get the first working decryptor.
+   * Header will be supplied to the decryptor;
+   *   when decrypting, feed decryptor with rest of the file.
+   *
+   * @param stream Input stream. For memory stream, use `std::stringstream`.
+   *               Ensure stream has at least `kDetectionBufferLen * 3` bytes.
+   * @return std::unique_ptr<DetectionResult>
+   */
+  std::unique_ptr<DetectionResult> DetectDecryptor(
+      std::istream& stream,
+      bool remove_unknown_format = true) {
+    auto result = DetectDecryptors(stream, remove_unknown_format);
     if (result.size() > 0) {
       return std::move(result[0]);
     }

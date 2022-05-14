@@ -6,6 +6,7 @@
 #include <wx/dnd.h>
 
 #include <atomic>
+#include <fstream>
 #include <memory>
 #include <mutex>
 #include <vector>
@@ -28,6 +29,7 @@ struct FileEntry {
   long process_time_ms;
   wxString error;
   std::unique_ptr<umc::decryption::DetectionResult> decryptor;
+  std::ifstream input_stream;
 };
 
 class MainAppFrame;
