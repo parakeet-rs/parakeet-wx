@@ -25,15 +25,12 @@ enum class State {
 
 class XiamiFileLoaderImpl : public XiamiFileLoader {
  private:
-  Str name_;
   State state_ = State::kReadHeader;
   usize bytes_to_copy_ = 0;
   u8 file_key_ = 0;
 
  public:
   XiamiFileLoaderImpl() {}
-
-  virtual const Str GetName() const override { return name_; };
 
   bool ParseFileHeader() {
     if (ReadBigEndian<u32>(&buf_in_[kMagicHeaderOffset1]) != kMagicHeader1 ||
