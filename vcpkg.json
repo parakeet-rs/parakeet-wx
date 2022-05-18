@@ -10,7 +10,6 @@
     "cryptopp",
     "gtest",
     "rapidjson",
-    "wxwidgets",
-    "zlib"
+    "wxwidgets"
   ]
 }
