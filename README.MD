@@ -78,16 +78,16 @@ cmake --build --preset win64-2019-rel
   - GitHub: [C 实现](https://github.com/jixunmoe/qmc-decode)
 - [QMC v2 解密工具](/utils/qmc-v2/)
   - GitHub: [C++ 实现](https://github.com/jixunmoe/qmc2) · [Rust 实现](https://github.com/jixunmoe/qmc2-rust)
-- Joox 解密库 - JavaScript 实现 {{< github repo="unlock-music/joox-crypto" >}}
-- 酷狗 KGM/VPR 解密 - JavaScript 实现 {{< github repo="jixunmoe/kugou-crypto" >}}
+- Joox 解密库 - JavaScript 实现 [unlock-music/joox-crypto](https://github.com/unlock-music/joox-crypto)
+- 酷狗 KGM/VPR 解密 - JavaScript 实现 [jixunmoe/kugou-crypto](https://github.com/jixunmoe/kugou-crypto)
 
 ### 同类项目
 
 该项目多多少少参考了下述项目所实现的解密算法：
 
 - Unlock Music - [Web (TypeScript)](https://git.unlock-music.dev/um/web) · [Cli (Go)](https://github.com/unlock-music/cli)
-- {{< github repo="nukemiko/takiyasha" >}} - Python 的实现，支持多加密方案
-- {{< github repo="davidxuang/MusicDecrypto" >}} - C# 的实现，支持多加密方案，使用 SIMD 加速。
+- [nukemiko/takiyasha](https://github.com/nukemiko/takiyasha) - Python 的实现，支持多加密方案
+- [davidxuang/MusicDecrypto](https://github.com/davidxuang/MusicDecrypto) - C# 的实现，支持多加密方案，使用 SIMD 加速。
 - ncmdump & 衍生项目 - 原仓库已下线，参考了网易云音乐部分的解密代码。
 
 ### 特别致谢
