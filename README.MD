@@ -101,3 +101,17 @@ cmake --build --preset win64-2019-rel
   - wxWidgets 提供界面库及其依赖；
 - CMake 提供方便的跨平台编译方案
 - VSCode 与相关扩展进行开发
+
+## 声明
+
+> 我（小鹦鹉软件作者）不支持、亦不提倡盗版。
+> 我认为人们能够选择如何享用购买的内容。
+> 小鹦鹉软件的使用者应保留解密后的副本做个人使用，而非进行二次分发。
+> 其它条款请参考软件自带的[授权协议][parakeet_lic]。
+>
+> I (the Parakeet author) do not endorse nor encourage piracy.
+> I believe that people should have a choice when consuming purchased content.
+> Parakeet users should keep their decrypted copies for private use, not to re-distribute them.
+> For other terms, checkout the [license][parakeet_lic].
+
+[parakeet_lic]: https://github.com/jixunmoe/parakeet/blob/main/LICENSE
