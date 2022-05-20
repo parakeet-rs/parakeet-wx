@@ -1,5 +1,7 @@
 #pragma once
+#include "um-crypto/decryption/DecryptionStream.h"
 #include "um-crypto/types.h"
+#include "um-crypto/utils/StringHelper.h"
 #include "um-crypto/utils/hex.h"
 
 #include <cryptopp/sha.h>
@@ -114,6 +116,36 @@ inline void VerifyHash(const Arr<u8, Size>& in,
 template <usize Size>
 inline void VerifyHash(const Arr<u8, Size>& in, const Str& expect_hash) {
   VerifyHash(in.data(), in.size(), expect_hash);
+}
+
+template <class Loader>
+inline Vec<u8> DecryptTestContent(std::unique_ptr<Loader> loader,
+                                  const Vec<u8>& test_data) {
+  umc::decryption::DetectionBuffer footer;
+
+  if (test_data.size() < footer.size()) {
+    throw std::runtime_error("not enough data to init from footer");
+  }
+
+  std::copy_n(&test_data[test_data.size() - footer.size()], footer.size(),
+              footer.begin());
+  loader->InitWithFileFooter(footer);
+
+  if (!loader->Write(test_data.data(), test_data.size())) {
+    throw std::runtime_error(
+        utils::Format("invoke DecryptionStream::Write failed, error: %s",
+                      loader->GetErrorMessage().c_str()));
+  }
+
+  if (loader->InErrorState()) {
+    throw std::runtime_error(
+        utils::Format("error from DecryptionStream::InErrorState: %s",
+                      loader->GetErrorMessage().c_str()));
+  }
+
+  Vec<u8> result;
+  loader->ReadAll(result);
+  return result;
 }
 
 }  // namespace umc::test
