@@ -1,8 +1,4 @@
 {
-  "cmake.configureSettings": {
-    "CMAKE_TOOLCHAIN_FILE": "${workspaceFolder}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-    "VCPKG_TARGET_TRIPLET": "x64-windows-static"
-  },
   "cmake.configureOnOpen": false,
   "C_Cpp.clang_format_sortIncludes": true,
   "C_Cpp.autoAddFileAssociations": false
