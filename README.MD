@@ -50,24 +50,19 @@ cmake --preset win64-2019-rel
 cmake --build --preset win64-2019-rel
 ```
 
-### Linux (Ubuntu 22.04) 下构建 (vcpkg)
+### Ubuntu 22.04 下构建
 
 - 安装工具链： `sudo apt-get install build-essential cmake ninja-build`
 - 参考 `build-setup-ubuntu.sh` 的内容安装依赖的包。
 - 执行 `bash ./prepare.linux.sh` 进行初始化。
 
-本项目目前不再推荐脱离 vcpkg 进行编译。
+```sh
+# 初始化 CMake 构建
+cmake --preset ninja-linux
 
-#### Linux (Fedora 36)
-
-- 安装工具链：
-
-  ```sh
-  sudo dnf install gcc cmake extra-cmake-modules \
-                   ninja-build make \
-                   perl-{FindBin,IPC-Cmd,File-Copy,Compare} \
-                   {gtk3,wxGTK,libwebp,libzstd,jbigkit,systemd}-devel
-  ```
+cmake --build --preset ninja-dbg # 调试版
+cmake --build --preset ninja-rel # 发布版
+```
 
 ## 相关内容与链接
 
