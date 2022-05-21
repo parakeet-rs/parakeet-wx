@@ -2,7 +2,7 @@
 
 [![Build Linux x86_64](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml) [![Build Win64](https://github.com/jixunmoe/parakeet/actions/workflows/build-win64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-win64.yml)
 
-对 unlock-music 的非官方实现，使用 wxWidgets 作为基础 GUI 库开发。
+一个用于解密下载的音乐文件工具的桌面客户端，使用 wxWidgets 作为基础 GUI 库开发。
 
 ![主界面截图](./.github/assets/app-main.png)
 
@@ -89,6 +89,8 @@ cmake --build --preset win64-2019-rel
 - [nukemiko/takiyasha](https://github.com/nukemiko/takiyasha) - Python 的实现，支持多加密方案
 - [davidxuang/MusicDecrypto](https://github.com/davidxuang/MusicDecrypto) - C# 的实现，支持多加密方案，使用 SIMD 加速。
 - ncmdump & 衍生项目 - 原仓库已下线，参考了网易云音乐部分的解密代码。
+
+该项目的灵感来自 Unlock Music 项目。
 
 ### 特别致谢
 
