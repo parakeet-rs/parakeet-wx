@@ -4,6 +4,12 @@
 
 // Tencent-TEA in cpp.
 
+namespace umc::misc::tc_tea::ecb {
+
+void DecryptBlock(void* block, u32* k);
+
+}  // namespace umc::misc::tc_tea::ecb
+
 namespace umc::misc::tc_tea::cbc {
 
 bool Decrypt(u8* plaindata,
