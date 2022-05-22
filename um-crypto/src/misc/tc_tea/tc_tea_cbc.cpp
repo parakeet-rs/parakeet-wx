@@ -46,11 +46,14 @@ bool Decrypt(u8* plaindata,
   ecb::DecryptBlock(decrypted, k);
   for (usize i = 8; i < cipher_len; i += 8) {
     // xor with previous block first
-    XorBlock(&decrypted[i], &decrypted[i - 8], 8);
+    XorInt<u64>(&decrypted[i], &decrypted[i - 8]);
     ecb::DecryptBlock(&decrypted[i], k);
   }
 
-  XorBlock(&decrypted[8], &cipher[0], cipher_len - 8);
+  // Hint compiler that we are XOR block of 8.
+  for (usize i = 8; i < cipher_len; i += 8) {
+    XorInt<u64>(&decrypted[i], &cipher[i - 8]);
+  }
 
   usize pad_size = usize(decrypted[0] & 0b111);
   usize start_loc = 1 + pad_size + SALT_LEN;
@@ -89,7 +92,9 @@ bool Encrypt(u8* cipher,
   usize header_len = 1 + pad_len + SALT_LEN;
 
   Vec<u8> encrypted(len);
-  Vec<u8> iv1(len);
+
+  // Let's make it faster by using native int types...
+  u64 iv2, next_iv2;
 
   std::random_device rd;
   independent_u8_engine generator(rd());
@@ -99,21 +104,23 @@ bool Encrypt(u8* cipher,
   std::copy_n(plaintext, plaintext_len, &encrypted[header_len]);
 
   // Process first block
-  std::copy_n(encrypted.begin(), 8, iv1.begin());
+  iv2 = *reinterpret_cast<u64*>(&encrypted[0]);
   ecb::EncryptBlock(&encrypted[0], k);
 
   for (usize i = 8; i < len; i += 8) {
-    // XOR iv2
-    XorBlock(&encrypted[i], &encrypted[i - 8], 8);
+    // XOR previous encrypted block
+    XorInt<u64>(&encrypted[i], &encrypted[i - 8]);
 
-    // store iv1
-    std::copy_n(&encrypted[i], 8, &iv1[i]);
+    // store iv2
+    next_iv2 = *reinterpret_cast<const u64*>(&encrypted[i]);
 
     // TEA ECB
     ecb::EncryptBlock(&encrypted[i], k);
 
-    // XOR iv1 (from prev block)
-    XorBlock(&encrypted[i], &iv1[i - 8], 8);
+    // XOR iv2
+    *reinterpret_cast<u64*>(&encrypted[i]) ^= iv2;
+
+    iv2 = next_iv2;
   }
 
   std::copy(encrypted.begin(), encrypted.end(), cipher);

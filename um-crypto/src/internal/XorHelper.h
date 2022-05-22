@@ -17,6 +17,11 @@ inline void XorBlock(void* p_in_out, const void* p_key, usize len) {
   }
 }
 
+template <std::integral T>
+inline void XorInt(void* p_in_out, const void* p_key) {
+  *reinterpret_cast<T*>(p_in_out) ^= *reinterpret_cast<const T*>(p_key);
+}
+
 /**
  * @brief XOR operation of two blocks (in1 & in2),
  *        then store its result to p_out.
