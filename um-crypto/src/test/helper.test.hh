@@ -129,9 +129,9 @@ inline Vec<u8> DecryptTestContent(std::unique_ptr<Loader> loader,
 
   std::copy_n(&test_data[test_data.size() - footer.size()], footer.size(),
               footer.begin());
-  loader->InitWithFileFooter(footer);
+  usize reserved_size = loader->InitWithFileFooter(footer);
 
-  if (!loader->Write(test_data.data(), test_data.size())) {
+  if (!loader->Write(test_data.data(), test_data.size() - reserved_size)) {
     throw std::runtime_error(
         utils::Format("invoke DecryptionStream::Write failed, error: %s",
                       loader->GetErrorMessage().c_str()));
