@@ -2,10 +2,7 @@
 
 #include "um-crypto/endian.h"
 
-#include <cstddef>
-#include <cstdint>
-#include <cstdlib>
-#include <cstring>
+#include <algorithm>
 
 namespace umc::misc::tc_tea::ecb {
 
@@ -16,7 +13,7 @@ inline u32 single_round_arithmetic(u32 value, u32 sum, u32 key1, u32 key2) {
   return ((value << 4) + key1) ^ (value + sum) ^ ((value >> 5) + key2);
 }
 
-void DecryptBlock(void* block, u32* k) {
+inline void DecryptBlock(void* block, u32* k) {
   auto block_u32 = reinterpret_cast<u32*>(block);
 
   u32 y = SwapBigEndianToHost(block_u32[0]);
@@ -62,8 +59,9 @@ bool Decrypt(u8* plaindata,
     return false;
   }
 
-  u8* decrypted = static_cast<u8*>(malloc(cipher_len));
-  memcpy(decrypted, cipher, cipher_len);
+  Vec<u8> decrypted_v(cipher_len);
+  u8* decrypted = decrypted_v.data();
+  std::copy_n(cipher, cipher_len, decrypted);
 
   // decrypt first block
   ecb::DecryptBlock(decrypted, k);
@@ -85,11 +83,15 @@ bool Decrypt(u8* plaindata,
   usize end_loc = cipher_len - ZERO_LEN;
 
   plaindata_len = end_loc - start_loc;
-  memcpy(plaindata, &decrypted[start_loc], plaindata_len);
+  std::copy_n(&decrypted[start_loc], plaindata_len, plaindata);
 
-  free(decrypted);
+  // Constant time zero check
+  u8 zero_sum;
+  for (usize i = 0; i < ZERO_LEN; i++) {
+    zero_sum |= decrypted[end_loc + i];
+  }
 
-  return true;
+  return zero_sum == 0;
 }
 
 }  // namespace umc::misc::tc_tea::cbc
