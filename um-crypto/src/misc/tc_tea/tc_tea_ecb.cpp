@@ -30,4 +30,22 @@ void DecryptBlock(void* block, u32* k) {
   block_u32[1] = SwapHostToBigEndian(z);
 }
 
+void EncryptBlock(void* block, u32* k) {
+  auto block_u32 = reinterpret_cast<u32*>(block);
+
+  u32 y = SwapBigEndianToHost(block_u32[0]);
+  u32 z = SwapBigEndianToHost(block_u32[1]);
+  u32 sum = 0;
+
+  for (int i = 0; i < ROUNDS; i++) {
+    sum += DELTA;
+
+    y += single_round_arithmetic(z, sum, k[0], k[1]);
+    z += single_round_arithmetic(y, sum, k[2], k[3]);
+  }
+
+  block_u32[0] = SwapHostToBigEndian(y);
+  block_u32[1] = SwapHostToBigEndian(z);
+}
+
 }  // namespace umc::misc::tc_tea::ecb
