@@ -10,6 +10,7 @@ namespace umc::misc::tencent {
 
 namespace detail {
 constexpr auto DecryptTencentTEA = tc_tea::cbc::Decrypt;
+constexpr auto EncryptTencentTEA = tc_tea::cbc::Encrypt;
 
 class QMCKeyDeriverImpl : public QMCKeyDeriver {
  private:
@@ -45,6 +46,22 @@ class QMCKeyDeriverImpl : public QMCKeyDeriver {
     };
 
     out.resize(8 + out_len);
+    return true;
+  }
+
+  bool ToEKey(Vec<u8>& out, const Vec<u8> key) const override {
+    auto& ekey = out;
+    ekey.resize(8 + tc_tea::cbc::GetEncryptedSize(key.size()));
+    std::copy_n(key.begin(), 8, ekey.begin());
+
+    auto tea_key = DeriveTEAKey(ekey);
+    usize cipher_len;
+    if (!EncryptTencentTEA(&ekey[8], cipher_len, &key[8], key.size() - 8,
+                           tea_key.data())) {
+      ekey.resize(0);
+      return false;
+    }
+    ekey.resize(8 + cipher_len);
     return true;
   }
 
