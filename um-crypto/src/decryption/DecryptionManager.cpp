@@ -63,7 +63,7 @@ class DecryptionManagerImpl : public DecryptionManager {
       auto p_in = header.data();
       while (bytes_left > 0 &&
              decryptor->GetOutputSize() < kDetectionBufferLen) {
-        usize bytes_left_in_buffer = &*header.end() - p_in;
+        usize bytes_left_in_buffer = header.data() + header.size() - p_in;
 
         // Should we feed more data?
         if (bytes_left_in_buffer == 0) {
