@@ -32,14 +32,14 @@ TEST(Joox, SimpleTest) {
       0xf9, 0x38, 0xbd, 0x30, 0x38, 0x46, 0x2b, 0xab,
       0x04, 0xf0, 0xd4, 0xd0, 0x71, 0x65, 0x27, 0xd4,
   };
-  std::copy(padding.begin(), padding.end(),
-            &test_data[12 + test::kSize1MiB + 16 * 0]);
-  std::copy(padding.begin(), padding.end(),
-            &test_data[12 + test::kSize2MiB + 16 * 1]);
-  std::copy(padding.begin(), padding.end(),
-            &test_data[12 + test::kSize3MiB + 16 * 2]);
-  std::copy(padding.begin(), padding.end(),
-            &test_data[12 + test::kSize4MiB + 16 * 3]);
+
+  for (usize i = 1; i <= 4; i++) {
+    std::copy(padding.begin(), padding.end(),
+              &test_data[12 + test::kSize1MiB * i + 16 * i - 16]);
+  }
+  test::VerifyHash(
+      test_data,
+      "684e32738bd84dc95143df5657d02498389516328e50d0b8492848d6e245def1");
 
   auto result =
       test::DecryptTestContent(JooxFileLoader::Create(uuid, salt), test_data);
