@@ -8,11 +8,6 @@
 
 namespace umc::misc::tc_tea::cbc {
 
-using independent_u8_engine =
-    std::independent_bits_engine<std::default_random_engine,
-                                 std::numeric_limits<u8>::digits,
-                                 u16>;
-
 constexpr usize SALT_LEN = 2;
 constexpr usize ZERO_LEN = 7;
 constexpr usize FIXED_PADDING_LEN = 1 + SALT_LEN + ZERO_LEN;
@@ -96,11 +91,14 @@ bool Encrypt(u8* cipher,
   // Let's make it faster by using native int types...
   u64 iv2, next_iv2;
 
+  using random_bit_engine =
+      std::independent_bits_engine<std::default_random_engine,
+                                   std::numeric_limits<u8>::digits, u16>;
+
   std::random_device rd;
-  independent_u8_engine generator(rd());
-  std::generate_n(encrypted.data(), header_len, [&generator]() {
-    return static_cast<std::uint8_t>(generator());
-  });
+  random_bit_engine rbe(rd());
+  std::generate_n(encrypted.data(), header_len,
+                  [&rbe]() { return static_cast<std::uint8_t>(rbe()); });
 
   encrypted[0] = (encrypted[0] & 0b1111'1000) | (pad_len & 0b0000'0111);
   std::copy_n(plaintext, plaintext_len, &encrypted[header_len]);
