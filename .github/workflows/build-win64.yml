@@ -42,7 +42,7 @@ jobs:
         run: cmake --build --preset win64-2019-rel
 
       - name: "💣 Test um-crypto ..."
-        run: ctest
+        run: ctest --output-on-failure
         working-directory: build/win64-2019-rel/um-crypto
 
       - name: "📦 Packaging"
