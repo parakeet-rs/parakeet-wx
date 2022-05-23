@@ -43,6 +43,10 @@ jobs:
       - name: "🛠️ CMake: Build"
         run: cmake --build --preset default-linux-rel -- -j$(nproc)
 
+      - name: "💣 Test um-crypto ..."
+        run: ctest
+        working-directory: build/linux-rel/um-crypto
+
       - name: "📦 Packaging"
         shell: bash
         run: |
