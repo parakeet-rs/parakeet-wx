@@ -11,7 +11,7 @@ namespace umc::misc::tc_tea::cbc {
 using independent_u8_engine =
     std::independent_bits_engine<std::default_random_engine,
                                  std::numeric_limits<u8>::digits,
-                                 u8>;
+                                 u16>;
 
 constexpr usize SALT_LEN = 2;
 constexpr usize ZERO_LEN = 7;
@@ -98,7 +98,9 @@ bool Encrypt(u8* cipher,
 
   std::random_device rd;
   independent_u8_engine generator(rd());
-  std::generate_n(encrypted.data(), header_len, std::ref(generator));
+  std::generate_n(encrypted.data(), header_len, [&generator]() {
+    return static_cast<std::uint8_t>(generator());
+  });
 
   encrypted[0] = (encrypted[0] & 0b1111'1000) | (pad_len & 0b0000'0111);
   std::copy_n(plaintext, plaintext_len, &encrypted[header_len]);
