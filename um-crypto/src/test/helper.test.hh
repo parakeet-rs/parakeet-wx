@@ -15,6 +15,7 @@ using namespace ::testing;
 
 constexpr usize kSize1MiB = 1 * 1024 * 1024;
 constexpr usize kSize2MiB = 2 * kSize1MiB;
+constexpr usize kSize3MiB = 3 * kSize1MiB;
 constexpr usize kSize4MiB = 4 * kSize1MiB;
 constexpr usize kSize32MiB = 8 * kSize4MiB;
 
@@ -75,6 +76,9 @@ inline void GenerateTestData(Arr<u8, Size>& out, const Str& unique_name) {
 inline void GenerateTestData(Vec<u8>& out, const Str& unique_name) {
   GenerateTestData(out.data(), out.size(), unique_name);
 }
+inline void GenerateTestData(Str& out, const Str& unique_name) {
+  GenerateTestData(reinterpret_cast<u8*>(out.data()), out.size(), unique_name);
+}
 
 inline void VerifyHash(const void* data,
                        usize len,
@@ -132,6 +136,7 @@ inline Vec<u8> DecryptTestContent(std::unique_ptr<Loader> loader,
   usize reserved_size = loader->InitWithFileFooter(footer);
 
   if (!loader->Write(test_data.data(), test_data.size() - reserved_size)) {
+    auto err = loader->GetErrorMessage();
     throw std::runtime_error(
         utils::Format("invoke DecryptionStream::Write failed, error: %s",
                       loader->GetErrorMessage().c_str()));
