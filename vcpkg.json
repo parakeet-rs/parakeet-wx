@@ -1,6 +1,6 @@
 {
-  "name": "Parakeet",
-  "version-string": "0.1.1-beta",
+  "name": "parakeet",
+  "version-string": "0.1.2-beta",
   "dependencies": [
     "boost-asio",
     "boost-dll",
