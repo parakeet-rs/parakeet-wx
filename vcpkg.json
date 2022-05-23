@@ -1,6 +1,6 @@
 {
-  "name": "um-desktop",
-  "version-string": "0.1.2-dev",
+  "name": "Parakeet",
+  "version-string": "0.1.1-beta",
   "dependencies": [
     "boost-asio",
     "boost-dll",
