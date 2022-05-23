@@ -95,7 +95,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // Joox (Tencent) config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, joox) {
     using namespace umc::decryption::tencent;
-    MANIP_JSON_ITEM(install_uuid, Str("ffffffffffffffffffffffffffffffff"));
+    MANIP_JSON_ITEM(install_uuid, Str(32, 'f'));
     MANIP_JSON_ITEM(salt, JooxSalt{});
   }
   END_MANIP_NAMESPACED_VALUE()
