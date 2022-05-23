@@ -58,7 +58,7 @@ bool Decrypt(u8* plaindata,
   std::copy_n(&decrypted[start_loc], plaindata_len, plaindata);
 
   // Constant time zero check
-  u8 zero_sum;
+  u8 zero_sum = 0;
   for (usize i = 0; i < ZERO_LEN; i++) {
     zero_sum |= decrypted[end_loc + i];
   }
