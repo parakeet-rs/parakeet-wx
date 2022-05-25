@@ -94,35 +94,49 @@ void MainAppFrame::SetDecryptionInProgress(bool in_progress) {
   m_btnOptions->Enable(!in_progress);
 }
 
-#define QMCv1_FILTER "*.qmcflac;*.qmcflac0;*.qmc;*.qmc0;"
-#define QMCv2_FILTER "*.mgg;*.mgg0;*.mgg1;*.mflac;*.mflac0;*.mflac1"
+#define QMC_WEYUN_FILTER "*.666c6163;*.776176;*.6d7033;*.6f6767;*.6d3461"
+#define QMCv1_FILTER                  \
+  "*.qmcflac;*.qmcflac?;*.qmc;*.qmc?" \
+  ";" QMC_WEYUN_FILTER
+#define QMCv2_FILTER "*.mgg;*.mgg?;*.mflac;*.mflac?;*.mflac1"
+#define JOOX_FILTER "*.ofl_en"
 #define Kugou_FILTER "*.kgm;*.vpr"
 #define Kuwo_FILTER "*.kwm"
+#define Netease_FILTER "*.ncm"
 #define Ximalaya_FILTER "*.x2m;*.x3m"
 #define Xiami_FILTER "*.xm"
-#define ALL_SUPPORTED_FILTER                                     \
-  QMCv1_FILTER ";" QMCv2_FILTER ";" Kugou_FILTER ";" Kuwo_FILTER \
-               ";" Ximalaya_FILTER ";" Xiami_FILTER
+#define ADD_FILTER_EXT(FILTER) filter += wxT(" (" FILTER ")|" FILTER "|")
+#define ALL_SUPPORTED_FILTER                                          \
+  QMCv1_FILTER ";" QMCv2_FILTER ";" JOOX_FILTER ";" Kugou_FILTER      \
+               ";" Kuwo_FILTER ";" Netease_FILTER ";" Ximalaya_FILTER \
+               ";" Xiami_FILTER
 
 void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   event.Skip();
 
-  wxString filter;
-  filter += _("All supported files");
-  filter += wxT("|" ALL_SUPPORTED_FILTER "|");
-  filter += _("QMCv1 files (*.qmcflac;*.qmc)");
-  filter += wxT("|" QMCv1_FILTER "|");
-  filter += _("QMCv2 files (*.mgg;*.mflac)");
-  filter += wxT("|" QMCv2_FILTER "|");
-  filter += _("Kugou music (*.kgm;*.vpr)");
-  filter += wxT("|" Kugou_FILTER "|");
-  filter += _("Kuwo music (*.kwm)");
-  filter += wxT("|" Kuwo_FILTER "|");
-  filter += _("Ximalaya audio file (*.x2m; *.x3m)");
-  filter += wxT("|" Ximalaya_FILTER "|");
-  filter += _("Xiami music (*.xm)");
-  filter += wxT("|" Xiami_FILTER "|");
-  filter += _("All files (*.*)|*");
+  static wxString filter = []() -> wxString {
+    wxString filter;
+    filter += _("All known extensions files");
+    filter += wxT("|" ALL_SUPPORTED_FILTER "|");
+    filter += _("Koox music");
+    ADD_FILTER_EXT(JOOX_FILTER);
+    filter += _("QMCv1 files");
+    ADD_FILTER_EXT(QMCv1_FILTER);
+    filter += _("QMCv2 files");
+    ADD_FILTER_EXT(QMCv2_FILTER);
+    filter += _("Kugou music");
+    ADD_FILTER_EXT(Kugou_FILTER);
+    filter += _("Kuwo music");
+    ADD_FILTER_EXT(Kuwo_FILTER);
+    filter += _("Netease music");
+    ADD_FILTER_EXT(Netease_FILTER);
+    filter += _("Ximalaya audio file");
+    ADD_FILTER_EXT(Ximalaya_FILTER);
+    filter += _("Xiami music");
+    ADD_FILTER_EXT(Xiami_FILTER);
+    filter += _("All files (*.*)|*");
+    return filter;
+  }();
 
   wxFileDialog openFileDialog(this, _("Open encrypted music files"), "", "",
                               filter,
