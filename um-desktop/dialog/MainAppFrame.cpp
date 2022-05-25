@@ -165,6 +165,17 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
 }
 
 void MainAppFrame::AddSingleFileToQueue(const umc::Path& path) {
+  namespace fs = std::filesystem;
+  auto status = fs::status(path);
+  if (fs::is_directory(path)) {
+    for (const auto& entry : fs::directory_iterator{path}) {
+      AddSingleFileToQueue(entry.path());
+    }
+    return;
+  } else if (!fs::is_regular_file(path)) {
+    return;
+  }
+
   auto decryption_manager =
       umd::config::AppConfigStore::GetInstance()->GetDecryptionManager();
   umc::decryption::DetectionBuffer header;
