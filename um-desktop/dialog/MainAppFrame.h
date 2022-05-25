@@ -28,8 +28,8 @@ struct FileEntry {
   long index;
   long process_time_ms;
   wxString error;
-  std::unique_ptr<umc::decryption::DetectionResult> decryptor;
-  std::ifstream input_stream;
+  std::shared_ptr<umc::decryption::DetectionResult> decryptor;
+  std::shared_ptr<std::ifstream> input_stream;
 };
 
 class MainAppFrame;
@@ -71,6 +71,7 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
   void ProcessNextFile();
   void OnProcessSingleFileComplete();
   void HandleAddFilesToQueue(const wxArrayString& filenames);
+  void AddSingleFileToQueue(const umc::Path& path);
 
  private:
   friend class MainAppDropTarget;

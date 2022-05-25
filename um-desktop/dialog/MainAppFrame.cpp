@@ -22,7 +22,13 @@ using boost::chrono::system_clock;
 bool MainAppDropTarget::OnDropFiles(wxCoord x,
                                     wxCoord y,
                                     const wxArrayString& file_paths) {
+#if __UMD_SINGLE_THREAD_MODE
   app_frame_->HandleAddFilesToQueue(file_paths);
+#else
+  umd::io_service.post(
+      [this, file_paths]() { app_frame_->HandleAddFilesToQueue(file_paths); });
+#endif
+
   return true;
 }
 
@@ -127,20 +133,34 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
 
   wxArrayString paths;
   openFileDialog.GetPaths(paths);
+
+#if __UMD_SINGLE_THREAD_MODE
   HandleAddFilesToQueue(paths);
+#else
+  umd::io_service.post([this, paths]() { HandleAddFilesToQueue(paths); });
+#endif
 }
 
 void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
-  auto decryption_manager =
-      umd::config::AppConfigStore::GetInstance()->GetDecryptionManager();
 
   for (int i = 0; i < len; i++) {
     umc::Path item_path(umc::U8StrFromStr(file_paths.Item(i).utf8_string()));
-    umc::decryption::DetectionBuffer header;
-    umc::decryption::DetectionBuffer footer;
-    std::ifstream f_in(item_path, std::ios::in | std::ios::binary);
-    auto decryptor = decryption_manager->DetectDecryptor(f_in, true);
+    AddSingleFileToQueue(item_path);
+  }
+}
+
+void MainAppFrame::AddSingleFileToQueue(const umc::Path& path) {
+  auto decryption_manager =
+      umd::config::AppConfigStore::GetInstance()->GetDecryptionManager();
+  umc::decryption::DetectionBuffer header;
+  umc::decryption::DetectionBuffer footer;
+  auto f_in =
+      std::make_shared<std::ifstream>(path, std::ios::in | std::ios::binary);
+  auto decryptor = std::shared_ptr<umc::decryption::DetectionResult>(
+      decryption_manager->DetectDecryptor(*f_in, true));
+
+  this->main_thread_runner_.PostInMainThread([this, decryptor, f_in, path]() {
     auto supported = decryptor != nullptr;
 
     wxListItem new_item;
@@ -150,17 +170,17 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
     auto rowIndex = m_decryptLogs->InsertItem(new_item);
     file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
         .status = FileProcessStatus::kNotProcessed,
-        .file_path = item_path,
+        .file_path = path,
         .index = rowIndex,
         .process_time_ms = 0,
         .error = wxT(""),
-        .decryptor = std::move(decryptor),
-        .input_stream = std::move(f_in),
+        .decryptor = decryptor,
+        .input_stream = (f_in),
     }));
     UpdateFileStatus(rowIndex, supported
                                    ? FileProcessStatus::kNotProcessed
                                    : FileProcessStatus::kProcessNotSupported);
-  }
+  });
 }
 
 void MainAppFrame::OnButtonClick_AddDirectory(wxCommandEvent& event) {
@@ -269,11 +289,11 @@ void MainAppFrame::ProcessNextFile() {
 
       auto path_out = std::filesystem::path(entry->file_path)
                           .replace_extension(entry->decryptor->audio_ext);
-      auto f_in = std::move(entry->input_stream);
+      auto& f_in = entry->input_stream;
       std::ofstream f_out(path_out, std::ios::out | std::ios::binary);
 
-      f_in.seekg(0, std::ios::end);
-      umc::usize len = umc::usize(f_in.tellg());
+      f_in->seekg(0, std::ios::end);
+      umc::usize len = umc::usize(f_in->tellg());
       if (len == 0) {
         entry->error = _("empty input file");
         ok = false;
@@ -287,14 +307,14 @@ void MainAppFrame::ProcessNextFile() {
         break;
       }
       len -= discard_len;
-      f_in.seekg(entry->decryptor->header_discard_len, std::ios::beg);
+      f_in->seekg(entry->decryptor->header_discard_len, std::ios::beg);
 
       auto& decryptor = entry->decryptor->decryptor;
       umc::u8 buf[4096];
       while (len) {
         umc::usize bytes_to_read = std::min(sizeof(buf), len);
-        f_in.read(reinterpret_cast<char*>(buf), bytes_to_read);
-        umc::usize bytes_read = f_in.gcount();
+        f_in->read(reinterpret_cast<char*>(buf), bytes_to_read);
+        umc::usize bytes_read = f_in->gcount();
         if (!decryptor->Write(buf, bytes_read)) {
           break;
         }
