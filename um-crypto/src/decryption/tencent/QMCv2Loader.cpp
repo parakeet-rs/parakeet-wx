@@ -95,6 +95,10 @@ class QMCv2LoaderImpl : public QMCv2Loader {
   }
 
   inline u64 GetSegmentKey(u64 segment_id, u64 seed) const {
+    // HACK: Workaround incorrect behaviour when divided by 0.
+    if (seed == 0) {
+      return 0;
+    }
     return u64(key_hash_ / double((segment_id + 1) * seed) * 100.0);
   }
 
