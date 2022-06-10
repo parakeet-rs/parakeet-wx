@@ -28,11 +28,11 @@ jobs:
       - name: "🏭 vcpkg: setup binary cache"
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-vcpkg-v2-${{ hashFiles('**/vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-v3-${{ hashFiles('**/vcpkg.json') }}
           path: |
             .vcpkg-bc
           restore-keys: |
-            ${{ runner.os }}-vcpkg-v2-
+            ${{ runner.os }}-vcpkg-v3-
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
 
@@ -49,13 +49,12 @@ jobs:
       - name: "📦 Packaging"
         shell: bash
         run: |
-          # build-prepared files from Win64
-          mkdir -p dist
+          bash build-prepare.sh
           cp build/win32-2019-rel/um-desktop/Release/um-desktop.exe \
              dist/Parakeet-win32.exe
 
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: win64
+          name: win32
           path: dist/
