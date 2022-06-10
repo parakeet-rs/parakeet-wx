@@ -50,6 +50,7 @@ jobs:
         shell: bash
         run: |
           # build-prepared files from Win64
+          mkdir -p dist
           cp build/win32-2019-rel/um-desktop/Release/um-desktop.exe \
              dist/Parakeet-win32.exe
 
