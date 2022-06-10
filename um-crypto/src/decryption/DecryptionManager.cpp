@@ -47,9 +47,14 @@ class DecryptionManagerImpl : public DecryptionManager {
       // buffer too small
       return result;
     }
-    stream.seekg(-kDetectionBufferLen, std::ios::end);
-    stream.read(reinterpret_cast<char*>(footer.data()), kDetectionBufferLen);
+    stream.seekg(0, std::ios::end);
     usize file_len = stream.tellg();
+    stream.seekg(file_len - kDetectionBufferLen, std::ios::beg);
+    stream.read(reinterpret_cast<char*>(footer.data()), kDetectionBufferLen);
+    if (stream.gcount() < kDetectionBufferLen) {
+      // buffer too small
+      return result;
+    }
     usize bytes_left = file_len - kDetectionBufferLen;
     stream.seekg(kDetectionBufferLen, std::ios::beg);
 
