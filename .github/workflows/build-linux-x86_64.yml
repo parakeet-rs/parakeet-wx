@@ -20,6 +20,7 @@ jobs:
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
       CC: gcc-11
       CXX: g++-11
+      DEPLOY_GTK_VERSION: 3
 
     steps:
       - name: "⏳ Clone repo..."
