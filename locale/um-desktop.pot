@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-05-12 22:35+0100\n"
+"POT-Creation-Date: 2022-10-22 21:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,12 +21,12 @@ msgstr ""
 msgid " a b c"
 msgstr ""
 
-#: um-desktop/dialog/OptionsDialog.cpp:56
+#: um-desktop/dialog/OptionsDialog.cpp:62
 #, c-format
 msgid "%s - Options"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:202
+#: um-desktop/ui/ui.cpp:219
 msgid "&Cancel"
 msgstr ""
 
@@ -38,7 +38,7 @@ msgstr ""
 msgid "&Decrypt directory..."
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:205
+#: um-desktop/ui/ui.cpp:222
 msgid "&OK"
 msgstr ""
 
@@ -46,32 +46,36 @@ msgstr ""
 msgid "&Options..."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:119
+#: um-desktop/ui/ui.cpp:150
+msgid "AES key for NCM content key"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:140
 msgid "All files (*.*)|*"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:105
-msgid "All supported files"
+#: um-desktop/dialog/MainAppFrame.cpp:122
+msgid "All known extensions files"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:74
+#: um-desktop/dialog/MainAppFrame.cpp:83
 msgid "Config saved. Some config may require restart to work."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:231
+#: um-desktop/dialog/MainAppFrame.cpp:276
 #, c-format
 msgid "Converting from %s to %s: %s"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:77
+#: um-desktop/dialog/MainAppFrame.cpp:86
 msgid "Could not save config."
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:53
+#: um-desktop/dialog/MainAppFrame.cpp:60
 msgid "DEBUG Build"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:223
+#: um-desktop/dialog/MainAppFrame.cpp:268
 #, c-format
 msgid "Decode OK [%s -> %s]: %s (%lums)"
 msgstr ""
@@ -80,11 +84,11 @@ msgstr ""
 msgid "Decrypt &file..."
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:152
+#: um-desktop/ui/ui.cpp:166
 msgid "EKey derive seed"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:227
+#: um-desktop/dialog/MainAppFrame.cpp:272
 #, c-format
 msgid "FAIL [%s]: %s (%s)"
 msgstr ""
@@ -93,11 +97,11 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:166
+#: um-desktop/ui/ui.cpp:183
 msgid "Installation UUID"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:165 um-desktop/ui/ui.cpp:174
+#: um-desktop/ui/ui.cpp:182 um-desktop/ui/ui.cpp:191
 msgid "Joox"
 msgstr ""
 
@@ -105,20 +109,28 @@ msgstr ""
 msgid "KGM Decryption"
 msgstr ""
 
+#: um-desktop/dialog/MainAppFrame.cpp:124
+msgid "Koox music"
+msgstr ""
+
 #: um-desktop/ui/ui.cpp:129
 msgid "Kugou"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:111
-msgid "Kugou music (*.kgm;*.vpr)"
+#: um-desktop/dialog/MainAppFrame.cpp:130
+msgid "Kugou music"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:135 um-desktop/ui/ui.cpp:143
 msgid "Kuwo"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:113
-msgid "Kuwo music (*.kwm)"
+#: um-desktop/ui/ui.cpp:136
+msgid "Kuwo decryption table"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:132
+msgid "Kuwo music"
 msgstr ""
 
 #: um-desktop/ui/ui.cpp:104
@@ -129,15 +141,31 @@ msgstr ""
 msgid "Logs:"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:136
-msgid "Name"
+#: um-desktop/ui/ui.cpp:168
+msgid "Mix key 1 (Stage 1 Key; 16 bytes)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:121
+#: um-desktop/ui/ui.cpp:169
+msgid "Mix key 2 (Stage 2 Key; 16 bytes)"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:149
+msgid "NCM Decryption"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:157
+msgid "Netease"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:134
+msgid "Netease music"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:144
 msgid "Open encrypted music files"
 msgstr ""
 
-#: um-desktop/ui/ui.h:126
+#: um-desktop/ui/ui.h:133
 msgid "Options"
 msgstr ""
 
@@ -149,36 +177,40 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:149
+#: um-desktop/ui/ui.cpp:163
 msgid "QMCv1"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:107
-msgid "QMCv1 files (*.qmcflac;*.qmc)"
+#: um-desktop/dialog/MainAppFrame.cpp:126
+msgid "QMCv1 files"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:151
+#: um-desktop/ui/ui.cpp:165
 msgid "QMCv2"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:109
-msgid "QMCv2 files (*.mgg;*.mflac)"
+#: um-desktop/ui/ui.cpp:167
+msgid "QMCv2 - EncV2"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:159
+#: um-desktop/dialog/MainAppFrame.cpp:128
+msgid "QMCv2 files"
+msgstr ""
+
+#: um-desktop/ui/ui.cpp:176
 msgid "QQ Music"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:219
+#: um-desktop/dialog/MainAppFrame.cpp:264
 #, c-format
 msgid "Ready [%s -> %s]: %s"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:167
+#: um-desktop/ui/ui.cpp:184
 msgid "Salt"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:150
+#: um-desktop/ui/ui.cpp:164
 msgid "Static Key (hex; 128 bytes)"
 msgstr ""
 
@@ -202,12 +234,16 @@ msgstr ""
 msgid "Threading"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:239
+#: um-desktop/app_version.cpp:8
+msgid "Unknown Version"
+msgstr ""
+
+#: um-desktop/dialog/MainAppFrame.cpp:284
 #, c-format
 msgid "Unknown state (code %d): %s"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:235
+#: um-desktop/dialog/MainAppFrame.cpp:280
 #, c-format
 msgid "Unsupported: %s"
 msgstr ""
@@ -220,46 +256,46 @@ msgstr ""
 msgid "VPR Key (hex; 17 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:180
+#: um-desktop/ui/ui.cpp:197
 msgid "X2M"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:181
+#: um-desktop/ui/ui.cpp:198
 msgid "X2M Content Key (hex; 4 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:182
+#: um-desktop/ui/ui.cpp:199
 msgid "X2M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:183
+#: um-desktop/ui/ui.cpp:200
 msgid "X3M"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:184
+#: um-desktop/ui/ui.cpp:201
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:185
+#: um-desktop/ui/ui.cpp:202
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:117
-msgid "Xiami music (*.xm)"
+#: um-desktop/dialog/MainAppFrame.cpp:138
+msgid "Xiami music"
 msgstr ""
 
-#: um-desktop/ui/ui.cpp:192
+#: um-desktop/ui/ui.cpp:209
 msgid "Ximalaya"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:115
-msgid "Ximalaya audio file (*.x2m; *.x3m)"
+#: um-desktop/dialog/MainAppFrame.cpp:136
+msgid "Ximalaya audio file"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:281
+#: um-desktop/dialog/MainAppFrame.cpp:326
 msgid "empty input file"
 msgstr ""
 
-#: um-desktop/dialog/MainAppFrame.cpp:288
+#: um-desktop/dialog/MainAppFrame.cpp:333
 msgid "unexpected eof when reading input file"
 msgstr ""
