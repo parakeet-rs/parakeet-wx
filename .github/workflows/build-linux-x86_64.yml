@@ -1,6 +1,11 @@
 name: Build (Linux x86_64)
 
-on: [push, pull_request]
+on:
+  push:
+  pull_request:
+  schedule:
+    # Build once every fortnight
+    - cron: "10 4 1,15 * *"
 
 permissions:
   contents: read
