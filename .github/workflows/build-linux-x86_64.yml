@@ -47,6 +47,10 @@ jobs:
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
 
+      - name: "🍳 Prepare"
+        shell: bash
+        run: bash build-prepare.sh
+
       - name: "🔧 CMake: Configure"
         run: cmake --preset default-linux-rel
 
@@ -60,7 +64,6 @@ jobs:
       - name: "📦 Packaging"
         shell: bash
         run: |
-          bash build-prepare.sh
           cp build/linux-rel/um-desktop/um-desktop \
              dist/Parakeet-linux-x86_64
 

@@ -22,3 +22,5 @@ tset-sample/
 
 /Packaging/
 /Parakeet/
+
+*.build_time.h

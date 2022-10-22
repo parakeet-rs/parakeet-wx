@@ -51,6 +51,10 @@ jobs:
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
 
+      - name: "🍳 Prepare"
+        shell: bash
+        run: bash build-prepare.sh
+
       - name: "🔧 CMake: Configure"
         run: cmake --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"
 
@@ -64,7 +68,6 @@ jobs:
       - name: "📦 Packaging"
         shell: bash
         run: |
-          bash build-prepare.sh
           BUILD_DIR="build/${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"
           DIST_DIR="dist"
           cp "${BUILD_DIR}/um-desktop/Release/um-desktop.exe" \

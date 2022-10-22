@@ -9,6 +9,7 @@ RUN apt-get update \
     gcc \
     g++ \
     git \
+    jq \
     make \
     libgtk-3-dev \
     librsvg2-dev \
