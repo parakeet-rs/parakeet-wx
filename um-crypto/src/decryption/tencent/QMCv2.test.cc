@@ -33,7 +33,9 @@ TEST(QMCv2, RC4Cipher) {
   // guaranteed to be random.
   std::fill_n(file_key.begin(), 8, '4');
 
-  std::shared_ptr<QMCKeyDeriver> key_deriver = QMCKeyDeriver::Create(123);
+  std::shared_ptr<QMCKeyDeriver> key_deriver =
+      QMCKeyDeriver::Create(123, umc::misc::tencent::QMCEncV2Stage1Key{},
+                            umc::misc::tencent::QMCEncV2Stage2Key{});
   ASSERT_EQ(key_deriver->ToEKey(ekey, file_key), true);
   ASSERT_EQ(key_deriver->FromEKey(parsed_file_key, ekey), true);
   ASSERT_THAT(parsed_file_key, ElementsAreArray(file_key));
