@@ -44,6 +44,8 @@ void OptionsDialog::ConfigGlueCode() {
 
     DEFINE_CTRL_PROP(m_tencentEKeySeed, d.qmc.ekey_seed);
     DEFINE_CTRL_PROP(m_tencentStaticTable, d.qmc.static_cipher_key);
+    DEFINE_CTRL_PROP(m_encV2Stage1Key, d.qmc.enc_v2_stage1_key);
+    DEFINE_CTRL_PROP(m_encV2Stage2Key, d.qmc.enc_v2_stage2_key);
 
     DEFINE_CTRL_PROP(m_jooxUUID, d.joox.install_uuid);
     DEFINE_CTRL_PROP(m_jooxSalt, d.joox.salt);

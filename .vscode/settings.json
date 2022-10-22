@@ -4,5 +4,31 @@
   "C_Cpp.autoAddFileAssociations": false,
   "search.exclude": {
     "vcpkg/**": true
-  }
+  },
+  "cSpell.words": [
+    "appdir",
+    "appimage",
+    "buildsystems",
+    "ctest",
+    "davidxuang",
+    "Decrypto",
+    "decryptor",
+    "Decryptors",
+    "deriver",
+    "ekey",
+    "jixunmoe",
+    "joox",
+    "kugou",
+    "kuwo",
+    "linuxdeploy",
+    "MSVC",
+    "MSVS",
+    "ncmdump",
+    "netease",
+    "nukemiko",
+    "takiyasha",
+    "vcpkg",
+    "ximalaya",
+    "xmly"
+  ]
 }

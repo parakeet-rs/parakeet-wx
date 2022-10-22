@@ -1424,6 +1424,27 @@
                                                 <property name="permission">protected</property>
                                                 <property name="type">Int</property>
                                             </object>
+                                            <object class="propGridItem" expanded="1">
+                                                <property name="help"></property>
+                                                <property name="label">QMCv2 - EncV2</property>
+                                                <property name="name">m_qmcEncV2Header</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">Category</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="1">
+                                                <property name="help"></property>
+                                                <property name="label">Mix key 1 (Stage 1 Key; 16 bytes)</property>
+                                                <property name="name">m_encV2Stage1Key</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">LongString</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="1">
+                                                <property name="help"></property>
+                                                <property name="label">Mix key 2 (Stage 2 Key; 16 bytes)</property>
+                                                <property name="name">m_encV2Stage2Key</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">LongString</property>
+                                            </object>
                                         </object>
                                     </object>
                                 </object>

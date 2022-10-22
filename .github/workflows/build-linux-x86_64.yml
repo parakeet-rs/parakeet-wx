@@ -47,11 +47,15 @@ jobs:
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
 
+      - name: "🍳 Prepare"
+        shell: bash
+        run: bash build-prepare.sh
+
       - name: "🔧 CMake: Configure"
         run: cmake --preset default-linux-rel
 
       - name: "🛠️ CMake: Build"
-        run: cmake --build --preset default-linux-rel -- -j$(nproc)
+        run: cmake --build --preset default-linux-rel
 
       - name: "💣 Test um-crypto ..."
         run: ctest --output-on-failure
@@ -60,7 +64,6 @@ jobs:
       - name: "📦 Packaging"
         shell: bash
         run: |
-          bash build-prepare.sh
           cp build/linux-rel/um-desktop/um-desktop \
              dist/Parakeet-linux-x86_64
 
@@ -98,7 +101,7 @@ jobs:
           wget -q "https://github.com/linuxdeploy/linuxdeploy/releases/download/continuous/linuxdeploy-x86_64.AppImage"
           chmod +x linuxdeploy-plugin-gtk.sh linuxdeploy-x86_64.AppImage
 
-      - name: "📦 Package to appimage"
+      - name: "📦 Package to AppImage"
         run: |
           mkdir -p Packaging
           mv dist/Parakeet-linux-x86_64 Packaging/AppRun

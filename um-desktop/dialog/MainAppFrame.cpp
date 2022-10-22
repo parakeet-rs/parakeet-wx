@@ -1,6 +1,7 @@
 #include "MainAppFrame.h"
 #include "OptionsDialog.h"
 
+#include "../app_version.h"
 #include "../constants.h"
 #include "../utils/MakeArray.h"
 #include "../utils/threading.h"
@@ -58,6 +59,8 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
 #if !NDEBUG
   SetTitle(GetTitle() + "  [" + _("DEBUG Build") + "]");
 #endif
+
+  SetTitle(GetTitle() + "  (" + umd_version + ")");
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {

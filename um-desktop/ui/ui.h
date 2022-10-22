@@ -103,6 +103,9 @@ namespace umd::ui_base
 			wxPGProperty* m_tencentStaticTable;
 			wxPGProperty* m_propertyGridItem35;
 			wxPGProperty* m_tencentEKeySeed;
+			wxPGProperty* m_qmcEncV2Header;
+			wxPGProperty* m_encV2Stage1Key;
+			wxPGProperty* m_encV2Stage2Key;
 			wxPanel* m_panelJoox;
 			wxPropertyGrid* m_propertyGridJoox;
 			wxPGProperty* m_HeaderJoox;

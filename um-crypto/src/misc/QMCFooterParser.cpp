@@ -15,10 +15,6 @@ namespace detail {
 constexpr u32 kMagicQTag = 0x51546167;  // 'QTag'
 constexpr u32 kMagicSTag = 0x53546167;  // 'STag'
 
-// "UVF..." = base64_encode("QQMusic EncV2,Key:")
-// Found in ekey section of mflac.
-const char* kQQMusicEncV2KeyHeader = "UVFNdXNpYyBFbmNWMixLZXk6";
-
 class QMCFooterParserImpl : public QMCFooterParser {
  public:
   QMCFooterParserImpl(std::shared_ptr<QMCKeyDeriver> key_deriver)
@@ -102,11 +98,6 @@ class QMCFooterParserImpl : public QMCFooterParser {
 
     const u8* eof_ekey = &p_in[len - 4];
     const std::string ekey_b64 = Str(eof_ekey - ekey_size, eof_ekey);
-
-    // Unsupported, key derivation has changed.
-    if (ekey_b64.starts_with(kQQMusicEncV2KeyHeader)) {
-      return nullptr;
-    }
 
     result->ekey_b64 = ekey_b64;
     return result;

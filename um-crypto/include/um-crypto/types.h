@@ -8,6 +8,8 @@
 #include <string>
 #include <vector>
 
+extern const char* const umc_version;
+
 namespace umc {
 
 // type aliases

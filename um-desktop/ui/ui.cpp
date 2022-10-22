@@ -164,6 +164,9 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_tencentStaticTable = m_propertyGrid41->Append( new wxLongStringProperty( _("Static Key (hex; 128 bytes)"), _("Static Key (hex; 128 bytes)") ) );
 	m_propertyGridItem35 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2"), _("QMCv2") ) );
 	m_tencentEKeySeed = m_propertyGrid41->Append( new wxIntProperty( _("EKey derive seed"), _("EKey derive seed") ) );
+	m_qmcEncV2Header = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2 - EncV2"), _("QMCv2 - EncV2") ) );
+	m_encV2Stage1Key = m_propertyGrid41->Append( new wxLongStringProperty( _("Mix key 1 (Stage 1 Key; 16 bytes)"), _("Mix key 1 (Stage 1 Key; 16 bytes)") ) );
+	m_encV2Stage2Key = m_propertyGrid41->Append( new wxLongStringProperty( _("Mix key 2 (Stage 2 Key; 16 bytes)"), _("Mix key 2 (Stage 2 Key; 16 bytes)") ) );
 	bSizer9->Add( m_propertyGrid41, 1, wxEXPAND, 5 );
 
 

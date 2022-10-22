@@ -6,8 +6,6 @@
 
 namespace umc::decryption::tencent {
 
-typedef Vec<u8> QMCv1Key;
-
 class QMCv2Loader : public DecryptionStream {
  public:
   virtual const Str GetName() const override { return "QMCv2(RC4)"; };
