@@ -1,6 +1,15 @@
-name: Build Linux x86_64
+name: Build (Linux x86_64)
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - "v*"
+  pull_request:
+  schedule:
+    # Build once every fortnight
+    - cron: "10 4 1,15 * *"
 
 permissions:
   contents: read
@@ -9,11 +18,12 @@ jobs:
   build:
     name: "Build Linux Binary"
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
+      CMAKE_BUILD_PARALLEL_LEVEL: "3"
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
-      CC: gcc-10
-      CXX: g++-10
+      CC: gcc-11
+      CXX: g++-11
 
     steps:
       - name: "⏳ Clone repo..."
@@ -63,7 +73,10 @@ jobs:
   package_appimage:
     name: "Package AppImage"
     needs: [build]
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
+    env:
+      DEPLOY_GTK_VERSION: 3
+      APPIMAGE_EXTRACT_AND_RUN: 1
 
     steps:
       - name: "⏳ Clone repo..."
@@ -93,7 +106,11 @@ jobs:
           cp -r AppDir/. Packaging/.
           chmod a+x Packaging/AppRun
 
-          ./linuxdeploy-x86_64.AppImage --appdir Packaging --plugin gtk --output appimage -e Packaging/AppRun
+          ./linuxdeploy-x86_64.AppImage \
+            --appdir Packaging \
+            --plugin gtk \
+            --output appimage \
+            -e Packaging/AppRun
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
       - name: "🚀 Upload artifact"

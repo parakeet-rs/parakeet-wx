@@ -1,5 +1,8 @@
 {
   "cmake.configureOnOpen": false,
   "C_Cpp.clang_format_sortIncludes": true,
-  "C_Cpp.autoAddFileAssociations": false
+  "C_Cpp.autoAddFileAssociations": false,
+  "search.exclude": {
+    "vcpkg/**": true
+  }
 }
