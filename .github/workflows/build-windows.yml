@@ -2,6 +2,10 @@ name: Build (Windows)
 
 on:
   push:
+    branches:
+      - main
+    tags:
+      - "v*"
   pull_request:
   schedule:
     # Build once every fortnight
