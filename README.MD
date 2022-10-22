@@ -14,13 +14,14 @@
 
 自动构建的文件可以在 GitHub Action 产生的文件内找到。
 
-|              名称               | 链接                                        |
-| :-----------------------------: | :------------------------------------------ |
-|     Windows x64 (MSVS 2022)     | [`win64.zip`][dl_win64]                     |
-| Linux ( x86_64 / Ubuntu 20.04 ) | [`linux-x86_64.zip`][dl_linux_x86_64]       |
-|   Linux ( x86_64 / AppImage )   | [`AppImage-x86_64.zip`][dl_appimage_x86_64] |
+|              名称               | 链接                                            |
+| :-----------------------------: | :---------------------------------------------- |
+|       Windows (MSVS 2022)       | [`win32.zip`][dl_win32] [`win64.zip`][dl_win64] |
+| Linux ( x86_64 / Ubuntu 20.04 ) | [`linux-x86_64.zip`][dl_linux_x86_64]           |
+|   Linux ( x86_64 / AppImage )   | [`AppImage-x86_64.zip`][dl_appimage_x86_64]     |
 
-[dl_win64]: https://nightly.link/jixunmoe/parakeet/workflows/build-win64/main/win64.zip
+[dl_win32]: https://nightly.link/jixunmoe/parakeet/workflows/build-windows/main/win32.zip
+[dl_win64]: https://nightly.link/jixunmoe/parakeet/workflows/build-windows/main/win64.zip
 [dl_linux_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/linux-x86_64.zip
 [dl_appimage_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/AppImage-x86_64.zip
 
