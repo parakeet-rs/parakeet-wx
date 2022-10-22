@@ -94,7 +94,7 @@ cmake --build --preset ninja-rel # 发布版
 - vcpkg 依赖管理
   - boost 库及其依赖；
   - Crypto++ 提供标准加解密算法；
-  - rapidjson 提供配置文件解析与序列化；
+  - rapid-json 提供配置文件解析与序列化；
   - wxWidgets 提供界面库及其依赖；
 - CMake 提供方便的跨平台编译方案
 - VSCode 与相关扩展进行开发
