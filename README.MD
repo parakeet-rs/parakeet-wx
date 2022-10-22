@@ -16,7 +16,7 @@
 
 |              名称               | 链接                                        |
 | :-----------------------------: | :------------------------------------------ |
-|     Windows x64 (MSVS 2019)     | [`win64.zip`][dl_win64]                     |
+|     Windows x64 (MSVS 2022)     | [`win64.zip`][dl_win64]                     |
 | Linux ( x86_64 / Ubuntu 20.04 ) | [`linux-x86_64.zip`][dl_linux_x86_64]       |
 |   Linux ( x86_64 / AppImage )   | [`AppImage-x86_64.zip`][dl_appimage_x86_64] |
 
@@ -35,19 +35,19 @@
 ### Windows 下构建
 
 - 安装 CMake
-- 安装 Visual Studio 2019
+- 安装 Visual Studio 2022
 
 ```powershell
 # 初始化 vcpkg
 .\vcpkg\bootstrap-vcpkg.bat
 
  # 调试版
-cmake --preset win64-2019-dbg
-cmake --build --preset win64-2019-dbg
+cmake --preset win64-2022-dbg
+cmake --build --preset win64-2022-dbg
 
 # 发布版
-cmake --preset win64-2019-rel
-cmake --build --preset win64-2019-rel
+cmake --preset win64-2022-rel
+cmake --build --preset win64-2022-rel
 ```
 
 ### Ubuntu 22.04 下构建
