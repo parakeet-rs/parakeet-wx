@@ -33,11 +33,11 @@ jobs:
       - name: "🏭 vcpkg: setup binary cache"
         uses: actions/cache@v3
         with:
-          key: ${{ runner.os }}-vcpkg-v3-${{ hashFiles('**/vcpkg.json') }}
+          key: ${{ runner.os }}-vcpkg-${{ matrix.win_ver }}-${{ hashFiles('**/vcpkg.json') }}
           path: |
             .vcpkg-bc
           restore-keys: |
-            ${{ runner.os }}-vcpkg-v3-
+            ${{ runner.os }}-vcpkg-${{ matrix.win_ver }}-
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
 
