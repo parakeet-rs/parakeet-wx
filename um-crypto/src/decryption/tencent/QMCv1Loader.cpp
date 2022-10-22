@@ -101,6 +101,9 @@ class QMCv1LoaderImpl : public QMCv1Loader {
         // Error will be propagated within this method.
         SetKey(parsed->key);
         return parsed->eof_bytes_ignore;
+      } else {
+        error_ = "Not QMCv1";
+        return 0;
       }
     }
 
@@ -130,7 +133,9 @@ class QMCv1LoaderImpl : public QMCv1Loader {
     return true;
   }
 
-  bool End() override { return !InErrorState(); }
+  bool End() override {
+    return !InErrorState();
+  }
 };
 
 }  // namespace detail

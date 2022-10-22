@@ -159,7 +159,9 @@ class DecryptionManagerImpl : public DecryptionManager {
     // Add QMCv2 (map)
     auto qmc_footer_parser =
         std::shared_ptr(umc::misc::tencent::QMCFooterParser::Create(
-            umc::misc::tencent::QMCKeyDeriver::Create(c.qmc.ekey_seed)));
+            umc::misc::tencent::QMCKeyDeriver::Create(
+                c.qmc.ekey_seed, c.qmc.enc_v2_stage1_key,
+                c.qmc.enc_v2_stage2_key)));
     result.push_back(tencent::QMCv1Loader::Create(qmc_footer_parser));
 
     // Add QMCv2 (RC4)

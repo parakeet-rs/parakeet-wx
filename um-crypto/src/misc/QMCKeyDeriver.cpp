@@ -12,21 +12,38 @@ namespace detail {
 constexpr auto DecryptTencentTEA = tc_tea::cbc::Decrypt;
 constexpr auto EncryptTencentTEA = tc_tea::cbc::Encrypt;
 
+const static std::string enc_v2_prefix = std::string("QQMusic EncV2,Key:");
+
 class QMCKeyDeriverImpl : public QMCKeyDeriver {
  private:
   u8 seed_;
+  QMCEncV2Stage1Key enc_v2_stage1_key_;
+  QMCEncV2Stage2Key enc_v2_stage2_key_;
 
  public:
-  QMCKeyDeriverImpl(u8 seed) : seed_(seed) {}
+  QMCKeyDeriverImpl(u8 seed,
+                    QMCEncV2Stage1Key enc_v2_stage1_key,
+                    QMCEncV2Stage2Key enc_v2_stage2_key)
+      : seed_(seed),
+        enc_v2_stage1_key_(enc_v2_stage1_key),
+        enc_v2_stage2_key_(enc_v2_stage2_key) {}
 
   bool FromEKey(Vec<u8>& out, const Str ekey_b64) const override {
     Vec<u8> ekey = utils::Base64Decode(ekey_b64);
     return FromEKey(out, ekey);
   }
 
-  bool FromEKey(Vec<u8>& out, const Vec<u8> ekey) const override {
-    const auto ekey_len = ekey.size();
+  bool FromEKey(Vec<u8>& out, const Vec<u8> input_ekey) const override {
+    Vec<u8> ekey(input_ekey);
+    if (memcmp(ekey.data(), enc_v2_prefix.data(), enc_v2_prefix.size()) == 0) {
+      ekey.erase(ekey.begin(), ekey.begin() + enc_v2_prefix.size());
+      if (!DecodeEncV2Key(ekey)) {
+        out.resize(0);
+        return false;
+      }
+    }
 
+    const auto ekey_len = ekey.size();
     if (ekey_len < 8) {
       out.resize(0);
       return false;
@@ -86,12 +103,42 @@ class QMCKeyDeriverImpl : public QMCKeyDeriver {
 
     return tea_key;
   }
+
+  inline bool DecodeEncV2Key(Vec<u8>& key) const {
+    Vec<u8> decode_key_1(key.size());
+    Vec<u8> decode_key_2(key.size());
+
+    {
+      umc::usize len = decode_key_1.size();
+      if (!DecryptTencentTEA(decode_key_1.data(), len, key.data(), key.size(),
+                             enc_v2_stage1_key_.data())) {
+        return false;
+      }
+      decode_key_1.resize(len);
+    }
+
+    {
+      umc::usize len = decode_key_2.size();
+      if (!DecryptTencentTEA(decode_key_2.data(), len, decode_key_1.data(),
+                             decode_key_1.size(), enc_v2_stage2_key_.data())) {
+        return false;
+      }
+      decode_key_2.resize(len);
+    }
+
+    key = utils::Base64Decode(Str(decode_key_2.begin(), decode_key_2.end()));
+    return true;
+  }
 };
 
 }  // namespace detail
 
-std::unique_ptr<QMCKeyDeriver> QMCKeyDeriver::Create(u8 seed) {
-  return std::make_unique<detail::QMCKeyDeriverImpl>(seed);
+std::unique_ptr<QMCKeyDeriver> QMCKeyDeriver::Create(
+    u8 seed,
+    QMCEncV2Stage1Key enc_v2_stage1_key,
+    QMCEncV2Stage2Key enc_v2_stage2_key) {
+  return std::make_unique<detail::QMCKeyDeriverImpl>(seed, enc_v2_stage1_key,
+                                                     enc_v2_stage2_key);
 }
 
 }  // namespace umc::misc::tencent

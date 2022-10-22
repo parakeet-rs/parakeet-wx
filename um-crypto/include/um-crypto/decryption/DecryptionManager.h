@@ -40,6 +40,8 @@ struct JooxConfig {
 struct QMCConfig {
   u8 ekey_seed;
   tencent::QMCv1Key static_cipher_key;
+  umc::misc::tencent::QMCEncV2Stage1Key enc_v2_stage1_key;
+  umc::misc::tencent::QMCEncV2Stage2Key enc_v2_stage2_key;
 };
 
 struct XimalayaConfig {
@@ -85,7 +87,7 @@ class DecryptionManager {
    * Header will be supplied to the decryptor;
    *   when decrypting, feed decryptor with rest of the file.
    *
-   * @deprecated Use the `std::istream` varient instead.
+   * @deprecated Use the `std::istream` variant instead.
    * @param header File header
    * @param footer File footer
    * @return Vec<std::unique_ptr<DetectionResult>>
@@ -112,7 +114,7 @@ class DecryptionManager {
    * @brief Get the first working decryptor.
    * Header will be supplied to the decryptor;
    *   when decrypting, feed decryptor with rest of the file.
-   * @deprecated Use the `std::istream` varient instead.
+   * @deprecated Use the `std::istream` variant instead.
    *
    * @param header
    * @param footer

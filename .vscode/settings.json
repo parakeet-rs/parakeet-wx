@@ -12,15 +12,23 @@
     "ctest",
     "davidxuang",
     "Decrypto",
+    "decryptor",
+    "Decryptors",
+    "deriver",
+    "ekey",
     "jixunmoe",
     "joox",
     "kugou",
+    "kuwo",
     "linuxdeploy",
     "MSVC",
     "MSVS",
     "ncmdump",
+    "netease",
     "nukemiko",
     "takiyasha",
-    "vcpkg"
+    "vcpkg",
+    "ximalaya",
+    "xmly"
   ]
 }
