@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 
 namespace umc::misc::tencent {
 
