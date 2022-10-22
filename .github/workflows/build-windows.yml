@@ -16,6 +16,7 @@ jobs:
 
     runs-on: windows-2022
     env:
+      CMAKE_BUILD_PARALLEL_LEVEL: "3"
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
 
     steps:
