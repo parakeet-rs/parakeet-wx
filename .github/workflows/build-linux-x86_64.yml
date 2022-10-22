@@ -101,7 +101,12 @@ jobs:
           cp -r AppDir/. Packaging/.
           chmod a+x Packaging/AppRun
 
-          ./linuxdeploy-x86_64.AppImage --appdir Packaging --plugin gtk --output appimage -e Packaging/AppRun
+          ./linuxdeploy-x86_64.AppImage \
+            --appimage-extract \
+            --appdir Packaging \
+            --plugin gtk \
+            --output appimage \
+            -e Packaging/AppRun
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
       - name: "🚀 Upload artifact"
