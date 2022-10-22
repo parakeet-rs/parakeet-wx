@@ -9,12 +9,12 @@ jobs:
   build:
     name: "Build Linux Binary"
 
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     env:
       CMAKE_BUILD_PARALLEL_LEVEL: "3"
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
-      CC: gcc-10
-      CXX: g++-10
+      CC: gcc-11
+      CXX: g++-11
 
     steps:
       - name: "⏳ Clone repo..."
