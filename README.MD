@@ -4,7 +4,7 @@
 
 一个用于解密下载的音乐文件工具的桌面客户端，使用 wxWidgets 作为基础 GUI 库开发。
 
-<img alt="主界面截图" src="./.github/assets/app-main.png" height="321" />
+<img alt="主界面截图" src="./.github/assets/app-main.png" height="321" width="655" />
 
 链接：[支持的格式一览][sup_format]
 
@@ -12,7 +12,11 @@
 
 ## 下载
 
-自动构建的文件可以在 GitHub Action 产生的文件内找到。
+你可以在 [Latest Release][dl_rel] 下载最新的稳定版。
+
+[dl_rel]: https://github.com/jixunmoe/parakeet/releases/latest
+
+随代码提交自动构建的文件可以在 GitHub Action 产生的文件内找到。
 
 | 名称                | 链接                                            |
 | :------------------ | :---------------------------------------------- |
