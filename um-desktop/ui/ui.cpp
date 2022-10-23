@@ -20,43 +20,43 @@ uiMainAppFrame::uiMainAppFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_staticLabelFiles = new wxStaticText( this, wxID_ANY, _("Logs:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticLabelFiles->Wrap( -1 );
-	bSizer1->Add( m_staticLabelFiles, 0, wxALL|wxEXPAND, FromDIP(4) );
+	bSizer1->Add( m_staticLabelFiles, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, FromDIP(8) );
 
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 
 	m_decryptLogs = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT|wxLC_VRULES );
-	bSizer5->Add( m_decryptLogs, 1, wxALL|wxEXPAND, FromDIP(5) );
+	bSizer5->Add( m_decryptLogs, 1, wxALL|wxEXPAND, FromDIP(0) );
 
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
 
 	m_btnOptions = new wxButton( this, wxID_ANY, _("&Options..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnOptions, 0, wxALIGN_CENTER_VERTICAL|wxALL, FromDIP(5) );
+	bSizer6->Add( m_btnOptions, 0, 0, FromDIP(5) );
 
 	m_btnClearLogs = new wxButton( this, wxID_ANY, _("&Clear Logs"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnClearLogs, 0, wxALL, FromDIP(5) );
+	bSizer6->Add( m_btnClearLogs, 0, wxLEFT, FromDIP(8) );
 
 
 	bSizer6->Add( FromDIP(0), FromDIP(0), 1, wxEXPAND, FromDIP(5) );
 
 	m_btnProcess = new wxButton( this, wxID_ANY, _("Process"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnProcess, 0, wxALL, FromDIP(5) );
+	bSizer6->Add( m_btnProcess, 0, 0, FromDIP(5) );
 
 
 	bSizer6->Add( FromDIP(0), FromDIP(0), 1, wxEXPAND, FromDIP(5) );
 
 	m_btnAddFile = new wxButton( this, wxID_ANY, _("Decrypt &file..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnAddFile, 0, wxALIGN_CENTER_VERTICAL|wxALL, FromDIP(5) );
+	bSizer6->Add( m_btnAddFile, 0, 0, FromDIP(5) );
 
 	m_btnAddDir = new wxButton( this, wxID_ANY, _("&Decrypt directory..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnAddDir, 0, wxALIGN_CENTER_VERTICAL|wxALL, FromDIP(5) );
+	bSizer6->Add( m_btnAddDir, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, FromDIP(8) );
 
 
-	bSizer5->Add( bSizer6, 0, wxEXPAND, FromDIP(5) );
+	bSizer5->Add( bSizer6, 0, wxBOTTOM|wxEXPAND|wxTOP, FromDIP(8) );
 
 
-	bSizer1->Add( bSizer5, 1, wxEXPAND, FromDIP(5) );
+	bSizer1->Add( bSizer5, 1, wxEXPAND|wxLEFT|wxRIGHT, FromDIP(8) );
 
 
 	this->SetSizer( bSizer1 );
@@ -225,7 +225,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer8->Add( m_btnOK, 0, wxALL, FromDIP(5) );
 
 
-	bSizer4->Add( bSizer8, 0, wxEXPAND, FromDIP(5) );
+	bSizer4->Add( bSizer8, 0, wxBOTTOM|wxEXPAND|wxRIGHT, FromDIP(8) );
 
 
 	this->SetSizer( bSizer4 );
