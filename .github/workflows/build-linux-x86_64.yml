@@ -76,6 +76,18 @@ jobs:
           name: linux-x86_64
           path: dist/
 
+      - name: 📝 Draft Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: "<to be filled>"
+          draft: true
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            *.zip
+
   package_appimage:
     name: "Package AppImage"
     needs: [build]
