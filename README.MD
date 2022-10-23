@@ -6,9 +6,10 @@
 
 ![主界面截图](.github/assets/app-main.png)
 
-链接：[支持的格式一览][sup_format]
+项目百科：[支持的格式][wiki_format] | [便携版制作][wiki_portable]
 
-[sup_format]: https://github.com/jixunmoe/parakeet/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
+[wiki_format]: https://github.com/jixunmoe/parakeet/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
+[wiki_portable]: https://github.com/jixunmoe/parakeet/wiki/%E4%BE%BF%E6%90%BA%E7%89%88%E5%88%B6%E4%BD%9C
 
 ## 下载
 
