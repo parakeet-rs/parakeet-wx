@@ -68,7 +68,8 @@ jobs:
              dist/Parakeet-linux-x86_64
 
           ln -s dist Parakeet
-          tar --dereference -zcvf Parakeet.Linux.x64.tar.gz Parakeet
+          tar --dereference --numeric-owner --owner=0 --group=0 \
+            -zcvf Parakeet.Linux.x64.tar.gz Parakeet
 
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
@@ -132,7 +133,8 @@ jobs:
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
           ln -s dist Parakeet
-          tar --dereference -zcvf Parakeet.AppImage.Linux.x64.tar.gz Parakeet
+          tar --dereference --numeric-owner --owner=0 --group=0 \
+            -zcvf Parakeet.AppImage.Linux.x64.tar.gz Parakeet
 
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
