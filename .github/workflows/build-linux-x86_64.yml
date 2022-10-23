@@ -68,7 +68,7 @@ jobs:
              dist/Parakeet-linux-x86_64
 
           cd dist
-          zip -9 "../Parakeet.Linux.x64.zip" "*"
+          zip -r9 "../Parakeet.Linux.x64.zip" .
 
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
@@ -120,7 +120,7 @@ jobs:
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
           cd dist
-          zip -9 "../Parakeet.AppImage.Linux.x64.zip" "*"
+          zip -r9 "../Parakeet.AppImage.Linux.x64.zip" *
 
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3

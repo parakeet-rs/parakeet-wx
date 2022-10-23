@@ -92,7 +92,7 @@ jobs:
           set -ex
 
           cd dist/
-          zip -9 "../Parakeet.${{ matrix.win_ver }}.zip" "*"
+          zip -r9 "../Parakeet.${{ matrix.win_ver }}.zip" .
 
       - name: 📝 Draft Release
         if: startsWith(github.ref, 'refs/tags/v')
