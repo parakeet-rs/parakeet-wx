@@ -4,7 +4,7 @@
 
 一个用于解密下载的音乐文件工具的桌面客户端，使用 wxWidgets 作为基础 GUI 库开发。
 
-<img alt="主界面截图" src="./.github/assets/app-main.png" width="50%" />
+<img alt="主界面截图" src="./.github/assets/app-main.png" height="321" />
 
 链接：[支持的格式一览][sup_format]
 
