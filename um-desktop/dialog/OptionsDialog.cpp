@@ -58,6 +58,10 @@ void OptionsDialog::ConfigGlueCode() {
 }
 
 OptionsDialog::OptionsDialog(wxWindow* parent) : uiOptionsDialog(parent) {
+  // Rescale for HiDPI support
+  SetClientSize(FromDIP(GetClientSize()));
+  CenterOnParent();
+
   wxString title;
   title.Printf(_("%s - Options"), LOCALISED_APP_NAME);
   SetTitle(title);
