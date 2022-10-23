@@ -1,10 +1,10 @@
 # Parakeet
 
-[![Build Linux x86_64](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml) [![Build Win64](https://github.com/jixunmoe/parakeet/actions/workflows/build-win64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-win64.yml)
+[![Build (Linux x86_64)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml) [![Build (Windows)](https://github.com/jixunmoe/parakeet/actions/workflows/build-windows.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-windows.yml)
 
 一个用于解密下载的音乐文件工具的桌面客户端，使用 wxWidgets 作为基础 GUI 库开发。
 
-![主界面截图](./.github/assets/app-main.png)
+<img alt="主界面截图" src="./.github/assets/app-main.png" height="321" />
 
 链接：[支持的格式一览][sup_format]
 
@@ -14,13 +14,14 @@
 
 自动构建的文件可以在 GitHub Action 产生的文件内找到。
 
-|              名称               | 链接                                        |
-| :-----------------------------: | :------------------------------------------ |
-|     Windows x64 (MSVS 2022)     | [`win64.zip`][dl_win64]                     |
-| Linux ( x86_64 / Ubuntu 20.04 ) | [`linux-x86_64.zip`][dl_linux_x86_64]       |
-|   Linux ( x86_64 / AppImage )   | [`AppImage-x86_64.zip`][dl_appimage_x86_64] |
+| 名称                | 链接                                            |
+| :------------------ | :---------------------------------------------- |
+| Windows (MSVS 2022) | [`win32.zip`][dl_win32] [`win64.zip`][dl_win64] |
+| Ubuntu 22.04        | [`linux-x86_64.zip`][dl_linux_x86_64]           |
+| Linux (AppImage)    | [`AppImage-x86_64.zip`][dl_appimage_x86_64]     |
 
-[dl_win64]: https://nightly.link/jixunmoe/parakeet/workflows/build-win64/main/win64.zip
+[dl_win32]: https://nightly.link/jixunmoe/parakeet/workflows/build-windows/main/win32.zip
+[dl_win64]: https://nightly.link/jixunmoe/parakeet/workflows/build-windows/main/win64.zip
 [dl_linux_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/linux-x86_64.zip
 [dl_appimage_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/AppImage-x86_64.zip
 

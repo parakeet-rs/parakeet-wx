@@ -45,6 +45,10 @@ MainAppFrame::~MainAppFrame() {
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
+  // Rescale for HiDPI support
+  SetClientSize(FromDIP(GetClientSize()));
+  Center();
+
   // Bootstrap Multi-thread handling
   main_thread_runner_.SetMainThreadRunnerEventHandler(GetEventHandler());
   Bind(wxEVT_THREAD, &MainAppFrame::OnThreadEvent, this);

@@ -12,7 +12,7 @@ on:
     - cron: "10 4 1,15 * *"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -78,3 +78,30 @@ jobs:
         with:
           name: "${{ matrix.win_ver }}"
           path: dist/
+
+      - name: 🏭 prepare msys2 (for release)
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            zip
+
+      - name: 🗜️ prepare (for release)
+        shell: msys2 {0}
+        run: |
+          set -ex
+
+          cd dist/
+          zip -r9 "../Parakeet.${{ matrix.win_ver }}.zip" .
+
+      - name: 📝 Draft Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: "<to be filled>"
+          draft: true
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            *.zip

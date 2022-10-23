@@ -14,6 +14,8 @@ cat >um-desktop/constants.build_time.h <<EOF
 #define UM_DESKTOP_VERSION_STR "${APP_VERSION}"
 EOF
 
+./prepare-ui-hidpi.py
+
 cp -R locale/. dist/
 find dist -name '*.po' -delete
 find dist -name '*.pot' -delete

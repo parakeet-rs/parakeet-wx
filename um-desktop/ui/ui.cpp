@@ -20,43 +20,43 @@ uiMainAppFrame::uiMainAppFrame( wxWindow* parent, wxWindowID id, const wxString&
 
 	m_staticLabelFiles = new wxStaticText( this, wxID_ANY, _("Logs:"), wxDefaultPosition, wxDefaultSize, 0 );
 	m_staticLabelFiles->Wrap( -1 );
-	bSizer1->Add( m_staticLabelFiles, 0, wxALL|wxEXPAND, 4 );
+	bSizer1->Add( m_staticLabelFiles, 0, wxEXPAND|wxLEFT|wxRIGHT|wxTOP, FromDIP(8) );
 
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 
 	m_decryptLogs = new wxListCtrl( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLC_NO_HEADER|wxLC_REPORT|wxLC_VRULES );
-	bSizer5->Add( m_decryptLogs, 1, wxALL|wxEXPAND, 5 );
+	bSizer5->Add( m_decryptLogs, 1, wxALL|wxEXPAND, FromDIP(0) );
 
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxHORIZONTAL );
 
 	m_btnOptions = new wxButton( this, wxID_ANY, _("&Options..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnOptions, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizer6->Add( m_btnOptions, 0, 0, FromDIP(5) );
 
 	m_btnClearLogs = new wxButton( this, wxID_ANY, _("&Clear Logs"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnClearLogs, 0, wxALL, 5 );
+	bSizer6->Add( m_btnClearLogs, 0, wxLEFT, FromDIP(8) );
 
 
-	bSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	bSizer6->Add( FromDIP(0), FromDIP(0), 1, wxEXPAND, FromDIP(5) );
 
 	m_btnProcess = new wxButton( this, wxID_ANY, _("Process"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnProcess, 0, wxALL, 5 );
+	bSizer6->Add( m_btnProcess, 0, 0, FromDIP(5) );
 
 
-	bSizer6->Add( 0, 0, 1, wxEXPAND, 5 );
+	bSizer6->Add( FromDIP(0), FromDIP(0), 1, wxEXPAND, FromDIP(5) );
 
 	m_btnAddFile = new wxButton( this, wxID_ANY, _("Decrypt &file..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnAddFile, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizer6->Add( m_btnAddFile, 0, 0, FromDIP(5) );
 
 	m_btnAddDir = new wxButton( this, wxID_ANY, _("&Decrypt directory..."), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer6->Add( m_btnAddDir, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5 );
+	bSizer6->Add( m_btnAddDir, 0, wxALIGN_CENTER_VERTICAL|wxLEFT, FromDIP(8) );
 
 
-	bSizer5->Add( bSizer6, 0, wxEXPAND, 5 );
+	bSizer5->Add( bSizer6, 0, wxBOTTOM|wxEXPAND|wxTOP, FromDIP(8) );
 
 
-	bSizer1->Add( bSizer5, 1, wxEXPAND, 5 );
+	bSizer1->Add( bSizer5, 1, wxEXPAND|wxLEFT|wxRIGHT, FromDIP(8) );
 
 
 	this->SetSizer( bSizer1 );
@@ -102,7 +102,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_generalThreadPoolSize = m_propertyGrid2->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
 	m_propertyGrid2->SetPropertyHelpString( m_generalThreadPoolSize, _(" a b c") );
 	m_generalLocale = m_propertyGrid2->Append( new wxStringProperty( _("Locale Code"), _("Locale Code") ) );
-	bSizer6->Add( m_propertyGrid2, 1, wxEXPAND, 5 );
+	bSizer6->Add( m_propertyGrid2, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelGeneral->SetSizer( bSizer6 );
@@ -120,7 +120,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_kugouV2 = m_propGridKugou->Append( new wxLongStringProperty( _("Table v2 (hex; 272 bytes)"), _("Table v2 (hex; 272 bytes)") ) );
 	m_propertyGridItem6 = m_propGridKugou->Append( new wxPropertyCategory( _("VPR Decryption"), _("VPR Decryption") ) );
 	m_kugouVPR = m_propGridKugou->Append( new wxLongStringProperty( _("VPR Key (hex; 17 bytes)"), _("VPR Key (hex; 17 bytes)") ) );
-	bSizer5->Add( m_propGridKugou, 1, wxEXPAND, 5 );
+	bSizer5->Add( m_propGridKugou, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelKugou->SetSizer( bSizer5 );
@@ -134,7 +134,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propertyGrid8 = new wxPropertyGrid(m_panelKuwo, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propertyGridItem36 = m_propertyGrid8->Append( new wxPropertyCategory( _("Kuwo"), _("Kuwo") ) );
 	m_kuwoKey = m_propertyGrid8->Append( new wxLongStringProperty( _("Kuwo decryption table"), _("Kuwo decryption table") ) );
-	bSizer12->Add( m_propertyGrid8, 1, wxEXPAND, 5 );
+	bSizer12->Add( m_propertyGrid8, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelKuwo->SetSizer( bSizer12 );
@@ -148,7 +148,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propertyGrid81 = new wxPropertyGrid(m_panelNetease, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propertyGridItem361 = m_propertyGrid81->Append( new wxPropertyCategory( _("NCM Decryption"), _("NCM Decryption") ) );
 	m_neteaseNCMContentKeyAESKey = m_propertyGrid81->Append( new wxLongStringProperty( _("AES key for NCM content key"), _("AES key for NCM content key") ) );
-	bSizer121->Add( m_propertyGrid81, 1, wxEXPAND, 5 );
+	bSizer121->Add( m_propertyGrid81, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelNetease->SetSizer( bSizer121 );
@@ -167,7 +167,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_qmcEncV2Header = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2 - EncV2"), _("QMCv2 - EncV2") ) );
 	m_encV2Stage1Key = m_propertyGrid41->Append( new wxLongStringProperty( _("Mix key 1 (Stage 1 Key; 16 bytes)"), _("Mix key 1 (Stage 1 Key; 16 bytes)") ) );
 	m_encV2Stage2Key = m_propertyGrid41->Append( new wxLongStringProperty( _("Mix key 2 (Stage 2 Key; 16 bytes)"), _("Mix key 2 (Stage 2 Key; 16 bytes)") ) );
-	bSizer9->Add( m_propertyGrid41, 1, wxEXPAND, 5 );
+	bSizer9->Add( m_propertyGrid41, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelQQMusic->SetSizer( bSizer9 );
@@ -182,7 +182,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_HeaderJoox = m_propertyGridJoox->Append( new wxPropertyCategory( _("Joox"), _("Joox") ) );
 	m_jooxUUID = m_propertyGridJoox->Append( new wxStringProperty( _("Installation UUID"), _("Installation UUID") ) );
 	m_jooxSalt = m_propertyGridJoox->Append( new wxLongStringProperty( _("Salt"), _("Salt") ) );
-	bSizer91->Add( m_propertyGridJoox, 1, wxEXPAND, 5 );
+	bSizer91->Add( m_propertyGridJoox, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelJoox->SetSizer( bSizer91 );
@@ -200,7 +200,7 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propertyGridItem26 = m_propertyGrid4->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
 	m_xmlyX3MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Content Key (hex; 32 bytes)"), _("X3M Content Key (hex; 32 bytes)") ) );
 	m_xmlyX3MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Scramble Table (hex; 1024 u16)"), _("X3M Scramble Table (hex; 1024 u16)") ) );
-	bSizer7->Add( m_propertyGrid4, 1, wxEXPAND, 5 );
+	bSizer7->Add( m_propertyGrid4, 1, wxEXPAND, FromDIP(5) );
 
 
 	m_panelXimalaya->SetSizer( bSizer7 );
@@ -208,24 +208,24 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer7->Fit( m_panelXimalaya );
 	m_notebookOptions->AddPage( m_panelXimalaya, _("Ximalaya"), false );
 
-	bSizer4->Add( m_notebookOptions, 1, wxEXPAND | wxALL, 5 );
+	bSizer4->Add( m_notebookOptions, 1, wxEXPAND | wxALL, FromDIP(5) );
 
 	wxBoxSizer* bSizer8;
 	bSizer8 = new wxBoxSizer( wxHORIZONTAL );
 
 
-	bSizer8->Add( 0, 0, 1, wxEXPAND, 5 );
+	bSizer8->Add( FromDIP(0), FromDIP(0), 1, wxEXPAND, FromDIP(5) );
 
 	m_btnCancel = new wxButton( this, wxID_ANY, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	bSizer8->Add( m_btnCancel, 0, wxALL, 5 );
+	bSizer8->Add( m_btnCancel, 0, wxALL, FromDIP(5) );
 
 	m_btnOK = new wxButton( this, wxID_ANY, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
 
 	m_btnOK->SetDefault();
-	bSizer8->Add( m_btnOK, 0, wxALL, 5 );
+	bSizer8->Add( m_btnOK, 0, wxALL, FromDIP(5) );
 
 
-	bSizer4->Add( bSizer8, 0, wxEXPAND, 5 );
+	bSizer4->Add( bSizer8, 0, wxBOTTOM|wxEXPAND|wxRIGHT, FromDIP(8) );
 
 
 	this->SetSizer( bSizer4 );

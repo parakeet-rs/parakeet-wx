@@ -16,4 +16,5 @@ sudo apt-get install -y \
   libtiff-dev \
   libwebp-dev \
   libzstd-dev \
-  pkg-config
+  pkg-config \
+  zip

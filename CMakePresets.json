@@ -8,7 +8,7 @@
   "configurePresets": [
     {
       "name": "default",
-      "displayName": "Default Linux",
+      "displayName": "Default",
       "description": "Default build using Make + gcc",
       "generator": "Unix Makefiles",
       "binaryDir": "${sourceDir}/build/default"
@@ -16,7 +16,7 @@
     {
       "name": "default-linux-rel",
       "inherits": "default",
-      "displayName": "Linux-Make (vcpkg)",
+      "displayName": "linux-make-rel",
       "description": "Default build using Makefile + vcpkg",
       "binaryDir": "${sourceDir}/build/linux-rel",
       "cacheVariables": {
@@ -29,7 +29,7 @@
     },
     {
       "name": "ninja-linux",
-      "displayName": "Linux-Ninja (vcpkg)",
+      "displayName": "linux-ninja",
       "description": "Default build using ninja + vcpkg",
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/ninja-multi",
@@ -43,7 +43,7 @@
     },
     {
       "name": "win64-2022-rel",
-      "displayName": "Win64 (Release, MSVC 2022)",
+      "displayName": "Win64-rel",
       "description": "Win64 build using MSVC 2022",
       "binaryDir": "${sourceDir}/build/win64-2022-rel",
       "generator": "Visual Studio 17 2022",
@@ -57,7 +57,7 @@
     },
     {
       "name": "win64-2022-dbg",
-      "displayName": "Win64 (Debug, MSVC 2022)",
+      "displayName": "Win64-dbg",
       "description": "Win64 build using MSVC 2022",
       "binaryDir": "${sourceDir}/build/win64-2022-dbg",
       "generator": "Visual Studio 17 2022",
@@ -70,7 +70,7 @@
     },
     {
       "name": "win32-2022-dbg",
-      "displayName": "Win32 (Debug, MSVC 2022)",
+      "displayName": "Win32-dbg",
       "description": "Win32 build using MSVC 2022",
       "binaryDir": "${sourceDir}/build/win32-2022-dbg",
       "generator": "Visual Studio 17 2022",
@@ -83,7 +83,7 @@
     },
     {
       "name": "win32-2022-rel",
-      "displayName": "Win32 (Release, MSVC 2022)",
+      "displayName": "Win32-rel",
       "description": "Win32 build using MSVC 2022",
       "binaryDir": "${sourceDir}/build/win32-2022-rel",
       "generator": "Visual Studio 17 2022",
@@ -109,25 +109,25 @@
     {
       "name": "win32-2022-rel",
       "configurePreset": "win32-2022-rel",
-      "displayName": "Win32 (Release, MSVC 2022)",
+      "displayName": "Win32-rel",
       "configuration": "Release"
     },
     {
       "name": "win32-2022-dbg",
       "configurePreset": "win32-2022-dbg",
-      "displayName": "Win32 (Debug, MSVC 2022)",
+      "displayName": "Win32-dbg",
       "configuration": "Debug"
     },
     {
       "name": "win64-2022-rel",
       "configurePreset": "win64-2022-rel",
-      "displayName": "Win64 (Release, MSVC 2022)",
+      "displayName": "Win64-rel",
       "configuration": "Release"
     },
     {
       "name": "win64-2022-dbg",
       "configurePreset": "win64-2022-dbg",
-      "displayName": "Win64 (Debug, MSVC 2022)",
+      "displayName": "Win64-dbg",
       "configuration": "Debug"
     },
     {
@@ -139,7 +139,7 @@
     {
       "name": "ninja-rel",
       "configurePreset": "ninja-linux",
-      "displayName": "Ninja (Release)",
+      "displayName": "Ninja-rel",
       "configuration": "Release"
     }
   ]

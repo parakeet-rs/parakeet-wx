@@ -12,7 +12,7 @@ on:
     - cron: "10 4 1,15 * *"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   build:
@@ -67,11 +67,27 @@ jobs:
           cp build/linux-rel/um-desktop/um-desktop \
              dist/Parakeet-linux-x86_64
 
+          ln -s dist Parakeet
+          tar --dereference --numeric-owner --owner=0 --group=0 \
+            -zcvf Parakeet.Linux.x64.tar.gz Parakeet
+
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
           name: linux-x86_64
           path: dist/
+
+      - name: 📝 Draft Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: "<to be filled>"
+          draft: true
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            *.tar.gz
 
   package_appimage:
     name: "Package AppImage"
@@ -90,7 +106,7 @@ jobs:
           bash build-setup-ubuntu.sh
 
       - name: "🍱 Fetching built artifact..."
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: linux-x86_64
           path: dist
@@ -116,8 +132,24 @@ jobs:
             -e Packaging/AppRun
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
+          ln -s dist Parakeet
+          tar --dereference --numeric-owner --owner=0 --group=0 \
+            -zcvf Parakeet.AppImage.Linux.x64.tar.gz Parakeet
+
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
           name: AppImage-x86_64
           path: dist/
+
+      - name: 📝 Draft Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: "<to be filled>"
+          draft: true
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            *.tar.gz
