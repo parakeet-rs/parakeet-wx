@@ -67,6 +67,9 @@ jobs:
           cp build/linux-rel/um-desktop/um-desktop \
              dist/Parakeet-linux-x86_64
 
+          cd dist
+          zip -9 "../Parakeet.Linux.x64.zip" "*"
+
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
@@ -116,8 +119,23 @@ jobs:
             -e Packaging/AppRun
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
+          cd dist
+          zip -9 "../Parakeet.AppImage.Linux.x64.zip" "*"
+
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
           name: AppImage-x86_64
           path: dist/
+
+      - name: 📝 Draft Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          body: "<to be filled>"
+          draft: true
+          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+          files: |
+            *.zip
