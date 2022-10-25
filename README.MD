@@ -75,9 +75,9 @@ cmake --build --preset ninja-rel # 发布版
 ### 由我开发或参与的项目
 
 - [小鹦鹉桌面客户端 | Jixun 的项目集](https://jixun.moe/apps/parakeet/)
-- [QMC v1 解密工具](/utils/qmc-v1-decode/)
+- [QMC v1 解密工具](https://jixun.moe/utils/qmc-v1-decode/)
   - GitHub: [C 实现](https://github.com/jixunmoe/qmc-decode)
-- [QMC v2 解密工具](/utils/qmc-v2/)
+- [QMC v2 解密工具](https://jixun.moe/utils/qmc-v2/)
   - GitHub: [C++ 实现](https://github.com/jixunmoe/qmc2) · [Rust 实现](https://github.com/jixunmoe/qmc2-rust)
 - Joox 解密库 - JavaScript 实现 [unlock-music/joox-crypto](https://github.com/unlock-music/joox-crypto)
 - 酷狗 KGM/VPR 解密 - JavaScript 实现 [jixunmoe/kugou-crypto](https://github.com/jixunmoe/kugou-crypto)
