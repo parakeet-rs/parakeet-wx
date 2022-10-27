@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <cstring>
 
 namespace umc::misc::tencent {
 
@@ -36,7 +35,7 @@ class QMCKeyDeriverImpl : public QMCKeyDeriver {
 
   bool FromEKey(Vec<u8>& out, const Vec<u8> input_ekey) const override {
     Vec<u8> ekey(input_ekey);
-    if (memcmp(ekey.data(), enc_v2_prefix.data(), enc_v2_prefix.size()) == 0) {
+    if (std::equal(enc_v2_prefix.begin(), enc_v2_prefix.end(), ekey.begin())) {
       ekey.erase(ekey.begin(), ekey.begin() + enc_v2_prefix.size());
       if (!DecodeEncV2Key(ekey)) {
         out.resize(0);
