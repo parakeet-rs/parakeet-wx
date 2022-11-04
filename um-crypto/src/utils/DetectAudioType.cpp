@@ -49,6 +49,8 @@ constexpr u32 kMagic_ftyp_MSNV = 0x4d'53'4e'56u;  // MPEG-4 (.MP4) for SonyPSP
 constexpr u32 kMagic_ftyp_NDAS = 0x4e'44'41'53u;  // Nero Digital AAC Audio
 constexpr u32 kMagic_ftyp_isom = 0x69'73'6F'6Du;  // isom - MP4 (audio only?)
 constexpr u32 kMagic_ftyp_iso2 = 0x69'73'6F'32u;  // iso2 - MP4 (audio only?)
+constexpr u32 kMagic_ftyp_mp42 = 0x6D'70'34'32u;  // MP4 container, used by
+                                                  // QQ Music (E-AC-3 JOC)
 
 constexpr u32 kMagic_ftyp_M4A = 0x4d'34'41u;  // iTunes AAC-LC (.M4A) Audio
 constexpr u32 kMagic_ftyp_M4B = 0x4d'34'42u;  // iTunes AAC-LC (.M4B) Audio Book
@@ -102,6 +104,7 @@ AudioType DetectAudioType(const u8* buf, usize len) {
     switch (magic) {
       case kMagic_ftyp_isom:
       case kMagic_ftyp_iso2:
+      case kMagic_ftyp_mp42:
         return AudioType::kAudioTypeMP4;
 
       case kMagic_ftyp_MSNV:
