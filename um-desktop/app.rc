@@ -13,6 +13,6 @@
 #define WX_CPU_X86 1
 #endif
 
-appicon ICON "parakeet.ico"
+appicon ICON "res/parakeet.ico"
 
 #include "wx/msw/wx.rc"

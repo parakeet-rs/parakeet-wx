@@ -52,7 +52,7 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
 #ifdef __WXMSW__
   SetIcon(wxICON(appicon));
 #else
-#include "parakeet.xpm"
+#include "../res/parakeet.xpm"
   SetIcon(wxICON(parakeet_xpm));
 #endif
 
