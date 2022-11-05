@@ -51,6 +51,9 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
 
 #if __WXMSW__
   SetIcon(wxICON(appicon));
+#else
+#include "parakeet.xpm"
+  SetIcon(wxICON(parakeet_xpm));
 #endif
 
   // Bootstrap Multi-thread handling
