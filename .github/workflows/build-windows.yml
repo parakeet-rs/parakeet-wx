@@ -79,15 +79,21 @@ jobs:
           name: "${{ matrix.win_ver }}"
           path: dist/
 
-      - name: 🏭 prepare msys2 (for release)
-        uses: msys2/setup-msys2@v2
-        with:
-          update: true
-          install: >-
-            zip
+  release:
+    needs: build
+    runs-on: ubuntu-22.04
+    name: "Release Windows Binary"
+    strategy:
+      matrix:
+        win_ver: ["win32", "win64"]
 
-      - name: 🗜️ prepare (for release)
-        shell: msys2 {0}
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: "${{ matrix.win_ver }}"
+          path: dist/
+
+      - name: "🗜️ Packaging"
         run: |
           set -ex
 
