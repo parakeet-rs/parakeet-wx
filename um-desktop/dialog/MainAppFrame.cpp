@@ -49,6 +49,10 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
   SetClientSize(FromDIP(GetClientSize()));
   Center();
 
+#if __WXMSW__
+  SetIcon(wxICON(appicon));
+#endif
+
   // Bootstrap Multi-thread handling
   main_thread_runner_.SetMainThreadRunnerEventHandler(GetEventHandler());
   Bind(wxEVT_THREAD, &MainAppFrame::OnThreadEvent, this);
