@@ -3,6 +3,7 @@
 
 #include "../app_version.h"
 #include "../constants.h"
+#include "../res/parakeet.xpm"
 #include "../utils/MakeArray.h"
 #include "../utils/threading.h"
 
@@ -45,16 +46,11 @@ MainAppFrame::~MainAppFrame() {
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
+  SetIcon(wxICON(appicon));
+
   // Rescale for HiDPI support
   SetClientSize(FromDIP(GetClientSize()));
   Center();
-
-#ifdef __WXMSW__
-  SetIcon(wxICON(appicon));
-#else
-#include "../res/parakeet.xpm"
-  SetIcon(wxICON(parakeet));
-#endif
 
   // Bootstrap Multi-thread handling
   main_thread_runner_.SetMainThreadRunnerEventHandler(GetEventHandler());

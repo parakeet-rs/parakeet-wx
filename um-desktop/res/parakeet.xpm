@@ -133,3 +133,5 @@ static const char *parakeet_xpm[] = {
 "2.2.O = > > > r | { ' _ ) T V N ",
 "2.2.2.2.2., > 5 } { ' ` ^ ! K F "
 };
+
+#define appicon parakeet
