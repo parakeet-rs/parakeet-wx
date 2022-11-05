@@ -3,6 +3,7 @@
 
 #include "../app_version.h"
 #include "../constants.h"
+#include "../res/parakeet.xpm"
 #include "../utils/MakeArray.h"
 #include "../utils/threading.h"
 
@@ -45,6 +46,8 @@ MainAppFrame::~MainAppFrame() {
 
 MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
     : uiMainAppFrame(parent, id) {
+  SetIcon(wxICON(appicon));
+
   // Rescale for HiDPI support
   SetClientSize(FromDIP(GetClientSize()));
   Center();
