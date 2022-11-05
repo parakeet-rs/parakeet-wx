@@ -49,7 +49,7 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id)
   SetClientSize(FromDIP(GetClientSize()));
   Center();
 
-#if __WXMSW__
+#ifdef __WXMSW__
   SetIcon(wxICON(appicon));
 #else
 #include "parakeet.xpm"
