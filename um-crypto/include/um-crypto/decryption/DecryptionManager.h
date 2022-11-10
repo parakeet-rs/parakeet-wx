@@ -12,6 +12,7 @@
 #include "um-crypto/utils/AudioTypes.h"
 
 #include <istream>
+#include <vector>
 
 namespace umc::decryption {
 
@@ -32,12 +33,12 @@ struct NeteaseConfig {
 };
 
 struct JooxConfig {
-  Str install_uuid;
+  std::string install_uuid;
   tencent::JooxSalt salt;
 };
 
 struct QMCConfig {
-  u8 ekey_seed;
+  uint8_t ekey_seed;
   tencent::QMCv1Key static_cipher_key;
   umc::misc::tencent::QMCEncV2Stage1Key enc_v2_stage1_key;
   umc::misc::tencent::QMCEncV2Stage2Key enc_v2_stage2_key;
@@ -66,13 +67,13 @@ struct DetectionResult {
    * @brief Number of bytes to preserve, i.e. data that should be discarded.
    * This is usually the padding that was used by the detection.
    */
-  usize footer_discard_len;
+  std::size_t footer_discard_len;
   /**
    * @brief Number of bytes to skip when reading the file.
    */
-  usize header_discard_len;
+  std::size_t header_discard_len;
   utils::AudioType audio_type;
-  Str audio_ext;
+  std::string audio_ext;
   std::unique_ptr<DecryptionStream> decryptor;
 };
 
@@ -89,12 +90,11 @@ class DecryptionManager {
    * @deprecated Use the `std::istream` variant instead.
    * @param header File header
    * @param footer File footer
-   * @return Vec<std::unique_ptr<DetectionResult>>
+   * @return std::vector<std::unique_ptr<DetectionResult>>
    */
-  virtual Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
-      const DetectionBuffer& header,
-      const DetectionBuffer& footer,
-      bool remove_unknown_format = true) = 0;
+  virtual std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(const DetectionBuffer& header,
+                                                                         const DetectionBuffer& footer,
+                                                                         bool remove_unknown_format = true) = 0;
 
   /**
    * @brief Get a list of detected decryptor.
@@ -103,11 +103,10 @@ class DecryptionManager {
    *
    * @param stream Input stream. For memory stream, use `std::stringstream`.
    *               Ensure stream has at least `kDetectionBufferLen * 3` bytes.
-   * @return Vec<std::unique_ptr<DetectionResult>>
+   * @return std::vector<std::unique_ptr<DetectionResult>>
    */
-  virtual Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
-      std::istream& stream,
-      bool remove_unknown_format = true) = 0;
+  virtual std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(std::istream& stream,
+                                                                         bool remove_unknown_format = true) = 0;
 
   /**
    * @brief Get the first working decryptor.
@@ -119,10 +118,9 @@ class DecryptionManager {
    * @param footer
    * @return std::unique_ptr<DetectionResult>
    */
-  std::unique_ptr<DetectionResult> DetectDecryptor(
-      const DetectionBuffer& header,
-      const DetectionBuffer& footer,
-      bool remove_unknown_format = true) {
+  std::unique_ptr<DetectionResult> DetectDecryptor(const DetectionBuffer& header,
+                                                   const DetectionBuffer& footer,
+                                                   bool remove_unknown_format = true) {
     auto result = DetectDecryptors(header, footer, remove_unknown_format);
     if (result.size() > 0) {
       return std::move(result[0]);
@@ -139,9 +137,7 @@ class DecryptionManager {
    *               Ensure stream has at least `kDetectionBufferLen * 3` bytes.
    * @return std::unique_ptr<DetectionResult>
    */
-  std::unique_ptr<DetectionResult> DetectDecryptor(
-      std::istream& stream,
-      bool remove_unknown_format = true) {
+  std::unique_ptr<DetectionResult> DetectDecryptor(std::istream& stream, bool remove_unknown_format = true) {
     auto result = DetectDecryptors(stream, remove_unknown_format);
     if (result.size() > 0) {
       return std::move(result[0]);

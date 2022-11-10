@@ -1,21 +1,25 @@
 #pragma once
 
-#include "um-crypto/types.h"
+#include <array>
+#include <memory>
+#include <string>
+#include <vector>
+
+#include <cstdint>
 
 namespace umc::misc::tencent {
-typedef Arr<u8, 16> QMCEncV2Stage1Key;
-typedef Arr<u8, 16> QMCEncV2Stage2Key;
+typedef std::array<uint8_t, 16> QMCEncV2Stage1Key;
+typedef std::array<uint8_t, 16> QMCEncV2Stage2Key;
 
 class QMCKeyDeriver {
  public:
-  virtual bool FromEKey(Vec<u8>& out, const Str ekey_b64) const = 0;
-  virtual bool FromEKey(Vec<u8>& out, const Vec<u8> ekey) const = 0;
-  virtual bool ToEKey(Vec<u8>& out, const Vec<u8> key) const = 0;
+  virtual bool FromEKey(std::vector<uint8_t>& out, const std::string ekey_b64) const = 0;
+  virtual bool FromEKey(std::vector<uint8_t>& out, const std::vector<uint8_t> ekey) const = 0;
+  virtual bool ToEKey(std::vector<uint8_t>& out, const std::vector<uint8_t> key) const = 0;
 
-  static std::unique_ptr<QMCKeyDeriver> Create(
-      u8 seed,
-      QMCEncV2Stage1Key enc_v2_stage1_key,
-      QMCEncV2Stage2Key enc_v2_stage2_key);
+  static std::unique_ptr<QMCKeyDeriver> Create(uint8_t seed,
+                                               QMCEncV2Stage1Key enc_v2_stage1_key,
+                                               QMCEncV2Stage2Key enc_v2_stage2_key);
 };
 
 }  // namespace umc::misc::tencent

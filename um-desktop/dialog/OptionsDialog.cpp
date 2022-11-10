@@ -17,7 +17,7 @@ void OptionsDialog::ConfigGlueCode() {
 
 #define DEFINE_CTRL_PROP(CONTROL, KEY)                                     \
   if (M == kModeUpdateControl) {                                           \
-    umc::Str str_value;                                                    \
+    std::string str_value;                                                 \
     conv::ToString(str_value, KEY);                                        \
     CONTROL->SetValueFromString(wxString::FromUTF8(str_value));            \
   } else {                                                                 \
@@ -34,10 +34,8 @@ void OptionsDialog::ConfigGlueCode() {
   {
     auto& d = config.decryption;
     DEFINE_CTRL_PROP(m_kugouSlotKey1, d.kugou.slot_key_1);
-    DEFINE_CTRL_PROP(m_kugouV4SlotKeyExpansionTable,
-                     d.kugou.v4_slot_key_expansion_table);
-    DEFINE_CTRL_PROP(m_kugouV4FileKeyExpansionTable,
-                     d.kugou.v4_file_key_expansion_table);
+    DEFINE_CTRL_PROP(m_kugouV4SlotKeyExpansionTable, d.kugou.v4_slot_key_expansion_table);
+    DEFINE_CTRL_PROP(m_kugouV4FileKeyExpansionTable, d.kugou.v4_file_key_expansion_table);
 
     DEFINE_CTRL_PROP(m_kuwoKey, d.kuwo.key);
 

@@ -1,11 +1,13 @@
 #pragma once
 
-#include "um-crypto/types.h"
+#include <cstdint>
+#include <string>
+#include <vector>
 
 namespace umc::utils {
-constexpr u32 kAudioTypeMaskLossless = 1 << 5;
+constexpr uint32_t kAudioTypeMaskLossless = 1 << 5;
 
-enum class AudioType : u32 {
+enum class AudioType : uint32_t {
   kUnknownType = 0,
 
   // Lossy
@@ -24,7 +26,7 @@ enum class AudioType : u32 {
   kAudioTypeAPE,
 };
 
-inline Str GetAudioTypeExtension(AudioType type) {
+inline std::string GetAudioTypeExtension(AudioType type) {
   switch (type) {
     case AudioType::kAudioTypeOGG:
       return "ogg";
@@ -54,7 +56,7 @@ inline Str GetAudioTypeExtension(AudioType type) {
 }
 
 inline bool AudioIsLossless(AudioType type) {
-  return (static_cast<u32>(type) & kAudioTypeMaskLossless) != 0;
+  return (static_cast<uint32_t>(type) & kAudioTypeMaskLossless) != 0;
 }
 
 }  // namespace umc::utils

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "um-crypto/types.h"
+#include <concepts>
 
 namespace umc {
 
@@ -11,9 +11,9 @@ namespace umc {
  * @param p_key
  * @param len
  */
-inline void XorBlock(void* p_in_out, const void* p_key, usize len) {
-  for (usize i = 0; i < len; i++) {
-    reinterpret_cast<u8*>(p_in_out)[i] ^= reinterpret_cast<const u8*>(p_key)[i];
+inline void XorBlock(void* p_in_out, const void* p_key, std::size_t len) {
+  for (std::size_t i = 0; i < len; i++) {
+    reinterpret_cast<uint8_t*>(p_in_out)[i] ^= reinterpret_cast<const uint8_t*>(p_key)[i];
   }
 }
 
@@ -31,13 +31,10 @@ inline void XorInt(void* p_in_out, const void* p_key) {
  * @param p_in2
  * @param len
  */
-inline void XorBlock(void* p_out,
-                     const void* p_in1,
-                     const void* p_in2,
-                     usize len) {
-  for (usize i = 0; i < len; i++) {
-    reinterpret_cast<u8*>(p_out)[i] = reinterpret_cast<const u8*>(p_in1)[i] ^
-                                      reinterpret_cast<const u8*>(p_in2)[i];
+inline void XorBlock(void* p_out, const void* p_in1, const void* p_in2, std::size_t len) {
+  for (std::size_t i = 0; i < len; i++) {
+    reinterpret_cast<uint8_t*>(p_out)[i] =
+        reinterpret_cast<const uint8_t*>(p_in1)[i] ^ reinterpret_cast<const uint8_t*>(p_in2)[i];
   }
 }
 
@@ -52,14 +49,13 @@ inline void XorBlock(void* p_out,
  * @param key_offset
  */
 inline void XorBlock(void* p_in_out,
-                     usize out_len,
+                     std::size_t out_len,
                      const void* key,
-                     usize key_len,
-                     usize key_offset) {
-  const usize j = key_offset % key_len;
-  for (usize i = 0; i < out_len; i++) {
-    reinterpret_cast<u8*>(p_in_out)[i] ^=
-        reinterpret_cast<const u8*>(key)[(j + i) % key_len];
+                     std::size_t key_len,
+                     std::size_t key_offset) {
+  const std::size_t j = key_offset % key_len;
+  for (std::size_t i = 0; i < out_len; i++) {
+    reinterpret_cast<uint8_t*>(p_in_out)[i] ^= reinterpret_cast<const uint8_t*>(key)[(j + i) % key_len];
   }
 }
 
@@ -76,15 +72,14 @@ inline void XorBlock(void* p_in_out,
  */
 inline void XorBlock(void* p_out,
                      const void* p_in1,
-                     usize len,
+                     std::size_t len,
                      const void* key,
-                     usize key_len,
-                     usize key_offset) {
-  const usize j = key_offset % key_len;
-  for (usize i = 0; i < len; i++) {
-    reinterpret_cast<u8*>(p_out)[i] =
-        reinterpret_cast<const u8*>(p_in1)[i] ^
-        reinterpret_cast<const u8*>(key)[(j + i) % key_len];
+                     std::size_t key_len,
+                     std::size_t key_offset) {
+  const std::size_t j = key_offset % key_len;
+  for (std::size_t i = 0; i < len; i++) {
+    reinterpret_cast<uint8_t*>(p_out)[i] =
+        reinterpret_cast<const uint8_t*>(p_in1)[i] ^ reinterpret_cast<const uint8_t*>(key)[(j + i) % key_len];
   }
 }
 

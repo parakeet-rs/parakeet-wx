@@ -7,7 +7,6 @@
 
 #include <um-crypto/utils/base64.h>
 
-#include "../types.h"
 #include "../utils/AppDataPath.h"
 #include "../utils/JSONExtension.h"
 
@@ -56,7 +55,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // General config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, desktop, general) {
     MANIP_JSON_ITEM(thread_count, int(4));
-    MANIP_JSON_ITEM(locale, Str("zh_CN"));
+    MANIP_JSON_ITEM(locale, std::string("zh_CN"));
   }
   END_MANIP_NAMESPACED_VALUE()
 
@@ -64,10 +63,8 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kugou) {
     using namespace umc::decryption::kugou;
     MANIP_JSON_ITEM(slot_key_1, KugouSingleSlotKey{});
-    MANIP_JSON_ITEM(v4_file_key_expansion_table,
-                    KugouV4FileKeyExpansionTable{});
-    MANIP_JSON_ITEM(v4_slot_key_expansion_table,
-                    KugouV4SlotKeyExpansionTable{});
+    MANIP_JSON_ITEM(v4_file_key_expansion_table, KugouV4FileKeyExpansionTable{});
+    MANIP_JSON_ITEM(v4_slot_key_expansion_table, KugouV4SlotKeyExpansionTable{});
   }
   END_MANIP_NAMESPACED_VALUE()
 
@@ -89,7 +86,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, qmc) {
     using namespace umc::decryption::tencent;
     using namespace umc::misc::tencent;
-    MANIP_JSON_ITEM(ekey_seed, u8(0));
+    MANIP_JSON_ITEM(ekey_seed, uint8_t(0));
     MANIP_JSON_ITEM(static_cipher_key, QMCv1Key{});
     MANIP_JSON_ITEM(enc_v2_stage1_key, QMCEncV2Stage1Key{});
     MANIP_JSON_ITEM(enc_v2_stage2_key, QMCEncV2Stage2Key{});
@@ -99,7 +96,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // Joox (Tencent) config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, joox) {
     using namespace umc::decryption::tencent;
-    MANIP_JSON_ITEM(install_uuid, Str(32, 'f'));
+    MANIP_JSON_ITEM(install_uuid, std::string(32, 'f'));
     MANIP_JSON_ITEM(salt, JooxSalt{});
   }
   END_MANIP_NAMESPACED_VALUE()
@@ -138,8 +135,7 @@ bool AppConfigStore::LoadConfigFromDisk() {
 }
 
 bool AppConfigStore::SaveConfigToDisk() {
-  std::ofstream config_file(config_file_path_,
-                            std::fstream::out | std::fstream::binary);
+  std::ofstream config_file(config_file_path_, std::fstream::out | std::fstream::binary);
 
   using namespace rapidjson;
   Document d;

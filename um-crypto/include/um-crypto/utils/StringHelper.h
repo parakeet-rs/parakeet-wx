@@ -1,42 +1,39 @@
 #pragma once
-#include "um-crypto/types.h"
 
 #include <algorithm>
 
 namespace umc::utils {
 
 template <typename... Args>
-Str Format(const char* fmt, Args... args) {
+std::string Format(const char* fmt, Args... args) {
   auto text_len = std::snprintf(nullptr, 0, fmt, args...);
   if (text_len < 0) return "";
 
   // String contains the extra '\x00' at the end.
-  Str formatted(text_len, 0);
+  std::string formatted(text_len, 0);
   std::snprintf(formatted.data(), text_len + 1, fmt, args...);
   return formatted;
 }
 
 inline bool IsWhitespaceOrNull(char c) {
-  return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' ||
-         c == '\x00' || c == '\n';
+  return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' || c == '\x00' || c == '\n';
 }
 
 inline bool IsHexChar(const char c) {
-  return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') ||
-         (c >= 'a' && c <= 'f');
+  return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
 }
 
-inline u8 HexLookup(const char c) {
-  if (c >= '0' && c <= '9') return static_cast<u8>(c - '0');
-  if (c >= 'A' && c <= 'F') return static_cast<u8>(c - 'A' + 10);
-  if (c >= 'a' && c <= 'f') return static_cast<u8>(c - 'a' + 10);
+inline uint8_t HexLookup(const char c) {
+  if (c >= '0' && c <= '9') return static_cast<uint8_t>(c - '0');
+  if (c >= 'A' && c <= 'F') return static_cast<uint8_t>(c - 'A' + 10);
+  if (c >= 'a' && c <= 'f') return static_cast<uint8_t>(c - 'a' + 10);
 
   // we know this is wrong, but hey, we'll accept it.
   return 0;
 }
 
-inline Str UnescapeCharSequence(const Str& s) {
-  Str result;
+inline std::string UnescapeCharSequence(const std::string& s) {
+  std::string result;
   result.reserve(s.size());
   bool open_escape = false;
   for (const auto c : s) {
@@ -73,8 +70,8 @@ inline Str UnescapeCharSequence(const Str& s) {
   return result;
 }
 
-inline Str RemoveWhitespace(const Str& s) {
-  Str result;
+inline std::string RemoveWhitespace(const std::string& s) {
+  std::string result;
   result.reserve(s.size());
   for (const auto c : s) {
     if (!IsWhitespaceOrNull(c)) {
@@ -84,13 +81,13 @@ inline Str RemoveWhitespace(const Str& s) {
   return result;
 }
 
-inline Vec<Str> ParseCSVLine(const u8* str, usize len) {
-  Vec<Str> result;
+inline std::vector<std::string> ParseCSVLine(const uint8_t* str, std::size_t len) {
+  std::vector<std::string> result;
 
-  const u8* str_begin = str;
+  const uint8_t* str_begin = str;
   while (len) {
     if (*str == ',') {
-      result.push_back(Str(str_begin, str));
+      result.push_back(std::string(str_begin, str));
       str_begin = str + 1;
     }
     str++;
@@ -98,7 +95,7 @@ inline Vec<Str> ParseCSVLine(const u8* str, usize len) {
   }
 
   if (str_begin != str) {
-    result.push_back(Str(str_begin, str));
+    result.push_back(std::string(str_begin, str));
   }
 
   return result;

@@ -30,9 +30,7 @@ class KGMCrypto {
   virtual void Decrypt(uint64_t offset, uint8_t* buffer, size_t n) = 0;
 };
 
-std::unique_ptr<KGMCrypto> create_kugou_decryptor(
-    const kgm_file_header& header,
-    const KGMCryptoConfig& config);
+std::unique_ptr<KGMCrypto> create_kugou_decryptor(const kgm_file_header& header, const KGMCryptoConfig& config);
 
 // Copy-paste of decryptor definitions...
 

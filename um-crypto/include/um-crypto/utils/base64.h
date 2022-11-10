@@ -1,13 +1,14 @@
 #pragma once
 
-#include "um-crypto/types.h"
-
+#include <cstdint>
 #include <span>
+#include <string>
+#include <vector>
 
 namespace umc::utils {
 
-Vec<u8> Base64Decode(const Str& input);
-Str Base64Encode(const Vec<u8>& input);
-Vec<u8> Base64EncodeBytes(const std::span<const u8> data);
+std::vector<uint8_t> Base64Decode(const std::string& input);
+std::string Base64Encode(const std::vector<uint8_t>& input);
+std::vector<uint8_t> Base64EncodeBytes(const std::span<const uint8_t> data);
 
 }  // namespace umc::utils

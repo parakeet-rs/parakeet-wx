@@ -8,9 +8,7 @@
 class OptionsDialog : public umd::ui_base::uiOptionsDialog {
  public:
   OptionsDialog(wxWindow* parent);
-  inline const umd::config::AppConfig& GetSavedConfig() const {
-    return saved_config_;
-  };
+  inline const umd::config::AppConfig& GetSavedConfig() const { return saved_config_; };
   inline bool IsConfigSaved() const { return saved_; };
 
   virtual void OnButtonClick_Cancel(wxCommandEvent& event) override;

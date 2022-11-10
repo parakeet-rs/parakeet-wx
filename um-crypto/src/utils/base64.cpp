@@ -5,32 +5,32 @@
 
 namespace umc::utils {
 
-Vec<u8> Base64Decode(const Str& input) {
+std::vector<uint8_t> Base64Decode(const std::string& input) {
   CryptoPP::Base64Decoder decoder;
-  decoder.Put(reinterpret_cast<const u8*>(input.data()), input.size());
+  decoder.Put(reinterpret_cast<const uint8_t*>(input.data()), input.size());
   decoder.MessageEnd();
 
-  Vec<u8> result(decoder.MaxRetrievable());
+  std::vector<uint8_t> result(decoder.MaxRetrievable());
   decoder.Get(result.data(), result.size());
   return result;
 }
 
-Str Base64Encode(const Vec<u8>& input) {
+std::string Base64Encode(const std::vector<uint8_t>& input) {
   CryptoPP::Base64Encoder encoder(nullptr, false);
   encoder.Put(input.data(), input.size());
   encoder.MessageEnd();
 
-  Str result(encoder.MaxRetrievable(), 0);
-  encoder.Get(reinterpret_cast<u8*>(result.data()), result.size());
+  std::string result(encoder.MaxRetrievable(), 0);
+  encoder.Get(reinterpret_cast<uint8_t*>(result.data()), result.size());
   return result;
 }
 
-Vec<u8> Base64EncodeBytes(const std::span<const u8> data) {
+std::vector<uint8_t> Base64EncodeBytes(const std::span<const uint8_t> data) {
   CryptoPP::Base64Encoder encoder(nullptr, false);
   encoder.Put(data.data(), data.size());
   encoder.MessageEnd();
 
-  Vec<u8> result(encoder.MaxRetrievable(), 0);
+  std::vector<uint8_t> result(encoder.MaxRetrievable(), 0);
   encoder.Get(result.data(), result.size());
   return result;
 }

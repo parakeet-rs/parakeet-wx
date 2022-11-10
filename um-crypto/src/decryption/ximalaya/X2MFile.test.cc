@@ -18,29 +18,24 @@ using namespace umc::decryption::ximalaya;
 using namespace umc;
 
 TEST(Ximalaya, X2MTestCase) {
-  Vec<u8> test_data(test::kSize1MiB);
+  std::vector<uint8_t> test_data(test::kSize1MiB);
   test::GenerateTestData(test_data, "x2m-test-data");
 
   X2MContentKey x2m_content_key;
   test::GenerateTestData(x2m_content_key, "x2m content key");
 
   ScrambleTable x2m_scramble_table;
-  for (u16 i = 0; i < x2m_scramble_table.size(); i++) {
+  for (uint16_t i = 0; i < x2m_scramble_table.size(); i++) {
     x2m_scramble_table[i] = i;
   }
-  Vec<u8> x2m_scramble_seed(x2m_scramble_table.size() * 2);
+  std::vector<uint8_t> x2m_scramble_seed(x2m_scramble_table.size() * 2);
   test::GenerateTestData(x2m_scramble_seed, "x2m seed");
-  for (usize i = 0; i < x2m_scramble_table.size(); i++) {
-    usize j = ReadLittleEndian<u16>(&x2m_scramble_seed[i * 2]) %
-              x2m_scramble_table.size();
+  for (std::size_t i = 0; i < x2m_scramble_table.size(); i++) {
+    std::size_t j = ReadLittleEndian<uint16_t>(&x2m_scramble_seed[i * 2]) % x2m_scramble_table.size();
     std::swap(x2m_scramble_table[i], x2m_scramble_table[j]);
   }
 
-  auto result = test::DecryptTestContent(
-      XimalayaFileLoader::Create(x2m_content_key, x2m_scramble_table),
-      test_data);
+  auto result = test::DecryptTestContent(XimalayaFileLoader::Create(x2m_content_key, x2m_scramble_table), test_data);
 
-  test::VerifyHash(
-      result,
-      "fd1ac1c4750f48b8d3c9562013f1c3202b12e45137b344995eda32a4f6b8a61f");
+  test::VerifyHash(result, "fd1ac1c4750f48b8d3c9562013f1c3202b12e45137b344995eda32a4f6b8a61f");
 }

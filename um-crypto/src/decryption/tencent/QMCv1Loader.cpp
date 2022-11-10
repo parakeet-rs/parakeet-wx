@@ -32,33 +32,29 @@ enum class QMCv1Type {
 
 namespace detail {
 
-constexpr usize kStaticCipherPageSize = 0x7fff;
-typedef Arr<u8, kStaticCipherPageSize> QMCv1Cache;
+constexpr std::size_t kStaticCipherPageSize = 0x7fff;
+typedef std::array<uint8_t, kStaticCipherPageSize> QMCv1Cache;
 
 template <QMCv1Type Type>
 class QMCv1LoaderImpl : public QMCv1Loader {
  private:
-  inline usize GetCacheIndex(const QMCv1Key& key,
-                             usize idx_offset,
-                             usize i,
-                             usize n) const {
-    usize index = (i * i + idx_offset) % n;
+  inline std::size_t GetCacheIndex(const QMCv1Key& key, std::size_t idx_offset, std::size_t i, std::size_t n) const {
+    std::size_t index = (i * i + idx_offset) % n;
 
     if constexpr (Type == QMCv1Type::kMapCipher) {
-      u8 v = key[index];
-      usize shift = (index + 4) & 0b0111;
+      uint8_t v = key[index];
+      std::size_t shift = (index + 4) & 0b0111;
       return (v << shift) | (v >> shift);
     }
 
     return key[index];
   }
 
-  Str name_;
-  usize idx_offset_;
+  std::string name_;
+  std::size_t idx_offset_;
 
  public:
-  QMCv1LoaderImpl(const QMCv1Key& key, usize idx_offset)
-      : idx_offset_(idx_offset) {
+  QMCv1LoaderImpl(const QMCv1Key& key, std::size_t idx_offset) : idx_offset_(idx_offset) {
     const char* subtype = Type == QMCv1Type::kStaticCipher ? "static" : "map";
     name_ = utils::Format("QMCv1(%s)", subtype);
 
@@ -67,7 +63,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
     }
   }
 
-  virtual const Str GetName() const override { return name_; };
+  virtual const std::string GetName() const override { return name_; };
 
   inline void SetKey(const QMCv1Key& key) {
     if (key.empty()) {
@@ -77,22 +73,21 @@ class QMCv1LoaderImpl : public QMCv1Loader {
 
     error_ = "";
     auto n = key.size();
-    usize idx_offset = idx_offset_ % n;
+    std::size_t idx_offset = idx_offset_ % n;
 
 #define QMC_GET_VALUE_AT_IDX(IDX) (GetCacheIndex(key, idx_offset, IDX, n))
-    for (usize i = 0; i < kStaticCipherPageSize; i++) {
+    for (std::size_t i = 0; i < kStaticCipherPageSize; i++) {
       cache_[i] = QMC_GET_VALUE_AT_IDX(i);
     }
     value_page_one_ = QMC_GET_VALUE_AT_IDX(kStaticCipherPageSize);
 #undef QMC_GET_VALUE_AT_IDX
   }
 
-  inline void SetFooterParser(
-      std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
-    parser_ = parser;
+  inline void SetFooterParser(std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
+    parser_ = parser;  //
   }
 
-  virtual usize InitWithFileFooter(const DetectionBuffer& buf) {
+  virtual std::size_t InitWithFileFooter(const DetectionBuffer& buf) {
     if constexpr (Type == QMCv1Type::kStaticCipher) return 0;
 
     if (parser_) {
@@ -112,17 +107,17 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   }
 
  private:
-  u8 value_page_one_;
+  uint8_t value_page_one_;
   QMCv1Cache cache_;
 
   std::shared_ptr<misc::tencent::QMCFooterParser> parser_;
 
-  bool Write(const u8* in, usize len) override {
+  bool Write(const uint8_t* in, std::size_t len) override {
     if (InErrorState()) return false;
 
     auto p_out = ExpandOutputBuffer(len);
 
-    for (usize i = 0; i < len; i++, offset_++) {
+    for (std::size_t i = 0; i < len; i++, offset_++) {
       if (offset_ == kStaticCipherPageSize) {
         p_out[i] = in[i] ^ value_page_one_;
       } else {
@@ -134,7 +129,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   }
 
   bool End() override {
-    return !InErrorState();
+    return !InErrorState();  //
   }
 };
 
@@ -143,15 +138,11 @@ class QMCv1LoaderImpl : public QMCv1Loader {
 // Public interface
 
 std::unique_ptr<QMCv1Loader> QMCv1Loader::Create(const QMCv1Key& key) {
-  return std::make_unique<detail::QMCv1LoaderImpl<QMCv1Type::kStaticCipher>>(
-      key, 80923);
+  return std::make_unique<detail::QMCv1LoaderImpl<QMCv1Type::kStaticCipher>>(key, 80923);
 }
 
-std::unique_ptr<QMCv1Loader> QMCv1Loader::Create(
-    std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
-  auto cipher =
-      std::make_unique<detail::QMCv1LoaderImpl<QMCv1Type::kMapCipher>>(
-          QMCv1Key{}, 71214);
+std::unique_ptr<QMCv1Loader> QMCv1Loader::Create(std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
+  auto cipher = std::make_unique<detail::QMCv1LoaderImpl<QMCv1Type::kMapCipher>>(QMCv1Key{}, 71214);
   cipher->SetFooterParser(parser);
   return cipher;
 }

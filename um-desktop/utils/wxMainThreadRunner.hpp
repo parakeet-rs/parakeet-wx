@@ -14,9 +14,7 @@ typedef std::function<void(void)> MainThreadRunnerFn;
 
 class wxMainThreadRunner {
  public:
-  inline void SetMainThreadRunnerEventHandler(wxEvtHandler* evt_handler) {
-    evt_handler_ = evt_handler;
-  }
+  inline void SetMainThreadRunnerEventHandler(wxEvtHandler* evt_handler) { evt_handler_ = evt_handler; }
 
   inline void PostInMainThread(const MainThreadRunnerFn fn) {
 #if __UMD_SINGLE_THREAD_MODE

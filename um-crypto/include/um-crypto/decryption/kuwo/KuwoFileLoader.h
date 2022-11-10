@@ -4,12 +4,12 @@
 
 namespace umc::decryption::kuwo {
 
-constexpr usize kKuwoDecryptionKeySize = 0x20;
-typedef Arr<u8, kKuwoDecryptionKeySize> KuwoKey;
+constexpr std::size_t kKuwoDecryptionKeySize = 0x20;
+typedef std::array<uint8_t, kKuwoDecryptionKeySize> KuwoKey;
 
 class KuwoFileLoader : public DecryptionStream {
  public:
-  virtual const Str GetName() const override { return "Kuwo"; };
+  virtual const std::string GetName() const override { return "Kuwo"; };
 
   static std::unique_ptr<KuwoFileLoader> Create(const KuwoKey& key);
 };

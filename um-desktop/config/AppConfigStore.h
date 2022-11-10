@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../types.h"
-
 #include <filesystem>
 #include <memory>
 
@@ -11,7 +9,7 @@ namespace umd::config {
 
 struct GeneralConfig {
   int thread_count;
-  Str locale;
+  std::string locale;
 };
 
 struct DesktopConfig {
@@ -38,10 +36,7 @@ class AppConfigStore {
     config_ = config;
     manager_->SetConfig(config_.decryption);
   }
-  inline std::shared_ptr<umc::decryption::DecryptionManager>
-  GetDecryptionManager() const {
-    return manager_;
-  }
+  inline std::shared_ptr<umc::decryption::DecryptionManager> GetDecryptionManager() const { return manager_; }
 
  private:
   AppConfig config_ = {};

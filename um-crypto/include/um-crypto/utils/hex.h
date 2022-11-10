@@ -1,13 +1,14 @@
 #pragma once
 
-#include "um-crypto/types.h"
-
+#include <cstdint>
 #include <span>
+#include <string>
+#include <vector>
 
 namespace umc::utils {
 
-Str Hex(const Vec<u8>& v);
-Str HexCompactLowercase(const std::span<const u8> data);
-Vec<u8> Unhex(const Str& v);
+std::string Hex(const std::vector<uint8_t>& v);
+std::string HexCompactLowercase(const std::span<const uint8_t> data);
+std::vector<uint8_t> Unhex(const std::string& v);
 
 }  // namespace umc::utils
