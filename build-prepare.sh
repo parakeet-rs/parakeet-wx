@@ -1,5 +1,6 @@
 #/bin/bash
 
+bash extract-i18n.sh
 bash build-po.sh
 
 rm -rf dist && mkdir -p dist
