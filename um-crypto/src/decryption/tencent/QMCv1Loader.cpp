@@ -84,7 +84,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   }
 
   inline void SetFooterParser(std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
-    parser_ = parser;
+    parser_ = parser;  //
   }
 
   virtual std::size_t InitWithFileFooter(const DetectionBuffer& buf) {
@@ -129,7 +129,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   }
 
   bool End() override {
-    return !InErrorState();
+    return !InErrorState();  //
   }
 };
 
