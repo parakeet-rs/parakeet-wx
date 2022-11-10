@@ -10,8 +10,7 @@ class JooxFileLoader : public DecryptionStream {
  public:
   virtual const std::string GetName() const override { return "joox"; };
 
-  static std::unique_ptr<JooxFileLoader> Create(const std::string& install_uuid,
-                                                const JooxSalt& salt);
+  static std::unique_ptr<JooxFileLoader> Create(const std::string& install_uuid, const JooxSalt& salt);
 };
 
 }  // namespace umc::decryption::tencent

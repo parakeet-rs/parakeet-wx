@@ -14,14 +14,11 @@ class DecryptionManagerImpl : public DecryptionManager {
  public:
   DecryptionManagerImpl() {}
   const config::DecryptionConfig& GetConfig() const override { return config_; }
-  void SetConfig(config::DecryptionConfig& config) override {
-    config_ = config;
-  }
+  void SetConfig(config::DecryptionConfig& config) override { config_ = config; }
 
-  std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(
-      const DetectionBuffer& header,
-      const DetectionBuffer& footer,
-      bool remove_unknown_format) {
+  std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(const DetectionBuffer& header,
+                                                                 const DetectionBuffer& footer,
+                                                                 bool remove_unknown_format) {
     std::stringstream ss;
     ss.write(reinterpret_cast<const char*>(header.data()), header.size());
 
@@ -32,9 +29,8 @@ class DecryptionManagerImpl : public DecryptionManager {
     return DetectDecryptors(ss, remove_unknown_format);
   };
 
-  std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(
-      std::istream& stream,
-      bool remove_unknown_format = true) override {
+  std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(std::istream& stream,
+                                                                 bool remove_unknown_format = true) override {
     using utils::AudioType;
 
     std::vector<std::unique_ptr<DetectionResult>> result;
@@ -66,8 +62,7 @@ class DecryptionManagerImpl : public DecryptionManager {
       // We want to decrypt at least `kDetectionBufferLen` bytes of data.
       bool bad = false;
       auto p_in = header.data();
-      while (bytes_left > 0 &&
-             decryptor->GetOutputSize() < kDetectionBufferLen) {
+      while (bytes_left > 0 && decryptor->GetOutputSize() < kDetectionBufferLen) {
         std::size_t bytes_left_in_buffer = header.data() + header.size() - p_in;
 
         // Should we feed more data?
@@ -88,10 +83,8 @@ class DecryptionManagerImpl : public DecryptionManager {
           bytes_left -= bytes_to_read;
         }
 
-        std::size_t bytes_written =
-            std::min(kDetectionBufferLen, bytes_left_in_buffer);
-        if (!decryptor->Write(p_in, bytes_written) ||
-            decryptor->InErrorState()) {
+        std::size_t bytes_written = std::min(kDetectionBufferLen, bytes_left_in_buffer);
+        if (!decryptor->Write(p_in, bytes_written) || decryptor->InErrorState()) {
           // decryption error?
           bad = true;
           break;
@@ -122,8 +115,7 @@ class DecryptionManagerImpl : public DecryptionManager {
     }
 
     std::sort(result.begin(), result.end(),
-              [](std::unique_ptr<DetectionResult>& left,
-                 std::unique_ptr<DetectionResult>& right) -> bool {
+              [](std::unique_ptr<DetectionResult>& left, std::unique_ptr<DetectionResult>& right) -> bool {
                 // Prefer audio_type with higher rank;
                 //   lossless > lossy > unknown (bin)
                 return left->audio_type > right->audio_type;
@@ -133,17 +125,15 @@ class DecryptionManagerImpl : public DecryptionManager {
   };
 
  private:
-  inline std::vector<std::unique_ptr<DecryptionStream>>
-  GetDecryptorsFromConfig() {
+  inline std::vector<std::unique_ptr<DecryptionStream>> GetDecryptorsFromConfig() {
     const auto& c = config_;
     std::vector<std::unique_ptr<DecryptionStream>> result;
 
     // Add kugou ciphers
     kugou::KugouSlotKeys kgm_slot_keys;
     kgm_slot_keys[1] = c.kugou.slot_key_1;
-    result.push_back(kugou::KugouFileLoader::Create(
-        kgm_slot_keys, c.kugou.v4_slot_key_expansion_table,
-        c.kugou.v4_file_key_expansion_table));
+    result.push_back(kugou::KugouFileLoader::Create(kgm_slot_keys, c.kugou.v4_slot_key_expansion_table,
+                                                    c.kugou.v4_file_key_expansion_table));
 
     // Add kuwo ciphers
     result.push_back(kuwo::KuwoFileLoader::Create(c.kuwo.key));
@@ -152,18 +142,14 @@ class DecryptionManagerImpl : public DecryptionManager {
     result.push_back(netease::NCMFileLoader::Create(c.netease.key));
 
     // Add Joox
-    result.push_back(
-        tencent::JooxFileLoader::Create(c.joox.install_uuid, c.joox.salt));
+    result.push_back(tencent::JooxFileLoader::Create(c.joox.install_uuid, c.joox.salt));
 
     // Add QMCv1 (static)
     result.push_back(tencent::QMCv1Loader::Create(c.qmc.static_cipher_key));
 
     // Add QMCv2 (map)
-    auto qmc_footer_parser =
-        std::shared_ptr(umc::misc::tencent::QMCFooterParser::Create(
-            umc::misc::tencent::QMCKeyDeriver::Create(
-                c.qmc.ekey_seed, c.qmc.enc_v2_stage1_key,
-                c.qmc.enc_v2_stage2_key)));
+    auto qmc_footer_parser = std::shared_ptr(umc::misc::tencent::QMCFooterParser::Create(
+        umc::misc::tencent::QMCKeyDeriver::Create(c.qmc.ekey_seed, c.qmc.enc_v2_stage1_key, c.qmc.enc_v2_stage2_key)));
     result.push_back(tencent::QMCv1Loader::Create(qmc_footer_parser));
 
     // Add QMCv2 (RC4)
@@ -173,11 +159,9 @@ class DecryptionManagerImpl : public DecryptionManager {
     result.push_back(xiami::XiamiFileLoader::Create());
 
     // Add Ximalaya
-    result.push_back(ximalaya::XimalayaFileLoader::Create(
-        c.ximalaya.x2m_content_key, c.ximalaya.x2m_scramble_table));
+    result.push_back(ximalaya::XimalayaFileLoader::Create(c.ximalaya.x2m_content_key, c.ximalaya.x2m_scramble_table));
 
-    result.push_back(ximalaya::XimalayaFileLoader::Create(
-        c.ximalaya.x3m_content_key, c.ximalaya.x3m_scramble_table));
+    result.push_back(ximalaya::XimalayaFileLoader::Create(c.ximalaya.x3m_content_key, c.ximalaya.x3m_scramble_table));
 
     return result;
   }

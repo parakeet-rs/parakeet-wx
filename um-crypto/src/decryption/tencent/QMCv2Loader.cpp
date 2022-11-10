@@ -20,8 +20,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
   std::shared_ptr<misc::tencent::QMCFooterParser> parser_;
 
  public:
-  QMCv2LoaderImpl(std::shared_ptr<misc::tencent::QMCFooterParser> parser)
-      : parser_(parser) {
+  QMCv2LoaderImpl(std::shared_ptr<misc::tencent::QMCFooterParser> parser) : parser_(parser) {
     if (!parser) {
       throw std::invalid_argument("QMCv2LoaderImpl: parser should not be null");
     }
@@ -190,8 +189,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
 
 }  // namespace detail
 
-std::unique_ptr<QMCv2Loader> QMCv2Loader::Create(
-    std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
+std::unique_ptr<QMCv2Loader> QMCv2Loader::Create(std::shared_ptr<misc::tencent::QMCFooterParser> parser) {
   return std::make_unique<detail::QMCv2LoaderImpl>(parser);
 }
 

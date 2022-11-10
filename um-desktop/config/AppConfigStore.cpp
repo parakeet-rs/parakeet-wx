@@ -64,10 +64,8 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kugou) {
     using namespace umc::decryption::kugou;
     MANIP_JSON_ITEM(slot_key_1, KugouSingleSlotKey{});
-    MANIP_JSON_ITEM(v4_file_key_expansion_table,
-                    KugouV4FileKeyExpansionTable{});
-    MANIP_JSON_ITEM(v4_slot_key_expansion_table,
-                    KugouV4SlotKeyExpansionTable{});
+    MANIP_JSON_ITEM(v4_file_key_expansion_table, KugouV4FileKeyExpansionTable{});
+    MANIP_JSON_ITEM(v4_slot_key_expansion_table, KugouV4SlotKeyExpansionTable{});
   }
   END_MANIP_NAMESPACED_VALUE()
 
@@ -138,8 +136,7 @@ bool AppConfigStore::LoadConfigFromDisk() {
 }
 
 bool AppConfigStore::SaveConfigToDisk() {
-  std::ofstream config_file(config_file_path_,
-                            std::fstream::out | std::fstream::binary);
+  std::ofstream config_file(config_file_path_, std::fstream::out | std::fstream::binary);
 
   using namespace rapidjson;
   Document d;

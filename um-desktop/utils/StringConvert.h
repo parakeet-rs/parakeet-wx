@@ -45,9 +45,8 @@ inline void ContainerToString(std::string& out, const TContainer& input) {
   out.resize(buf_size);
 
   const char* fmt;
-  static_assert(
-      sizeof(A) == 1 || sizeof(A) == 2 || sizeof(A) == 4 || sizeof(A) == 8,
-      "'A' should be one of the unsigned int.");
+  static_assert(sizeof(A) == 1 || sizeof(A) == 2 || sizeof(A) == 4 || sizeof(A) == 8,
+                "'A' should be one of the unsigned int.");
 
   if constexpr (sizeof(A) == 8) fmt = "0x%016x, ";
   else if constexpr (sizeof(A) == 4) fmt = "0x%08x, ";

@@ -30,8 +30,7 @@ constexpr u64 kNCMFileMagic = 0x43'54'45'4E'46'44'41'4D;
 
 // "neteasecloudmusic"
 std::array<u8, 17> kContentKeyPrefix = {
-    'n', 'e', 't', 'e', 'a', 's', 'e', 'c', 'l',
-    'o', 'u', 'd', 'm', 'u', 's', 'i', 'c',
+    'n', 'e', 't', 'e', 'a', 's', 'e', 'c', 'l', 'o', 'u', 'd', 'm', 'u', 's', 'i', 'c',
 };
 
 enum class State {
@@ -80,14 +79,12 @@ class NCMFileLoaderImpl : public NCMFileLoader {
       return false;
     }
 
-    if (!std::equal(kContentKeyPrefix.begin(), kContentKeyPrefix.end(),
-                    content_key_.begin())) {
+    if (!std::equal(kContentKeyPrefix.begin(), kContentKeyPrefix.end(), content_key_.begin())) {
       error_ = "invalid key prefix";
       return false;
     }
 
-    content_key_.erase(content_key_.begin(),
-                       content_key_.begin() + kContentKeyPrefix.size());
+    content_key_.erase(content_key_.begin(), content_key_.begin() + kContentKeyPrefix.size());
     return true;
   }
 
@@ -131,10 +128,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
     }
   }
 
-  bool ReadNextSizedBlock(const u8*& in,
-                          std::size_t& len,
-                          u32& next_block_size,
-                          std::size_t padding = 0) {
+  bool ReadNextSizedBlock(const u8*& in, std::size_t& len, u32& next_block_size, std::size_t padding = 0) {
     if (InErrorState()) return false;
 
     if (next_block_size == 0 && ReadBlock(in, len, sizeof(u32))) {
@@ -218,8 +212,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
 
         case State::kDecryptAudio: {
           auto p_out = ExpandOutputBuffer(len);
-          XorBlock(p_out, in, len, final_audio_xor_key_.data(),
-                   final_audio_xor_key_.size(), audio_data_offset_);
+          XorBlock(p_out, in, len, final_audio_xor_key_.data(), final_audio_xor_key_.size(), audio_data_offset_);
           offset_ += len;
           audio_data_offset_ += len;
           return true;
@@ -235,8 +228,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
 
 }  // namespace detail
 
-std::unique_ptr<NCMFileLoader> NCMFileLoader::Create(
-    const NCMContentKeyProtectionKey& key) {
+std::unique_ptr<NCMFileLoader> NCMFileLoader::Create(const NCMContentKeyProtectionKey& key) {
   return std::make_unique<detail::NCMFileLoaderImpl>(key);
 }
 

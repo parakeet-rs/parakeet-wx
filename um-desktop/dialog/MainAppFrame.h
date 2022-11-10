@@ -36,11 +36,8 @@ class MainAppFrame;
 
 class MainAppDropTarget : public wxFileDropTarget {
  public:
-  MainAppDropTarget(MainAppFrame* app_frame)
-      : wxFileDropTarget(), app_frame_(app_frame) {}
-  bool OnDropFiles(wxCoord x,
-                   wxCoord y,
-                   const wxArrayString& filenames) override;
+  MainAppDropTarget(MainAppFrame* app_frame) : wxFileDropTarget(), app_frame_(app_frame) {}
+  bool OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& filenames) override;
 
  private:
   MainAppFrame* app_frame_;

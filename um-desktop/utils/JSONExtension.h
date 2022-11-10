@@ -28,10 +28,7 @@ inline void WriteValue(D& d, V& v, const char* key, const T& value);
 
 #pragma region  // JSON <--> std::string
 template <>
-inline void ReadValue(const V& v,
-                      const char* key,
-                      std::string& out,
-                      const std::string& def_value) {
+inline void ReadValue(const V& v, const char* key, std::string& out, const std::string& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     out = v[key].GetString();
   } else {
@@ -41,18 +38,14 @@ inline void ReadValue(const V& v,
 
 template <>
 inline void WriteValue(D& d, V& v, const char* key, const std::string& value) {
-  V result = V(reinterpret_cast<const char*>(value.c_str()), value.size(),
-               d.GetAllocator());
+  V result = V(reinterpret_cast<const char*>(value.c_str()), value.size(), d.GetAllocator());
   __UMD_PREPARE_WRITE_JSON_VALUE(result);
 }
 #pragma endregion
 
 #pragma region  // JSON <--> Int
 template <>
-inline void ReadValue(const V& v,
-                      const char* key,
-                      int& out,
-                      const int& def_value) {
+inline void ReadValue(const V& v, const char* key, int& out, const int& def_value) {
   if (v.HasMember(key) && v[key].IsInt()) {
     out = v[key].GetInt();
   } else {
@@ -69,10 +62,7 @@ inline void WriteValue(D& d, V& v, const char* key, const int& value) {
 
 #pragma region  // JSON <--> u8
 template <>
-inline void ReadValue(const V& v,
-                      const char* key,
-                      u8& out,
-                      const u8& def_value) {
+inline void ReadValue(const V& v, const char* key, u8& out, const u8& def_value) {
   if (v.HasMember(key) && v[key].IsUint()) {
     out = v[key].GetUint();
   } else {
@@ -88,10 +78,7 @@ inline void WriteValue(D& d, V& v, const char* key, const u8& value) {
 
 #pragma region  // JSON <--> std::vector<u8>
 template <>
-inline void ReadValue(const V& v,
-                      const char* key,
-                      std::vector<u8>& out,
-                      const std::vector<u8>& def_value) {
+inline void ReadValue(const V& v, const char* key, std::vector<u8>& out, const std::vector<u8>& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     out = umc::utils::Base64Decode(std::string(v[key].GetString()));
   } else {
@@ -100,10 +87,7 @@ inline void ReadValue(const V& v,
 }
 
 template <>
-inline void WriteValue(D& d,
-                       V& v,
-                       const char* key,
-                       const std::vector<u8>& value) {
+inline void WriteValue(D& d, V& v, const char* key, const std::vector<u8>& value) {
   std::string encoded = umc::utils::Base64Encode(value);
   V result = V(encoded.c_str(), encoded.length(), d.GetAllocator());
   __UMD_PREPARE_WRITE_JSON_VALUE(result);
@@ -140,16 +124,12 @@ inline void Base64ToContainer(TContainer& out, const std::string& in) {
 
 #pragma region  // std::string <--> std::array<A, Size>
 template <std::unsigned_integral A, size_t Size>
-inline void ReadValue(const V& v,
-                      const char* key,
-                      std::array<A, Size>& out,
-                      const std::array<A, Size>& def_value) {
+inline void ReadValue(const V& v, const char* key, std::array<A, Size>& out, const std::array<A, Size>& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     std::fill(out.begin(), out.end(), 0);
 
     std::vector<A> buf(Size);
-    detail::Base64ToContainer<A, std::vector<A>>(
-        buf, std::string(v[key].GetString()));
+    detail::Base64ToContainer<A, std::vector<A>>(buf, std::string(v[key].GetString()));
     buf.resize(Size);
 
     std::copy(buf.begin(), buf.end(), out.begin());
@@ -159,21 +139,14 @@ inline void ReadValue(const V& v,
 };
 
 template <std::unsigned_integral A, size_t Size>
-inline void WriteValue(D& d,
-                       V& v,
-                       const char* key,
-                       const std::array<A, Size>& value) {
-  WriteValue(d, v, key,
-             detail::ContainerToBase64<A, std::array<A, Size>>(value));
+inline void WriteValue(D& d, V& v, const char* key, const std::array<A, Size>& value) {
+  WriteValue(d, v, key, detail::ContainerToBase64<A, std::array<A, Size>>(value));
 };
 #pragma endregion
 
 #pragma region  // std::string <--> std::vector<A>
 template <typename TContainer, std::integral A>
-inline void ReadValue(const V& v,
-                      const char* key,
-                      TContainer& out,
-                      const TContainer& def_value) {
+inline void ReadValue(const V& v, const char* key, TContainer& out, const TContainer& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     std::fill(out.begin(), out.end(), 0);
     detail::Base64ToContainer(out, std::string(v[key].GetString()));

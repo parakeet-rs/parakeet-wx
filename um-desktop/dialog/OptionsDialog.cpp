@@ -34,10 +34,8 @@ void OptionsDialog::ConfigGlueCode() {
   {
     auto& d = config.decryption;
     DEFINE_CTRL_PROP(m_kugouSlotKey1, d.kugou.slot_key_1);
-    DEFINE_CTRL_PROP(m_kugouV4SlotKeyExpansionTable,
-                     d.kugou.v4_slot_key_expansion_table);
-    DEFINE_CTRL_PROP(m_kugouV4FileKeyExpansionTable,
-                     d.kugou.v4_file_key_expansion_table);
+    DEFINE_CTRL_PROP(m_kugouV4SlotKeyExpansionTable, d.kugou.v4_slot_key_expansion_table);
+    DEFINE_CTRL_PROP(m_kugouV4FileKeyExpansionTable, d.kugou.v4_file_key_expansion_table);
 
     DEFINE_CTRL_PROP(m_kuwoKey, d.kuwo.key);
 

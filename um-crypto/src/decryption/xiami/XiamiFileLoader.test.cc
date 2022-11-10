@@ -30,7 +30,5 @@ TEST(Xiami, SimpleCase) {
 
   auto result = test::DecryptTestContent(XiamiFileLoader::Create(), test_data);
 
-  test::VerifyHash(
-      result,
-      "2fa2586f0533398dc84ec2651d14efe39ad5e78b5d1983e9ce70928f94006e30");
+  test::VerifyHash(result, "2fa2586f0533398dc84ec2651d14efe39ad5e78b5d1983e9ce70928f94006e30");
 }

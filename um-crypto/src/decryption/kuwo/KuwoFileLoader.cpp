@@ -15,8 +15,7 @@ constexpr std::size_t kFileKeyOffset = 0x18;
 constexpr std::size_t kFullHeaderSize = 0x400;
 
 const std::array<u8, 0x10> kKuwoMagicHeader = {
-    0x79, 0x65, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x2d,
-    0x6b, 0x75, 0x77, 0x6f, 0x2d, 0x74, 0x6d, 0x65,
+    0x79, 0x65, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x2d, 0x6b, 0x75, 0x77, 0x6f, 0x2d, 0x74, 0x6d, 0x65,
 };
 
 enum class State {
@@ -52,8 +51,7 @@ class KuwoFileLoaderImpl : public KuwoFileLoader {
         case State::kWaitForHeader:
           if (ReadUntilOffset(in, len, kFileHeaderSize)) {
             // Validate header.
-            if (!std::equal(kKuwoMagicHeader.begin(), kKuwoMagicHeader.end(),
-                            buf_in_.begin())) {
+            if (!std::equal(kKuwoMagicHeader.begin(), kKuwoMagicHeader.end(), buf_in_.begin())) {
               error_ = "file header magic not found";
               return false;
             }

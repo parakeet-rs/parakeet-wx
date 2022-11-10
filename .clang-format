@@ -4,3 +4,4 @@ IndentWidth: 2
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 UseTab: Never
 TabWidth: 2
+ColumnLimit: 120

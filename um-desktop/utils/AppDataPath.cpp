@@ -62,8 +62,7 @@ const std::filesystem::path& GetExecutableDirectory() {
 }
 
 const std::filesystem::path& GetAppImageDirOrExeDirectory() {
-  static std::filesystem::path exe_dir =
-      GetAppImagePathOrExePath().parent_path();
+  static std::filesystem::path exe_dir = GetAppImagePathOrExePath().parent_path();
 
   return exe_dir;
 }

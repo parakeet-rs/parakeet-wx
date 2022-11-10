@@ -9,12 +9,10 @@
 namespace umc::decryption::kugou {
 
 constexpr size_t V4_DIGEST_SIZE = 31;
-std::array<uint8_t, V4_DIGEST_SIZE> md5_type_4(
-    const std::span<const uint8_t> data) {
+std::array<uint8_t, V4_DIGEST_SIZE> md5_type_4(const std::span<const uint8_t> data) {
   static const std::array DIGEST_INDEXES = {
-      0x05, 0x0e, 0x0d, 0x02, 0x0c, 0x0a, 0x0f, 0x0b, 0x03, 0x08, 0x05,
-      0x06, 0x09, 0x04, 0x03, 0x07, 0x00, 0x0e, 0x0d, 0x06, 0x02, 0x0c,
-      0x0a, 0x0f, 0x01, 0x0b, 0x08, 0x07, 0x09, 0x04, 0x01,
+      0x05, 0x0e, 0x0d, 0x02, 0x0c, 0x0a, 0x0f, 0x0b, 0x03, 0x08, 0x05, 0x06, 0x09, 0x04, 0x03, 0x07,
+      0x00, 0x0e, 0x0d, 0x06, 0x02, 0x0c, 0x0a, 0x0f, 0x01, 0x0b, 0x08, 0x07, 0x09, 0x04, 0x01,
   };
 
   std::array<uint8_t, V4_DIGEST_SIZE> result;
@@ -25,8 +23,7 @@ std::array<uint8_t, V4_DIGEST_SIZE> md5_type_4(
   return result;
 }
 
-std::vector<uint8_t> key_expansion_v4(const std::span<const uint8_t> table,
-                                      const std::span<const uint8_t> key) {
+std::vector<uint8_t> key_expansion_v4(const std::span<const uint8_t> table, const std::span<const uint8_t> key) {
   auto md5_final = md5_type_4(key);
 
   auto table_len = table.size();
@@ -58,16 +55,12 @@ bool KGMCrypto4::Configure(const KGMCryptoConfig& config,
   {
     auto slot_key_md5 = utils::md5(slot_key);
     auto md5_hex = umc::utils::HexCompactLowercase(slot_key_md5);
-    auto md5_b64 = umc::utils::Base64EncodeBytes(
-        std::span{reinterpret_cast<uint8_t*>(md5_hex.data()), md5_hex.size()});
+    auto md5_b64 = umc::utils::Base64EncodeBytes(std::span{reinterpret_cast<uint8_t*>(md5_hex.data()), md5_hex.size()});
     slot_key_ = key_expansion_v4(config.v4_slot_key_expansion_table, md5_b64);
   }
 
   // Expand file key
-  {
-    file_key_ = key_expansion_v4(config.v4_file_key_expansion_table,
-                                 std::span{header.key});
-  }
+  { file_key_ = key_expansion_v4(config.v4_file_key_expansion_table, std::span{header.key}); }
 
   return true;
 }

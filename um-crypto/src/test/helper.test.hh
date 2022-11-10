@@ -35,9 +35,7 @@ typedef std::array<u8, 256 / 8> Hash_SHA256;
  * @param unique_name
  * @return std::vector<u8>
  */
-inline void GenerateTestData(u8* out,
-                             std::size_t len,
-                             const std::string& unique_name) {
+inline void GenerateTestData(u8* out, std::size_t len, const std::string& unique_name) {
   u8 S[256];
 
   /* init seedbox */ {
@@ -65,29 +63,24 @@ inline void GenerateTestData(u8* out,
   }
 }
 
-inline std::vector<u8> GenerateTestData(std::size_t len,
-                                        const std::string& unique_name) {
+inline std::vector<u8> GenerateTestData(std::size_t len, const std::string& unique_name) {
   std::vector<u8> result(len);
   GenerateTestData(result.data(), len, unique_name);
   return result;
 }
 
 template <std::size_t Size>
-inline void GenerateTestData(std::array<u8, Size>& out,
-                             const std::string& unique_name) {
+inline void GenerateTestData(std::array<u8, Size>& out, const std::string& unique_name) {
   GenerateTestData(out.data(), out.size(), unique_name);
 }
-inline void GenerateTestData(std::vector<u8>& out,
-                             const std::string& unique_name) {
+inline void GenerateTestData(std::vector<u8>& out, const std::string& unique_name) {
   GenerateTestData(out.data(), out.size(), unique_name);
 }
 inline void GenerateTestData(std::string& out, const std::string& unique_name) {
   GenerateTestData(reinterpret_cast<u8*>(out.data()), out.size(), unique_name);
 }
 
-inline void VerifyHash(const void* data,
-                       std::size_t len,
-                       const Hash_SHA256& expect_hash) {
+inline void VerifyHash(const void* data, std::size_t len, const Hash_SHA256& expect_hash) {
   CryptoPP::SHA256 sha256;
   sha256.Update(reinterpret_cast<const u8*>(data), len);
   Hash_SHA256 actual_hash;
@@ -99,63 +92,52 @@ inline void VerifyHash(const void* data,
   ASSERT_THAT(utils::Hex(actual_hash_vec), StrEq(utils::Hex(expect_hash_vec)));
 }
 
-inline void VerifyHash(const void* data,
-                       std::size_t len,
-                       const std::string& hash) {
+inline void VerifyHash(const void* data, std::size_t len, const std::string& hash) {
   auto hash_bytes = utils::Unhex(hash);
   Hash_SHA256 hash_array;
-  ASSERT_EQ(hash_array.size(), hash_bytes.size())
-      << "parsed hash [" << hash << "] does not match SHA256 digest size.";
+  ASSERT_EQ(hash_array.size(), hash_bytes.size()) << "parsed hash [" << hash << "] does not match SHA256 digest size.";
   std::copy(hash_bytes.begin(), hash_bytes.end(), hash_array.begin());
   VerifyHash(data, len, hash_array);
 }
 
-inline void VerifyHash(const std::vector<u8>& in,
-                       const Hash_SHA256& expect_hash) {
+inline void VerifyHash(const std::vector<u8>& in, const Hash_SHA256& expect_hash) {
   VerifyHash(in.data(), in.size(), expect_hash);
 }
 
-inline void VerifyHash(const std::vector<u8>& in,
-                       const std::string& expect_hash) {
-  VerifyHash(in.data(), in.size(), expect_hash);
-}
-
-template <std::size_t Size>
-inline void VerifyHash(const std::array<u8, Size>& in,
-                       const Hash_SHA256& expect_hash) {
+inline void VerifyHash(const std::vector<u8>& in, const std::string& expect_hash) {
   VerifyHash(in.data(), in.size(), expect_hash);
 }
 
 template <std::size_t Size>
-inline void VerifyHash(const std::array<u8, Size>& in,
-                       const std::string& expect_hash) {
+inline void VerifyHash(const std::array<u8, Size>& in, const Hash_SHA256& expect_hash) {
+  VerifyHash(in.data(), in.size(), expect_hash);
+}
+
+template <std::size_t Size>
+inline void VerifyHash(const std::array<u8, Size>& in, const std::string& expect_hash) {
   VerifyHash(in.data(), in.size(), expect_hash);
 }
 
 template <class Loader>
-inline std::vector<u8> DecryptTestContent(std::unique_ptr<Loader> loader,
-                                          const std::vector<u8>& test_data) {
+inline std::vector<u8> DecryptTestContent(std::unique_ptr<Loader> loader, const std::vector<u8>& test_data) {
   umc::decryption::DetectionBuffer footer;
 
   if (test_data.size() < footer.size()) {
     throw std::runtime_error("not enough data to init from footer");
   }
 
-  std::copy_n(&test_data[test_data.size() - footer.size()], footer.size(),
-              footer.begin());
+  std::copy_n(&test_data[test_data.size() - footer.size()], footer.size(), footer.begin());
   std::size_t reserved_size = loader->InitWithFileFooter(footer);
 
   if (!loader->Write(test_data.data(), test_data.size() - reserved_size)) {
     auto err = loader->GetErrorMessage();
     throw std::runtime_error(
-        utils::Format("invoke DecryptionStream::Write failed, error: %s",
-                      loader->GetErrorMessage().c_str()));
+        utils::Format("invoke DecryptionStream::Write failed, error: %s", loader->GetErrorMessage().c_str()));
   }
 
   if (loader->InErrorState()) {
     throw std::runtime_error(
-        utils::Format("error from DecryptionStream::InErrorState: %s",
-                      loader->GetErrorMessage().c_str()));
+        utils::Format("error from DecryptionStream::InErrorState: %s", loader->GetErrorMessage().c_str()));
   }
 
   std::vector<u8> result;

@@ -13,8 +13,8 @@ inline i32 ParseID3SyncSafeInt(const u8* p) {
     return 0;
   }
 
-  return ((raw & 0x7F00'0000) >> 3) | ((raw & 0x007F'0000) >> 2) |
-         ((raw & 0x0000'7F00) >> 1) | ((raw & 0x0000'007F) >> 0);
+  return ((raw & 0x7F00'0000) >> 3) | ((raw & 0x007F'0000) >> 2) | ((raw & 0x0000'7F00) >> 1) |
+         ((raw & 0x0000'007F) >> 0);
 }
 
 inline std::size_t GetID3HeaderSize(u32 magic, const u8* buf, std::size_t len) {
@@ -49,9 +49,7 @@ inline std::size_t GetID3HeaderSize(u32 magic, const u8* buf, std::size_t len) {
   return 10 + id3v2InnerTagSize;
 }
 
-inline std::size_t GetAPEv2FullSize(u32 magic1,
-                                    const u8* buf,
-                                    std::size_t len) {
+inline std::size_t GetAPEv2FullSize(u32 magic1, const u8* buf, std::size_t len) {
   u32 magic2 = umc::ReadBigEndian<u32>(&buf[4]);
   constexpr u32 kAPEv2Magic1 = 0x41'50'45'54u;  // 'APET'
   constexpr u32 kAPEv2Magic2 = 0x41'47'45'58u;  // 'AGEX'

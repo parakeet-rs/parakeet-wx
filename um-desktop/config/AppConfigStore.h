@@ -38,10 +38,7 @@ class AppConfigStore {
     config_ = config;
     manager_->SetConfig(config_.decryption);
   }
-  inline std::shared_ptr<umc::decryption::DecryptionManager>
-  GetDecryptionManager() const {
-    return manager_;
-  }
+  inline std::shared_ptr<umc::decryption::DecryptionManager> GetDecryptionManager() const { return manager_; }
 
  private:
   AppConfig config_ = {};

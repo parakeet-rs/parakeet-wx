@@ -31,13 +31,9 @@ inline void XorInt(void* p_in_out, const void* p_key) {
  * @param p_in2
  * @param len
  */
-inline void XorBlock(void* p_out,
-                     const void* p_in1,
-                     const void* p_in2,
-                     std::size_t len) {
+inline void XorBlock(void* p_out, const void* p_in1, const void* p_in2, std::size_t len) {
   for (std::size_t i = 0; i < len; i++) {
-    reinterpret_cast<u8*>(p_out)[i] = reinterpret_cast<const u8*>(p_in1)[i] ^
-                                      reinterpret_cast<const u8*>(p_in2)[i];
+    reinterpret_cast<u8*>(p_out)[i] = reinterpret_cast<const u8*>(p_in1)[i] ^ reinterpret_cast<const u8*>(p_in2)[i];
   }
 }
 
@@ -58,8 +54,7 @@ inline void XorBlock(void* p_in_out,
                      std::size_t key_offset) {
   const std::size_t j = key_offset % key_len;
   for (std::size_t i = 0; i < out_len; i++) {
-    reinterpret_cast<u8*>(p_in_out)[i] ^=
-        reinterpret_cast<const u8*>(key)[(j + i) % key_len];
+    reinterpret_cast<u8*>(p_in_out)[i] ^= reinterpret_cast<const u8*>(key)[(j + i) % key_len];
   }
 }
 
@@ -83,8 +78,7 @@ inline void XorBlock(void* p_out,
   const std::size_t j = key_offset % key_len;
   for (std::size_t i = 0; i < len; i++) {
     reinterpret_cast<u8*>(p_out)[i] =
-        reinterpret_cast<const u8*>(p_in1)[i] ^
-        reinterpret_cast<const u8*>(key)[(j + i) % key_len];
+        reinterpret_cast<const u8*>(p_in1)[i] ^ reinterpret_cast<const u8*>(key)[(j + i) % key_len];
   }
 }
 

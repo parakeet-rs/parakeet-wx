@@ -28,9 +28,7 @@ class DecryptionStream {
    * @param buf
    * @return std::size_t Bytes to reserve and don't seed to this decryptor.
    */
-  virtual std::size_t InitWithFileFooter(const DetectionBuffer& buf) {
-    return 0;
-  }
+  virtual std::size_t InitWithFileFooter(const DetectionBuffer& buf) { return 0; }
 
   /**
    * @brief Write encrypted data stream to the file loader.
@@ -91,9 +89,7 @@ class DecryptionStream {
    * @return true `buf_in_` now contains enough header data.
    * @return false Nothing to do.
    */
-  inline bool ReadUntilOffset(const u8*& p,
-                              std::size_t& len,
-                              std::size_t target_offset) {
+  inline bool ReadUntilOffset(const u8*& p, std::size_t& len, std::size_t target_offset) {
     if (offset_ < target_offset) {
       auto read_size = std::min(target_offset - offset_, len);
       if (read_size == 0) return false;
@@ -118,9 +114,7 @@ class DecryptionStream {
    * @return true
    * @return false
    */
-  inline bool ReadBlock(const u8*& p,
-                        std::size_t& len,
-                        std::size_t block_size) {
+  inline bool ReadBlock(const u8*& p, std::size_t& len, std::size_t block_size) {
     if (buf_in_.size() < block_size) {
       auto read_size = std::min(block_size - buf_in_.size(), len);
       if (read_size == 0) return false;

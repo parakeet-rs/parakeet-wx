@@ -23,12 +23,9 @@ class QMCFooterParser {
    * @return std::unique_ptr<QMCFooterParseResult>
    * @return nullptr - Could not parse / not enough data
    */
-  virtual std::unique_ptr<QMCFooterParseResult> Parse(
-      const u8* p_in,
-      std::size_t len) const = 0;
+  virtual std::unique_ptr<QMCFooterParseResult> Parse(const u8* p_in, std::size_t len) const = 0;
 
-  static std::unique_ptr<QMCFooterParser> Create(
-      std::shared_ptr<QMCKeyDeriver> key_deriver);
+  static std::unique_ptr<QMCFooterParser> Create(std::shared_ptr<QMCKeyDeriver> key_deriver);
 };
 
 }  // namespace umc::misc::tencent

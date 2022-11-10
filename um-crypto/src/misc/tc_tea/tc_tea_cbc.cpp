@@ -20,11 +20,7 @@ void ParseBigEndianKey(u32* result, const u8* key) {
   }
 }
 
-bool Decrypt(u8* plaindata,
-             std::size_t& plaindata_len,
-             const u8* cipher,
-             std::size_t cipher_len,
-             const u8* key) {
+bool Decrypt(u8* plaindata, std::size_t& plaindata_len, const u8* cipher, std::size_t cipher_len, const u8* key) {
   plaindata_len = 0;
   u32 k[4];
   ParseBigEndianKey(k, key);
@@ -72,11 +68,7 @@ std::size_t GetEncryptedSize(std::size_t size) {
   return len + pad_len;
 }
 
-bool Encrypt(u8* cipher,
-             std::size_t& cipher_len,
-             const u8* plaintext,
-             std::size_t plaintext_len,
-             const u8* key) {
+bool Encrypt(u8* cipher, std::size_t& cipher_len, const u8* plaintext, std::size_t plaintext_len, const u8* key) {
   u32 k[4];
   ParseBigEndianKey(k, key);
 
@@ -92,13 +84,11 @@ bool Encrypt(u8* cipher,
   u64 iv2, next_iv2;
 
   using random_bit_engine =
-      std::independent_bits_engine<std::default_random_engine,
-                                   std::numeric_limits<u8>::digits, u16>;
+      std::independent_bits_engine<std::default_random_engine, std::numeric_limits<u8>::digits, u16>;
 
   std::random_device rd;
   random_bit_engine rbe(rd());
-  std::generate_n(encrypted.data(), header_len,
-                  [&rbe]() { return static_cast<std::uint8_t>(rbe()); });
+  std::generate_n(encrypted.data(), header_len, [&rbe]() { return static_cast<std::uint8_t>(rbe()); });
 
   encrypted[0] = (encrypted[0] & 0b1111'1000) | (pad_len & 0b0000'0111);
   std::copy_n(plaintext, plaintext_len, &encrypted[header_len]);

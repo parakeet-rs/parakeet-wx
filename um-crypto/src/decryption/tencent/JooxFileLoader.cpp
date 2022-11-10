@@ -26,8 +26,7 @@ constexpr u32 kMagicJooxV4 = 0x45'21'30'34;  // 'E!04'
 constexpr std::size_t kAESBlockSize = 0x10;
 constexpr std::size_t kEncryptionBlockSize = 0x100000;  // 1MiB
 constexpr std::size_t kDecryptionBlockSize = kEncryptionBlockSize + 0x10;
-constexpr std::size_t kBlockCountPerIteration =
-    kEncryptionBlockSize / kAESBlockSize;
+constexpr std::size_t kBlockCountPerIteration = kEncryptionBlockSize / kAESBlockSize;
 
 enum class State {
   kWaitForHeader = 0,
@@ -38,8 +37,7 @@ enum class State {
 
 class JooxFileLoaderImpl : public JooxFileLoader {
  public:
-  JooxFileLoaderImpl(const std::string& install_uuid, const JooxSalt& salt)
-      : uuid_(install_uuid), salt_(salt) {}
+  JooxFileLoaderImpl(const std::string& install_uuid, const JooxSalt& salt) : uuid_(install_uuid), salt_(salt) {}
 
  private:
   CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption aes_;
@@ -53,8 +51,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
     u8 derived[CryptoPP::SHA1::DIGESTSIZE];
     CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA1> pbkdf;
     CryptoPP::byte unused = 0;
-    pbkdf.DeriveKey(derived, sizeof(derived), 0 /* unused */,
-                    reinterpret_cast<const u8*>(uuid_.c_str()), uuid_.size(),
+    pbkdf.DeriveKey(derived, sizeof(derived), 0 /* unused */, reinterpret_cast<const u8*>(uuid_.c_str()), uuid_.size(),
                     salt_.data(), salt_.size(), 1000, 0);
 
     aes_.SetKey(derived, kAESBlockSize);
@@ -163,11 +160,8 @@ class JooxFileLoaderImpl : public JooxFileLoader {
 
 // Public interface
 
-std::unique_ptr<JooxFileLoader> JooxFileLoader::Create(
-    const std::string& install_uuid,
-    const JooxSalt& salt) {
-  return std::make_unique<detail_joox_v4::JooxFileLoaderImpl>(install_uuid,
-                                                              salt);
+std::unique_ptr<JooxFileLoader> JooxFileLoader::Create(const std::string& install_uuid, const JooxSalt& salt) {
+  return std::make_unique<detail_joox_v4::JooxFileLoaderImpl>(install_uuid, salt);
 }
 
 }  // namespace umc::decryption::tencent

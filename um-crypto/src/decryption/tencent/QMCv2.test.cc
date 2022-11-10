@@ -34,8 +34,7 @@ TEST(QMCv2, RC4Cipher) {
   std::fill_n(file_key.begin(), 8, '4');
 
   std::shared_ptr<QMCKeyDeriver> key_deriver =
-      QMCKeyDeriver::Create(123, umc::misc::tencent::QMCEncV2Stage1Key{},
-                            umc::misc::tencent::QMCEncV2Stage2Key{});
+      QMCKeyDeriver::Create(123, umc::misc::tencent::QMCEncV2Stage1Key{}, umc::misc::tencent::QMCEncV2Stage2Key{});
   ASSERT_EQ(key_deriver->ToEKey(ekey, file_key), true);
   ASSERT_EQ(key_deriver->FromEKey(parsed_file_key, ekey), true);
   ASSERT_THAT(parsed_file_key, ElementsAreArray(file_key));
@@ -51,7 +50,5 @@ TEST(QMCv2, RC4Cipher) {
   auto loader = QMCv2Loader::Create(QMCFooterParser::Create(key_deriver));
   auto result = test::DecryptTestContent(std::move(loader), test_data);
 
-  test::VerifyHash(
-      result,
-      "757fc9aa94ab48295b106a16452b7da7b90395be8e3132a077b6d2a9ea216838");
+  test::VerifyHash(result, "757fc9aa94ab48295b106a16452b7da7b90395be8e3132a077b6d2a9ea216838");
 }

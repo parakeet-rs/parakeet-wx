@@ -32,16 +32,11 @@ TEST(Ximalaya, X3MTestCase) {
   std::vector<u8> x3m_scramble_seed(x3m_scramble_table.size() * 2);
   test::GenerateTestData(x3m_scramble_seed, "x3m seed");
   for (std::size_t i = 0; i < x3m_scramble_table.size(); i++) {
-    std::size_t j = ReadLittleEndian<u16>(&x3m_scramble_seed[i * 2]) %
-                    x3m_scramble_table.size();
+    std::size_t j = ReadLittleEndian<u16>(&x3m_scramble_seed[i * 2]) % x3m_scramble_table.size();
     std::swap(x3m_scramble_table[i], x3m_scramble_table[j]);
   }
 
-  auto result = test::DecryptTestContent(
-      XimalayaFileLoader::Create(x3m_content_key, x3m_scramble_table),
-      test_data);
+  auto result = test::DecryptTestContent(XimalayaFileLoader::Create(x3m_content_key, x3m_scramble_table), test_data);
 
-  test::VerifyHash(
-      result,
-      "a10bbfdcdbd388373361da6baf35c80b725f7310c3eca29d7dcf228e397a8c5a");
+  test::VerifyHash(result, "a10bbfdcdbd388373361da6baf35c80b725f7310c3eca29d7dcf228e397a8c5a");
 }

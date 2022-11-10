@@ -17,13 +17,11 @@ std::string Format(const char* fmt, Args... args) {
 }
 
 inline bool IsWhitespaceOrNull(char c) {
-  return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' ||
-         c == '\x00' || c == '\n';
+  return c == ' ' || c == '\t' || c == '\v' || c == '\f' || c == '\r' || c == '\x00' || c == '\n';
 }
 
 inline bool IsHexChar(const char c) {
-  return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') ||
-         (c >= 'a' && c <= 'f');
+  return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
 }
 
 inline u8 HexLookup(const char c) {

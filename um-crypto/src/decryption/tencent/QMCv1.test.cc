@@ -24,9 +24,7 @@ TEST(QMCv1, StaticCipher) {
 
   auto result = test::DecryptTestContent(QMCv1Loader::Create(key), test_data);
 
-  test::VerifyHash(
-      result,
-      "2f9c936ed130a654911e0e2bc872fec33c90288e78df2a0aa41d352164c3b4e3");
+  test::VerifyHash(result, "2f9c936ed130a654911e0e2bc872fec33c90288e78df2a0aa41d352164c3b4e3");
 }
 
 class QMCFooterParserMock : public umc::misc::tencent::QMCFooterParser {
@@ -36,9 +34,7 @@ class QMCFooterParserMock : public umc::misc::tencent::QMCFooterParser {
  public:
   QMCFooterParserMock(std::vector<u8> key) : key_(key) {}
 
-  std::unique_ptr<umc::misc::tencent::QMCFooterParseResult> Parse(
-      const u8* p_in,
-      std::size_t len) const override {
+  std::unique_ptr<umc::misc::tencent::QMCFooterParseResult> Parse(const u8* p_in, std::size_t len) const override {
     auto result = std::make_unique<umc::misc::tencent::QMCFooterParseResult>();
     result->eof_bytes_ignore = 0;
     result->key = key_;
@@ -54,10 +50,7 @@ TEST(QMCv1, MapCipher) {
   test::GenerateTestData(key, "qmcv1 map cipher derived key");
 
   auto qmc_footer_parser = std::make_shared<QMCFooterParserMock>(key);
-  auto result = test::DecryptTestContent(QMCv1Loader::Create(qmc_footer_parser),
-                                         test_data);
+  auto result = test::DecryptTestContent(QMCv1Loader::Create(qmc_footer_parser), test_data);
 
-  test::VerifyHash(
-      result,
-      "ce84e9ac24ef5b2f02a11f74ffa8eb7008fe2898855617596c5ee217139fc214");
+  test::VerifyHash(result, "ce84e9ac24ef5b2f02a11f74ffa8eb7008fe2898855617596c5ee217139fc214");
 }

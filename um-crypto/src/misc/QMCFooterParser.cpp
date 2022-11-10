@@ -17,11 +17,9 @@ constexpr u32 kMagicSTag = 0x53546167;  // 'STag'
 
 class QMCFooterParserImpl : public QMCFooterParser {
  public:
-  QMCFooterParserImpl(std::shared_ptr<QMCKeyDeriver> key_deriver)
-      : key_deriver_(key_deriver){};
+  QMCFooterParserImpl(std::shared_ptr<QMCKeyDeriver> key_deriver) : key_deriver_(key_deriver){};
 
-  std::unique_ptr<QMCFooterParseResult> Parse(const u8* p_in,
-                                              std::size_t len) const override {
+  std::unique_ptr<QMCFooterParseResult> Parse(const u8* p_in, std::size_t len) const override {
     if (len < 4) return nullptr;
 
     auto eof = ReadBigEndian<u32>(&p_in[len - 4]);
@@ -46,9 +44,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
     return result;
   }
 
-  inline std::unique_ptr<QMCFooterParseResult> ParseAndroidQTagFile(
-      const u8* p_in,
-      std::size_t len) const {
+  inline std::unique_ptr<QMCFooterParseResult> ParseAndroidQTagFile(const u8* p_in, std::size_t len) const {
     // Legacy Android format.
     //   metadata := [ansi ekey_b64] ","
     //               [ansi songid] ","
@@ -79,9 +75,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
     return result;
   }
 
-  inline std::unique_ptr<QMCFooterParseResult> ParseWindowsEncryptedFile(
-      const u8* p_in,
-      std::size_t len) const {
+  inline std::unique_ptr<QMCFooterParseResult> ParseWindowsEncryptedFile(const u8* p_in, std::size_t len) const {
     // Legacy PC QQMusic encoded format.
     // ekey_b64 := [ansi ekey_b64]
     // eof_mark := [(le)uint32_t ekey_size]
@@ -109,8 +103,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
 
 }  // namespace detail
 
-std::unique_ptr<QMCFooterParser> QMCFooterParser::Create(
-    std::shared_ptr<QMCKeyDeriver> key_deriver) {
+std::unique_ptr<QMCFooterParser> QMCFooterParser::Create(std::shared_ptr<QMCKeyDeriver> key_deriver) {
   return std::make_unique<detail::QMCFooterParserImpl>(key_deriver);
 }
 
