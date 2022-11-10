@@ -16,10 +16,10 @@ using namespace umc::decryption::xiami;
 using namespace umc;
 
 TEST(Xiami, SimpleCase) {
-  std::vector<u8> test_data(test::kSize4MiB);
+  std::vector<uint8_t> test_data(test::kSize4MiB);
   test::GenerateTestData(test_data, "xiami data");
 
-  std::vector<u8> header_override = {
+  std::vector<uint8_t> header_override = {
       'i',  'f',  'm',  't',
 
       'f',  'l',  'a',  'c',

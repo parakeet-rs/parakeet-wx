@@ -17,7 +17,7 @@ using namespace umc::decryption::tencent;
 using namespace umc;
 
 TEST(Joox, SimpleTest) {
-  std::vector<u8> test_data(test::kSize4MiB + 12 + 16 * 4);
+  std::vector<uint8_t> test_data(test::kSize4MiB + 12 + 16 * 4);
   test::GenerateTestData(test_data, "joox test data");
 
   std::string uuid(32, 'f');
@@ -27,8 +27,8 @@ TEST(Joox, SimpleTest) {
   test::GenerateTestData(salt, "joox salt");
 
   // E!04
-  WriteBigEndian(&test_data[0], u32{0x45'21'30'34});
-  std::array<u8, 16> padding = {
+  WriteBigEndian(&test_data[0], uint32_t{0x45'21'30'34});
+  std::array<uint8_t, 16> padding = {
       0xf9, 0x38, 0xbd, 0x30, 0x38, 0x46, 0x2b, 0xab, 0x04, 0xf0, 0xd4, 0xd0, 0x71, 0x65, 0x27, 0xd4,
   };
 

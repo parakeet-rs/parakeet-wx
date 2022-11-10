@@ -14,7 +14,7 @@ constexpr std::size_t kFileHeaderSize = 0x20;
 constexpr std::size_t kFileKeyOffset = 0x18;
 constexpr std::size_t kFullHeaderSize = 0x400;
 
-const std::array<u8, 0x10> kKuwoMagicHeader = {
+const std::array<uint8_t, 0x10> kKuwoMagicHeader = {
     0x79, 0x65, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x2d, 0x6b, 0x75, 0x77, 0x6f, 0x2d, 0x74, 0x6d, 0x65,
 };
 
@@ -33,19 +33,19 @@ class KuwoFileLoaderImpl : public KuwoFileLoader {
   KuwoFileLoaderImpl(const KuwoKey& key) : key_(key) {}
 
   inline void InitCache() {
-    u64 resource_id = ReadLittleEndian<u64>(&buf_in_[kFileKeyOffset]);
+    uint64_t resource_id = ReadLittleEndian<uint64_t>(&buf_in_[kFileKeyOffset]);
     auto rid_str = utils::Format("%" PRIu64, resource_id);
     XorBlock(key_.data(), key_.size(), rid_str.data(), rid_str.length(), 0);
   }
 
-  inline void Decrypt(const u8* in, std::size_t len) {
-    u8* p_out = ExpandOutputBuffer(len);
+  inline void Decrypt(const uint8_t* in, std::size_t len) {
+    uint8_t* p_out = ExpandOutputBuffer(len);
 
     XorBlock(p_out, in, len, key_.data(), key_.size(), offset_);
     offset_ += len;
   }
 
-  bool Write(const u8* in, std::size_t len) override {
+  bool Write(const uint8_t* in, std::size_t len) override {
     while (len) {
       switch (state_) {
         case State::kWaitForHeader:

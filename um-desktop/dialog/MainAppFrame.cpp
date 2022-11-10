@@ -15,8 +15,10 @@
 #include <boost/chrono.hpp>
 #include <boost/thread/thread.hpp>
 
+#include <algorithm>
 #include <fstream>
 #include <functional>
+#include <string>
 #include <thread>
 
 using boost::chrono::system_clock;
@@ -160,7 +162,8 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
 
   for (int i = 0; i < len; i++) {
-    std::filesystem::path item_path(umc::U8StrFromStr(file_paths.Item(i).utf8_string()));
+    auto str = file_paths.Item(i).utf8_string();
+    std::filesystem::path item_path(std::u8string(str.begin(), str.end()));
     AddSingleFileToQueue(item_path);
   }
 }
@@ -324,7 +327,7 @@ void MainAppFrame::ProcessNextFile() {
       f_in->seekg(entry->decryptor->header_discard_len, std::ios::beg);
 
       auto& decryptor = entry->decryptor->decryptor;
-      umc::u8 buf[4096];
+      uint8_t buf[4096];
       while (len) {
         std::size_t bytes_to_read = std::min(sizeof(buf), len);
         f_in->read(reinterpret_cast<char*>(buf), bytes_to_read);
@@ -359,7 +362,6 @@ void MainAppFrame::ProcessNextFile() {
   system_clock::time_point time_after_process = system_clock::now();
   auto t = boost::chrono::duration_cast<boost::chrono::milliseconds>(time_after_process - time_before_process);
   entry->process_time_ms = static_cast<long>(t.count());
-  // entry->error = decryptor->GetError();
 
   main_thread_runner_.PostInMainThread([this, current_index, status]() {
     UpdateFileStatus(current_index, status);

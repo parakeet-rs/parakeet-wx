@@ -38,7 +38,7 @@ struct JooxConfig {
 };
 
 struct QMCConfig {
-  u8 ekey_seed;
+  uint8_t ekey_seed;
   tencent::QMCv1Key static_cipher_key;
   umc::misc::tencent::QMCEncV2Stage1Key enc_v2_stage1_key;
   umc::misc::tencent::QMCEncV2Stage2Key enc_v2_stage2_key;

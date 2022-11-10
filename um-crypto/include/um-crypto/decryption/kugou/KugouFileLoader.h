@@ -6,10 +6,10 @@
 
 namespace umc::decryption::kugou {
 
-typedef std::vector<u8> KugouSingleSlotKey;
+typedef std::vector<uint8_t> KugouSingleSlotKey;
 typedef std::map<uint32_t, KugouSingleSlotKey> KugouSlotKeys;
-typedef std::vector<u8> KugouV4SlotKeyExpansionTable;
-typedef std::vector<u8> KugouV4FileKeyExpansionTable;
+typedef std::vector<uint8_t> KugouV4SlotKeyExpansionTable;
+typedef std::vector<uint8_t> KugouV4FileKeyExpansionTable;
 
 class KugouFileLoader : public DecryptionStream {
  public:

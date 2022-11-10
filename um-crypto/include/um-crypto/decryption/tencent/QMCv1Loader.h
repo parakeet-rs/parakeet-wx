@@ -6,7 +6,7 @@
 
 namespace umc::decryption::tencent {
 
-typedef std::vector<u8> QMCv1Key;
+typedef std::vector<uint8_t> QMCv1Key;
 
 class QMCv1Loader : public DecryptionStream {
  public:

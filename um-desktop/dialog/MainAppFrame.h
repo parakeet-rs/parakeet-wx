@@ -11,8 +11,6 @@
 #include <mutex>
 #include <vector>
 
-#include <um-crypto/types.h>
-
 enum class FileProcessStatus {
   kNotProcessed = 0,
   kProcessing,

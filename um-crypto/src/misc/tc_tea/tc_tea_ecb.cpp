@@ -6,19 +6,19 @@
 
 namespace umc::misc::tc_tea::ecb {
 
-constexpr u32 ROUNDS = 16;
-constexpr u32 DELTA = 0x9e3779b9;
+constexpr uint32_t ROUNDS = 16;
+constexpr uint32_t DELTA = 0x9e3779b9;
 
-inline u32 single_round_arithmetic(u32 value, u32 sum, u32 key1, u32 key2) {
+inline uint32_t single_round_arithmetic(uint32_t value, uint32_t sum, uint32_t key1, uint32_t key2) {
   return ((value << 4) + key1) ^ (value + sum) ^ ((value >> 5) + key2);
 }
 
-void DecryptBlock(void* block, u32* k) {
-  auto block_u32 = reinterpret_cast<u32*>(block);
+void DecryptBlock(void* block, uint32_t* k) {
+  auto block_u32 = reinterpret_cast<uint32_t*>(block);
 
-  u32 y = SwapBigEndianToHost(block_u32[0]);
-  u32 z = SwapBigEndianToHost(block_u32[1]);
-  u32 sum = DELTA * ROUNDS;
+  uint32_t y = SwapBigEndianToHost(block_u32[0]);
+  uint32_t z = SwapBigEndianToHost(block_u32[1]);
+  uint32_t sum = DELTA * ROUNDS;
 
   for (int i = 0; i < ROUNDS; i++) {
     z -= single_round_arithmetic(y, sum, k[2], k[3]);
@@ -30,12 +30,12 @@ void DecryptBlock(void* block, u32* k) {
   block_u32[1] = SwapHostToBigEndian(z);
 }
 
-void EncryptBlock(void* block, u32* k) {
-  auto block_u32 = reinterpret_cast<u32*>(block);
+void EncryptBlock(void* block, uint32_t* k) {
+  auto block_u32 = reinterpret_cast<uint32_t*>(block);
 
-  u32 y = SwapBigEndianToHost(block_u32[0]);
-  u32 z = SwapBigEndianToHost(block_u32[1]);
-  u32 sum = 0;
+  uint32_t y = SwapBigEndianToHost(block_u32[0]);
+  uint32_t z = SwapBigEndianToHost(block_u32[1]);
+  uint32_t sum = 0;
 
   for (int i = 0; i < ROUNDS; i++) {
     sum += DELTA;

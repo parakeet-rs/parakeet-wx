@@ -18,12 +18,12 @@ template <std::size_t ContentKeySize>
 class XimalayaFileLoaderImpl : public XimalayaFileLoader {
  private:
   std::string name_;
-  std::array<u8, ContentKeySize> content_key_;
+  std::array<uint8_t, ContentKeySize> content_key_;
   ScrambleTable scramble_table_;
   State state_ = State::kDecryptHeader;
 
  public:
-  XimalayaFileLoaderImpl(const std::array<u8, ContentKeySize>& content_key,
+  XimalayaFileLoaderImpl(const std::array<uint8_t, ContentKeySize>& content_key,
                          const ScrambleTable& scramble_table,
                          const char* subtype)
       : content_key_(content_key), scramble_table_(scramble_table) {
@@ -41,7 +41,7 @@ class XimalayaFileLoaderImpl : public XimalayaFileLoader {
     }
   }
 
-  bool Write(const u8* in, std::size_t len) override {
+  bool Write(const uint8_t* in, std::size_t len) override {
     while (len) {
       switch (state_) {
         case State::kDecryptHeader:

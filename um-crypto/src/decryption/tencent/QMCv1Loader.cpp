@@ -33,7 +33,7 @@ enum class QMCv1Type {
 namespace detail {
 
 constexpr std::size_t kStaticCipherPageSize = 0x7fff;
-typedef std::array<u8, kStaticCipherPageSize> QMCv1Cache;
+typedef std::array<uint8_t, kStaticCipherPageSize> QMCv1Cache;
 
 template <QMCv1Type Type>
 class QMCv1LoaderImpl : public QMCv1Loader {
@@ -42,7 +42,7 @@ class QMCv1LoaderImpl : public QMCv1Loader {
     std::size_t index = (i * i + idx_offset) % n;
 
     if constexpr (Type == QMCv1Type::kMapCipher) {
-      u8 v = key[index];
+      uint8_t v = key[index];
       std::size_t shift = (index + 4) & 0b0111;
       return (v << shift) | (v >> shift);
     }
@@ -107,12 +107,12 @@ class QMCv1LoaderImpl : public QMCv1Loader {
   }
 
  private:
-  u8 value_page_one_;
+  uint8_t value_page_one_;
   QMCv1Cache cache_;
 
   std::shared_ptr<misc::tencent::QMCFooterParser> parser_;
 
-  bool Write(const u8* in, std::size_t len) override {
+  bool Write(const uint8_t* in, std::size_t len) override {
     if (InErrorState()) return false;
 
     auto p_out = ExpandOutputBuffer(len);

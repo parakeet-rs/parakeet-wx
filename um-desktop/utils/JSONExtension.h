@@ -1,4 +1,3 @@
-#include "../types.h"
 #include "StringConvert.h"
 
 #include <rapidjson/document.h>
@@ -60,9 +59,9 @@ inline void WriteValue(D& d, V& v, const char* key, const int& value) {
 
 #pragma endregion
 
-#pragma region  // JSON <--> u8
+#pragma region  // JSON <--> uint8_t
 template <>
-inline void ReadValue(const V& v, const char* key, u8& out, const u8& def_value) {
+inline void ReadValue(const V& v, const char* key, uint8_t& out, const uint8_t& def_value) {
   if (v.HasMember(key) && v[key].IsUint()) {
     out = v[key].GetUint();
   } else {
@@ -71,14 +70,14 @@ inline void ReadValue(const V& v, const char* key, u8& out, const u8& def_value)
 }
 
 template <>
-inline void WriteValue(D& d, V& v, const char* key, const u8& value) {
+inline void WriteValue(D& d, V& v, const char* key, const uint8_t& value) {
   __UMD_PREPARE_WRITE_JSON_VALUE(V(int(value)));
 }
 #pragma endregion
 
-#pragma region  // JSON <--> std::vector<u8>
+#pragma region  // JSON <--> std::vector<uint8_t>
 template <>
-inline void ReadValue(const V& v, const char* key, std::vector<u8>& out, const std::vector<u8>& def_value) {
+inline void ReadValue(const V& v, const char* key, std::vector<uint8_t>& out, const std::vector<uint8_t>& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     out = umc::utils::Base64Decode(std::string(v[key].GetString()));
   } else {
@@ -87,7 +86,7 @@ inline void ReadValue(const V& v, const char* key, std::vector<u8>& out, const s
 }
 
 template <>
-inline void WriteValue(D& d, V& v, const char* key, const std::vector<u8>& value) {
+inline void WriteValue(D& d, V& v, const char* key, const std::vector<uint8_t>& value) {
   std::string encoded = umc::utils::Base64Encode(value);
   V result = V(encoded.c_str(), encoded.length(), d.GetAllocator());
   __UMD_PREPARE_WRITE_JSON_VALUE(result);
@@ -98,7 +97,7 @@ namespace detail {
 
 template <std::unsigned_integral A, class TContainer>
 inline std::string ContainerToBase64(const TContainer& in) {
-  std::vector<u8> buf(in.size() * sizeof(A));
+  std::vector<uint8_t> buf(in.size() * sizeof(A));
   auto p_out = buf.data();
   for (auto it = in.begin(); it < in.end(); it++) {
     umc::WriteLittleEndian<A>(p_out, *it);
@@ -109,7 +108,7 @@ inline std::string ContainerToBase64(const TContainer& in) {
 
 template <std::unsigned_integral A, class TContainer>
 inline void Base64ToContainer(TContainer& out, const std::string& in) {
-  std::vector<u8> v_in = umc::utils::Base64Decode(in);
+  std::vector<uint8_t> v_in = umc::utils::Base64Decode(in);
   if (v_in.size() < sizeof(A)) return;
 
   auto end_str = v_in.end() - sizeof(A);

@@ -35,7 +35,7 @@ class DecryptionManagerImpl : public DecryptionManager {
 
     std::vector<std::unique_ptr<DetectionResult>> result;
 
-    std::vector<u8> header(kDetectionBufferLen);  // initial header size.
+    std::vector<uint8_t> header(kDetectionBufferLen);  // initial header size.
     DetectionBuffer footer;
     stream.seekg(0, std::ios::beg);
     stream.read(reinterpret_cast<char*>(header.data()), kDetectionBufferLen);
@@ -97,7 +97,7 @@ class DecryptionManagerImpl : public DecryptionManager {
       if (bad) continue;
 
       std::size_t decrypted_size = decryptor->GetOutputSize();
-      std::vector<u8> decrypted_peek(decrypted_size);
+      std::vector<uint8_t> decrypted_peek(decrypted_size);
       decryptor->Peek(decrypted_peek.data(), decrypted_size);
 
       auto audio_type = utils::DetectAudioType(decrypted_peek);

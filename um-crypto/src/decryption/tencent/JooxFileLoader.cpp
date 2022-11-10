@@ -18,9 +18,9 @@ namespace umc::decryption::tencent {
 namespace detail_joox_v4 {
 
 constexpr std::size_t kMagicSize = 4;
-constexpr std::size_t kVer4HeaderSize = 12; /* 'E!04' + u64_be(file size) */
+constexpr std::size_t kVer4HeaderSize = 12; /* 'E!04' + uint64_t_be(file size) */
 
-constexpr u32 kMagicJooxV4 = 0x45'21'30'34;  // 'E!04'
+constexpr uint32_t kMagicJooxV4 = 0x45'21'30'34;  // 'E!04'
 
 // Input block + padding 16 bytes (of 0x10)
 constexpr std::size_t kAESBlockSize = 0x10;
@@ -48,23 +48,23 @@ class JooxFileLoaderImpl : public JooxFileLoader {
   std::size_t block_count_ = 0;
 
   inline void SetupKey() {
-    u8 derived[CryptoPP::SHA1::DIGESTSIZE];
+    uint8_t derived[CryptoPP::SHA1::DIGESTSIZE];
     CryptoPP::PKCS5_PBKDF2_HMAC<CryptoPP::SHA1> pbkdf;
     CryptoPP::byte unused = 0;
-    pbkdf.DeriveKey(derived, sizeof(derived), 0 /* unused */, reinterpret_cast<const u8*>(uuid_.c_str()), uuid_.size(),
-                    salt_.data(), salt_.size(), 1000, 0);
+    pbkdf.DeriveKey(derived, sizeof(derived), 0 /* unused */, reinterpret_cast<const uint8_t*>(uuid_.c_str()),
+                    uuid_.size(), salt_.data(), salt_.size(), 1000, 0);
 
     aes_.SetKey(derived, kAESBlockSize);
   }
 
-  bool Write(const u8* in, std::size_t len) override {
+  bool Write(const uint8_t* in, std::size_t len) override {
     buf_out_.reserve(buf_out_.size() + len);
 
     while (len) {
       switch (state_) {
         case State::kWaitForHeader:
           if (ReadUntilOffset(in, len, kMagicSize)) {
-            if (ReadBigEndian<u32>(buf_in_.data()) != kMagicJooxV4) {
+            if (ReadBigEndian<uint32_t>(buf_in_.data()) != kMagicJooxV4) {
               error_ = "file header magic not found";
               return false;
             }
@@ -114,11 +114,11 @@ class JooxFileLoaderImpl : public JooxFileLoader {
   }
 
   inline bool DecryptPaddingBlock() {
-    u8 block[kAESBlockSize];
+    uint8_t block[kAESBlockSize];
     aes_.ProcessData(block, buf_in_.data(), kAESBlockSize);
 
     // Trim data. It should be 1 <= trim <= 16.
-    u8 trim = block[kAESBlockSize - 1];
+    uint8_t trim = block[kAESBlockSize - 1];
     if (trim == 0 || trim > 16) {
       error_ = "pkcs5 padding validation failed: out of range";
       return false;
@@ -126,7 +126,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
 
     std::size_t len = kAESBlockSize - trim;
 
-    u8 zero_sum = 0;
+    uint8_t zero_sum = 0;
     for (std::size_t i = len; i < kAESBlockSize; i++) {
       zero_sum |= block[i] ^ trim;
     }

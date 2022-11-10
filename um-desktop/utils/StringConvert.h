@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../types.h"
-
 #include <um-crypto/endian.h>
 #include <um-crypto/utils/StringHelper.h>
 #include <um-crypto/utils/hex.h>
@@ -116,13 +114,13 @@ inline void FromString(std::string& out, const std::string& input) {
 };
 #pragma endregion
 
-#pragma region  // String <--> std::vector<u8>
+#pragma region  // String <--> std::vector<uint8_t>
 template <>
-inline void ToString(std::string& out, const std::vector<u8>& input) {
+inline void ToString(std::string& out, const std::vector<uint8_t>& input) {
   out = Hex(input);
 }
 template <>
-inline void FromString(std::vector<u8>& out, const std::string& input) {
+inline void FromString(std::vector<uint8_t>& out, const std::string& input) {
   out = Unhex(UnescapeCharSequence(input));
 };
 #pragma endregion
@@ -138,13 +136,13 @@ inline void FromString(int& out, const std::string& input) {
 }
 #pragma endregion
 
-#pragma region  // String <--> u8
+#pragma region  // String <--> uint8_t
 template <>
-inline void ToString(std::string& out, const u8& input) {
+inline void ToString(std::string& out, const uint8_t& input) {
   out = umc::utils::Format("%d", int(input));
 }
 template <>
-inline void FromString(u8& out, const std::string& input) {
+inline void FromString(uint8_t& out, const std::string& input) {
   out = atoi(input.c_str());
 }
 #pragma endregion

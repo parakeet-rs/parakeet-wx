@@ -4,7 +4,7 @@
 
 namespace umc::decryption::tencent {
 
-typedef std::array<u8, 16> JooxSalt;
+typedef std::array<uint8_t, 16> JooxSalt;
 
 class JooxFileLoader : public DecryptionStream {
  public:

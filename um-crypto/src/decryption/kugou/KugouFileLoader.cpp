@@ -16,7 +16,7 @@ namespace umc::decryption::kugou {
 namespace detail {
 
 constexpr std::size_t kMinimalHeaderSize = 0x2c;
-typedef std::array<u8, 4> KugouSlotKey1;
+typedef std::array<uint8_t, 4> KugouSlotKey1;
 
 enum class State {
   kReadFileMagic = 0,
@@ -35,7 +35,7 @@ class KugouFileLoaderImpl : public KugouFileLoader {
   KGMCryptoConfig config_;
   State state_ = State::kReadFileMagic;
 
-  inline void DecryptInput(const u8*& in, std::size_t& len) {
+  inline void DecryptInput(const uint8_t*& in, std::size_t& len) {
     auto p_out = ExpandOutputBuffer(len);
     std::copy_n(in, len, p_out);
 
@@ -45,7 +45,7 @@ class KugouFileLoaderImpl : public KugouFileLoader {
     len = 0;
   }
 
-  bool Write(const u8* in, std::size_t len) override {
+  bool Write(const uint8_t* in, std::size_t len) override {
     while (len) {
       switch (state_) {
         case State::kReadFileMagic:

@@ -18,21 +18,21 @@ using namespace umc::decryption::ximalaya;
 using namespace umc;
 
 TEST(Ximalaya, X3MTestCase) {
-  std::vector<u8> test_data(test::kSize1MiB);
+  std::vector<uint8_t> test_data(test::kSize1MiB);
   test::GenerateTestData(test_data, "x3m-test-data");
 
   X3MContentKey x3m_content_key;
   test::GenerateTestData(x3m_content_key, "x3m content key");
 
   ScrambleTable x3m_scramble_table;
-  for (u16 i = 0; i < x3m_scramble_table.size(); i++) {
+  for (uint16_t i = 0; i < x3m_scramble_table.size(); i++) {
     x3m_scramble_table[i] = i;
   }
 
-  std::vector<u8> x3m_scramble_seed(x3m_scramble_table.size() * 2);
+  std::vector<uint8_t> x3m_scramble_seed(x3m_scramble_table.size() * 2);
   test::GenerateTestData(x3m_scramble_seed, "x3m seed");
   for (std::size_t i = 0; i < x3m_scramble_table.size(); i++) {
-    std::size_t j = ReadLittleEndian<u16>(&x3m_scramble_seed[i * 2]) % x3m_scramble_table.size();
+    std::size_t j = ReadLittleEndian<uint16_t>(&x3m_scramble_seed[i * 2]) % x3m_scramble_table.size();
     std::swap(x3m_scramble_table[i], x3m_scramble_table[j]);
   }
 

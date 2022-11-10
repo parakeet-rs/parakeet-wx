@@ -1,5 +1,4 @@
 #pragma once
-#include "um-crypto/types.h"
 
 #include <algorithm>
 
@@ -24,10 +23,10 @@ inline bool IsHexChar(const char c) {
   return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
 }
 
-inline u8 HexLookup(const char c) {
-  if (c >= '0' && c <= '9') return static_cast<u8>(c - '0');
-  if (c >= 'A' && c <= 'F') return static_cast<u8>(c - 'A' + 10);
-  if (c >= 'a' && c <= 'f') return static_cast<u8>(c - 'a' + 10);
+inline uint8_t HexLookup(const char c) {
+  if (c >= '0' && c <= '9') return static_cast<uint8_t>(c - '0');
+  if (c >= 'A' && c <= 'F') return static_cast<uint8_t>(c - 'A' + 10);
+  if (c >= 'a' && c <= 'f') return static_cast<uint8_t>(c - 'a' + 10);
 
   // we know this is wrong, but hey, we'll accept it.
   return 0;
@@ -82,10 +81,10 @@ inline std::string RemoveWhitespace(const std::string& s) {
   return result;
 }
 
-inline std::vector<std::string> ParseCSVLine(const u8* str, std::size_t len) {
+inline std::vector<std::string> ParseCSVLine(const uint8_t* str, std::size_t len) {
   std::vector<std::string> result;
 
-  const u8* str_begin = str;
+  const uint8_t* str_begin = str;
   while (len) {
     if (*str == ',') {
       result.push_back(std::string(str_begin, str));

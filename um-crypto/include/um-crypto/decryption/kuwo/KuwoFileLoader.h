@@ -5,7 +5,7 @@
 namespace umc::decryption::kuwo {
 
 constexpr std::size_t kKuwoDecryptionKeySize = 0x20;
-typedef std::array<u8, kKuwoDecryptionKeySize> KuwoKey;
+typedef std::array<uint8_t, kKuwoDecryptionKeySize> KuwoKey;
 
 class KuwoFileLoader : public DecryptionStream {
  public:
