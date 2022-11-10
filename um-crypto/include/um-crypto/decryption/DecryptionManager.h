@@ -18,10 +18,9 @@ namespace umc::decryption {
 namespace config {
 
 struct KugouConfig {
-  kugou::KugouInternalTable t1;
-  kugou::KugouInternalTable t2;
-  kugou::KugouInternalTable v2;
-  kugou::KugouVPRKey vpr_key;
+  kugou::KugouSingleSlotKey slot_key_1;
+  kugou::KugouV4FileKeyExpansionTable v4_file_key_expansion_table;
+  kugou::KugouV4SlotKeyExpansionTable v4_slot_key_expansion_table;
 };
 
 struct KuwoConfig {

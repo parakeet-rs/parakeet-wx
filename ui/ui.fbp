@@ -29,7 +29,7 @@
         <property name="use_array_enum">0</property>
         <property name="use_enum">0</property>
         <property name="use_microsoft_bom">0</property>
-        <object class="Frame" expanded="1">
+        <object class="Frame" expanded="0">
             <property name="aui_managed">0</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg">wxSYS_COLOUR_WINDOW</property>
@@ -58,16 +58,16 @@
             <property name="window_style">wxTAB_TRAVERSAL</property>
             <property name="xrc_skip_sizer">1</property>
             <event name="OnSize">uiMainAppFrameOnSize</event>
-            <object class="wxBoxSizer" expanded="1">
+            <object class="wxBoxSizer" expanded="0">
                 <property name="minimum_size"></property>
                 <property name="name">bSizer1</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">8</property>
                     <property name="flag">wxEXPAND|wxLEFT|wxRIGHT|wxTOP</property>
                     <property name="proportion">0</property>
-                    <object class="wxStaticText" expanded="1">
+                    <object class="wxStaticText" expanded="0">
                         <property name="BottomDockable">1</property>
                         <property name="LeftDockable">1</property>
                         <property name="RightDockable">1</property>
@@ -124,20 +124,20 @@
                         <property name="wrap">-1</property>
                     </object>
                 </object>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">8</property>
                     <property name="flag">wxEXPAND|wxLEFT|wxRIGHT</property>
                     <property name="proportion">1</property>
-                    <object class="wxBoxSizer" expanded="1">
+                    <object class="wxBoxSizer" expanded="0">
                         <property name="minimum_size"></property>
                         <property name="name">bSizer5</property>
                         <property name="orient">wxVERTICAL</property>
                         <property name="permission">none</property>
-                        <object class="sizeritem" expanded="1">
+                        <object class="sizeritem" expanded="0">
                             <property name="border">0</property>
                             <property name="flag">wxALL|wxEXPAND</property>
                             <property name="proportion">1</property>
-                            <object class="wxListCtrl" expanded="1">
+                            <object class="wxListCtrl" expanded="0">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
                                 <property name="RightDockable">1</property>
@@ -195,11 +195,11 @@
                                 <property name="window_style"></property>
                             </object>
                         </object>
-                        <object class="sizeritem" expanded="1">
+                        <object class="sizeritem" expanded="0">
                             <property name="border">8</property>
                             <property name="flag">wxBOTTOM|wxEXPAND|wxTOP</property>
                             <property name="proportion">0</property>
-                            <object class="wxBoxSizer" expanded="1">
+                            <object class="wxBoxSizer" expanded="0">
                                 <property name="minimum_size"></property>
                                 <property name="name">bSizer6</property>
                                 <property name="orient">wxHORIZONTAL</property>
@@ -278,11 +278,11 @@
                                         <event name="OnButtonClick">OnBtnClickOptions</event>
                                     </object>
                                 </object>
-                                <object class="sizeritem" expanded="1">
+                                <object class="sizeritem" expanded="0">
                                     <property name="border">8</property>
                                     <property name="flag">wxLEFT</property>
                                     <property name="proportion">0</property>
-                                    <object class="wxButton" expanded="1">
+                                    <object class="wxButton" expanded="0">
                                         <property name="BottomDockable">1</property>
                                         <property name="LeftDockable">1</property>
                                         <property name="RightDockable">1</property>
@@ -362,11 +362,11 @@
                                         <property name="width">0</property>
                                     </object>
                                 </object>
-                                <object class="sizeritem" expanded="1">
+                                <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
                                     <property name="flag"></property>
                                     <property name="proportion">0</property>
-                                    <object class="wxButton" expanded="1">
+                                    <object class="wxButton" expanded="0">
                                         <property name="BottomDockable">1</property>
                                         <property name="LeftDockable">1</property>
                                         <property name="RightDockable">1</property>
@@ -436,11 +436,11 @@
                                         <event name="OnButtonClick">OnButtonClick_ProcessFiles</event>
                                     </object>
                                 </object>
-                                <object class="sizeritem" expanded="1">
+                                <object class="sizeritem" expanded="0">
                                     <property name="border">5</property>
                                     <property name="flag">wxEXPAND</property>
                                     <property name="proportion">1</property>
-                                    <object class="spacer" expanded="1">
+                                    <object class="spacer" expanded="0">
                                         <property name="height">0</property>
                                         <property name="permission">protected</property>
                                         <property name="width">0</property>
@@ -600,7 +600,7 @@
                 </object>
             </object>
         </object>
-        <object class="Dialog" expanded="1">
+        <object class="Dialog" expanded="0">
             <property name="aui_managed">0</property>
             <property name="aui_manager_style">wxAUI_MGR_DEFAULT</property>
             <property name="bg"></property>
@@ -628,12 +628,12 @@
             <property name="window_name"></property>
             <property name="window_style"></property>
             <event name="OnActivate">OnActivate</event>
-            <object class="wxBoxSizer" expanded="1">
+            <object class="wxBoxSizer" expanded="0">
                 <property name="minimum_size"></property>
                 <property name="name">bSizer4</property>
                 <property name="orient">wxVERTICAL</property>
                 <property name="permission">none</property>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">5</property>
                     <property name="flag">wxEXPAND | wxALL</property>
                     <property name="proportion">1</property>
@@ -956,43 +956,29 @@
                                             <property name="window_style"></property>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>
-                                                <property name="label">KGM Decryption</property>
+                                                <property name="label">KGM/VPR Decryption</property>
                                                 <property name="name">m_propertyGridItem3</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">Category</property>
                                             </object>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>
-                                                <property name="label">Table t1 (hex; 272 bytes)</property>
-                                                <property name="name">m_kugouT1</property>
+                                                <property name="label">Slot Key 1 (hex; 4 bytes)</property>
+                                                <property name="name">m_kugouSlotKey1</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">LongString</property>
                                             </object>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>
-                                                <property name="label">Table t2 (hex; 272 bytes)</property>
-                                                <property name="name">m_kugouT2</property>
+                                                <property name="label">(v4) Slot key expansion table (hex)</property>
+                                                <property name="name">m_kugouV4SlotKeyExpansionTable</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">LongString</property>
                                             </object>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>
-                                                <property name="label">Table v2 (hex; 272 bytes)</property>
-                                                <property name="name">m_kugouV2</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">VPR Decryption</property>
-                                                <property name="name">m_propertyGridItem6</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">VPR Key (hex; 17 bytes)</property>
-                                                <property name="name">m_kugouVPR</property>
+                                                <property name="label">(v4) File key expansion table (hex)</property>
+                                                <property name="name">m_kugouV4FileKeyExpansionTable</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">LongString</property>
                                             </object>
@@ -1763,11 +1749,11 @@
                         </object>
                     </object>
                 </object>
-                <object class="sizeritem" expanded="1">
+                <object class="sizeritem" expanded="0">
                     <property name="border">8</property>
                     <property name="flag">wxBOTTOM|wxEXPAND|wxRIGHT</property>
                     <property name="proportion">0</property>
-                    <object class="wxBoxSizer" expanded="1">
+                    <object class="wxBoxSizer" expanded="0">
                         <property name="minimum_size"></property>
                         <property name="name">bSizer8</property>
                         <property name="orient">wxHORIZONTAL</property>

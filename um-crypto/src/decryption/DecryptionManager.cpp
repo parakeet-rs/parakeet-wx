@@ -138,10 +138,11 @@ class DecryptionManagerImpl : public DecryptionManager {
     Vec<std::unique_ptr<DecryptionStream>> result;
 
     // Add kugou ciphers
-    result.push_back(kugou::KugouFileLoader::Create(c.kugou.t1, c.kugou.t2,
-                                                    c.kugou.v2, true));
+    kugou::KugouSlotKeys kgm_slot_keys;
+    kgm_slot_keys[1] = c.kugou.slot_key_1;
     result.push_back(kugou::KugouFileLoader::Create(
-        c.kugou.t1, c.kugou.t2, c.kugou.v2, c.kugou.vpr_key, true));
+        kgm_slot_keys, c.kugou.v4_slot_key_expansion_table,
+        c.kugou.v4_file_key_expansion_table));
 
     // Add kuwo ciphers
     result.push_back(kuwo::KuwoFileLoader::Create(c.kuwo.key));

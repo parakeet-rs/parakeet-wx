@@ -84,11 +84,9 @@ namespace umd::ui_base
 			wxPanel* m_panelKugou;
 			wxPropertyGrid* m_propGridKugou;
 			wxPGProperty* m_propertyGridItem3;
-			wxPGProperty* m_kugouT1;
-			wxPGProperty* m_kugouT2;
-			wxPGProperty* m_kugouV2;
-			wxPGProperty* m_propertyGridItem6;
-			wxPGProperty* m_kugouVPR;
+			wxPGProperty* m_kugouSlotKey1;
+			wxPGProperty* m_kugouV4SlotKeyExpansionTable;
+			wxPGProperty* m_kugouV4FileKeyExpansionTable;
 			wxPanel* m_panelKuwo;
 			wxPropertyGrid* m_propertyGrid8;
 			wxPGProperty* m_propertyGridItem36;

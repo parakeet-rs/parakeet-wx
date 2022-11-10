@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-22 21:48+0100\n"
-"PO-Revision-Date: 2022-10-22 21:51+0100\n"
+"POT-Creation-Date: 2022-11-10 00:04+0000\n"
+"PO-Revision-Date: 2022-11-10 00:05+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -18,12 +18,12 @@ msgstr ""
 msgid " a b c"
 msgstr ""
 
-#: um-desktop/dialog/OptionsDialog.cpp:62
+#: um-desktop/dialog/OptionsDialog.cpp:67
 #, c-format
 msgid "%s - Options"
 msgstr "%s - 选项"
 
-#: um-desktop/ui/ui.cpp:219
+#: um-desktop/ui/ui.cpp:217
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
@@ -35,7 +35,7 @@ msgstr "清空 (&C)"
 msgid "&Decrypt directory..."
 msgstr "解密目录 (&D)..."
 
-#: um-desktop/ui/ui.cpp:222
+#: um-desktop/ui/ui.cpp:220
 msgid "&OK"
 msgstr "确定 (&O)"
 
@@ -43,36 +43,44 @@ msgstr "确定 (&O)"
 msgid "&Options..."
 msgstr "选项... (&O)"
 
-#: um-desktop/ui/ui.cpp:150
+#: um-desktop/ui/ui.cpp:120
+msgid "(v4) File key expansion table (hex)"
+msgstr "(v4) 文件密钥展开表（十六进制）"
+
+#: um-desktop/ui/ui.cpp:119
+msgid "(v4) Slot key expansion table (hex)"
+msgstr "(v4) 密钥槽密钥展开表（十六进制）"
+
+#: um-desktop/ui/ui.cpp:148
 msgid "AES key for NCM content key"
 msgstr "NCM 内容密钥 (AES)"
 
-#: um-desktop/dialog/MainAppFrame.cpp:140
+#: um-desktop/dialog/MainAppFrame.cpp:147
 msgid "All files (*.*)|*"
 msgstr "所有文件 (*.*)|*"
 
-#: um-desktop/dialog/MainAppFrame.cpp:122
+#: um-desktop/dialog/MainAppFrame.cpp:129
 msgid "All known extensions files"
 msgstr "所有已知的扩展文件"
 
-#: um-desktop/dialog/MainAppFrame.cpp:83
+#: um-desktop/dialog/MainAppFrame.cpp:90
 msgid "Config saved. Some config may require restart to work."
 msgstr "配置已保存。某些配置可能需要重新启动才能正常工作。"
 
-#: um-desktop/dialog/MainAppFrame.cpp:276
+#: um-desktop/dialog/MainAppFrame.cpp:283
 #, c-format
 msgid "Converting from %s to %s: %s"
 msgstr "正在转换 %s -> %s: %s"
 
-#: um-desktop/dialog/MainAppFrame.cpp:86
+#: um-desktop/dialog/MainAppFrame.cpp:93
 msgid "Could not save config."
 msgstr "无法保存配置。"
 
-#: um-desktop/dialog/MainAppFrame.cpp:60
+#: um-desktop/dialog/MainAppFrame.cpp:67
 msgid "DEBUG Build"
 msgstr "调试版本"
 
-#: um-desktop/dialog/MainAppFrame.cpp:268
+#: um-desktop/dialog/MainAppFrame.cpp:275
 #, c-format
 msgid "Decode OK [%s -> %s]: %s (%lums)"
 msgstr "解码完成 [%s -> %s]：%s (%lums)"
@@ -81,11 +89,11 @@ msgstr "解码完成 [%s -> %s]：%s (%lums)"
 msgid "Decrypt &file..."
 msgstr "解密文件 (&F)..."
 
-#: um-desktop/ui/ui.cpp:166
+#: um-desktop/ui/ui.cpp:164
 msgid "EKey derive seed"
 msgstr "EKey 解码种子"
 
-#: um-desktop/dialog/MainAppFrame.cpp:272
+#: um-desktop/dialog/MainAppFrame.cpp:279
 #, c-format
 msgid "FAIL [%s]: %s (%s)"
 msgstr "错误 [%s]：%s (%s)"
@@ -94,39 +102,39 @@ msgstr "错误 [%s]：%s (%s)"
 msgid "General"
 msgstr "通常"
 
-#: um-desktop/ui/ui.cpp:183
+#: um-desktop/ui/ui.cpp:181
 msgid "Installation UUID"
 msgstr "安装时生成的 UUID"
 
-#: um-desktop/ui/ui.cpp:182 um-desktop/ui/ui.cpp:191
+#: um-desktop/ui/ui.cpp:180 um-desktop/ui/ui.cpp:189
 msgid "Joox"
 msgstr "Joox"
 
 #: um-desktop/ui/ui.cpp:117
-msgid "KGM Decryption"
-msgstr "KGM 解密"
+msgid "KGM/VPR Decryption"
+msgstr "KGM/VPR 解密"
 
-#: um-desktop/dialog/MainAppFrame.cpp:124
+#: um-desktop/dialog/MainAppFrame.cpp:131
 msgid "Koox music"
 msgstr "Koox 音乐"
 
-#: um-desktop/ui/ui.cpp:129
+#: um-desktop/ui/ui.cpp:127
 msgid "Kugou"
 msgstr "酷狗"
 
-#: um-desktop/dialog/MainAppFrame.cpp:130
+#: um-desktop/dialog/MainAppFrame.cpp:137
 msgid "Kugou music"
 msgstr "酷狗音乐"
 
-#: um-desktop/ui/ui.cpp:135 um-desktop/ui/ui.cpp:143
+#: um-desktop/ui/ui.cpp:133 um-desktop/ui/ui.cpp:141
 msgid "Kuwo"
 msgstr "酷我"
 
-#: um-desktop/ui/ui.cpp:136
+#: um-desktop/ui/ui.cpp:134
 msgid "Kuwo decryption table"
 msgstr "KGM 解密表"
 
-#: um-desktop/dialog/MainAppFrame.cpp:132
+#: um-desktop/dialog/MainAppFrame.cpp:139
 msgid "Kuwo music"
 msgstr "酷我音乐"
 
@@ -138,31 +146,31 @@ msgstr "语言代码"
 msgid "Logs:"
 msgstr "文件记录："
 
-#: um-desktop/ui/ui.cpp:168
+#: um-desktop/ui/ui.cpp:166
 msgid "Mix key 1 (Stage 1 Key; 16 bytes)"
 msgstr "混淆密钥 1（第 1 阶段密钥；16 字节）"
 
-#: um-desktop/ui/ui.cpp:169
+#: um-desktop/ui/ui.cpp:167
 msgid "Mix key 2 (Stage 2 Key; 16 bytes)"
 msgstr "混淆密钥 2（第 2 阶段密钥；16 字节）"
 
-#: um-desktop/ui/ui.cpp:149
+#: um-desktop/ui/ui.cpp:147
 msgid "NCM Decryption"
 msgstr "网易 NCM 解密"
 
-#: um-desktop/ui/ui.cpp:157
+#: um-desktop/ui/ui.cpp:155
 msgid "Netease"
 msgstr "网易"
 
-#: um-desktop/dialog/MainAppFrame.cpp:134
+#: um-desktop/dialog/MainAppFrame.cpp:141
 msgid "Netease music"
 msgstr "网易云音乐"
 
-#: um-desktop/dialog/MainAppFrame.cpp:144
+#: um-desktop/dialog/MainAppFrame.cpp:151
 msgid "Open encrypted music files"
 msgstr "选择加密的音乐文件"
 
-#: um-desktop/ui/ui.h:133
+#: um-desktop/ui/ui.h:131
 msgid "Options"
 msgstr "选项"
 
@@ -174,54 +182,46 @@ msgstr "小鹦鹉桌面客户端"
 msgid "Process"
 msgstr "处理"
 
-#: um-desktop/ui/ui.cpp:163
+#: um-desktop/ui/ui.cpp:161
 msgid "QMCv1"
 msgstr "QMCv1"
 
-#: um-desktop/dialog/MainAppFrame.cpp:126
+#: um-desktop/dialog/MainAppFrame.cpp:133
 msgid "QMCv1 files"
 msgstr "QMCv1 文件"
 
-#: um-desktop/ui/ui.cpp:165
+#: um-desktop/ui/ui.cpp:163
 msgid "QMCv2"
 msgstr "QMCv2"
 
-#: um-desktop/ui/ui.cpp:167
+#: um-desktop/ui/ui.cpp:165
 msgid "QMCv2 - EncV2"
 msgstr "QMCv2 - EncV2 加密方案"
 
-#: um-desktop/dialog/MainAppFrame.cpp:128
+#: um-desktop/dialog/MainAppFrame.cpp:135
 msgid "QMCv2 files"
 msgstr "QMCv2 文件"
 
-#: um-desktop/ui/ui.cpp:176
+#: um-desktop/ui/ui.cpp:174
 msgid "QQ Music"
 msgstr "腾讯音乐"
 
-#: um-desktop/dialog/MainAppFrame.cpp:264
+#: um-desktop/dialog/MainAppFrame.cpp:271
 #, c-format
 msgid "Ready [%s -> %s]: %s"
 msgstr "就绪 [%s -> %s]：%s"
 
-#: um-desktop/ui/ui.cpp:184
+#: um-desktop/ui/ui.cpp:182
 msgid "Salt"
 msgstr "盐值"
 
-#: um-desktop/ui/ui.cpp:164
+#: um-desktop/ui/ui.cpp:118
+msgid "Slot Key 1 (hex; 4 bytes)"
+msgstr "密钥槽 1（十六进制；4 字节）"
+
+#: um-desktop/ui/ui.cpp:162
 msgid "Static Key (hex; 128 bytes)"
 msgstr "静态密钥（十六进制；128 字节）"
-
-#: um-desktop/ui/ui.cpp:118
-msgid "Table t1 (hex; 272 bytes)"
-msgstr "加密表1（十六进制; 272 字节）"
-
-#: um-desktop/ui/ui.cpp:119
-msgid "Table t2 (hex; 272 bytes)"
-msgstr "加密表2（十六进制; 272 字节）"
-
-#: um-desktop/ui/ui.cpp:120
-msgid "Table v2 (hex; 272 bytes)"
-msgstr "加密表 v2（十六进制; 272 字节）"
 
 #: um-desktop/ui/ui.cpp:102
 msgid "Thread count"
@@ -235,64 +235,71 @@ msgstr "多线程"
 msgid "Unknown Version"
 msgstr "未知版本"
 
-#: um-desktop/dialog/MainAppFrame.cpp:284
+#: um-desktop/dialog/MainAppFrame.cpp:291
 #, c-format
 msgid "Unknown state (code %d): %s"
 msgstr "未知状态（代码 %d）：%s"
 
-#: um-desktop/dialog/MainAppFrame.cpp:280
+#: um-desktop/dialog/MainAppFrame.cpp:287
 #, c-format
 msgid "Unsupported: %s"
 msgstr "不支援：%s"
 
-#: um-desktop/ui/ui.cpp:121
-msgid "VPR Decryption"
-msgstr "VPR 解密"
-
-#: um-desktop/ui/ui.cpp:122
-msgid "VPR Key (hex; 17 bytes)"
-msgstr "VPR 密钥（十六进制; 17 字节）"
-
-#: um-desktop/ui/ui.cpp:197
+#: um-desktop/ui/ui.cpp:195
 msgid "X2M"
 msgstr "X2M"
 
-#: um-desktop/ui/ui.cpp:198
+#: um-desktop/ui/ui.cpp:196
 msgid "X2M Content Key (hex; 4 bytes)"
 msgstr "X2M 内容密钥 (十六进制；4 字节)"
 
-#: um-desktop/ui/ui.cpp:199
+#: um-desktop/ui/ui.cpp:197
 msgid "X2M Scramble Table (hex; 1024 u16)"
 msgstr "X2M 索引混淆表（十六进制; 1024 位）"
 
-#: um-desktop/ui/ui.cpp:200
+#: um-desktop/ui/ui.cpp:198
 msgid "X3M"
 msgstr "X3M"
 
-#: um-desktop/ui/ui.cpp:201
+#: um-desktop/ui/ui.cpp:199
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr "X2M 内容密钥 (十六进制; 32 字节)"
 
-#: um-desktop/ui/ui.cpp:202
+#: um-desktop/ui/ui.cpp:200
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr "X3M 索引混淆表（十六进制; 1024 位）"
 
-#: um-desktop/dialog/MainAppFrame.cpp:138
+#: um-desktop/dialog/MainAppFrame.cpp:145
 msgid "Xiami music"
 msgstr "虾米音乐"
 
-#: um-desktop/ui/ui.cpp:209
+#: um-desktop/ui/ui.cpp:207
 msgid "Ximalaya"
 msgstr "喜马拉雅"
 
-#: um-desktop/dialog/MainAppFrame.cpp:136
+#: um-desktop/dialog/MainAppFrame.cpp:143
 msgid "Ximalaya audio file"
 msgstr "喜马拉雅音频文件"
 
-#: um-desktop/dialog/MainAppFrame.cpp:326
+#: um-desktop/dialog/MainAppFrame.cpp:333
 msgid "empty input file"
 msgstr "输入文件为空文件"
 
-#: um-desktop/dialog/MainAppFrame.cpp:333
+#: um-desktop/dialog/MainAppFrame.cpp:340
 msgid "unexpected eof when reading input file"
 msgstr "读取文件时提前结束"
+
+#~ msgid "KGM Decryption"
+#~ msgstr "KGM 解密"
+
+#~ msgid "Table t1 (hex; 272 bytes)"
+#~ msgstr "加密表1（十六进制; 272 字节）"
+
+#~ msgid "Table t2 (hex; 272 bytes)"
+#~ msgstr "加密表2（十六进制; 272 字节）"
+
+#~ msgid "Table v2 (hex; 272 bytes)"
+#~ msgstr "加密表 v2（十六进制; 272 字节）"
+
+#~ msgid "VPR Key (hex; 17 bytes)"
+#~ msgstr "VPR 密钥（十六进制; 17 字节）"

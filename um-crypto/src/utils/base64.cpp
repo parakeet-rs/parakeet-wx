@@ -25,4 +25,14 @@ Str Base64Encode(const Vec<u8>& input) {
   return result;
 }
 
+Vec<u8> Base64EncodeBytes(const std::span<const u8> data) {
+  CryptoPP::Base64Encoder encoder(nullptr, false);
+  encoder.Put(data.data(), data.size());
+  encoder.MessageEnd();
+
+  Vec<u8> result(encoder.MaxRetrievable(), 0);
+  encoder.Get(result.data(), result.size());
+  return result;
+}
+
 }  // namespace umc::utils

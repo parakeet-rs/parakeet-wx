@@ -114,12 +114,10 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 
 	m_propGridKugou = new wxPropertyGrid(m_panelKugou, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propertyGridItem3 = m_propGridKugou->Append( new wxPropertyCategory( _("KGM Decryption"), _("KGM Decryption") ) );
-	m_kugouT1 = m_propGridKugou->Append( new wxLongStringProperty( _("Table t1 (hex; 272 bytes)"), _("Table t1 (hex; 272 bytes)") ) );
-	m_kugouT2 = m_propGridKugou->Append( new wxLongStringProperty( _("Table t2 (hex; 272 bytes)"), _("Table t2 (hex; 272 bytes)") ) );
-	m_kugouV2 = m_propGridKugou->Append( new wxLongStringProperty( _("Table v2 (hex; 272 bytes)"), _("Table v2 (hex; 272 bytes)") ) );
-	m_propertyGridItem6 = m_propGridKugou->Append( new wxPropertyCategory( _("VPR Decryption"), _("VPR Decryption") ) );
-	m_kugouVPR = m_propGridKugou->Append( new wxLongStringProperty( _("VPR Key (hex; 17 bytes)"), _("VPR Key (hex; 17 bytes)") ) );
+	m_propertyGridItem3 = m_propGridKugou->Append( new wxPropertyCategory( _("KGM/VPR Decryption"), _("KGM/VPR Decryption") ) );
+	m_kugouSlotKey1 = m_propGridKugou->Append( new wxLongStringProperty( _("Slot Key 1 (hex; 4 bytes)"), _("Slot Key 1 (hex; 4 bytes)") ) );
+	m_kugouV4SlotKeyExpansionTable = m_propGridKugou->Append( new wxLongStringProperty( _("(v4) Slot key expansion table (hex)"), _("(v4) Slot key expansion table (hex)") ) );
+	m_kugouV4FileKeyExpansionTable = m_propGridKugou->Append( new wxLongStringProperty( _("(v4) File key expansion table (hex)"), _("(v4) File key expansion table (hex)") ) );
 	bSizer5->Add( m_propGridKugou, 1, wxEXPAND, FromDIP(5) );
 
 

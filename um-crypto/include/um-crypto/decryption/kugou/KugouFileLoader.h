@@ -2,33 +2,26 @@
 
 #include "um-crypto/decryption/DecryptionStream.h"
 
+#include <map>
+
 namespace umc::decryption::kugou {
 
-constexpr usize kKugouInternalTableSize = 17 * 16;
-constexpr usize kKugouVprKeySize = 17;
-
-typedef Arr<u8, kKugouInternalTableSize> KugouInternalTable;
-typedef Arr<u8, kKugouVprKeySize> KugouVPRKey;
+typedef Vec<u8> KugouSingleSlotKey;
+typedef std::map<uint32_t, KugouSingleSlotKey> KugouSlotKeys;
+typedef Vec<u8> KugouV4SlotKeyExpansionTable;
+typedef Vec<u8> KugouV4FileKeyExpansionTable;
 
 class KugouFileLoader : public DecryptionStream {
  public:
-  virtual const Str GetName() const override { return "Kugou(KGM/VPR)"; };
+  virtual const Str GetName() const override { return "Kugou"; };
 
   /**
-   * @brief Create KugouFileLoader for KGM.
+   * @brief Create KugouFileLoader for KGM / VPR.
    */
-  static std::unique_ptr<KugouFileLoader> Create(const KugouInternalTable& t1,
-                                                 const KugouInternalTable& t2,
-                                                 const KugouInternalTable& v2,
-                                                 bool use_cache);
-  /**
-   * @brief Create KugouFileLoader for VPR.
-   */
-  static std::unique_ptr<KugouFileLoader> Create(const KugouInternalTable& t1,
-                                                 const KugouInternalTable& t2,
-                                                 const KugouInternalTable& v2,
-                                                 const KugouVPRKey& vpr_key,
-                                                 bool use_cache);
+  static std::unique_ptr<KugouFileLoader> Create(
+      const KugouSlotKeys& slot_keys,
+      const KugouV4SlotKeyExpansionTable& v4_slot_key_expansion_table,
+      const KugouV4FileKeyExpansionTable& v4_file_key_expansion_table);
 };
 
 }  // namespace umc::decryption::kugou

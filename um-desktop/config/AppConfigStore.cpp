@@ -63,10 +63,11 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // Kugou config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kugou) {
     using namespace umc::decryption::kugou;
-    MANIP_JSON_ITEM(t1, KugouInternalTable{});
-    MANIP_JSON_ITEM(t2, KugouInternalTable{});
-    MANIP_JSON_ITEM(v2, KugouInternalTable{});
-    MANIP_JSON_ITEM(vpr_key, KugouVPRKey{});
+    MANIP_JSON_ITEM(slot_key_1, KugouSingleSlotKey{});
+    MANIP_JSON_ITEM(v4_file_key_expansion_table,
+                    KugouV4FileKeyExpansionTable{});
+    MANIP_JSON_ITEM(v4_slot_key_expansion_table,
+                    KugouV4SlotKeyExpansionTable{});
   }
   END_MANIP_NAMESPACED_VALUE()
 
