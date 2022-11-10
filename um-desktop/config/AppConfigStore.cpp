@@ -56,7 +56,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // General config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, desktop, general) {
     MANIP_JSON_ITEM(thread_count, int(4));
-    MANIP_JSON_ITEM(locale, Str("zh_CN"));
+    MANIP_JSON_ITEM(locale, std::string("zh_CN"));
   }
   END_MANIP_NAMESPACED_VALUE()
 
@@ -99,7 +99,7 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
   // Joox (Tencent) config
   BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, joox) {
     using namespace umc::decryption::tencent;
-    MANIP_JSON_ITEM(install_uuid, Str(32, 'f'));
+    MANIP_JSON_ITEM(install_uuid, std::string(32, 'f'));
     MANIP_JSON_ITEM(salt, JooxSalt{});
   }
   END_MANIP_NAMESPACED_VALUE()

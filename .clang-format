@@ -3,5 +3,4 @@ BasedOnStyle: Chromium
 IndentWidth: 2
 AllowShortIfStatementsOnASingleLine: AllIfsAndElse
 UseTab: Never
-IndentWidth: 2
 TabWidth: 2

@@ -21,7 +21,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
       : key_deriver_(key_deriver){};
 
   std::unique_ptr<QMCFooterParseResult> Parse(const u8* p_in,
-                                              usize len) const override {
+                                              std::size_t len) const override {
     if (len < 4) return nullptr;
 
     auto eof = ReadBigEndian<u32>(&p_in[len - 4]);
@@ -48,7 +48,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
 
   inline std::unique_ptr<QMCFooterParseResult> ParseAndroidQTagFile(
       const u8* p_in,
-      usize len) const {
+      std::size_t len) const {
     // Legacy Android format.
     //   metadata := [ansi ekey_b64] ","
     //               [ansi songid] ","
@@ -81,7 +81,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
 
   inline std::unique_ptr<QMCFooterParseResult> ParseWindowsEncryptedFile(
       const u8* p_in,
-      usize len) const {
+      std::size_t len) const {
     // Legacy PC QQMusic encoded format.
     // ekey_b64 := [ansi ekey_b64]
     // eof_mark := [(le)uint32_t ekey_size]
@@ -97,7 +97,7 @@ class QMCFooterParserImpl : public QMCFooterParser {
     result->eof_bytes_ignore = required_len;
 
     const u8* eof_ekey = &p_in[len - 4];
-    const std::string ekey_b64 = Str(eof_ekey - ekey_size, eof_ekey);
+    const std::string ekey_b64 = std::string(eof_ekey - ekey_size, eof_ekey);
 
     result->ekey_b64 = ekey_b64;
     return result;

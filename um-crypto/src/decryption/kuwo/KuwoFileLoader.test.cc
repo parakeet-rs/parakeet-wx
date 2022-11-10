@@ -22,11 +22,11 @@ KuwoKey kKuwoKey = []() {
 }();
 
 TEST(KuwoFileLoader, SimpleCase) {
-  Vec<u8> test_data(test::kSize4MiB);
+  std::vector<u8> test_data(test::kSize4MiB);
 
   test::GenerateTestData(test_data, "kuwo-data-1");
 
-  Vec<u8> header_override = {
+  std::vector<u8> header_override = {
       0x79, 0x65, 0x65, 0x6c, 0x69, 0x6f, 0x6e, 0x2d,
       0x6b, 0x75, 0x77, 0x6f, 0x2d, 0x74, 0x6d, 0x65,
 

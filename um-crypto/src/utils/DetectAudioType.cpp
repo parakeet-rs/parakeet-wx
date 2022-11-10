@@ -55,9 +55,9 @@ constexpr u32 kMagic_ftyp_M4B = 0x4d'34'42u;  // iTunes AAC-LC (.M4B) Audio Book
 constexpr u32 kMagic_ftyp_mp4 = 0x6D'70'34u;  // MP4 container, used by
                                               // QQ Music (E-AC-3 JOC)
 
-AudioType DetectAudioType(const u8* buf, usize len) {
+AudioType DetectAudioType(const u8* buf, std::size_t len) {
   // Seek optional id3 tag.
-  usize audio_header_meta_size = GetAudioHeaderMetadataSize(buf, len);
+  std::size_t audio_header_meta_size = GetAudioHeaderMetadataSize(buf, len);
   if (audio_header_meta_size > len) {
     return AudioType::kUnknownType;
   } else if (audio_header_meta_size > 0) {

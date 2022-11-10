@@ -9,7 +9,7 @@
 namespace umd::utils::json {
 
 // Note:
-// All "Str"s in this scope are UTF-8 encoded.
+// All "std::string"s in this scope are UTF-8 encoded.
 
 #define __UMD_PREPARE_WRITE_JSON_VALUE(value) \
   if (v.HasMember(key)) v[key] = value;       \
@@ -26,12 +26,12 @@ template <typename T>
 inline void WriteValue(D& d, V& v, const char* key, const T& value);
 #pragma endregion
 
-#pragma region  // JSON <--> Str
+#pragma region  // JSON <--> std::string
 template <>
 inline void ReadValue(const V& v,
                       const char* key,
-                      Str& out,
-                      const Str& def_value) {
+                      std::string& out,
+                      const std::string& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     out = v[key].GetString();
   } else {
@@ -40,7 +40,7 @@ inline void ReadValue(const V& v,
 }
 
 template <>
-inline void WriteValue(D& d, V& v, const char* key, const Str& value) {
+inline void WriteValue(D& d, V& v, const char* key, const std::string& value) {
   V result = V(reinterpret_cast<const char*>(value.c_str()), value.size(),
                d.GetAllocator());
   __UMD_PREPARE_WRITE_JSON_VALUE(result);
@@ -86,22 +86,25 @@ inline void WriteValue(D& d, V& v, const char* key, const u8& value) {
 }
 #pragma endregion
 
-#pragma region  // JSON <--> Vec<u8>
+#pragma region  // JSON <--> std::vector<u8>
 template <>
 inline void ReadValue(const V& v,
                       const char* key,
-                      Vec<u8>& out,
-                      const Vec<u8>& def_value) {
+                      std::vector<u8>& out,
+                      const std::vector<u8>& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
-    out = umc::utils::Base64Decode(Str(v[key].GetString()));
+    out = umc::utils::Base64Decode(std::string(v[key].GetString()));
   } else {
     out = def_value;
   }
 }
 
 template <>
-inline void WriteValue(D& d, V& v, const char* key, const Vec<u8>& value) {
-  Str encoded = umc::utils::Base64Encode(value);
+inline void WriteValue(D& d,
+                       V& v,
+                       const char* key,
+                       const std::vector<u8>& value) {
+  std::string encoded = umc::utils::Base64Encode(value);
   V result = V(encoded.c_str(), encoded.length(), d.GetAllocator());
   __UMD_PREPARE_WRITE_JSON_VALUE(result);
 }
@@ -110,8 +113,8 @@ inline void WriteValue(D& d, V& v, const char* key, const Vec<u8>& value) {
 namespace detail {
 
 template <std::unsigned_integral A, class TContainer>
-inline Str ContainerToBase64(const TContainer& in) {
-  Vec<u8> buf(in.size() * sizeof(A));
+inline std::string ContainerToBase64(const TContainer& in) {
+  std::vector<u8> buf(in.size() * sizeof(A));
   auto p_out = buf.data();
   for (auto it = in.begin(); it < in.end(); it++) {
     umc::WriteLittleEndian<A>(p_out, *it);
@@ -121,8 +124,8 @@ inline Str ContainerToBase64(const TContainer& in) {
 }
 
 template <std::unsigned_integral A, class TContainer>
-inline void Base64ToContainer(TContainer& out, const Str& in) {
-  Vec<u8> v_in = umc::utils::Base64Decode(in);
+inline void Base64ToContainer(TContainer& out, const std::string& in) {
+  std::vector<u8> v_in = umc::utils::Base64Decode(in);
   if (v_in.size() < sizeof(A)) return;
 
   auto end_str = v_in.end() - sizeof(A);
@@ -135,17 +138,18 @@ inline void Base64ToContainer(TContainer& out, const Str& in) {
 
 }  // namespace detail
 
-#pragma region  // Str <--> Arr<A, Size>
+#pragma region  // std::string <--> std::array<A, Size>
 template <std::unsigned_integral A, size_t Size>
 inline void ReadValue(const V& v,
                       const char* key,
-                      Arr<A, Size>& out,
-                      const Arr<A, Size>& def_value) {
+                      std::array<A, Size>& out,
+                      const std::array<A, Size>& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     std::fill(out.begin(), out.end(), 0);
 
-    Vec<A> buf(Size);
-    detail::Base64ToContainer<A, Vec<A>>(buf, Str(v[key].GetString()));
+    std::vector<A> buf(Size);
+    detail::Base64ToContainer<A, std::vector<A>>(
+        buf, std::string(v[key].GetString()));
     buf.resize(Size);
 
     std::copy(buf.begin(), buf.end(), out.begin());
@@ -155,12 +159,16 @@ inline void ReadValue(const V& v,
 };
 
 template <std::unsigned_integral A, size_t Size>
-inline void WriteValue(D& d, V& v, const char* key, const Arr<A, Size>& value) {
-  WriteValue(d, v, key, detail::ContainerToBase64<A, Arr<A, Size>>(value));
+inline void WriteValue(D& d,
+                       V& v,
+                       const char* key,
+                       const std::array<A, Size>& value) {
+  WriteValue(d, v, key,
+             detail::ContainerToBase64<A, std::array<A, Size>>(value));
 };
 #pragma endregion
 
-#pragma region  // Str <--> Vec<A>
+#pragma region  // std::string <--> std::vector<A>
 template <typename TContainer, std::integral A>
 inline void ReadValue(const V& v,
                       const char* key,
@@ -168,7 +176,7 @@ inline void ReadValue(const V& v,
                       const TContainer& def_value) {
   if (v.HasMember(key) && v[key].IsString()) {
     std::fill(out.begin(), out.end(), 0);
-    detail::Base64ToContainer(out, Str(v[key].GetString()));
+    detail::Base64ToContainer(out, std::string(v[key].GetString()));
   } else {
     out = def_value;
   }

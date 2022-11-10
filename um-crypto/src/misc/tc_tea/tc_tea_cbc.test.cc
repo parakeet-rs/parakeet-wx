@@ -17,7 +17,7 @@ TEST(umc_misc_tc_tea_cbc, BasicDecryptionTest) {
                            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
   u8 good_decrypted_data[] = {1, 2, 3, 4, 5, 6, 7, 8};
 
-  Vec<u8> decrypted(24);
+  std::vector<u8> decrypted(24);
   size_t decrypted_len = decrypted.size();
   misc::tc_tea::cbc::Decrypt(decrypted.data(), decrypted_len, encrypted,
                              sizeof(encrypted), encryption_key);
@@ -32,15 +32,16 @@ TEST(umc_misc_tc_tea_cbc, BasicEncryptionTest) {
                            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'};
   u8 good_decrypted_data[] = {1, 2, 3, 4, 5, 6, 7, 8};
 
-  Arr<u8, 8> plain_data = {1, 2, 3, 4, 5, 6, 7, 8};
-  Vec<u8> encrypted(misc::tc_tea::cbc::GetEncryptedSize(plain_data.size()));
-  usize encrypted_size = encrypted.size();
+  std::array<u8, 8> plain_data = {1, 2, 3, 4, 5, 6, 7, 8};
+  std::vector<u8> encrypted(
+      misc::tc_tea::cbc::GetEncryptedSize(plain_data.size()));
+  std::size_t encrypted_size = encrypted.size();
   misc::tc_tea::cbc::Encrypt(encrypted.data(), encrypted_size,
                              plain_data.data(), plain_data.size(),
                              encryption_key);
   encrypted.resize(encrypted_size);
 
-  Vec<u8> decrypted(24);
+  std::vector<u8> decrypted(24);
   size_t decrypted_len;
   misc::tc_tea::cbc::Decrypt(decrypted.data(), decrypted_len, encrypted.data(),
                              encrypted.size(), encryption_key);

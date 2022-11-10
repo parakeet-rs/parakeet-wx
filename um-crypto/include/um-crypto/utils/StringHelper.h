@@ -6,12 +6,12 @@
 namespace umc::utils {
 
 template <typename... Args>
-Str Format(const char* fmt, Args... args) {
+std::string Format(const char* fmt, Args... args) {
   auto text_len = std::snprintf(nullptr, 0, fmt, args...);
   if (text_len < 0) return "";
 
   // String contains the extra '\x00' at the end.
-  Str formatted(text_len, 0);
+  std::string formatted(text_len, 0);
   std::snprintf(formatted.data(), text_len + 1, fmt, args...);
   return formatted;
 }
@@ -35,8 +35,8 @@ inline u8 HexLookup(const char c) {
   return 0;
 }
 
-inline Str UnescapeCharSequence(const Str& s) {
-  Str result;
+inline std::string UnescapeCharSequence(const std::string& s) {
+  std::string result;
   result.reserve(s.size());
   bool open_escape = false;
   for (const auto c : s) {
@@ -73,8 +73,8 @@ inline Str UnescapeCharSequence(const Str& s) {
   return result;
 }
 
-inline Str RemoveWhitespace(const Str& s) {
-  Str result;
+inline std::string RemoveWhitespace(const std::string& s) {
+  std::string result;
   result.reserve(s.size());
   for (const auto c : s) {
     if (!IsWhitespaceOrNull(c)) {
@@ -84,13 +84,13 @@ inline Str RemoveWhitespace(const Str& s) {
   return result;
 }
 
-inline Vec<Str> ParseCSVLine(const u8* str, usize len) {
-  Vec<Str> result;
+inline std::vector<std::string> ParseCSVLine(const u8* str, std::size_t len) {
+  std::vector<std::string> result;
 
   const u8* str_begin = str;
   while (len) {
     if (*str == ',') {
-      result.push_back(Str(str_begin, str));
+      result.push_back(std::string(str_begin, str));
       str_begin = str + 1;
     }
     str++;
@@ -98,7 +98,7 @@ inline Vec<Str> ParseCSVLine(const u8* str, usize len) {
   }
 
   if (str_begin != str) {
-    result.push_back(Str(str_begin, str));
+    result.push_back(std::string(str_begin, str));
   }
 
   return result;

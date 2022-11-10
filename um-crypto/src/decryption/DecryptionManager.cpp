@@ -18,7 +18,7 @@ class DecryptionManagerImpl : public DecryptionManager {
     config_ = config;
   }
 
-  Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
+  std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(
       const DetectionBuffer& header,
       const DetectionBuffer& footer,
       bool remove_unknown_format) {
@@ -26,20 +26,20 @@ class DecryptionManagerImpl : public DecryptionManager {
     ss.write(reinterpret_cast<const char*>(header.data()), header.size());
 
     // add some padding
-    ss.write(Str(header.size(), 0).c_str(), header.size());
+    ss.write(std::string(header.size(), 0).c_str(), header.size());
 
     ss.write(reinterpret_cast<const char*>(footer.data()), footer.size());
     return DetectDecryptors(ss, remove_unknown_format);
   };
 
-  Vec<std::unique_ptr<DetectionResult>> DetectDecryptors(
+  std::vector<std::unique_ptr<DetectionResult>> DetectDecryptors(
       std::istream& stream,
       bool remove_unknown_format = true) override {
     using utils::AudioType;
 
-    Vec<std::unique_ptr<DetectionResult>> result;
+    std::vector<std::unique_ptr<DetectionResult>> result;
 
-    Vec<u8> header(kDetectionBufferLen);  // initial header size.
+    std::vector<u8> header(kDetectionBufferLen);  // initial header size.
     DetectionBuffer footer;
     stream.seekg(0, std::ios::beg);
     stream.read(reinterpret_cast<char*>(header.data()), kDetectionBufferLen);
@@ -48,14 +48,14 @@ class DecryptionManagerImpl : public DecryptionManager {
       return result;
     }
     stream.seekg(0, std::ios::end);
-    usize file_len = stream.tellg();
+    std::size_t file_len = stream.tellg();
     stream.seekg(file_len - kDetectionBufferLen, std::ios::beg);
     stream.read(reinterpret_cast<char*>(footer.data()), kDetectionBufferLen);
     if (stream.gcount() < kDetectionBufferLen) {
       // buffer too small
       return result;
     }
-    usize bytes_left = file_len - kDetectionBufferLen;
+    std::size_t bytes_left = file_len - kDetectionBufferLen;
     stream.seekg(kDetectionBufferLen, std::ios::beg);
 
     for (auto& decryptor : GetDecryptorsFromConfig()) {
@@ -68,12 +68,12 @@ class DecryptionManagerImpl : public DecryptionManager {
       auto p_in = header.data();
       while (bytes_left > 0 &&
              decryptor->GetOutputSize() < kDetectionBufferLen) {
-        usize bytes_left_in_buffer = header.data() + header.size() - p_in;
+        std::size_t bytes_left_in_buffer = header.data() + header.size() - p_in;
 
         // Should we feed more data?
         if (bytes_left_in_buffer == 0) {
-          usize bytes_to_read = std::min(kDetectionBufferLen, bytes_left);
-          usize pos = header.size();
+          std::size_t bytes_to_read = std::min(kDetectionBufferLen, bytes_left);
+          std::size_t pos = header.size();
           header.resize(pos + bytes_to_read);
 
           p_in = &header[pos];
@@ -88,7 +88,7 @@ class DecryptionManagerImpl : public DecryptionManager {
           bytes_left -= bytes_to_read;
         }
 
-        usize bytes_written =
+        std::size_t bytes_written =
             std::min(kDetectionBufferLen, bytes_left_in_buffer);
         if (!decryptor->Write(p_in, bytes_written) ||
             decryptor->InErrorState()) {
@@ -103,8 +103,8 @@ class DecryptionManagerImpl : public DecryptionManager {
 
       if (bad) continue;
 
-      usize decrypted_size = decryptor->GetOutputSize();
-      Vec<u8> decrypted_peek(decrypted_size);
+      std::size_t decrypted_size = decryptor->GetOutputSize();
+      std::vector<u8> decrypted_peek(decrypted_size);
       decryptor->Peek(decrypted_peek.data(), decrypted_size);
 
       auto audio_type = utils::DetectAudioType(decrypted_peek);
@@ -133,9 +133,10 @@ class DecryptionManagerImpl : public DecryptionManager {
   };
 
  private:
-  inline Vec<std::unique_ptr<DecryptionStream>> GetDecryptorsFromConfig() {
+  inline std::vector<std::unique_ptr<DecryptionStream>>
+  GetDecryptorsFromConfig() {
     const auto& c = config_;
-    Vec<std::unique_ptr<DecryptionStream>> result;
+    std::vector<std::unique_ptr<DecryptionStream>> result;
 
     // Add kugou ciphers
     kugou::KugouSlotKeys kgm_slot_keys;

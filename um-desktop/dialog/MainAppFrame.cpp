@@ -169,12 +169,13 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
 
   for (int i = 0; i < len; i++) {
-    umc::Path item_path(umc::U8StrFromStr(file_paths.Item(i).utf8_string()));
+    std::filesystem::path item_path(
+        umc::U8StrFromStr(file_paths.Item(i).utf8_string()));
     AddSingleFileToQueue(item_path);
   }
 }
 
-void MainAppFrame::AddSingleFileToQueue(const umc::Path& path) {
+void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path& path) {
   namespace fs = std::filesystem;
   auto status = fs::status(path);
   if (fs::is_directory(path)) {
@@ -328,7 +329,7 @@ void MainAppFrame::ProcessNextFile() {
       std::ofstream f_out(path_out, std::ios::out | std::ios::binary);
 
       f_in->seekg(0, std::ios::end);
-      umc::usize len = umc::usize(f_in->tellg());
+      std::size_t len = std::size_t(f_in->tellg());
       if (len == 0) {
         entry->error = _("empty input file");
         ok = false;
@@ -347,9 +348,9 @@ void MainAppFrame::ProcessNextFile() {
       auto& decryptor = entry->decryptor->decryptor;
       umc::u8 buf[4096];
       while (len) {
-        umc::usize bytes_to_read = std::min(sizeof(buf), len);
+        std::size_t bytes_to_read = std::min(sizeof(buf), len);
         f_in->read(reinterpret_cast<char*>(buf), bytes_to_read);
-        umc::usize bytes_read = f_in->gcount();
+        std::size_t bytes_read = f_in->gcount();
         if (!decryptor->Write(buf, bytes_read)) {
           break;
         }

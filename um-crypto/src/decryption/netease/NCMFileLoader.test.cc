@@ -22,7 +22,7 @@ NCMContentKeyProtectionKey kAESKey = []() {
 }();
 
 TEST(NeteaseNCMLoader, SimpleCase) {
-  Vec<u8> test_data(test::kSize4MiB);
+  std::vector<u8> test_data(test::kSize4MiB);
 
   test::GenerateTestData(test_data, "ncm-test-data");
 
@@ -31,7 +31,7 @@ TEST(NeteaseNCMLoader, SimpleCase) {
   //    k9R2NAS0zMZ9fHd4z37ei2drOBpNEYWFiN0jMiujKyv7pXPkxtj8eTck0
   //    0Jixun0Parakeet
 
-  Vec<u8> header_override = {
+  std::vector<u8> header_override = {
       0x43, 0x54, 0x45, 0x4E, 0x46, 0x44, 0x41, 0x4D,
 
       0xff, 0xff,

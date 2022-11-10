@@ -23,25 +23,8 @@ using i16 = int16_t;
 using i32 = int32_t;
 using i64 = int64_t;
 
-using usize = size_t;
-#if UINTPTR_MAX == UINT64_MAX
-using isize = i64;
-#else
-using isize = i32;
-#endif
-
-template <class T>
-using Vec = std::vector<T>;
-
-template <class T, usize S>
-using Arr = std::array<T, S>;
-
-using Str = std::string;
-using U8Str = std::u8string;
-using Path = std::filesystem::path;
-
-inline U8Str U8StrFromStr(const Str& s) {
-  return U8Str(s.begin(), s.end());
+inline std::u8string U8StrFromStr(const std::string& s) {
+  return std::u8string(s.begin(), s.end());
 }
 
 }  // namespace umc

@@ -5,12 +5,13 @@
 namespace umc::decryption::netease {
 
 // AES Key; which can be used to decrypt the embedded "content key"
-constexpr usize kNCMContentKeyProtectionKeySize = 128 / 8;
-typedef Arr<u8, kNCMContentKeyProtectionKeySize> NCMContentKeyProtectionKey;
+constexpr std::size_t kNCMContentKeyProtectionKeySize = 128 / 8;
+typedef std::array<u8, kNCMContentKeyProtectionKeySize>
+    NCMContentKeyProtectionKey;
 
 class NCMFileLoader : public DecryptionStream {
  public:
-  virtual const Str GetName() const override { return "NCM"; };
+  virtual const std::string GetName() const override { return "NCM"; };
 
   static std::unique_ptr<NCMFileLoader> Create(
       const NCMContentKeyProtectionKey& key);

@@ -16,7 +16,7 @@ using namespace umc::decryption::tencent;
 using namespace umc;
 
 TEST(QMCv1, StaticCipher) {
-  Vec<u8> test_data(test::kSize4MiB);
+  std::vector<u8> test_data(test::kSize4MiB);
   test::GenerateTestData(test_data, "qmcv1 static data");
 
   QMCv1Key key(256);
@@ -31,14 +31,14 @@ TEST(QMCv1, StaticCipher) {
 
 class QMCFooterParserMock : public umc::misc::tencent::QMCFooterParser {
  private:
-  Vec<u8> key_;
+  std::vector<u8> key_;
 
  public:
-  QMCFooterParserMock(Vec<u8> key) : key_(key) {}
+  QMCFooterParserMock(std::vector<u8> key) : key_(key) {}
 
   std::unique_ptr<umc::misc::tencent::QMCFooterParseResult> Parse(
       const u8* p_in,
-      usize len) const override {
+      std::size_t len) const override {
     auto result = std::make_unique<umc::misc::tencent::QMCFooterParseResult>();
     result->eof_bytes_ignore = 0;
     result->key = key_;
@@ -47,7 +47,7 @@ class QMCFooterParserMock : public umc::misc::tencent::QMCFooterParser {
 };
 
 TEST(QMCv1, MapCipher) {
-  Vec<u8> test_data(test::kSize4MiB);
+  std::vector<u8> test_data(test::kSize4MiB);
   test::GenerateTestData(test_data, "qmcv1 map cipher data");
 
   QMCv1Key key(256);

@@ -24,7 +24,7 @@ enum class AudioType : u32 {
   kAudioTypeAPE,
 };
 
-inline Str GetAudioTypeExtension(AudioType type) {
+inline std::string GetAudioTypeExtension(AudioType type) {
   switch (type) {
     case AudioType::kAudioTypeOGG:
       return "ogg";

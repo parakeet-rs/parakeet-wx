@@ -5,7 +5,7 @@
 
 namespace umc::utils {
 
-inline isize ParseID3SyncSafeInt(const u8* p) {
+inline i32 ParseID3SyncSafeInt(const u8* p) {
   auto raw = umc::ReadBigEndian<u32>(p);
 
   // Sync safe int should use only lower 7-bits of each byte.
@@ -17,7 +17,7 @@ inline isize ParseID3SyncSafeInt(const u8* p) {
          ((raw & 0x0000'7F00) >> 1) | ((raw & 0x0000'007F) >> 0);
 }
 
-inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
+inline std::size_t GetID3HeaderSize(u32 magic, const u8* buf, std::size_t len) {
   if (len < 10) {
     return 0;
   }
@@ -41,7 +41,7 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
   //        u32(inner_tag_size)
   //        byte[inner_tag_size] id3v2 data
   //        byte[*] original_file_content
-  const isize id3v2InnerTagSize = ParseID3SyncSafeInt(&buf[6]);
+  const auto id3v2InnerTagSize = ParseID3SyncSafeInt(&buf[6]);
   if (id3v2InnerTagSize == 0) {
     return 0;
   }
@@ -49,7 +49,9 @@ inline usize GetID3HeaderSize(u32 magic, const u8* buf, usize len) {
   return 10 + id3v2InnerTagSize;
 }
 
-inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
+inline std::size_t GetAPEv2FullSize(u32 magic1,
+                                    const u8* buf,
+                                    std::size_t len) {
   u32 magic2 = umc::ReadBigEndian<u32>(&buf[4]);
   constexpr u32 kAPEv2Magic1 = 0x41'50'45'54u;  // 'APET'
   constexpr u32 kAPEv2Magic2 = 0x41'47'45'58u;  // 'AGEX'
@@ -59,7 +61,7 @@ inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
   }
 
   // Tag size in bytes including footer and all tag items excluding the header.
-  constexpr usize kAPEv2HeaderSize = 32;
+  constexpr std::size_t kAPEv2HeaderSize = 32;
   return umc::ReadLittleEndian<u32>(&buf[0x0c]) + kAPEv2HeaderSize;
 }
 
@@ -70,22 +72,22 @@ inline usize GetAPEv2FullSize(u32 magic1, const u8* buf, usize len) {
  *
  * @param buf
  * @param len
- * @return usize
+ * @return std::size_t
  */
-inline usize GetAudioHeaderMetadataSize(const u8* buf, usize len) {
+inline std::size_t GetAudioHeaderMetadataSize(const u8* buf, std::size_t len) {
   // Not enough bytes to detect
   if (len < 10) {
     return 0;
   }
 
   u32 magic = umc::ReadBigEndian<u32>(buf);
-  usize id3_meta_size = GetID3HeaderSize(magic, buf, len);
+  std::size_t id3_meta_size = GetID3HeaderSize(magic, buf, len);
   if (id3_meta_size) {
     return id3_meta_size;
   }
 
   // It's possible to have APEv2 header at the beginning of a file, though rare.
-  usize ape_meta_size = GetAPEv2FullSize(magic, buf, len);
+  std::size_t ape_meta_size = GetAPEv2FullSize(magic, buf, len);
   if (ape_meta_size) {
     return ape_meta_size;
   }

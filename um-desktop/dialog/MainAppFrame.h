@@ -24,7 +24,7 @@ enum class FileProcessStatus {
 
 struct FileEntry {
   FileProcessStatus status;
-  umc::Path file_path;
+  std::filesystem::path file_path;
   long index;
   long process_time_ms;
   wxString error;
@@ -71,7 +71,7 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
   void ProcessNextFile();
   void OnProcessSingleFileComplete();
   void HandleAddFilesToQueue(const wxArrayString& filenames);
-  void AddSingleFileToQueue(const umc::Path& path);
+  void AddSingleFileToQueue(const std::filesystem::path& path);
 
  private:
   friend class MainAppDropTarget;

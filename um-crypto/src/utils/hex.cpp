@@ -6,32 +6,32 @@
 
 namespace umc::utils {
 
-Str Hex(const Vec<u8>& v) {
+std::string Hex(const std::vector<u8>& v) {
   CryptoPP::HexEncoder encoder(nullptr, false, 2, " ");
   encoder.Put(v.data(), v.size());
   encoder.MessageEnd();
 
-  Str result(encoder.MaxRetrievable(), 0);
+  std::string result(encoder.MaxRetrievable(), 0);
   encoder.Get(reinterpret_cast<u8*>(result.data()), result.size());
   return result;
 }
 
-Str HexCompactLowercase(const std::span<const u8> data) {
+std::string HexCompactLowercase(const std::span<const u8> data) {
   CryptoPP::HexEncoder encoder(nullptr, false, 0, "", "");
   encoder.Put(data.data(), data.size());
   encoder.MessageEnd();
 
-  Str result(encoder.MaxRetrievable(), 0);
+  std::string result(encoder.MaxRetrievable(), 0);
   encoder.Get(reinterpret_cast<u8*>(result.data()), result.size());
   return result;
 }
 
-Vec<u8> Unhex(const Str& str) {
+std::vector<u8> Unhex(const std::string& str) {
   CryptoPP::HexDecoder decoder;
   decoder.Put(reinterpret_cast<const u8*>(str.data()), str.size());
   decoder.MessageEnd();
 
-  Vec<u8> result(decoder.MaxRetrievable());
+  std::vector<u8> result(decoder.MaxRetrievable());
   decoder.Get(result.data(), result.size());
   return result;
 }

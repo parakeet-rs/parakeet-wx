@@ -6,11 +6,13 @@
 
 namespace umc::decryption::tencent {
 
-typedef Vec<u8> QMCv1Key;
+typedef std::vector<u8> QMCv1Key;
 
 class QMCv1Loader : public DecryptionStream {
  public:
-  virtual const Str GetName() const override { return "QMCv1(static/map)"; };
+  virtual const std::string GetName() const override {
+    return "QMCv1(static/map)";
+  };
 
   static std::unique_ptr<QMCv1Loader> Create(const QMCv1Key& key);
   static std::unique_ptr<QMCv1Loader> Create(

@@ -6,14 +6,14 @@
 
 namespace umc::decryption::kugou {
 
-typedef Vec<u8> KugouSingleSlotKey;
+typedef std::vector<u8> KugouSingleSlotKey;
 typedef std::map<uint32_t, KugouSingleSlotKey> KugouSlotKeys;
-typedef Vec<u8> KugouV4SlotKeyExpansionTable;
-typedef Vec<u8> KugouV4FileKeyExpansionTable;
+typedef std::vector<u8> KugouV4SlotKeyExpansionTable;
+typedef std::vector<u8> KugouV4FileKeyExpansionTable;
 
 class KugouFileLoader : public DecryptionStream {
  public:
-  virtual const Str GetName() const override { return "Kugou"; };
+  virtual const std::string GetName() const override { return "Kugou"; };
 
   /**
    * @brief Create KugouFileLoader for KGM / VPR.

@@ -6,8 +6,8 @@
 
 namespace umc::utils {
 
-Str Hex(const Vec<u8>& v);
-Str HexCompactLowercase(const std::span<const u8> data);
-Vec<u8> Unhex(const Str& v);
+std::string Hex(const std::vector<u8>& v);
+std::string HexCompactLowercase(const std::span<const u8> data);
+std::vector<u8> Unhex(const std::string& v);
 
 }  // namespace umc::utils

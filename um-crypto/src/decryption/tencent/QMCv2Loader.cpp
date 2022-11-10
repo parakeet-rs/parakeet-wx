@@ -5,8 +5,8 @@ namespace umc::decryption::tencent {
 
 namespace detail {
 
-constexpr usize kFirstSegmentSize = 0x80;
-constexpr usize kOtherSegmentSize = 0x1400;
+constexpr std::size_t kFirstSegmentSize = 0x80;
+constexpr std::size_t kOtherSegmentSize = 0x1400;
 
 enum class State {
   kDecryptFirstSegment = 0,
@@ -15,7 +15,7 @@ enum class State {
 
 class QMCv2LoaderImpl : public QMCv2Loader {
  private:
-  Str name_;
+  std::string name_;
   State state_ = State::kDecryptFirstSegment;
   std::shared_ptr<misc::tencent::QMCFooterParser> parser_;
 
@@ -27,7 +27,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
     }
   }
 
-  virtual usize InitWithFileFooter(const DetectionBuffer& buf) {
+  virtual std::size_t InitWithFileFooter(const DetectionBuffer& buf) {
     if (parser_) {
       auto parsed = parser_->Parse(buf.data(), buf.size());
       if (parsed && parsed->key.size() >= 300) {
@@ -40,7 +40,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
     return 0;
   }
 
-  bool Write(const u8* in, usize len) override {
+  bool Write(const u8* in, std::size_t len) override {
     while (len) {
       switch (state_) {
         case State::kDecryptFirstSegment:
@@ -62,13 +62,13 @@ class QMCv2LoaderImpl : public QMCv2Loader {
   bool End() override { return !InErrorState(); };
 
  private:
-  Vec<u8> key_;
-  Vec<u8> S_;
-  usize N_;
+  std::vector<u8> key_;
+  std::vector<u8> S_;
+  std::size_t N_;
   double key_hash_;
-  usize segment_id_ = 0;
+  std::size_t segment_id_ = 0;
 
-  inline void InitWithKey(const Vec<u8>& key) {
+  inline void InitWithKey(const std::vector<u8>& key) {
     key_ = key;
     N_ = key.size();
     S_.resize(N_);
@@ -103,11 +103,11 @@ class QMCv2LoaderImpl : public QMCv2Loader {
   }
 
   void DecryptFirstSegment() {
-    usize N = N_;
+    std::size_t N = N_;
     auto p_out = ExpandOutputBuffer(kFirstSegmentSize);
     u8* p_in = buf_in_.data();
 
-    for (usize i = 0; i < kFirstSegmentSize; i++) {
+    for (std::size_t i = 0; i < kFirstSegmentSize; i++) {
       const u64 seed = u64{key_[i % N]};
       p_out[i] = p_in[i] ^ key_[GetSegmentKey(i, seed) % N];
     }
@@ -119,7 +119,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
 
   u32 rc4_i_ = 0;
   u32 rc4_j_ = 0;
-  usize segment_bytes_left_ = 0;
+  std::size_t segment_bytes_left_ = 0;
 
   inline u8 GetNextRC4Output() {
     // Set alias
@@ -135,7 +135,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
     return S[(S[i] + S[j]) % N];
   }
 
-  inline void ResetOtherSegment(usize extra_discard = 0) {
+  inline void ResetOtherSegment(std::size_t extra_discard = 0) {
     if (segment_bytes_left_ != 0) return;
 
     auto& S = S_;
@@ -164,7 +164,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
     segment_id_++;
   }
 
-  void DecryptOtherSegment(const u8* in, usize len) {
+  void DecryptOtherSegment(const u8* in, std::size_t len) {
     auto p_out = ExpandOutputBuffer(len);
 
     auto& S = S_;
@@ -172,7 +172,7 @@ class QMCv2LoaderImpl : public QMCv2Loader {
 
     while (len > 0) {
       ResetOtherSegment();
-      usize processed_len = std::min(segment_bytes_left_, len);
+      std::size_t processed_len = std::min(segment_bytes_left_, len);
       for (u32 i = 0; i < processed_len; i++) {
         p_out[i] = in[i] ^ GetNextRC4Output();
       }

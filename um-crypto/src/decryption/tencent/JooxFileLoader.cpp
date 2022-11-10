@@ -17,16 +17,17 @@ namespace umc::decryption::tencent {
 
 namespace detail_joox_v4 {
 
-constexpr usize kMagicSize = 4;
-constexpr usize kVer4HeaderSize = 12; /* 'E!04' + u64_be(file size) */
+constexpr std::size_t kMagicSize = 4;
+constexpr std::size_t kVer4HeaderSize = 12; /* 'E!04' + u64_be(file size) */
 
 constexpr u32 kMagicJooxV4 = 0x45'21'30'34;  // 'E!04'
 
 // Input block + padding 16 bytes (of 0x10)
-constexpr usize kAESBlockSize = 0x10;
-constexpr usize kEncryptionBlockSize = 0x100000;  // 1MiB
-constexpr usize kDecryptionBlockSize = kEncryptionBlockSize + 0x10;
-constexpr usize kBlockCountPerIteration = kEncryptionBlockSize / kAESBlockSize;
+constexpr std::size_t kAESBlockSize = 0x10;
+constexpr std::size_t kEncryptionBlockSize = 0x100000;  // 1MiB
+constexpr std::size_t kDecryptionBlockSize = kEncryptionBlockSize + 0x10;
+constexpr std::size_t kBlockCountPerIteration =
+    kEncryptionBlockSize / kAESBlockSize;
 
 enum class State {
   kWaitForHeader = 0,
@@ -37,16 +38,16 @@ enum class State {
 
 class JooxFileLoaderImpl : public JooxFileLoader {
  public:
-  JooxFileLoaderImpl(const Str& install_uuid, const JooxSalt& salt)
+  JooxFileLoaderImpl(const std::string& install_uuid, const JooxSalt& salt)
       : uuid_(install_uuid), salt_(salt) {}
 
  private:
   CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption aes_;
 
-  Str uuid_;
+  std::string uuid_;
   JooxSalt salt_;
   State state_ = State::kWaitForHeader;
-  usize block_count_ = 0;
+  std::size_t block_count_ = 0;
 
   inline void SetupKey() {
     u8 derived[CryptoPP::SHA1::DIGESTSIZE];
@@ -59,7 +60,7 @@ class JooxFileLoaderImpl : public JooxFileLoader {
     aes_.SetKey(derived, kAESBlockSize);
   }
 
-  bool Write(const u8* in, usize len) override {
+  bool Write(const u8* in, std::size_t len) override {
     buf_out_.reserve(buf_out_.size() + len);
 
     while (len) {
@@ -126,10 +127,10 @@ class JooxFileLoaderImpl : public JooxFileLoader {
       return false;
     }
 
-    usize len = kAESBlockSize - trim;
+    std::size_t len = kAESBlockSize - trim;
 
     u8 zero_sum = 0;
-    for (usize i = len; i < kAESBlockSize; i++) {
+    for (std::size_t i = len; i < kAESBlockSize; i++) {
       zero_sum |= block[i] ^ trim;
     }
 
@@ -162,8 +163,9 @@ class JooxFileLoaderImpl : public JooxFileLoader {
 
 // Public interface
 
-std::unique_ptr<JooxFileLoader> JooxFileLoader::Create(const Str& install_uuid,
-                                                       const JooxSalt& salt) {
+std::unique_ptr<JooxFileLoader> JooxFileLoader::Create(
+    const std::string& install_uuid,
+    const JooxSalt& salt) {
   return std::make_unique<detail_joox_v4::JooxFileLoaderImpl>(install_uuid,
                                                               salt);
 }

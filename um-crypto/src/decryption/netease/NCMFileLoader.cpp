@@ -25,11 +25,11 @@ namespace detail {
  *   - Audio Data (Encrypted with Content Key);
  */
 
-constexpr usize kFileHeaderSize = 10;  // 'CTENFDAM'
+constexpr std::size_t kFileHeaderSize = 10;  // 'CTENFDAM'
 constexpr u64 kNCMFileMagic = 0x43'54'45'4E'46'44'41'4D;
 
 // "neteasecloudmusic"
-Arr<u8, 17> kContentKeyPrefix = {
+std::array<u8, 17> kContentKeyPrefix = {
     'n', 'e', 't', 'e', 'a', 's', 'e', 'c', 'l',
     'o', 'u', 'd', 'm', 'u', 's', 'i', 'c',
 };
@@ -49,7 +49,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
  private:
   State state_ = State::kReadFileMagic;
   NCMContentKeyProtectionKey key_;
-  Vec<u8> content_key_;
+  std::vector<u8> content_key_;
 
   u32 content_key_size_ = 0;
   u32 metadata_size_ = 0;
@@ -63,7 +63,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
     using AES = CryptoPP::ECB_Mode<CryptoPP::AES>::Decryption;
     using Filter = CryptoPP::StreamTransformationFilter;
 
-    Vec<u8> file_key(content_key_size_);
+    std::vector<u8> file_key(content_key_size_);
     ConsumeInput(file_key.data(), content_key_size_);
     for (auto& key : file_key) {
       key ^= 0x64;
@@ -91,21 +91,21 @@ class NCMFileLoaderImpl : public NCMFileLoader {
     return true;
   }
 
-  usize audio_data_offset_ = 0;
-  Arr<u8, 0x100> final_audio_xor_key_;
+  std::size_t audio_data_offset_ = 0;
+  std::array<u8, 0x100> final_audio_xor_key_;
   void InitXorCipherKey() {
     u8 S[0x100];
 
     /* Standard RC4 setup */ {
       auto& key = content_key_;
-      usize key_len = key.size();
+      std::size_t key_len = key.size();
 
-      for (usize i = 0; i <= 0xff; i++) {
+      for (std::size_t i = 0; i <= 0xff; i++) {
         S[i] = u8(i);
       }
 
       u8 j = 0;
-      for (usize i = 0; i <= 0xff; i++) {
+      for (std::size_t i = 0; i <= 0xff; i++) {
         j += S[i] + key[i % key_len];
         std::swap(S[i], S[j]);
       }
@@ -132,9 +132,9 @@ class NCMFileLoaderImpl : public NCMFileLoader {
   }
 
   bool ReadNextSizedBlock(const u8*& in,
-                          usize& len,
+                          std::size_t& len,
                           u32& next_block_size,
-                          usize padding = 0) {
+                          std::size_t padding = 0) {
     if (InErrorState()) return false;
 
     if (next_block_size == 0 && ReadBlock(in, len, sizeof(u32))) {
@@ -154,7 +154,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
     return false;
   }
 
-  bool Write(const u8* in, usize len) override {
+  bool Write(const u8* in, std::size_t len) override {
     while (len) {
       switch (state_) {
         case State::kReadFileMagic:
@@ -181,7 +181,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
         case State::kReadMetaBlock:
           // unknown 5 bytes padding;
           if (ReadNextSizedBlock(in, len, metadata_size_, 5)) {
-            ConsumeInput(usize{metadata_size_});
+            ConsumeInput(std::size_t{metadata_size_});
             state_ = State::kReadCoverFrameSize;
           }
           break;
@@ -201,7 +201,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
               return false;
             }
 
-            ConsumeInput(usize{cover_size_});
+            ConsumeInput(std::size_t{cover_size_});
             InitXorCipherKey();
             audio_data_offset_ = 0;
 
@@ -211,7 +211,7 @@ class NCMFileLoaderImpl : public NCMFileLoader {
 
         case State::kSkipCoverPadding:
           if (ReadBlock(in, len, cover_frame_size_ - cover_size_)) {
-            ConsumeInput(usize{cover_frame_size_ - cover_size_});
+            ConsumeInput(std::size_t{cover_frame_size_ - cover_size_});
             state_ = State::kDecryptAudio;
           }
           break;

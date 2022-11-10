@@ -8,24 +8,24 @@
 namespace umc::utils {
 
 constexpr size_t kAudioTypeSniffBufferSize = 4096;
-AudioType DetectAudioType(const u8* buf, usize len);
+AudioType DetectAudioType(const u8* buf, std::size_t len);
 
-inline AudioType DetectAudioType(const Vec<u8>& vec) {
+inline AudioType DetectAudioType(const std::vector<u8>& vec) {
   return DetectAudioType(vec.data(), vec.size());
 }
 
-inline bool IsAudioBufferRecognised(const u8* buf, usize len) {
+inline bool IsAudioBufferRecognised(const u8* buf, std::size_t len) {
   return DetectAudioType(buf, len) != AudioType::kUnknownType;
 }
-inline bool IsAudioBufferRecognised(const Vec<u8>& vec) {
+inline bool IsAudioBufferRecognised(const std::vector<u8>& vec) {
   return IsAudioBufferRecognised(vec.data(), vec.size());
 }
 
-inline Str DetectAudioExtension(const u8* buf, usize len) {
+inline std::string DetectAudioExtension(const u8* buf, std::size_t len) {
   return GetAudioTypeExtension(DetectAudioType(buf, len));
 }
 
-inline U8Str DetectAudioExtensionU8(const u8* buf, usize len) {
+inline std::u8string DetectAudioExtensionU8(const u8* buf, std::size_t len) {
   return U8StrFromStr(DetectAudioExtension(buf, len));
 }
 

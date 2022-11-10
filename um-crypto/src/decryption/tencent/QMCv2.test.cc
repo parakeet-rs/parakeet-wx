@@ -21,12 +21,12 @@ using namespace umc;
 using namespace umc::misc::tencent;
 
 TEST(QMCv2, RC4Cipher) {
-  Vec<u8> test_data(test::kSize4MiB);
+  std::vector<u8> test_data(test::kSize4MiB);
   test::GenerateTestData(test_data, "qmcv2 rc4 cipher data");
 
-  Vec<u8> ekey;
-  Vec<u8> file_key(512);
-  Vec<u8> parsed_file_key;
+  std::vector<u8> ekey;
+  std::vector<u8> file_key(512);
+  std::vector<u8> parsed_file_key;
   test::GenerateTestData(file_key, "qmcv2 rc4 cipher key");
 
   // chosen by fair dice roll.

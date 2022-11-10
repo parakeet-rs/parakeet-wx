@@ -13,7 +13,7 @@
 namespace umd::utils::str_conv {
 
 // Note:
-// All "Str"s in this scope are UTF-8 encoded.
+// All "std::string"s in this scope are UTF-8 encoded.
 
 using umc::utils::Hex;
 using umc::utils::HexLookup;
@@ -23,25 +23,25 @@ using umc::utils::Unhex;
 
 #pragma region  // Template signature
 template <typename T>
-void ToString(Str& out, const T& input);
+void ToString(std::string& out, const T& input);
 
 template <typename T>
-void FromString(T& out, const Str& input);
+void FromString(T& out, const std::string& input);
 #pragma endregion
 
 // Detailed implementation
 namespace detail {
 
-#pragma region  // Str <--> Container<A> (internal)
+#pragma region  // std::string <--> Container<A> (internal)
 template <std::unsigned_integral A, class TContainer>
-inline void ContainerToString(Str& out, const TContainer& input) {
+inline void ContainerToString(std::string& out, const TContainer& input) {
   if (input.size() == 0) {
     out = "";
     return;
   }
 
-  constexpr usize buf_single_size = sizeof(A) * 2 + 4;  // ", 0x"
-  const usize buf_size = input.size() * buf_single_size;
+  constexpr std::size_t buf_single_size = sizeof(A) * 2 + 4;  // ", 0x"
+  const std::size_t buf_size = input.size() * buf_single_size;
   out.resize(buf_size);
 
   const char* fmt;
@@ -63,13 +63,13 @@ inline void ContainerToString(Str& out, const TContainer& input) {
 }
 
 template <std::integral A, class TContainer>
-inline void ContainerFromString(TContainer& out, const Str& input) {
+inline void ContainerFromString(TContainer& out, const std::string& input) {
   // Remember: garbage in, garbage out...
 
-  const usize len = input.size();
+  const std::size_t len = input.size();
   out.resize(len);
 
-  usize i{0};
+  std::size_t i{0};
   A value{0};
   auto dst = out.begin();
 
@@ -108,57 +108,57 @@ inline void ContainerFromString(TContainer& out, const Str& input) {
 
 #pragma region  // Base case: String to String
 template <>
-inline void ToString(Str& out, const Str& input) {
+inline void ToString(std::string& out, const std::string& input) {
   out = input;
 }
 template <>
-inline void FromString(Str& out, const Str& input) {
+inline void FromString(std::string& out, const std::string& input) {
   out = input;
 };
 #pragma endregion
 
-#pragma region  // String <--> Vec<u8>
+#pragma region  // String <--> std::vector<u8>
 template <>
-inline void ToString(Str& out, const Vec<u8>& input) {
+inline void ToString(std::string& out, const std::vector<u8>& input) {
   out = Hex(input);
 }
 template <>
-inline void FromString(Vec<u8>& out, const Str& input) {
+inline void FromString(std::vector<u8>& out, const std::string& input) {
   out = Unhex(UnescapeCharSequence(input));
 };
 #pragma endregion
 
 #pragma region  // String <--> int
 template <>
-inline void ToString(Str& out, const int& input) {
+inline void ToString(std::string& out, const int& input) {
   out = umc::utils::Format("%d", int(input));
 }
 template <>
-inline void FromString(int& out, const Str& input) {
+inline void FromString(int& out, const std::string& input) {
   out = atoi(input.c_str());
 }
 #pragma endregion
 
 #pragma region  // String <--> u8
 template <>
-inline void ToString(Str& out, const u8& input) {
+inline void ToString(std::string& out, const u8& input) {
   out = umc::utils::Format("%d", int(input));
 }
 template <>
-inline void FromString(u8& out, const Str& input) {
+inline void FromString(u8& out, const std::string& input) {
   out = atoi(input.c_str());
 }
 #pragma endregion
 
-#pragma region  // Str <--> Arr<A, Size>
+#pragma region  // std::string <--> std::array<A, Size>
 template <std::unsigned_integral A, size_t Size>
-inline void ToString(Str& out, const Arr<A, Size>& input) {
+inline void ToString(std::string& out, const std::array<A, Size>& input) {
   detail::ContainerToString<A>(out, input);
 }
 
 template <std::integral A, size_t Size>
-inline void FromString(Arr<A, Size>& out, const Str& input) {
-  Vec<A> result(Size);
+inline void FromString(std::array<A, Size>& out, const std::string& input) {
+  std::vector<A> result(Size);
   detail::ContainerFromString<A>(result, input);
   result.resize(Size);
 
@@ -166,14 +166,14 @@ inline void FromString(Arr<A, Size>& out, const Str& input) {
 }
 #pragma endregion
 
-#pragma region  // Str <--> Vec<A>
+#pragma region  // std::string <--> std::vector<A>
 template <std::unsigned_integral A>
-inline void ToString(Str& out, const Vec<A>& input) {
+inline void ToString(std::string& out, const std::vector<A>& input) {
   detail::ContainerToString<A>(out, input);
 }
 
 template <std::integral A>
-inline void FromString(Vec<A>& out, const Str& input) {
+inline void FromString(std::vector<A>& out, const std::string& input) {
   detail::ContainerFromString<A>(out, input);
 }
 #pragma endregion

@@ -17,7 +17,7 @@ void OptionsDialog::ConfigGlueCode() {
 
 #define DEFINE_CTRL_PROP(CONTROL, KEY)                                     \
   if (M == kModeUpdateControl) {                                           \
-    umc::Str str_value;                                                    \
+    std::string str_value;                                                 \
     conv::ToString(str_value, KEY);                                        \
     CONTROL->SetValueFromString(wxString::FromUTF8(str_value));            \
   } else {                                                                 \

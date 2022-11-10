@@ -7,8 +7,8 @@
 
 namespace umc::decryption {
 
-constexpr usize kDetectionBufferLen = 4096;
-typedef Arr<u8, kDetectionBufferLen> DetectionBuffer;
+constexpr std::size_t kDetectionBufferLen = 4096;
+typedef std::array<u8, kDetectionBufferLen> DetectionBuffer;
 
 class DecryptionStream {
  public:
@@ -26,9 +26,11 @@ class DecryptionStream {
    * @brief Initialise decryptor with data found in file footer.
    *
    * @param buf
-   * @return usize Bytes to reserve and don't seed to this decryptor.
+   * @return std::size_t Bytes to reserve and don't seed to this decryptor.
    */
-  virtual usize InitWithFileFooter(const DetectionBuffer& buf) { return 0; }
+  virtual std::size_t InitWithFileFooter(const DetectionBuffer& buf) {
+    return 0;
+  }
 
   /**
    * @brief Write encrypted data stream to the file loader.
@@ -36,13 +38,13 @@ class DecryptionStream {
    * @param in
    * @param len
    */
-  virtual bool Write(const u8* in, usize len) = 0;
+  virtual bool Write(const u8* in, std::size_t len) = 0;
   /**
    * @brief Notify stream transformer that we have reached end of file.
    */
   virtual bool End() = 0;
 
-  virtual const Str GetName() const = 0;
+  virtual const std::string GetName() const = 0;
 
   /**
    * @brief Return true if the decryptor is in an error state.
@@ -55,29 +57,29 @@ class DecryptionStream {
   /**
    * @brief Get the Error Message object
    *
-   * @return const Str&
+   * @return const std::string&
    */
-  virtual const Str& GetErrorMessage() const { return error_; }
+  virtual const std::string& GetErrorMessage() const { return error_; }
 
-  inline usize GetOutputSize() { return buf_out_.size(); }
-  inline usize Peek(u8* out, usize len) {
+  inline std::size_t GetOutputSize() { return buf_out_.size(); }
+  inline std::size_t Peek(u8* out, std::size_t len) {
     len = std::min(len, buf_out_.size());
     std::copy_n(buf_out_.begin(), len, out);
     return len;
   }
-  inline usize Read(u8* out, usize len) {
-    usize read_len = Peek(out, len);
+  inline std::size_t Read(u8* out, std::size_t len) {
+    std::size_t read_len = Peek(out, len);
     buf_out_.erase(buf_out_.begin(), buf_out_.begin() + read_len);
     return read_len;
   }
-  inline void ReadAll(Vec<u8>& out) { out = std::move(buf_out_); }
+  inline void ReadAll(std::vector<u8>& out) { out = std::move(buf_out_); }
 
  protected:
-  usize offset_ = 0;
-  Str error_ = "";
+  std::size_t offset_ = 0;
+  std::string error_ = "";
 
-  Vec<u8> buf_in_;
-  Vec<u8> buf_out_;
+  std::vector<u8> buf_in_;
+  std::vector<u8> buf_out_;
 
   /**
    * @brief Encrypted file - header/offset process helper.
@@ -89,7 +91,9 @@ class DecryptionStream {
    * @return true `buf_in_` now contains enough header data.
    * @return false Nothing to do.
    */
-  inline bool ReadUntilOffset(const u8*& p, usize& len, usize target_offset) {
+  inline bool ReadUntilOffset(const u8*& p,
+                              std::size_t& len,
+                              std::size_t target_offset) {
     if (offset_ < target_offset) {
       auto read_size = std::min(target_offset - offset_, len);
       if (read_size == 0) return false;
@@ -114,7 +118,9 @@ class DecryptionStream {
    * @return true
    * @return false
    */
-  inline bool ReadBlock(const u8*& p, usize& len, usize block_size) {
+  inline bool ReadBlock(const u8*& p,
+                        std::size_t& len,
+                        std::size_t block_size) {
     if (buf_in_.size() < block_size) {
       auto read_size = std::min(block_size - buf_in_.size(), len);
       if (read_size == 0) return false;
@@ -128,18 +134,18 @@ class DecryptionStream {
     return buf_in_.size() == block_size;
   }
 
-  inline u8* ExpandOutputBuffer(usize len) {
-    usize pos = buf_out_.size();
+  inline u8* ExpandOutputBuffer(std::size_t len) {
+    std::size_t pos = buf_out_.size();
     buf_out_.resize(pos + len);
     return &buf_out_[pos];
   }
 
-  inline void ConsumeInput(usize len) {
+  inline void ConsumeInput(std::size_t len) {
     buf_in_.erase(buf_in_.begin(), buf_in_.begin() + len);
     offset_ += len;
   }
 
-  inline void ConsumeInput(void* out, usize len) {
+  inline void ConsumeInput(void* out, std::size_t len) {
     std::copy_n(buf_in_.begin(), len, reinterpret_cast<u8*>(out));
     ConsumeInput(len);
   }
