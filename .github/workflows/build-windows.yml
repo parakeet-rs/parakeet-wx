@@ -61,10 +61,6 @@ jobs:
       - name: "🛠️ CMake: Build"
         run: cmake --build --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"
 
-      - name: "💣 Test parakeet-crypto ..."
-        run: ctest --output-on-failure
-        working-directory: "build/${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel/parakeet-crypto"
-
       - name: "📦 Packaging"
         shell: bash
         run: |
