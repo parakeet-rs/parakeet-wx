@@ -1,7 +1,25 @@
 #!/usr/bin/env python3
 import re
 
-UI_CODE_PATH = 'um-desktop/ui/ui.cpp'
+UI_CODE_PATH = 'src/ui/ui.cpp'
+UI_HDR_PATH = 'src/ui/ui.h'
+
+hidpi_macro = '''
+/// HiDPI polyfill
+#include <wx/version.h> 
+#if !wxCHECK_VERSION(3, 1, 0) && !defined(FromDIP)
+#define FromDIP(x) (x)
+#endif
+///
+'''
+
+
+def process_header_for_hi_dpi(text):
+  if hidpi_macro not in text:
+    text = text.replace('namespace', f'{hidpi_macro}\nnamespace', 1)
+
+  return text
+
 
 def process_code_for_hi_dpi(text):
   def addWithSizeReplace(m):
@@ -17,6 +35,7 @@ def process_code_for_hi_dpi(text):
   # component->Add( ..., DIP(border));
   rAddWithBorder = re.compile(r'(->Add\( .+?,) (\d+) (\);)')
   text = re.sub(rAddWithBorder, addWithBorderReplace, text)
+
   return text
 
 if __name__ == '__main__':
@@ -24,4 +43,10 @@ if __name__ == '__main__':
     file_content = f.read()
   fixed_code = process_code_for_hi_dpi(file_content)
   with open(UI_CODE_PATH, 'w') as f:
+    f.write(fixed_code)
+
+  with open(UI_HDR_PATH, 'r') as f:
+    file_content = f.read()
+  fixed_code = process_header_for_hi_dpi(file_content)
+  with open(UI_HDR_PATH, 'w') as f:
     f.write(fixed_code)

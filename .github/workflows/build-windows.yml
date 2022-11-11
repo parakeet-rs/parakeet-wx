@@ -61,16 +61,12 @@ jobs:
       - name: "🛠️ CMake: Build"
         run: cmake --build --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"
 
-      - name: "💣 Test um-crypto ..."
-        run: ctest --output-on-failure
-        working-directory: "build/${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel/um-crypto"
-
       - name: "📦 Packaging"
         shell: bash
         run: |
           BUILD_DIR="build/${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"
           DIST_DIR="dist"
-          cp "${BUILD_DIR}/um-desktop/Release/um-desktop.exe" \
+          cp "${BUILD_DIR}/Release/parakeet_wx.exe" \
              "${DIST_DIR}/Parakeet-${{ matrix.win_ver }}.exe"
 
       - name: "🚀 Upload artifact"

@@ -19,7 +19,7 @@
         <property name="internationalize">1</property>
         <property name="name">UMDesktop</property>
         <property name="namespace">&quot;umd::ui_base&quot;</property>
-        <property name="path">../um-desktop/ui/</property>
+        <property name="path">../src/ui/</property>
         <property name="precompiled_header"></property>
         <property name="relative_path">1</property>
         <property name="skip_lua_events">1</property>

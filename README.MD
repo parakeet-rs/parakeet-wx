@@ -58,16 +58,34 @@ cmake --build --preset win64-2022-rel
 
 ### Ubuntu 22.04 下构建
 
-- 安装工具链： `sudo apt-get install build-essential cmake ninja-build`
 - 参考 `build-setup-ubuntu.sh` 的内容安装依赖的包。
-- 执行 `bash ./prepare.linux.sh` 进行初始化。
 
 ```sh
 # 初始化 CMake 构建
-cmake --preset ninja-linux
+cmake -B build -G "Ninja Multi-Config"
 
-cmake --build --preset ninja-dbg # 调试版
-cmake --build --preset ninja-rel # 发布版
+# 编译/运行调试版
+cmake --build build --config Debug
+./build/Debug/parakeet_wx
+
+# 编译/运行发布版
+cmake --build build --config Release
+./build/Release/parakeet_wx
+```
+
+或使用 CMake Presets:
+
+```sh
+# 初始化 CMake 构建
+cmake --preset linux
+
+# 编译/运行调试版
+cmake --build --preset linux-dbg
+./build/linux/Debug/parakeet_wx
+
+# 编译/运行发布版
+cmake --build --preset linux-rel
+./build/linux/Release/parakeet_wx
 ```
 
 ## 相关内容与链接

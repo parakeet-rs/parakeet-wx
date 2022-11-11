@@ -20,6 +20,8 @@ jobs:
 
     runs-on: ubuntu-22.04
     env:
+      DEPLOY_GTK_VERSION: 3
+      APPIMAGE_EXTRACT_AND_RUN: 1
       CMAKE_BUILD_PARALLEL_LEVEL: "3"
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
       CC: gcc-11
@@ -33,38 +35,22 @@ jobs:
 
       - name: "🖼️ Setup scene..."
         run: |
-          mkdir -p .vcpkg-bc
-          bash build-setup-ubuntu.sh
+          mkdir -p build
+          bash build-setup-ubuntu.sh --native-deps --jammy-wx3.2
           bash prepare.linux.sh
-
-      - name: "🏭 vcpkg: setup binary cache"
-        uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
-          path: |
-            .vcpkg-bc
-          restore-keys: |
-            ${{ runner.os }}-vcpkg-
-            ${{ runner.os }}-
-
-      - name: "🍳 Prepare"
-        shell: bash
-        run: bash build-prepare.sh
+          bash build-prepare.sh
 
       - name: "🔧 CMake: Configure"
-        run: cmake --preset default-linux-rel
+        working-directory: build
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
 
       - name: "🛠️ CMake: Build"
-        run: cmake --build --preset default-linux-rel
-
-      - name: "💣 Test um-crypto ..."
-        run: ctest --output-on-failure
-        working-directory: build/linux-rel/um-crypto
+        run: cmake --build build
 
       - name: "📦 Packaging"
         shell: bash
         run: |
-          cp build/linux-rel/um-desktop/um-desktop \
+          cp build/parakeet_wx \
              dist/Parakeet-linux-x86_64
 
           ln -s dist Parakeet
@@ -74,42 +60,8 @@ jobs:
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: linux-x86_64
+          name: ubuntu-x86_64
           path: dist/
-
-      - name: 📝 Draft Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          body: "<to be filled>"
-          draft: true
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: |
-            *.tar.gz
-
-  package_appimage:
-    name: "Package AppImage"
-    needs: [build]
-    runs-on: ubuntu-22.04
-    env:
-      DEPLOY_GTK_VERSION: 3
-      APPIMAGE_EXTRACT_AND_RUN: 1
-
-    steps:
-      - name: "⏳ Clone repo..."
-        uses: actions/checkout@v3
-
-      - name: "🖼️ Setup scene..."
-        run: |
-          bash build-setup-ubuntu.sh
-
-      - name: "🍱 Fetching built artifact..."
-        uses: actions/download-artifact@v3
-        with:
-          name: linux-x86_64
-          path: dist
 
       - name: "🛠️ Setup LinuxDeploy script"
         run: |
@@ -121,7 +73,7 @@ jobs:
         run: |
           mkdir -p Packaging
           mv dist/Parakeet-linux-x86_64 Packaging/AppRun
-          mv dist/*/ Packaging/.
+          cp -r dist/*/ Packaging/.
           cp -r AppDir/. Packaging/.
           chmod a+x Packaging/AppRun
 
@@ -132,7 +84,6 @@ jobs:
             -e Packaging/AppRun
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
-          ln -s dist Parakeet
           tar --dereference --numeric-owner --owner=0 --group=0 \
             -zcvf Parakeet.AppImage.Linux.x64.tar.gz Parakeet
 
