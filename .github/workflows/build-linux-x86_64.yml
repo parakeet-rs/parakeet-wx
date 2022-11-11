@@ -73,7 +73,7 @@ jobs:
         run: |
           mkdir -p Packaging
           mv dist/Parakeet-linux-x86_64 Packaging/AppRun
-          mv dist/*/ Packaging/.
+          cp -r dist/*/ Packaging/.
           cp -r AppDir/. Packaging/.
           chmod a+x Packaging/AppRun
 
@@ -84,7 +84,6 @@ jobs:
             -e Packaging/AppRun
           mv ./Parakeet_Desktop-*-x86_64.AppImage ./dist/
 
-          ln -s dist Parakeet
           tar --dereference --numeric-owner --owner=0 --group=0 \
             -zcvf Parakeet.AppImage.Linux.x64.tar.gz Parakeet
 
