@@ -162,7 +162,8 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
 
   for (int i = 0; i < len; i++) {
-    std::u8string str(reinterpret_cast<const char8_t*>(file_paths.Item(i).utf8_str().data()));
+    auto u8_path = file_paths.Item(i).utf8_str();
+    std::u8string str(reinterpret_cast<const char8_t*>(u8_path.data()));
     std::filesystem::path item_path(str);
     AddSingleFileToQueue(item_path);
   }

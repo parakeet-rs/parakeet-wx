@@ -15,14 +15,15 @@ void OptionsDialog::ConfigGlueCode() {
   namespace conv = umd::utils::str_conv;
   auto& config = saved_config_;
 
-#define DEFINE_CTRL_PROP(CONTROL, KEY)                                         \
-  if (M == kModeUpdateControl) {                                               \
-    std::string str_value;                                                     \
-    conv::ToString(str_value, KEY);                                            \
-    CONTROL->SetValueFromString(wxString::FromUTF8(str_value.c_str()));        \
-  } else {                                                                     \
-    const char* value = CONTROL->GetValueAsString(wxPG_FULL_VALUE).utf8_str(); \
-    conv::FromString(KEY, std::string(value));                                 \
+#define DEFINE_CTRL_PROP(CONTROL, KEY)                                  \
+  if (M == kModeUpdateControl) {                                        \
+    std::string str_value;                                              \
+    conv::ToString(str_value, KEY);                                     \
+    CONTROL->SetValueFromString(wxString::FromUTF8(str_value.c_str())); \
+  } else {                                                              \
+    auto temp = CONTROL->GetValueAsString(wxPG_FULL_VALUE);             \
+    auto u8_str = temp.utf8_str();                                      \
+    conv::FromString(KEY, std::string(u8_str));                         \
   }
 
   {
