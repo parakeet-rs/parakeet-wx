@@ -12,6 +12,7 @@ sudo apt-get install -y \
   libgcrypt20-dev \
   libgtk-3-dev \
   libjpeg-dev \
+  libnotify-dev \
   libpng-dev \
   libsecret-1-dev \
   libsystemd-dev \
