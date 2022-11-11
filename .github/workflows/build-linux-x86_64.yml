@@ -33,38 +33,22 @@ jobs:
 
       - name: "🖼️ Setup scene..."
         run: |
-          mkdir -p .vcpkg-bc
-          bash build-setup-ubuntu.sh
+          mkdir -p build
+          bash build-setup-ubuntu.sh --native-deps --jammy-wx3.2
           bash prepare.linux.sh
-
-      - name: "🏭 vcpkg: setup binary cache"
-        uses: actions/cache@v3
-        with:
-          key: ${{ runner.os }}-vcpkg-${{ hashFiles('**/vcpkg.json') }}
-          path: |
-            .vcpkg-bc
-          restore-keys: |
-            ${{ runner.os }}-vcpkg-
-            ${{ runner.os }}-
-
-      - name: "🍳 Prepare"
-        shell: bash
-        run: bash build-prepare.sh
+          bash build-prepare.sh
 
       - name: "🔧 CMake: Configure"
-        run: cmake --preset default-linux-rel
+        working-directory: build
+        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
 
       - name: "🛠️ CMake: Build"
-        run: cmake --build --preset default-linux-rel
-
-      - name: "💣 Test um-crypto ..."
-        run: ctest --output-on-failure
-        working-directory: build/linux-rel/um-crypto
+        run: cmake --build build
 
       - name: "📦 Packaging"
         shell: bash
         run: |
-          cp build/linux-rel/um-desktop/um-desktop \
+          cp build/parakeet_wx \
              dist/Parakeet-linux-x86_64
 
           ln -s dist Parakeet

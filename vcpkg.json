@@ -3,12 +3,11 @@
   "version-string": "0.2.0",
   "dependencies": [
     "boost-asio",
+    "boost-chrono",
     "boost-dll",
     "boost-filesystem",
     "boost-system",
     "boost-thread",
-    "cryptopp",
-    "gtest",
     "rapidjson",
     "wxwidgets"
   ]

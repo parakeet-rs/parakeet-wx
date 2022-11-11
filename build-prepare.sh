@@ -7,11 +7,11 @@ rm -rf dist && mkdir -p dist
 
 APP_VERSION="$(jq <vcpkg.json -r '.["version-string"]')"
 
-cat >um-crypto/include/um-crypto/constants.build_time.h <<EOF
+cat >parakeet-crypto/include/parakeet-crypto/constants.build_time.h <<EOF
 #define UM_CRYPTO_VERSION "${APP_VERSION}"
 EOF
 
-cat >um-desktop/constants.build_time.h <<EOF
+cat >src/constants.build_time.h <<EOF
 #define UM_DESKTOP_VERSION_STR "${APP_VERSION}"
 EOF
 

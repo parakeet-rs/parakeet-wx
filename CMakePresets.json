@@ -7,39 +7,10 @@
   },
   "configurePresets": [
     {
-      "name": "default",
-      "displayName": "Default",
-      "description": "Default build using Make + gcc",
-      "generator": "Unix Makefiles",
-      "binaryDir": "${sourceDir}/build/default"
-    },
-    {
-      "name": "default-linux-rel",
-      "inherits": "default",
-      "displayName": "linux-make-rel",
-      "description": "Default build using Makefile + vcpkg",
-      "binaryDir": "${sourceDir}/build/linux-rel",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays",
-        "CMAKE_BUILD_TYPE": "Release",
-        "VCPKG_BUILD_TYPE": "Release",
-        "VCPKG_TARGET_TRIPLET": "x64-linux-release"
-      }
-    },
-    {
-      "name": "ninja-linux",
-      "displayName": "linux-ninja",
-      "description": "Default build using ninja + vcpkg",
+      "name": "linux",
+      "displayName": "Linux default",
       "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/build/ninja-multi",
-      "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays",
-        "CMAKE_BUILD_TYPE": "Release",
-        "VCPKG_BUILD_TYPE": "Release",
-        "VCPKG_TARGET_TRIPLET": "x64-linux-release"
-      }
+      "binaryDir": "${sourceDir}/build/linux"
     },
     {
       "name": "win64-2022-rel",
@@ -98,12 +69,15 @@
   ],
   "buildPresets": [
     {
-      "name": "default",
-      "configurePreset": "default"
+      "name": "linux-dbg",
+      "displayName": "Linux (debug)",
+      "configurePreset": "linux",
+      "configuration": "Debug"
     },
     {
-      "name": "default-linux-rel",
-      "configurePreset": "default-linux-rel",
+      "name": "linux-rel",
+      "displayName": "Linux (release)",
+      "configurePreset": "linux",
       "configuration": "Release"
     },
     {
@@ -129,18 +103,6 @@
       "configurePreset": "win64-2022-dbg",
       "displayName": "Win64-dbg",
       "configuration": "Debug"
-    },
-    {
-      "name": "ninja-dbg",
-      "configurePreset": "ninja-linux",
-      "displayName": "Ninja (Debug)",
-      "configuration": "Debug"
-    },
-    {
-      "name": "ninja-rel",
-      "configurePreset": "ninja-linux",
-      "displayName": "Ninja-rel",
-      "configuration": "Release"
     }
   ]
 }
