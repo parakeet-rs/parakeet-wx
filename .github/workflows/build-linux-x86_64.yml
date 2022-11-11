@@ -20,6 +20,8 @@ jobs:
 
     runs-on: ubuntu-22.04
     env:
+      DEPLOY_GTK_VERSION: 3
+      APPIMAGE_EXTRACT_AND_RUN: 1
       CMAKE_BUILD_PARALLEL_LEVEL: "3"
       VCPKG_DEFAULT_BINARY_CACHE: ${{ github.workspace }}/.vcpkg-bc
       CC: gcc-11
@@ -58,42 +60,8 @@ jobs:
       - name: "🚀 Upload artifact"
         uses: actions/upload-artifact@v3
         with:
-          name: linux-x86_64
+          name: ubuntu-x86_64
           path: dist/
-
-      - name: 📝 Draft Release
-        if: startsWith(github.ref, 'refs/tags/v')
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          body: "<to be filled>"
-          draft: true
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
-          files: |
-            *.tar.gz
-
-  package_appimage:
-    name: "Package AppImage"
-    needs: [build]
-    runs-on: ubuntu-22.04
-    env:
-      DEPLOY_GTK_VERSION: 3
-      APPIMAGE_EXTRACT_AND_RUN: 1
-
-    steps:
-      - name: "⏳ Clone repo..."
-        uses: actions/checkout@v3
-
-      - name: "🖼️ Setup scene..."
-        run: |
-          bash build-setup-ubuntu.sh
-
-      - name: "🍱 Fetching built artifact..."
-        uses: actions/download-artifact@v3
-        with:
-          name: linux-x86_64
-          path: dist
 
       - name: "🛠️ Setup LinuxDeploy script"
         run: |
