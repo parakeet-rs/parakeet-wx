@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-10 00:05+0000\n"
+"POT-Creation-Date: 2022-11-13 13:27+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid " a b c"
 msgstr ""
 
-#: src/dialog/OptionsDialog.cpp:67
+#: src/dialog/OptionsDialog.cpp:66
 #, c-format
 msgid "%s - Options"
 msgstr ""
@@ -58,32 +58,32 @@ msgstr ""
 msgid "AES key for NCM content key"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:147
+#: src/dialog/MainAppFrame.cpp:142
 msgid "All files (*.*)|*"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:129
+#: src/dialog/MainAppFrame.cpp:124
 msgid "All known extensions files"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:90
+#: src/dialog/MainAppFrame.cpp:88
 msgid "Config saved. Some config may require restart to work."
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:283
+#: src/dialog/MainAppFrame.cpp:272
 #, c-format
 msgid "Converting from %s to %s: %s"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:93
+#: src/dialog/MainAppFrame.cpp:90
 msgid "Could not save config."
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:67
+#: src/dialog/MainAppFrame.cpp:65
 msgid "DEBUG Build"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:275
+#: src/dialog/MainAppFrame.cpp:265
 #, c-format
 msgid "Decode OK [%s -> %s]: %s (%lums)"
 msgstr ""
@@ -96,7 +96,7 @@ msgstr ""
 msgid "EKey derive seed"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:279
+#: src/dialog/MainAppFrame.cpp:269
 #, c-format
 msgid "FAIL [%s]: %s (%s)"
 msgstr ""
@@ -117,7 +117,7 @@ msgstr ""
 msgid "KGM/VPR Decryption"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:131
+#: src/dialog/MainAppFrame.cpp:126
 msgid "Koox music"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "Kugou"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:137
+#: src/dialog/MainAppFrame.cpp:132
 msgid "Kugou music"
 msgstr ""
 
@@ -137,7 +137,7 @@ msgstr ""
 msgid "Kuwo decryption table"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:139
+#: src/dialog/MainAppFrame.cpp:134
 msgid "Kuwo music"
 msgstr ""
 
@@ -165,19 +165,19 @@ msgstr ""
 msgid "Netease"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:141
+#: src/dialog/MainAppFrame.cpp:136
 msgid "Netease music"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:151
+#: src/dialog/MainAppFrame.cpp:146
 msgid "Open encrypted music files"
 msgstr ""
 
-#: src/ui/ui.h:131
+#: src/ui/ui.h:139
 msgid "Options"
 msgstr ""
 
-#: src/constants.h:1 src/ui/ui.h:64
+#: src/ui/ui.h:72
 msgid "Parakeet Desktop"
 msgstr ""
 
@@ -189,7 +189,7 @@ msgstr ""
 msgid "QMCv1"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:133
+#: src/dialog/MainAppFrame.cpp:128
 msgid "QMCv1 files"
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 msgid "QMCv2 - EncV2"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:135
+#: src/dialog/MainAppFrame.cpp:130
 msgid "QMCv2 files"
 msgstr ""
 
@@ -209,7 +209,7 @@ msgstr ""
 msgid "QQ Music"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:271
+#: src/dialog/MainAppFrame.cpp:262
 #, c-format
 msgid "Ready [%s -> %s]: %s"
 msgstr ""
@@ -234,16 +234,12 @@ msgstr ""
 msgid "Threading"
 msgstr ""
 
-#: src/app_version.cpp:8
-msgid "Unknown Version"
-msgstr ""
-
-#: src/dialog/MainAppFrame.cpp:291
+#: src/dialog/MainAppFrame.cpp:279
 #, c-format
 msgid "Unknown state (code %d): %s"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:287
+#: src/dialog/MainAppFrame.cpp:275
 #, c-format
 msgid "Unsupported: %s"
 msgstr ""
@@ -272,7 +268,7 @@ msgstr ""
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:145
+#: src/dialog/MainAppFrame.cpp:140
 msgid "Xiami music"
 msgstr ""
 
@@ -280,14 +276,14 @@ msgstr ""
 msgid "Ximalaya"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:143
+#: src/dialog/MainAppFrame.cpp:138
 msgid "Ximalaya audio file"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:333
+#: src/dialog/MainAppFrame.cpp:318
 msgid "empty input file"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:340
+#: src/dialog/MainAppFrame.cpp:324
 msgid "unexpected eof when reading input file"
 msgstr ""

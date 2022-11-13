@@ -25,9 +25,8 @@ void InitLocale(const std::string& str_name) {
 
   locale = std::make_unique<wxLocale>(lang_code);
 
-  // Read from executable directory / AppImage directory
-  locale->AddCatalogLookupPathPrefix(wxString(umd::utils::GetExecutableDirectory().c_str()));
-  locale->AddCatalogLookupPathPrefix(wxString(umd::utils::GetAppImageDirOrExeDirectory().c_str()));
+  locale->AddCatalogLookupPathPrefix(wxString(umd::utils::GetExecutableDirectory()));
+  locale->AddCatalogLookupPathPrefix(wxString(umd::utils::GetAppImageDirOrExeDirectory()));
 
 #ifdef __WXGTK__
   // add locale search paths
@@ -38,7 +37,7 @@ void InitLocale(const std::string& str_name) {
   locale->AddCatalogLookupPathPrefix(prefix);
 #endif
 
-  locale->AddCatalog(wxT("src"));
+  locale->AddCatalog(wxT("um-desktop"));
 
   if (!locale->IsOk()) {
     std::cerr << "load language failed, reset to default." << std::endl;

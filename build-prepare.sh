@@ -5,8 +5,6 @@ bash build-po.sh
 
 rm -rf dist && mkdir -p dist
 
-APP_VERSION="$(jq <vcpkg.json -r '.["version-string"]')"
-
 ./prepare-ui-hidpi.py
 
 cp -R locale/. dist/
