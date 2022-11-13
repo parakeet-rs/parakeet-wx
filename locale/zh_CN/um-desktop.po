@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-11-13 13:27+0000\n"
-"PO-Revision-Date: 2022-11-13 13:41+0000\n"
+"PO-Revision-Date: 2022-11-13 18:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -41,7 +41,7 @@ msgstr "确定 (&O)"
 
 #: src/ui/ui.cpp:34
 msgid "&Options..."
-msgstr "选项... (&O)"
+msgstr "选项 (&O)..."
 
 #: src/ui/ui.cpp:120
 msgid "(v4) File key expansion table (hex)"
