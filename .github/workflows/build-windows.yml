@@ -53,7 +53,7 @@ jobs:
 
       - name: "🍳 Prepare"
         shell: bash
-        run: bash build-prepare.sh
+        run: bash scripts/build-prepare.sh
 
       - name: "🔧 CMake: Configure"
         run: cmake --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"

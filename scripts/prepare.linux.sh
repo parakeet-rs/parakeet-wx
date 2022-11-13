@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/bin/sh
+set -ex
 
-pushd "$(dirname -- "${BASH_SOURCE[0]}")"
+cd "$(git rev-parse --show-toplevel)"
 
 ./vcpkg/bootstrap-vcpkg.sh --disableMetrics || {
   echo "ERROR: could not bootstrap vcpkg."
@@ -24,5 +25,3 @@ for patch_file in patches/linux-*.patch; do
   cp -R "${PKG_PORT_PATH}/." "${PKG_OVERLAY}/."
   (cd "${PKG_OVERLAY}" && patch -p3) <"${patch_file}"
 done
-
-popd

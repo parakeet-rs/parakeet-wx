@@ -36,9 +36,9 @@ jobs:
       - name: "🖼️ Setup scene..."
         run: |
           mkdir -p build
-          bash build-setup-ubuntu.sh --native-deps --jammy-wx3.2
-          bash prepare.linux.sh
-          bash build-prepare.sh
+          bash scripts/build-setup-ubuntu.sh --native-deps --jammy-wx3.2
+          bash scripts/prepare.linux.sh
+          bash scripts/build-prepare.sh
 
       - name: "🔧 CMake: Configure"
         working-directory: build

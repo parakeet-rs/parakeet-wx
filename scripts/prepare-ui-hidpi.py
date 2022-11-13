@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
+import os
 import re
 
-UI_CODE_PATH = 'src/ui/ui.cpp'
-UI_HDR_PATH = 'src/ui/ui.h'
+__dirname = os.path.dirname(os.path.realpath(__file__))
+
+UI_CODE_PATH = f'{__dirname}/src/ui/ui.cpp'
+UI_HDR_PATH = f'{__dirname}/src/ui/ui.h'
 
 hidpi_macro = '''
 /// HiDPI polyfill

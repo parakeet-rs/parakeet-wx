@@ -1,6 +1,7 @@
 #!/bin/sh
-
 set -ex
+
+cd "$(git rev-parse --show-toplevel)"
 
 # Build
 mkdir -p build/app
@@ -18,5 +19,5 @@ cp build/app/src packaging/src/AppRun
 if [ -z "${DEPLOY_GTK_VERSION}" ]; then
   DEPLOY_GTK_VERSION=3
 fi
-export DEPLOY_GTK_VERSION
-linuxdeploy --appdir packaging/src --plugin gtk --output appimage
+env DEPLOY_GTK_VERSION="${DEPLOY_GTK_VERSION}" \
+  linuxdeploy --appdir packaging/src --plugin gtk --output appimage

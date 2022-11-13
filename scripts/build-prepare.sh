@@ -1,11 +1,13 @@
 #/bin/bash
 
-bash extract-i18n.sh
-bash build-po.sh
+cd "$(git rev-parse --show-toplevel)"
+
+bash scripts/extract-i18n.sh
+bash scripts/build-po.sh
 
 rm -rf dist && mkdir -p dist
 
-./prepare-ui-hidpi.py
+./scripts/prepare-ui-hidpi.py
 
 cp -R locale/. dist/
 find dist -name '*.po' -delete
