@@ -1,7 +1,7 @@
 #pragma once
-#include "../config/AppConfigStore.h"
-#include "../ui/ui.h"
-#include "../utils/wxMainThreadRunner.hpp"
+#include "config/AppConfigStore.h"
+#include "ui/ui.h"
+#include "utils/wxMainThreadRunner.hpp"
 
 #include <wx/dnd.h>
 

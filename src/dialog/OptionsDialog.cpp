@@ -1,8 +1,8 @@
 #include "OptionsDialog.h"
 
-#include "../config/AppConfigStore.h"
-#include "../constants.h"
-#include "../utils/StringConvert.h"
+#include "config/AppConfigStore.h"
+#include "constants.h"
+#include "utils/StringConvert.h"
 
 #include <cstdlib>
 #include <sstream>

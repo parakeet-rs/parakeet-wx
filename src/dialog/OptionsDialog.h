@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../config/AppConfigStore.h"
-#include "../ui/ui.h"
+#include "config/AppConfigStore.h"
+#include "ui/ui.h"
 
 #include <utility>
 

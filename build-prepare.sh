@@ -7,14 +7,6 @@ rm -rf dist && mkdir -p dist
 
 APP_VERSION="$(jq <vcpkg.json -r '.["version-string"]')"
 
-cat >parakeet-crypto/include/parakeet-crypto/constants.build_time.h <<EOF
-#define UM_CRYPTO_VERSION "${APP_VERSION}"
-EOF
-
-cat >src/constants.build_time.h <<EOF
-#define UM_DESKTOP_VERSION_STR "${APP_VERSION}"
-EOF
-
 ./prepare-ui-hidpi.py
 
 cp -R locale/. dist/

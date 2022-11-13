@@ -1,11 +1,11 @@
 #include "MainAppFrame.h"
 #include "OptionsDialog.h"
 
-#include "../app_version.h"
-#include "../constants.h"
-#include "../res/parakeet.xpm"
-#include "../utils/MakeArray.h"
-#include "../utils/threading.h"
+#include "app_version.h"
+#include "constants.h"
+#include "res/parakeet.xpm"
+#include "utils/MakeArray.h"
+#include "utils/threading.h"
 
 #include <wx/filedlg.h>
 #include <wx/filename.h>

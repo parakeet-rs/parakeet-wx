@@ -1,6 +1,5 @@
 {
   "name": "parakeet",
-  "version-string": "0.2.0",
   "dependencies": [
     "boost-asio",
     "boost-chrono",

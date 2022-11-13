@@ -7,8 +7,8 @@
 
 #include <parakeet-crypto/utils/base64.h>
 
-#include "../utils/AppDataPath.h"
-#include "../utils/JSONExtension.h"
+#include "utils/AppDataPath.h"
+#include "utils/JSONExtension.h"
 
 #include <fstream>
 

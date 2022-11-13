@@ -1,36 +1,12 @@
 cmake_minimum_required(VERSION 3.21)
-project(parakeet_wx)
+project(parakeet_wx VERSION 0.2.0)
 
 # Add our modules...
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM-Loader.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/set_static_build.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/linker_hack.cmake")
-
-# FIXME: make this target specific.
-if(MSVC)
-  # Using DPI aware manifest from wxWidgets
-  set(CMAKE_EXE_LINKER_FLAGS    "${CMAKE_EXE_LINKER_FLAGS} /MANIFEST:NO")
-  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} /MANIFEST:NO")
-  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /MANIFEST:NO")
-
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")  
-endif()
-
-if(MSVC)
-  # Force static link
-  cmake_policy(SET CMP0091 NEW)
-  set(MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
-
-  add_compile_options(
-    $<$<CONFIG:>:/MT> #---------|
-    $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
-    $<$<CONFIG:Release>:/MT> #--|
-  )
-else()
-  add_compile_options($<$<CONFIG:RELEASE>:-s>)
-  add_link_options($<$<CONFIG:RELEASE>:-s>)
-endif()
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   add_compile_options(-DNDEBUG=1 -D_NDEBUG=1)
@@ -44,15 +20,23 @@ CPMAddPackage(
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
 )
 
-# Bootstrap dependencies from vcpkg
+# Bootstrap dependencies from vcpkg / system
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost COMPONENTS thread REQUIRED system chrono filesystem)
 find_package(RapidJSON CONFIG REQUIRED)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
 include(${wxWidgets_USE_FILE})
 
+configure_file (
+    "${PROJECT_SOURCE_DIR}/src/constants.h.in"
+    "${PROJECT_BINARY_DIR}/src/constants.h"
+)
 # Include our source files:
-file(GLOB_RECURSE SOURCES src/*.cpp src/*.h)
+file(GLOB_RECURSE SOURCES
+  "src/*.cpp"
+  "src/*.h"
+  "${PROJECT_BINARY_DIR}/src/*.h"
+)
 add_executable(parakeet_wx
   ${SOURCES}
 )
@@ -60,13 +44,11 @@ target_include_directories(parakeet_wx
   PRIVATE
     ${wxWidgets_INCLUDE_DIRS}
     ${BOOST_INCLUDE_DIRS}
-    src
+    "src"
+    "${PROJECT_BINARY_DIR}/src/"
 )
 target_precompile_headers(parakeet_wx PRIVATE src/pch.h)
-target_compile_features(parakeet_wx
-  PRIVATE
-    cxx_std_20
-)
+target_compile_features(parakeet_wx PRIVATE cxx_std_20)
 parakeet_linker_hack(parakeet_wxWidgets_LIBRARIES "${wxWidgets_LIBRARIES}")
 target_link_libraries(parakeet_wx
   PRIVATE
@@ -91,10 +73,10 @@ else()
 endif()
 
 # i18n text
-file(GLOB MY_I18N_FILE
-  "locale/*"
-)
+file(GLOB MY_I18N_FILE "locale/*")
 file(
-  COPY ${MY_I18N_FILE} DESTINATION ./
+  COPY ${MY_I18N_FILE}
+  DESTINATION "${PROJECT_BINARY_DIR}/"
   PATTERN "*.po" EXCLUDE
+  PATTERN "*.pot" EXCLUDE
 )
