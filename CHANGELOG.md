@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.1] - 2022-11-14
+
+### Changed
+
+- Upgrade `libparakeet` to v0.2.1.
+
 ## [0.2.0] - 2022-11-05
 
 ### Changed
@@ -53,3 +59,11 @@ Initial release of this project.
 - Support for Xiami `xm` files.
 - Support for Joox `ofl_en` files.
 - Support for Ximalaya `x2m` / `x3m` files.
+
+[0.1.0]: https://github.com/parakeet-rs/parakeet-wx/commits/v0.1.0-beta
+[0.1.2]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.0-beta...v0.1.2-beta
+[0.1.3]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.2-beta...v0.1.3
+[0.1.4]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.3...v0.1.4
+[0.1.5]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.4...v0.1.5
+[0.2.0]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.5...v0.2.0
+[0.2.1]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.2.0...v0.2.1
