@@ -8,7 +8,7 @@
 #include "ui.h"
 
 ///////////////////////////////////////////////////////////////////////////
-using namespace umd::ui_base;
+using namespace parakeet_wx::ui_base;
 
 uiMainAppFrame::uiMainAppFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {

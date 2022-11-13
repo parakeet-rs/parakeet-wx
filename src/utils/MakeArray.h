@@ -4,7 +4,7 @@
 #include <memory>
 #include <type_traits>
 
-namespace umd::utils {
+namespace parakeet_wx::utils {
 
 template <std::size_t SIZE, typename T = uint8_t>
 std::array<T, SIZE> MakeArrayFromVector(const std::vector<T>& src) {
@@ -13,4 +13,4 @@ std::array<T, SIZE> MakeArrayFromVector(const std::vector<T>& src) {
   return dst;
 }
 
-}  // namespace umd::utils
+}  // namespace parakeet_wx::utils

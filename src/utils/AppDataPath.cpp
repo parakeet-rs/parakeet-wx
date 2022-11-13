@@ -19,7 +19,7 @@
 
 namespace fs = std::filesystem;
 
-namespace umd::utils {
+namespace parakeet_wx::utils {
 
 inline fs::path GetExecutablePath() {
   return fs::path(boost::dll::program_location().native());
@@ -76,4 +76,4 @@ const std::filesystem::path& GetUserDataDirectory() {
   return user_dir;
 }
 
-}  // namespace umd::utils
+}  // namespace parakeet_wx::utils

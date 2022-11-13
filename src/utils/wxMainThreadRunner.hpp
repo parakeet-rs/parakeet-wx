@@ -7,7 +7,7 @@
 
 #include <functional>
 
-namespace umd::utils {
+namespace parakeet_wx::utils {
 
 constexpr int kRunInMainThread = 0x10002001;
 typedef std::function<void(void)> MainThreadRunnerFn;
@@ -17,10 +17,10 @@ class wxMainThreadRunner {
   inline void SetMainThreadRunnerEventHandler(wxEvtHandler* evt_handler) { evt_handler_ = evt_handler; }
 
   inline void PostInMainThread(const MainThreadRunnerFn fn) {
-#if __UMD_SINGLE_THREAD_MODE
+#if __PARAKEET_WX_SINGLE_THREAD_MODE
     fn();
 #else
-    umd::io_service.post([this, fn]() {
+    parakeet_wx::io_service.post([this, fn]() {
       wxThreadEvent* event = new wxThreadEvent();
       event->SetId(kRunInMainThread);
       event->SetPayload(fn);
@@ -44,4 +44,4 @@ class wxMainThreadRunner {
   wxEvtHandler* evt_handler_;
 };
 
-}  // namespace umd::utils
+}  // namespace parakeet_wx::utils

@@ -8,7 +8,7 @@
 #include <iomanip>
 #include <type_traits>
 
-namespace umd::utils::str_conv {
+namespace parakeet_wx::utils::str_conv {
 
 // Note:
 // All "std::string"s in this scope are UTF-8 encoded.
@@ -175,4 +175,4 @@ inline void FromString(std::vector<A>& out, const std::string& input) {
 }
 #pragma endregion
 
-}  // namespace umd::utils::str_conv
+}  // namespace parakeet_wx::utils::str_conv

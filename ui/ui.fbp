@@ -17,8 +17,8 @@
         <property name="image_path_wrapper_function_name"></property>
         <property name="indent_with_spaces"></property>
         <property name="internationalize">1</property>
-        <property name="name">UMDesktop</property>
-        <property name="namespace">&quot;umd::ui_base&quot;</property>
+        <property name="name">ParakeetWx</property>
+        <property name="namespace">&quot;parakeet_wx::ui_base&quot;</property>
         <property name="path">../src/ui/</property>
         <property name="precompiled_header"></property>
         <property name="relative_path">1</property>

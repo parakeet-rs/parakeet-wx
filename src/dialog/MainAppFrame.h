@@ -41,7 +41,7 @@ class MainAppDropTarget : public wxFileDropTarget {
   MainAppFrame* app_frame_;
 };
 
-class MainAppFrame : public umd::ui_base::uiMainAppFrame {
+class MainAppFrame : public parakeet_wx::ui_base::uiMainAppFrame {
  public:
   MainAppFrame(wxWindow* parent, wxWindowID id = wxID_ANY);
   virtual ~MainAppFrame();
@@ -70,5 +70,5 @@ class MainAppFrame : public umd::ui_base::uiMainAppFrame {
 
  private:
   friend class MainAppDropTarget;
-  umd::utils::wxMainThreadRunner main_thread_runner_;
+  parakeet_wx::utils::wxMainThreadRunner main_thread_runner_;
 };

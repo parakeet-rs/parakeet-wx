@@ -5,7 +5,7 @@
 
 #include <parakeet-crypto/decryption/DecryptionManager.h>
 
-namespace umd::config {
+namespace parakeet_wx::config {
 
 struct GeneralConfig {
   int thread_count;
@@ -48,4 +48,4 @@ class AppConfigStore {
   static AppConfigStore* instance_;
 };
 
-}  // namespace umd::config
+}  // namespace parakeet_wx::config

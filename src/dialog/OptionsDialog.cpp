@@ -12,7 +12,7 @@ constexpr int kModeReadFromControl = 2;
 
 template <int M>
 void OptionsDialog::ConfigGlueCode() {
-  namespace conv = umd::utils::str_conv;
+  namespace conv = parakeet_wx::utils::str_conv;
   auto& config = saved_config_;
 
 #define DEFINE_CTRL_PROP(CONTROL, KEY)                                  \
@@ -66,7 +66,7 @@ OptionsDialog::OptionsDialog(wxWindow* parent) : uiOptionsDialog(parent) {
   title.Printf(_("%s - Options"), LOCALISED_APP_NAME);
   SetTitle(title);
 
-  auto inst = umd::config::AppConfigStore::GetInstance();
+  auto inst = parakeet_wx::config::AppConfigStore::GetInstance();
   saved_config_ = inst->GetLoadedConfig();
   ConfigGlueCode<kModeUpdateControl>();
 }
@@ -75,7 +75,7 @@ void OptionsDialog::OnButtonClick_Cancel(wxCommandEvent& event) {
   Close();
 }
 void OptionsDialog::OnButtonClick_OK(wxCommandEvent& event) {
-  auto config = umd::config::AppConfigStore::GetInstance()->GetLoadedConfig();
+  auto config = parakeet_wx::config::AppConfigStore::GetInstance()->GetLoadedConfig();
 
   // TODO: Improve error handling.
   ConfigGlueCode<kModeReadFromControl>();

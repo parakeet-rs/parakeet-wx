@@ -5,10 +5,10 @@
 
 #include <utility>
 
-class OptionsDialog : public umd::ui_base::uiOptionsDialog {
+class OptionsDialog : public parakeet_wx::ui_base::uiOptionsDialog {
  public:
   OptionsDialog(wxWindow* parent);
-  inline const umd::config::AppConfig& GetSavedConfig() const { return saved_config_; };
+  inline const parakeet_wx::config::AppConfig& GetSavedConfig() const { return saved_config_; };
   inline bool IsConfigSaved() const { return saved_; };
 
   virtual void OnButtonClick_Cancel(wxCommandEvent& event) override;
@@ -19,5 +19,5 @@ class OptionsDialog : public umd::ui_base::uiOptionsDialog {
   void ConfigGlueCode();
 
   bool saved_ = false;
-  umd::config::AppConfig saved_config_;
+  parakeet_wx::config::AppConfig saved_config_;
 };

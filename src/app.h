@@ -2,10 +2,10 @@
 
 #include "pch.h"
 
-class umDesktopApp : public wxApp {
+class ParakeetWx : public wxApp {
  public:
   virtual bool OnInit() override;
   virtual int OnExit() override;
 };
 
-DECLARE_APP(umDesktopApp)
+DECLARE_APP(ParakeetWx)

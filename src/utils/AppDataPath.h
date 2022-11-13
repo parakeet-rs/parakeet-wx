@@ -2,10 +2,10 @@
 
 #include <filesystem>
 
-namespace umd::utils {
+namespace parakeet_wx::utils {
 
 const std::filesystem::path& GetExecutableDirectory();
 const std::filesystem::path& GetUserDataDirectory();
 const std::filesystem::path& GetAppImageDirOrExeDirectory();
 
-}  // namespace umd::utils
+}  // namespace parakeet_wx::utils

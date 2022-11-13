@@ -12,15 +12,15 @@
 
 #include <fstream>
 
-namespace json = umd::utils::json;
+namespace json = parakeet_wx::utils::json;
 
-namespace umd::config {
+namespace parakeet_wx::config {
 
 AppConfigStore* AppConfigStore::instance_ = new AppConfigStore();
 
 AppConfigStore::AppConfigStore() {
   manager_ = parakeet_crypto::decryption::DecryptionManager::Create();
-  config_file_path_ = umd::utils::GetUserDataDirectory() / "config.json5";
+  config_file_path_ = parakeet_wx::utils::GetUserDataDirectory() / "config.json5";
 }
 
 constexpr int kModeReadConfigFromJSON = 1;
@@ -149,4 +149,4 @@ bool AppConfigStore::SaveConfigToDisk() {
   return true;
 }
 
-}  // namespace umd::config
+}  // namespace parakeet_wx::config

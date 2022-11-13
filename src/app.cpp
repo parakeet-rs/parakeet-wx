@@ -8,7 +8,7 @@
 
 #include <memory>
 
-IMPLEMENT_APP(umDesktopApp)
+IMPLEMENT_APP(ParakeetWx)
 
 std::unique_ptr<wxLocale> locale;
 
@@ -25,8 +25,8 @@ void InitLocale(const std::string& str_name) {
 
   locale = std::make_unique<wxLocale>(lang_code);
 
-  locale->AddCatalogLookupPathPrefix(wxString(umd::utils::GetExecutableDirectory()));
-  locale->AddCatalogLookupPathPrefix(wxString(umd::utils::GetAppImageDirOrExeDirectory()));
+  locale->AddCatalogLookupPathPrefix(wxString(parakeet_wx::utils::GetExecutableDirectory()));
+  locale->AddCatalogLookupPathPrefix(wxString(parakeet_wx::utils::GetAppImageDirOrExeDirectory()));
 
 #ifdef __WXGTK__
   // add locale search paths
@@ -45,12 +45,12 @@ void InitLocale(const std::string& str_name) {
   }
 }
 
-bool umDesktopApp::OnInit() {
-  auto config_store = umd::config::AppConfigStore::GetInstance();
+bool ParakeetWx::OnInit() {
+  auto config_store = parakeet_wx::config::AppConfigStore::GetInstance();
   config_store->LoadConfigFromDisk();
   auto& general_config = config_store->GetLoadedConfig().desktop.general;
 
-  umd::io_service_start(general_config.thread_count);
+  parakeet_wx::io_service_start(general_config.thread_count);
 
   InitLocale(general_config.locale);
   wxFrame* frame = new MainAppFrame(nullptr);
@@ -60,7 +60,7 @@ bool umDesktopApp::OnInit() {
   return true;
 }
 
-int umDesktopApp::OnExit() {
-  umd::io_service_stop();
+int ParakeetWx::OnExit() {
+  parakeet_wx::io_service_stop();
   return 0;
 }

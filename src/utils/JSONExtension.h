@@ -5,13 +5,13 @@
 
 #include <type_traits>
 
-namespace umd::utils::json {
+namespace parakeet_wx::utils::json {
 
 // Note:
 // All "std::string"s in this scope are UTF-8 encoded.
 
-#define __UMD_PREPARE_WRITE_JSON_VALUE(value) \
-  if (v.HasMember(key)) v[key] = value;       \
+#define __PARAKEET_WX_PREPARE_WRITE_JSON_VALUE(value) \
+  if (v.HasMember(key)) v[key] = value;               \
   else v.AddMember(rapidjson::StringRef(key), value, d.GetAllocator())
 
 typedef rapidjson::Value V;
@@ -38,7 +38,7 @@ inline void ReadValue(const V& v, const char* key, std::string& out, const std::
 template <>
 inline void WriteValue(D& d, V& v, const char* key, const std::string& value) {
   V result = V(reinterpret_cast<const char*>(value.c_str()), value.size(), d.GetAllocator());
-  __UMD_PREPARE_WRITE_JSON_VALUE(result);
+  __PARAKEET_WX_PREPARE_WRITE_JSON_VALUE(result);
 }
 #pragma endregion
 
@@ -54,7 +54,7 @@ inline void ReadValue(const V& v, const char* key, int& out, const int& def_valu
 
 template <>
 inline void WriteValue(D& d, V& v, const char* key, const int& value) {
-  __UMD_PREPARE_WRITE_JSON_VALUE(V(value));
+  __PARAKEET_WX_PREPARE_WRITE_JSON_VALUE(V(value));
 }
 
 #pragma endregion
@@ -71,7 +71,7 @@ inline void ReadValue(const V& v, const char* key, uint8_t& out, const uint8_t& 
 
 template <>
 inline void WriteValue(D& d, V& v, const char* key, const uint8_t& value) {
-  __UMD_PREPARE_WRITE_JSON_VALUE(V(int(value)));
+  __PARAKEET_WX_PREPARE_WRITE_JSON_VALUE(V(int(value)));
 }
 #pragma endregion
 
@@ -89,7 +89,7 @@ template <>
 inline void WriteValue(D& d, V& v, const char* key, const std::vector<uint8_t>& value) {
   std::string encoded = parakeet_crypto::utils::Base64Encode(value);
   V result = V(encoded.c_str(), encoded.length(), d.GetAllocator());
-  __UMD_PREPARE_WRITE_JSON_VALUE(result);
+  __PARAKEET_WX_PREPARE_WRITE_JSON_VALUE(result);
 }
 #pragma endregion
 
@@ -160,6 +160,6 @@ inline void WriteValue(D& d, V& v, const char* key, const TContainer& value) {
 };
 #pragma endregion
 
-#undef __UMD_PREPARE_WRITE_JSON_VALUE
+#undef __PARAKEET_WX_PREPARE_WRITE_JSON_VALUE
 
-}  // namespace umd::utils::json
+}  // namespace parakeet_wx::utils::json

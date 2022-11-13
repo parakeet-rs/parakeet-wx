@@ -23,10 +23,10 @@
 using boost::chrono::system_clock;
 
 bool MainAppDropTarget::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& file_paths) {
-#if __UMD_SINGLE_THREAD_MODE
+#if __PARAKEET_WX_SINGLE_THREAD_MODE
   app_frame_->HandleAddFilesToQueue(file_paths);
 #else
-  umd::io_service.post([this, file_paths]() { app_frame_->HandleAddFilesToQueue(file_paths); });
+  parakeet_wx::io_service.post([this, file_paths]() { app_frame_->HandleAddFilesToQueue(file_paths); });
 #endif
 
   return true;
@@ -80,7 +80,7 @@ void MainAppFrame::OnBtnClickOptions(wxCommandEvent& event) {
   optionsDialog->ShowModal();
   if (optionsDialog->IsConfigSaved()) {
     const auto& config = optionsDialog->GetSavedConfig();
-    const auto config_store = umd::config::AppConfigStore::GetInstance();
+    const auto config_store = parakeet_wx::config::AppConfigStore::GetInstance();
     config_store->UpdateConfig(config);
 
     if (config_store->SaveConfigToDisk()) {
@@ -150,10 +150,10 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   wxArrayString paths;
   openFileDialog.GetPaths(paths);
 
-#if __UMD_SINGLE_THREAD_MODE
+#if __PARAKEET_WX_SINGLE_THREAD_MODE
   HandleAddFilesToQueue(paths);
 #else
-  umd::io_service.post([this, paths]() { HandleAddFilesToQueue(paths); });
+  parakeet_wx::io_service.post([this, paths]() { HandleAddFilesToQueue(paths); });
 #endif
 }
 
@@ -180,7 +180,7 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path& path) {
     return;
   }
 
-  auto decryption_manager = umd::config::AppConfigStore::GetInstance()->GetDecryptionManager();
+  auto decryption_manager = parakeet_wx::config::AppConfigStore::GetInstance()->GetDecryptionManager();
   parakeet_crypto::decryption::DetectionBuffer header;
   parakeet_crypto::decryption::DetectionBuffer footer;
   auto f_in = std::make_shared<std::ifstream>(path, std::ios::in | std::ios::binary);
@@ -232,10 +232,10 @@ void MainAppFrame::OnButtonClick_ProcessFiles(wxCommandEvent& event) {
   }
 
   for (int i = len - 1; i >= 0; i--) {
-#if __UMD_SINGLE_THREAD_MODE
+#if __PARAKEET_WX_SINGLE_THREAD_MODE
     this->ProcessNextFile();
 #else
-    umd::io_service.post([this]() { this->ProcessNextFile(); });
+    parakeet_wx::io_service.post([this]() { this->ProcessNextFile(); });
 #endif
   }
 }
@@ -282,7 +282,7 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
   m_decryptLogs->SetItem(entry->index, 0, status_text);
 }
 
-// using umd::utils::EncryptionType;
+// using parakeet_wx::utils::EncryptionType;
 
 void MainAppFrame::ProcessNextFile() {
   auto current_index = file_entry_process_idx_.fetch_add(1);

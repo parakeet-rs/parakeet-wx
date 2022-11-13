@@ -8,7 +8,7 @@
 
 namespace asio = boost::asio;
 
-namespace umd {
+namespace parakeet_wx {
 
 asio::io_service io_service;
 asio::io_service::work worker(io_service);
@@ -26,4 +26,4 @@ void io_service_stop() {
   threads.join_all();
 }
 
-}  // namespace umd
+}  // namespace parakeet_wx

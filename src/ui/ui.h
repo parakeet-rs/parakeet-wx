@@ -39,7 +39,7 @@
 #endif
 ///
 
-namespace umd::ui_base
+namespace parakeet_wx::ui_base
 {
 
 	///////////////////////////////////////////////////////////////////////////////
@@ -142,5 +142,5 @@ namespace umd::ui_base
 
 	};
 
-} // namespace umd::ui_base
+} // namespace parakeet_wx::ui_base
 
