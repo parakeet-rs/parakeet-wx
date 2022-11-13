@@ -1,21 +1,23 @@
 # Parakeet
 
-[![Build (Linux x86_64)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-linux-x86_64.yml) [![Build (Windows)](https://github.com/jixunmoe/parakeet/actions/workflows/build-windows.yml/badge.svg)](https://github.com/jixunmoe/parakeet/actions/workflows/build-windows.yml)
-
-一个用于解密下载的音乐文件工具的桌面客户端，使用 wxWidgets 作为基础 GUI 库开发。
+[![Build (Linux x86_64)](https://github.com/parakeet-rs/parakeet-wx/actions/workflows/build-linux-x86_64.yml/badge.svg)](https://github.com/parakeet-rs/parakeet-wx/actions/workflows/build-linux-x86_64.yml) [![Build (Windows)](https://github.com/parakeet-rs/parakeet-wx/actions/workflows/build-windows.yml/badge.svg)](https://github.com/parakeet-rs/parakeet-wx/actions/workflows/build-windows.yml)
 
 ![主界面截图](.github/assets/app-main.png)
 
-项目百科：[支持的格式][wiki_format] | [便携版制作][wiki_portable]
+一个用于解密下载的音乐文件工具的桌面客户端，使用 wxWidgets 作为基础 GUI 库开发。
 
-[wiki_format]: https://github.com/jixunmoe/parakeet/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
-[wiki_portable]: https://github.com/jixunmoe/parakeet/wiki/%E4%BE%BF%E6%90%BA%E7%89%88%E5%88%B6%E4%BD%9C
+该项目的灵感来自 [Unlock Music] 项目。该项目的目标是做一个低内存占用的桌面端通用解密工具。
+
+项目百科：[支持的格式] | [便携版制作]
+
+[支持的格式]: https://github.com/parakeet-rs/parakeet-wx/wiki/%E6%94%AF%E6%8C%81%E7%9A%84%E6%A0%BC%E5%BC%8F
+[便携版制作]: https://github.com/parakeet-rs/parakeet-wx/wiki/%E4%BE%BF%E6%90%BA%E7%89%88%E5%88%B6%E4%BD%9C
 
 ## 下载
 
-你可以在 [Latest Release][dl_rel] 下载最新的稳定版。
+你可以在 [Latest Release] 下载最新的稳定版。
 
-[dl_rel]: https://github.com/jixunmoe/parakeet/releases/latest
+[latest release]: https://github.com/parakeet-rs/parakeet-wx/releases/latest
 
 随代码提交自动构建的文件可以在 GitHub Action 产生的文件内找到。
 
@@ -25,10 +27,10 @@
 | Ubuntu 22.04        | [`linux-x86_64.zip`][dl_linux_x86_64]           |
 | Linux (AppImage)    | [`AppImage-x86_64.zip`][dl_appimage_x86_64]     |
 
-[dl_win32]: https://nightly.link/jixunmoe/parakeet/workflows/build-windows/main/win32.zip
-[dl_win64]: https://nightly.link/jixunmoe/parakeet/workflows/build-windows/main/win64.zip
-[dl_linux_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/linux-x86_64.zip
-[dl_appimage_x86_64]: https://nightly.link/jixunmoe/parakeet/workflows/build-linux-x86_64/main/AppImage-x86_64.zip
+[dl_win32]: https://nightly.link/parakeet-rs/parakeet-wx/workflows/build-windows/main/win32.zip
+[dl_win64]: https://nightly.link/parakeet-rs/parakeet-wx/workflows/build-windows/main/win64.zip
+[dl_linux_x86_64]: https://nightly.link/parakeet-rs/parakeet-wx/workflows/build-linux-x86_64/main/linux-x86_64.zip
+[dl_appimage_x86_64]: https://nightly.link/parakeet-rs/parakeet-wx/workflows/build-linux-x86_64/main/AppImage-x86_64.zip
 
 ### 关于密钥
 
@@ -58,22 +60,7 @@ cmake --build --preset win64-2022-rel
 
 ### Ubuntu 22.04 下构建
 
-- 参考 `build-setup-ubuntu.sh` 的内容安装依赖的包。
-
-```sh
-# 初始化 CMake 构建
-cmake -B build -G "Ninja Multi-Config"
-
-# 编译/运行调试版
-cmake --build build --config Debug
-./build/Debug/parakeet_wx
-
-# 编译/运行发布版
-cmake --build build --config Release
-./build/Release/parakeet_wx
-```
-
-或使用 CMake Presets:
+- 参考 `build-setup-ubuntu.sh` 的内容安装依赖的包，然后：
 
 ```sh
 # 初始化 CMake 构建
@@ -88,40 +75,20 @@ cmake --build --preset linux-rel
 ./build/linux/Release/parakeet_wx
 ```
 
-## 相关内容与链接
-
-### 由我开发或参与的项目
-
-- [小鹦鹉桌面客户端 | Jixun 的项目集](https://jixun.moe/apps/parakeet/)
-- [QMC v1 解密工具](https://jixun.moe/utils/qmc-v1-decode/)
-  - GitHub: [C 实现](https://github.com/jixunmoe/qmc-decode)
-- [QMC v2 解密工具](https://jixun.moe/utils/qmc-v2/)
-  - GitHub: [C++ 实现](https://github.com/jixunmoe/qmc2) · [Rust 实现](https://github.com/jixunmoe/qmc2-rust)
-- Joox 解密库 - JavaScript 实现 [unlock-music/joox-crypto](https://github.com/unlock-music/joox-crypto)
-- 酷狗 KGM/VPR 解密 - JavaScript 实现 [jixunmoe/kugou-crypto](https://github.com/jixunmoe/kugou-crypto)
-
-### 同类项目
+## 相关项目
 
 该项目多多少少参考了下述项目所实现的解密算法：
 
-- Unlock Music - [Web (TypeScript)](https://git.unlock-music.dev/um/web) · [Cli (Go)](https://github.com/unlock-music/cli)
-- [nukemiko/takiyasha](https://github.com/nukemiko/takiyasha) - Python 的实现，支持多加密方案
-- [davidxuang/MusicDecrypto](https://github.com/davidxuang/MusicDecrypto) - C# 的实现，支持多加密方案，使用 SIMD 加速。
+- [Unlock Music] - 项目灵感，很多算法都是从这里抠的。
+- [nukemiko/libtakiyasha] - Python 的实现，支持多种加密类型。
+- [davidxuang/MusicDecrypto] - C# 的实现，支持多种加密类型，使用 SIMD 加速。
+- [zeroclear/unlock-mflac-20220931] - QMC2-EncV2 的解密实现。
 - ncmdump & 衍生项目 - 原仓库已下线，参考了网易云音乐部分的解密代码。
 
-该项目的灵感来自 Unlock Music 项目。
-
-### 特别致谢
-
-该项目的开发使用了下述代码库与工具：
-
-- vcpkg 依赖管理
-  - boost 库及其依赖；
-  - Crypto++ 提供标准加解密算法；
-  - rapid-json 提供配置文件解析与序列化；
-  - wxWidgets 提供界面库及其依赖；
-- CMake 提供方便的跨平台编译方案
-- VSCode 与相关扩展进行开发
+[unlock music]: https://unlock-music.dev/
+[nukemiko/libtakiyasha]: https://github.com/nukemiko/libtakiyasha
+[davidxuang/musicdecrypto]: https://github.com/davidxuang/MusicDecrypto
+[zeroclear/unlock-mflac-20220931]: https://github.com/zeroclear/unlock-mflac-20220931
 
 ## 声明
 
@@ -135,4 +102,4 @@ cmake --build --preset linux-rel
 > Parakeet users should keep their decrypted copies for private use, not to re-distribute them.
 > For other terms, checkout the [license][parakeet_lic].
 
-[parakeet_lic]: https://github.com/jixunmoe/parakeet/blob/main/LICENSE
+[parakeet_lic]: https://github.com/parakeet-rs/parakeet-wx/blob/main/LICENSE
