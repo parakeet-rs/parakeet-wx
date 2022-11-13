@@ -1,7 +1,6 @@
 #include "MainAppFrame.h"
 #include "OptionsDialog.h"
 
-#include "app_version.h"
 #include "constants.h"
 #include "res/parakeet.xpm"
 #include "utils/MakeArray.h"
@@ -65,7 +64,7 @@ MainAppFrame::MainAppFrame(wxWindow* parent, wxWindowID id) : uiMainAppFrame(par
   SetTitle(GetTitle() + "  [" + _("DEBUG Build") + "]");
 #endif
 
-  SetTitle(GetTitle() + "  (" + umd_version + ")");
+  SetTitle(GetTitle() + "  (" + APP_VERSION + ")");
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent& event) {
