@@ -1,5 +1,8 @@
 #pragma once
+// clang-format off
 
 #define LOCALISED_APP_NAME _("Parakeet Desktop")
 #define APP_INTERNAL_NAME "parakeet"
 #define APP_VERSION "@PROJECT_VERSION@"
+
+#cmakedefine PARAKEET_SINGLE_THREADED

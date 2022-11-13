@@ -17,7 +17,7 @@ class wxMainThreadRunner {
   inline void SetMainThreadRunnerEventHandler(wxEvtHandler* evt_handler) { evt_handler_ = evt_handler; }
 
   inline void PostInMainThread(const MainThreadRunnerFn fn) {
-#if __PARAKEET_WX_SINGLE_THREAD_MODE
+#if defined(PARAKEET_SINGLE_THREADED)
     fn();
 #else
     parakeet_wx::io_service.post([this, fn]() {

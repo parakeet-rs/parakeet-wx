@@ -23,7 +23,7 @@
 using boost::chrono::system_clock;
 
 bool MainAppDropTarget::OnDropFiles(wxCoord x, wxCoord y, const wxArrayString& file_paths) {
-#if __PARAKEET_WX_SINGLE_THREAD_MODE
+#if defined(PARAKEET_SINGLE_THREADED)
   app_frame_->HandleAddFilesToQueue(file_paths);
 #else
   parakeet_wx::io_service.post([this, file_paths]() { app_frame_->HandleAddFilesToQueue(file_paths); });
@@ -150,7 +150,7 @@ void MainAppFrame::OnButtonClick_AddFile(wxCommandEvent& event) {
   wxArrayString paths;
   openFileDialog.GetPaths(paths);
 
-#if __PARAKEET_WX_SINGLE_THREAD_MODE
+#if defined(PARAKEET_SINGLE_THREADED)
   HandleAddFilesToQueue(paths);
 #else
   parakeet_wx::io_service.post([this, paths]() { HandleAddFilesToQueue(paths); });
@@ -232,7 +232,7 @@ void MainAppFrame::OnButtonClick_ProcessFiles(wxCommandEvent& event) {
   }
 
   for (int i = len - 1; i >= 0; i--) {
-#if __PARAKEET_WX_SINGLE_THREAD_MODE
+#if defined(PARAKEET_SINGLE_THREADED)
     this->ProcessNextFile();
 #else
     parakeet_wx::io_service.post([this]() { this->ProcessNextFile(); });

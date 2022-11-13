@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.21)
 project(parakeet_wx VERSION 0.2.0)
 
+option(PARAKEET_SINGLE_THREADED "Use single-threaded mode for Parakeet-wx" OFF)
+
 # Add our modules...
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
@@ -30,6 +32,7 @@ include(${wxWidgets_USE_FILE})
 configure_file (
     "${PROJECT_SOURCE_DIR}/src/constants.h.in"
     "${PROJECT_BINARY_DIR}/src/constants.h"
+    @ONLY
 )
 # Include our source files:
 file(GLOB_RECURSE SOURCES
