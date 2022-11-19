@@ -55,7 +55,6 @@ jobs:
             ${{ runner.os }}-
 
       - name: "🔧 CMake: Configure"
-        working-directory: build
         run: cmake --preset linux
 
       - name: "🛠️ CMake: Build"
