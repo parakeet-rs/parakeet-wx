@@ -39,7 +39,7 @@ jobs:
           bash ./vcpkg/bootstrap-vcpkg.sh  --disableMetrics
 
           mkdir -p build
-          bash scripts/build-setup-ubuntu.sh --native-deps --jammy-wx3.2
+          bash scripts/build-setup-ubuntu.sh
           bash scripts/prepare.linux.sh
           bash scripts/build-prepare.sh
 
