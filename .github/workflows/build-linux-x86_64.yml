@@ -61,7 +61,7 @@ jobs:
             -DVCPKG_TARGET_TRIPLET="x64-linux-release"
 
       - name: "🛠️ CMake: Build"
-        run: cmake --build linux-rel
+        run: cmake --build --preset linux-rel
 
       - name: "📦 Packaging"
         shell: bash
