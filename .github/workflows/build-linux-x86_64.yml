@@ -55,7 +55,10 @@ jobs:
             ${{ runner.os }}-
 
       - name: "🔧 CMake: Configure"
-        run: cmake --preset linux
+        run: |
+          cmake --preset linux \
+            -DCMAKE_TOOLCHAIN_FILE="./vcpkg/scripts/buildsystems/vcpkg.cmake" \
+            -DVCPKG_TARGET_TRIPLET="x64-linux-release"
 
       - name: "🛠️ CMake: Build"
         run: cmake --build linux-rel
