@@ -35,22 +35,36 @@ jobs:
 
       - name: "🖼️ Setup scene..."
         run: |
+          mkdir -p .vcpkg-bc
+          bash ./vcpkg/bootstrap-vcpkg.sh  --disableMetrics
+
           mkdir -p build
           bash scripts/build-setup-ubuntu.sh --native-deps --jammy-wx3.2
           bash scripts/prepare.linux.sh
           bash scripts/build-prepare.sh
 
+      - name: "🏭 vcpkg: setup binary cache"
+        uses: actions/cache@v3
+        with:
+          key: ${{ runner.os }}-vcpkg-${{ matrix.win_ver }}-${{ hashFiles('**/vcpkg.json') }}
+          path: |
+            .vcpkg-bc
+          restore-keys: |
+            ${{ runner.os }}-vcpkg-${{ matrix.win_ver }}-
+            ${{ runner.os }}-vcpkg-
+            ${{ runner.os }}-
+
       - name: "🔧 CMake: Configure"
         working-directory: build
-        run: cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
+        run: cmake --preset linux
 
       - name: "🛠️ CMake: Build"
-        run: cmake --build build
+        run: cmake --build linux-rel
 
       - name: "📦 Packaging"
         shell: bash
         run: |
-          cp build/parakeet_wx \
+          cp build/linux/Release/parakeet_wx \
              dist/Parakeet-linux-x86_64
 
           ln -s dist Parakeet
