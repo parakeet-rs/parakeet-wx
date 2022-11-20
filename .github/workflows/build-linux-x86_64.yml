@@ -62,7 +62,7 @@ jobs:
       - name: "📦 Packaging"
         shell: bash
         run: |
-          cp build/linux/Release/parakeet_wx \
+          cp build/linux-vcpkg/Release/parakeet_wx \
              dist/Parakeet-linux-x86_64
 
           ln -s dist Parakeet
