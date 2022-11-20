@@ -40,13 +40,12 @@ file(GLOB_RECURSE SOURCES
   "src/*.h"
   "${PROJECT_BINARY_DIR}/src/*.h"
 )
-add_executable(parakeet_wx
-  ${SOURCES}
-)
+add_executable(parakeet_wx ${SOURCES})
 target_include_directories(parakeet_wx
   PRIVATE
     ${wxWidgets_INCLUDE_DIRS}
-    ${BOOST_INCLUDE_DIRS}
+    ${Boost_INCLUDE_DIR}
+    ${Boost_INCLUDE_DIRS}
     "src"
     "${PROJECT_BINARY_DIR}/src/"
 )
