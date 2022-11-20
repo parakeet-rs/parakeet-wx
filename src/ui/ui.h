@@ -121,9 +121,13 @@ namespace parakeet_wx::ui_base
 			wxPropertyGrid* m_propertyGrid4;
 			wxPGProperty* m_propertyGridItem25;
 			wxPGProperty* m_xmlyX2MContentKey;
+			wxPGProperty* m_xmlyX2MScrambleTableParamInit;
+			wxPGProperty* m_xmlyX2MScrambleTableParamStep;
 			wxPGProperty* m_xmlyX2MScrambleTable;
 			wxPGProperty* m_propertyGridItem26;
 			wxPGProperty* m_xmlyX3MContentKey;
+			wxPGProperty* m_xmlyX3MScrambleTableParamInit;
+			wxPGProperty* m_xmlyX3MScrambleTableParamStep;
 			wxPGProperty* m_xmlyX3MScrambleTable;
 			wxButton* m_btnCancel;
 			wxButton* m_btnOK;

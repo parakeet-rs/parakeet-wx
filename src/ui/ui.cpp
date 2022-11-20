@@ -194,9 +194,13 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	m_propertyGrid4 = new wxPropertyGrid(m_panelXimalaya, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
 	m_propertyGridItem25 = m_propertyGrid4->Append( new wxPropertyCategory( _("X2M"), _("X2M") ) );
 	m_xmlyX2MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Content Key (hex; 4 bytes)"), _("X2M Content Key (hex; 4 bytes)") ) );
+	m_xmlyX2MScrambleTableParamInit = m_propertyGrid4->Append( new wxFloatProperty( _("X2M Scramble Table Parameter - Init"), _("X2M Scramble Table Parameter - Init") ) );
+	m_xmlyX2MScrambleTableParamStep = m_propertyGrid4->Append( new wxFloatProperty( _("X2M Scramble Table Parameter - Step Multiplier"), _("X2M Scramble Table Parameter - Step Multiplier") ) );
 	m_xmlyX2MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Scramble Table (hex; 1024 u16)"), _("X2M Scramble Table (hex; 1024 u16)") ) );
 	m_propertyGridItem26 = m_propertyGrid4->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
 	m_xmlyX3MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Content Key (hex; 32 bytes)"), _("X3M Content Key (hex; 32 bytes)") ) );
+	m_xmlyX3MScrambleTableParamInit = m_propertyGrid4->Append( new wxFloatProperty( _("X3M Scramble Table Parameter - Init"), _("X3M Scramble Table Parameter - Init") ) );
+	m_xmlyX3MScrambleTableParamStep = m_propertyGrid4->Append( new wxFloatProperty( _("X3M Scramble Table Parameter - Step Multiplier"), _("X3M Scramble Table Parameter - Step Multiplier") ) );
 	m_xmlyX3MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Scramble Table (hex; 1024 u16)"), _("X3M Scramble Table (hex; 1024 u16)") ) );
 	bSizer7->Add( m_propertyGrid4, 1, wxEXPAND, FromDIP(5) );
 
