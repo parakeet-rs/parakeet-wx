@@ -93,6 +93,14 @@
       "configuration": "Release"
     },
     {
+      "name": "linux-vcpkg-dbg",
+      "displayName": "Linux (vcpkg/debug)",
+      "configuration": "Debug",
+      "inherits": [
+        "linux-vcpkg-rel"
+      ]
+    },
+    {
       "name": "linux-vcpkg-rel",
       "displayName": "Linux (vcpkg/release)",
       "configurePreset": "linux-vcpkg",
