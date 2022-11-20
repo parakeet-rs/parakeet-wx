@@ -13,6 +13,18 @@
       "binaryDir": "${sourceDir}/build/linux"
     },
     {
+      "name": "linux-vcpkg",
+      "displayName": "Linux vcpkg",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/build/linux-vcpkg",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux",
+        "VCPKG_BUILD_TYPE": "Release",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
       "name": "win64-2022-rel",
       "displayName": "Win64-rel",
       "description": "Win64 build using MSVC 2022",
@@ -78,6 +90,12 @@
       "name": "linux-rel",
       "displayName": "Linux (release)",
       "configurePreset": "linux",
+      "configuration": "Release"
+    },
+    {
+      "name": "linux-vcpkg-rel",
+      "displayName": "Linux (vcpkg/release)",
+      "configurePreset": "linux-vcpkg",
       "configuration": "Release"
     },
     {
