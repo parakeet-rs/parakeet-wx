@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-13 13:27+0000\n"
-"PO-Revision-Date: 2022-11-13 18:34+0000\n"
+"POT-Creation-Date: 2022-11-21 02:08+0000\n"
+"PO-Revision-Date: 2022-11-21 02:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -11,19 +11,19 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 3.0.1\n"
+"X-Generator: Poedit 3.2\n"
 "X-Poedit-Basepath: .\n"
 
 #: src/ui/ui.cpp:103
 msgid " a b c"
 msgstr ""
 
-#: src/dialog/OptionsDialog.cpp:66
+#: src/dialog/OptionsDialog.cpp:103
 #, c-format
 msgid "%s - Options"
 msgstr "%s - 选项"
 
-#: src/ui/ui.cpp:217
+#: src/ui/ui.cpp:221
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
@@ -35,7 +35,7 @@ msgstr "清空 (&C)"
 msgid "&Decrypt directory..."
 msgstr "解密目录 (&D)..."
 
-#: src/ui/ui.cpp:220
+#: src/ui/ui.cpp:224
 msgid "&OK"
 msgstr "确定 (&O)"
 
@@ -55,32 +55,32 @@ msgstr "(v4) 密钥槽密钥展开表（十六进制）"
 msgid "AES key for NCM content key"
 msgstr "NCM 内容密钥 (AES)"
 
-#: src/dialog/MainAppFrame.cpp:142
+#: src/dialog/MainAppFrame.cpp:141
 msgid "All files (*.*)|*"
 msgstr "所有文件 (*.*)|*"
 
-#: src/dialog/MainAppFrame.cpp:124
+#: src/dialog/MainAppFrame.cpp:123
 msgid "All known extensions files"
 msgstr "所有已知的扩展文件"
 
-#: src/dialog/MainAppFrame.cpp:88
+#: src/dialog/MainAppFrame.cpp:87
 msgid "Config saved. Some config may require restart to work."
 msgstr "配置已保存。某些配置可能需要重新启动才能正常工作。"
 
-#: src/dialog/MainAppFrame.cpp:272
+#: src/dialog/MainAppFrame.cpp:271
 #, c-format
 msgid "Converting from %s to %s: %s"
 msgstr "正在转换 %s -> %s: %s"
 
-#: src/dialog/MainAppFrame.cpp:90
+#: src/dialog/MainAppFrame.cpp:89
 msgid "Could not save config."
 msgstr "无法保存配置。"
 
-#: src/dialog/MainAppFrame.cpp:65
+#: src/dialog/MainAppFrame.cpp:64
 msgid "DEBUG Build"
 msgstr "调试版本"
 
-#: src/dialog/MainAppFrame.cpp:265
+#: src/dialog/MainAppFrame.cpp:264
 #, c-format
 msgid "Decode OK [%s -> %s]: %s (%lums)"
 msgstr "解码完成 [%s -> %s]：%s (%lums)"
@@ -93,7 +93,7 @@ msgstr "解密文件 (&F)..."
 msgid "EKey derive seed"
 msgstr "EKey 解码种子"
 
-#: src/dialog/MainAppFrame.cpp:269
+#: src/dialog/MainAppFrame.cpp:268
 #, c-format
 msgid "FAIL [%s]: %s (%s)"
 msgstr "错误 [%s]：%s (%s)"
@@ -114,7 +114,7 @@ msgstr "Joox"
 msgid "KGM/VPR Decryption"
 msgstr "KGM/VPR 解密"
 
-#: src/dialog/MainAppFrame.cpp:126
+#: src/dialog/MainAppFrame.cpp:125
 msgid "Koox music"
 msgstr "Koox 音乐"
 
@@ -122,7 +122,7 @@ msgstr "Koox 音乐"
 msgid "Kugou"
 msgstr "酷狗"
 
-#: src/dialog/MainAppFrame.cpp:132
+#: src/dialog/MainAppFrame.cpp:131
 msgid "Kugou music"
 msgstr "酷狗音乐"
 
@@ -134,7 +134,7 @@ msgstr "酷我"
 msgid "Kuwo decryption table"
 msgstr "KGM 解密表"
 
-#: src/dialog/MainAppFrame.cpp:134
+#: src/dialog/MainAppFrame.cpp:133
 msgid "Kuwo music"
 msgstr "酷我音乐"
 
@@ -162,15 +162,15 @@ msgstr "网易 NCM 解密"
 msgid "Netease"
 msgstr "网易"
 
-#: src/dialog/MainAppFrame.cpp:136
+#: src/dialog/MainAppFrame.cpp:135
 msgid "Netease music"
 msgstr "网易云音乐"
 
-#: src/dialog/MainAppFrame.cpp:146
+#: src/dialog/MainAppFrame.cpp:145
 msgid "Open encrypted music files"
 msgstr "选择加密的音乐文件"
 
-#: src/ui/ui.h:139
+#: src/ui/ui.h:143
 msgid "Options"
 msgstr "选项"
 
@@ -186,7 +186,7 @@ msgstr "处理"
 msgid "QMCv1"
 msgstr "QMCv1"
 
-#: src/dialog/MainAppFrame.cpp:128
+#: src/dialog/MainAppFrame.cpp:127
 msgid "QMCv1 files"
 msgstr "QMCv1 文件"
 
@@ -198,7 +198,7 @@ msgstr "QMCv2"
 msgid "QMCv2 - EncV2"
 msgstr "QMCv2 - EncV2 加密方案"
 
-#: src/dialog/MainAppFrame.cpp:130
+#: src/dialog/MainAppFrame.cpp:129
 msgid "QMCv2 files"
 msgstr "QMCv2 文件"
 
@@ -206,7 +206,7 @@ msgstr "QMCv2 文件"
 msgid "QQ Music"
 msgstr "腾讯音乐"
 
-#: src/dialog/MainAppFrame.cpp:262
+#: src/dialog/MainAppFrame.cpp:261
 #, c-format
 msgid "Ready [%s -> %s]: %s"
 msgstr "就绪 [%s -> %s]：%s"
@@ -231,12 +231,12 @@ msgstr "线程数量"
 msgid "Threading"
 msgstr "多线程"
 
-#: src/dialog/MainAppFrame.cpp:279
+#: src/dialog/MainAppFrame.cpp:278
 #, c-format
 msgid "Unknown state (code %d): %s"
 msgstr "未知状态（代码 %d）：%s"
 
-#: src/dialog/MainAppFrame.cpp:275
+#: src/dialog/MainAppFrame.cpp:274
 #, c-format
 msgid "Unsupported: %s"
 msgstr "不支援：%s"
@@ -249,39 +249,55 @@ msgstr "X2M"
 msgid "X2M Content Key (hex; 4 bytes)"
 msgstr "X2M 内容密钥 (十六进制；4 字节)"
 
-#: src/ui/ui.cpp:197
+#: src/ui/ui.cpp:199
 msgid "X2M Scramble Table (hex; 1024 u16)"
 msgstr "X2M 索引混淆表（十六进制; 1024 位）"
 
+#: src/ui/ui.cpp:197
+msgid "X2M Scramble Table Param - Init (0 ~ 1)"
+msgstr "X2M 索引混淆表生成参数 - 初始化 (0 ~ 1)"
+
 #: src/ui/ui.cpp:198
+msgid "X2M Scramble Table Param- Step (3.57 ~ 4)"
+msgstr "X2M 索引混淆表生成参数 - 步进值 (3.57 ~ 4)"
+
+#: src/ui/ui.cpp:200
 msgid "X3M"
 msgstr "X3M"
 
-#: src/ui/ui.cpp:199
+#: src/ui/ui.cpp:201
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr "X2M 内容密钥 (十六进制; 32 字节)"
 
-#: src/ui/ui.cpp:200
+#: src/ui/ui.cpp:204
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr "X3M 索引混淆表（十六进制; 1024 位）"
 
-#: src/dialog/MainAppFrame.cpp:140
+#: src/ui/ui.cpp:202
+msgid "X3M Scramble Table Param - Init (0 ~ 1)"
+msgstr "X3M 索引混淆表生成参数 - 初始化 (0 ~ 1)"
+
+#: src/ui/ui.cpp:203
+msgid "X3M Scramble Table Param- Step (3.57 ~ 4)"
+msgstr "X3M 索引混淆表生成参数 - 步进值 (3.57 ~ 4)"
+
+#: src/dialog/MainAppFrame.cpp:139
 msgid "Xiami music"
 msgstr "虾米音乐"
 
-#: src/ui/ui.cpp:207
+#: src/ui/ui.cpp:211
 msgid "Ximalaya"
 msgstr "喜马拉雅"
 
-#: src/dialog/MainAppFrame.cpp:138
+#: src/dialog/MainAppFrame.cpp:137
 msgid "Ximalaya audio file"
 msgstr "喜马拉雅音频文件"
 
-#: src/dialog/MainAppFrame.cpp:318
+#: src/dialog/MainAppFrame.cpp:317
 msgid "empty input file"
 msgstr "输入文件为空文件"
 
-#: src/dialog/MainAppFrame.cpp:324
+#: src/dialog/MainAppFrame.cpp:323
 msgid "unexpected eof when reading input file"
 msgstr "读取文件时提前结束"
 

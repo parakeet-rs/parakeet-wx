@@ -54,6 +54,37 @@ void OptionsDialog::ConfigGlueCode() {
     DEFINE_CTRL_PROP(m_xmlyX2MScrambleTable, d.ximalaya.x2m_scramble_table);
     DEFINE_CTRL_PROP(m_xmlyX3MContentKey, d.ximalaya.x3m_content_key);
     DEFINE_CTRL_PROP(m_xmlyX3MScrambleTable, d.ximalaya.x3m_scramble_table);
+
+    if (M == kModeUpdateControl) {
+      if (d.ximalaya.x2m_scramble_table_parameters.has_value()) {
+        m_xmlyX2MScrambleTableParamInit->SetValue(d.ximalaya.x2m_scramble_table_parameters->init_value);
+        m_xmlyX2MScrambleTableParamStep->SetValue(d.ximalaya.x2m_scramble_table_parameters->step_value);
+      }
+      if (d.ximalaya.x3m_scramble_table_parameters.has_value()) {
+        m_xmlyX3MScrambleTableParamInit->SetValue(d.ximalaya.x3m_scramble_table_parameters->init_value);
+        m_xmlyX3MScrambleTableParamStep->SetValue(d.ximalaya.x3m_scramble_table_parameters->step_value);
+      }
+    } else {
+      using namespace parakeet_crypto::decryption;
+
+      auto x2m_scramble_table_init = m_xmlyX2MScrambleTableParamInit->GetValue().GetDouble();
+      auto x2m_scramble_table_step = m_xmlyX2MScrambleTableParamStep->GetValue().GetDouble();
+      if (x2m_scramble_table_init != 0 || x2m_scramble_table_step != 0) {
+        d.ximalaya.x2m_scramble_table_parameters = ximalaya::XmlyScrambleTableParameter{
+            .init_value = x2m_scramble_table_init,
+            .step_value = x2m_scramble_table_step,
+        };
+      }
+
+      auto x3m_scramble_table_init = m_xmlyX3MScrambleTableParamInit->GetValue().GetDouble();
+      auto x3m_scramble_table_step = m_xmlyX3MScrambleTableParamStep->GetValue().GetDouble();
+      if (x3m_scramble_table_init != 0 || x3m_scramble_table_step != 0) {
+        d.ximalaya.x3m_scramble_table_parameters = ximalaya::XmlyScrambleTableParameter{
+            .init_value = x3m_scramble_table_init,
+            .step_value = x3m_scramble_table_step,
+        };
+      }
+    }
   }
 }
 
@@ -61,6 +92,12 @@ OptionsDialog::OptionsDialog(wxWindow* parent) : uiOptionsDialog(parent) {
   // Rescale for HiDPI support
   SetClientSize(FromDIP(GetClientSize()));
   CenterOnParent();
+
+  // Set 6-digit precisions
+  m_xmlyX2MScrambleTableParamInit->SetAttribute(wxPG_FLOAT_PRECISION, 6);
+  m_xmlyX2MScrambleTableParamStep->SetAttribute(wxPG_FLOAT_PRECISION, 6);
+  m_xmlyX3MScrambleTableParamInit->SetAttribute(wxPG_FLOAT_PRECISION, 6);
+  m_xmlyX3MScrambleTableParamStep->SetAttribute(wxPG_FLOAT_PRECISION, 6);
 
   wxString title;
   title.Printf(_("%s - Options"), LOCALISED_APP_NAME);

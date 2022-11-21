@@ -17,7 +17,7 @@ endif()
 CPMAddPackage(
   NAME libparakeet
   GITHUB_REPOSITORY parakeet-rs/libparakeet
-  GIT_TAG v0.2.1
+  GIT_TAG v0.2.3
   OPTIONS
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
 )

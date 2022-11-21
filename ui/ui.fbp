@@ -1716,6 +1716,20 @@
                                             </object>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>
+                                                <property name="label">X2M Scramble Table Param - Init (0 ~ 1)</property>
+                                                <property name="name">m_xmlyX2MScrambleTableParamInit</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">Float</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="0">
+                                                <property name="help"></property>
+                                                <property name="label">X2M Scramble Table Param- Step (3.57 ~ 4)</property>
+                                                <property name="name">m_xmlyX2MScrambleTableParamStep</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">Float</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="0">
+                                                <property name="help"></property>
                                                 <property name="label">X2M Scramble Table (hex; 1024 u16)</property>
                                                 <property name="name">m_xmlyX2MScrambleTable</property>
                                                 <property name="permission">protected</property>
@@ -1734,6 +1748,20 @@
                                                 <property name="name">m_xmlyX3MContentKey</property>
                                                 <property name="permission">protected</property>
                                                 <property name="type">LongString</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="0">
+                                                <property name="help"></property>
+                                                <property name="label">X3M Scramble Table Param - Init (0 ~ 1)</property>
+                                                <property name="name">m_xmlyX3MScrambleTableParamInit</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">Float</property>
+                                            </object>
+                                            <object class="propGridItem" expanded="0">
+                                                <property name="help"></property>
+                                                <property name="label">X3M Scramble Table Param- Step (3.57 ~ 4)</property>
+                                                <property name="name">m_xmlyX3MScrambleTableParamStep</property>
+                                                <property name="permission">protected</property>
+                                                <property name="type">Float</property>
                                             </object>
                                             <object class="propGridItem" expanded="0">
                                                 <property name="help"></property>

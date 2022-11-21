@@ -106,8 +106,10 @@ inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
     using namespace parakeet_crypto::decryption::ximalaya;
     MANIP_JSON_ITEM(x2m_content_key, X2MContentKey{});
     MANIP_JSON_ITEM(x2m_scramble_table, ScrambleTable{});
+    MANIP_JSON_ITEM(x2m_scramble_table_parameters, {});
     MANIP_JSON_ITEM(x3m_content_key, X3MContentKey{});
     MANIP_JSON_ITEM(x3m_scramble_table, ScrambleTable{});
+    MANIP_JSON_ITEM(x3m_scramble_table_parameters, {});
   }
   END_MANIP_NAMESPACED_VALUE()
 

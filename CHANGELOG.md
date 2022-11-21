@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade `libparakeet` to v0.2.2.
+- Integrate new Ximalaya Scramble-Table-Generation API.
+
 ## [0.2.1] - 2022-11-14
 
 ### Changed

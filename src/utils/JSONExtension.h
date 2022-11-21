@@ -1,8 +1,10 @@
 #include "StringConvert.h"
 
+#include <parakeet-crypto/decryption/DecryptionManager.h>
 #include <parakeet-crypto/endian.h>
 #include <rapidjson/document.h>
 
+#include <optional>
 #include <type_traits>
 
 namespace parakeet_wx::utils::json {
@@ -75,6 +77,22 @@ inline void WriteValue(D& d, V& v, const char* key, const uint8_t& value) {
 }
 #pragma endregion
 
+#pragma region  // JSON <--> double
+template <>
+inline void ReadValue(const V& v, const char* key, double& out, const double& def_value) {
+  if (v.HasMember(key) && v[key].IsDouble()) {
+    out = v[key].GetDouble();
+  } else {
+    out = def_value;
+  }
+}
+
+template <>
+inline void WriteValue(D& d, V& v, const char* key, const double& value) {
+  __PARAKEET_JSON_SET_OR_ADD_MEMBER(V(value));
+}
+#pragma endregion
+
 #pragma region  // JSON <--> std::vector<uint8_t>
 template <>
 inline void ReadValue(const V& v, const char* key, std::vector<uint8_t>& out, const std::vector<uint8_t>& def_value) {
@@ -91,6 +109,48 @@ inline void WriteValue(D& d, V& v, const char* key, const std::vector<uint8_t>& 
   V result = V(encoded.c_str(), encoded.length(), d.GetAllocator());
   __PARAKEET_JSON_SET_OR_ADD_MEMBER(result);
 }
+#pragma endregion
+
+#pragma region  // JSON <--> XmlyScrambleTableParameter
+using XmlyScrambleTableParameter = parakeet_crypto::decryption::ximalaya::XmlyScrambleTableParameter;
+
+template <>
+inline void ReadValue(const V& v,
+                      const char* key,
+                      std::optional<XmlyScrambleTableParameter>& out,
+                      const std::optional<XmlyScrambleTableParameter>& def_value) {
+  static double double_zero_default = 0.0;
+  if (!v.HasMember(key)) {
+    out = def_value;
+    return;
+  }
+
+  auto& root = v[key];
+  if (!root.IsObject()) {
+    out = def_value;
+    return;
+  }
+
+  out = {0, 0};
+  ReadValue(root, "init_value", out->init_value, double_zero_default);
+  ReadValue(root, "step_value", out->step_value, double_zero_default);
+}
+
+template <>
+inline void WriteValue(D& d, V& v, const char* key, const std::optional<XmlyScrambleTableParameter>& value) {
+  V node;
+  if (!value.has_value()) {
+    node.SetNull();
+
+    return;
+  }
+
+  node.SetObject();
+  node.AddMember(rapidjson::StringRef("init_value"), value->init_value, d.GetAllocator());
+  node.AddMember(rapidjson::StringRef("step_value"), value->step_value, d.GetAllocator());
+  __PARAKEET_JSON_SET_OR_ADD_MEMBER(node);
+}
+
 #pragma endregion
 
 namespace detail {
