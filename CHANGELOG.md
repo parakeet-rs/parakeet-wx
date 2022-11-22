@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.2.2] - 2022-11-23
+
 ### Changed
 
 - Upgrade `libparakeet` to v0.2.2.
 - Integrate new Ximalaya Scramble-Table-Generation API.
+- (dev) Fixed Linux build produced by GitHub Actions.
 
 ## [0.2.1] - 2022-11-14
 
@@ -72,3 +75,4 @@ Initial release of this project.
 [0.1.5]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.4...v0.1.5
 [0.2.0]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.5...v0.2.0
 [0.2.1]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.2.0...v0.2.1
+[0.2.2]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.2.1...v0.2.2
