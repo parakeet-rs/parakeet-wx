@@ -24,6 +24,7 @@
 #include <wx/sizer.h>
 #include <wx/frame.h>
 #include <wx/propgrid/propgrid.h>
+#include <wx/propgrid/manager.h>
 #include <wx/propgrid/advprops.h>
 #include <wx/panel.h>
 #include <wx/notebook.h>
@@ -81,30 +82,36 @@ namespace parakeet_wx::ui_base
 	class uiOptionsDialog : public wxDialog
 	{
 		private:
+			wxPGProperty* m_propertyGridItem32;
 
 		protected:
 			wxNotebook* m_notebookOptions;
 			wxPanel* m_panelGeneral;
-			wxPropertyGrid* m_propertyGrid2;
+			wxPropertyGridManager* m_propertyGrid2;
+			wxPropertyGridPage* m_propertyGridPage1;
 			wxPGProperty* m_propGeneralCat1;
 			wxPGProperty* m_generalThreadPoolSize;
 			wxPGProperty* m_generalLocale;
 			wxPanel* m_panelKugou;
-			wxPropertyGrid* m_propGridKugou;
+			wxPropertyGridManager* m_propGridKugou;
+			wxPropertyGridPage* m_propertyGridPage2;
 			wxPGProperty* m_propertyGridItem3;
 			wxPGProperty* m_kugouSlotKey1;
 			wxPGProperty* m_kugouV4SlotKeyExpansionTable;
 			wxPGProperty* m_kugouV4FileKeyExpansionTable;
 			wxPanel* m_panelKuwo;
-			wxPropertyGrid* m_propertyGrid8;
+			wxPropertyGridManager* m_propertyGrid8;
+			wxPropertyGridPage* m_propertyGridPage3;
 			wxPGProperty* m_propertyGridItem36;
 			wxPGProperty* m_kuwoKey;
 			wxPanel* m_panelNetease;
-			wxPropertyGrid* m_propertyGrid81;
+			wxPropertyGridManager* m_propertyGrid81;
+			wxPropertyGridPage* m_propertyGridPage4;
 			wxPGProperty* m_propertyGridItem361;
 			wxPGProperty* m_neteaseNCMContentKeyAESKey;
 			wxPanel* m_panelQQMusic;
-			wxPropertyGrid* m_propertyGrid41;
+			wxPropertyGridManager* m_propertyGrid41;
+			wxPropertyGridPage* m_propertyGridPage5;
 			wxPGProperty* m_propertyGridItem14;
 			wxPGProperty* m_tencentStaticTable;
 			wxPGProperty* m_propertyGridItem35;
@@ -113,12 +120,14 @@ namespace parakeet_wx::ui_base
 			wxPGProperty* m_encV2Stage1Key;
 			wxPGProperty* m_encV2Stage2Key;
 			wxPanel* m_panelJoox;
-			wxPropertyGrid* m_propertyGridJoox;
+			wxPropertyGridManager* m_propertyGridJoox;
+			wxPropertyGridPage* m_propertyGridPage6;
 			wxPGProperty* m_HeaderJoox;
 			wxPGProperty* m_jooxUUID;
 			wxPGProperty* m_jooxSalt;
 			wxPanel* m_panelXimalaya;
-			wxPropertyGrid* m_propertyGrid4;
+			wxPropertyGridManager* m_propertyGrid4;
+			wxPropertyGridPage* m_propertyGridPage7;
 			wxPGProperty* m_propertyGridItem25;
 			wxPGProperty* m_xmlyX2MContentKey;
 			wxPGProperty* m_xmlyX2MScrambleTableParamInit;
