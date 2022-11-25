@@ -10,7 +10,7 @@
 
 IMPLEMENT_APP(ParakeetWx)
 
-std::unique_ptr<wxLocale> locale;
+wxLocale* locale = nullptr;
 
 void InitLocale(const std::string& str_name) {
   long lang_code = wxLANGUAGE_DEFAULT;
@@ -23,7 +23,7 @@ void InitLocale(const std::string& str_name) {
   }
   if (!wxLocale::IsAvailable(lang_code)) lang_code = wxLANGUAGE_DEFAULT;
 
-  locale = std::make_unique<wxLocale>(lang_code);
+  locale = new wxLocale(lang_code);
 
   locale->AddCatalogLookupPathPrefix(wxString(parakeet_wx::utils::GetExecutableDirectory()));
   locale->AddCatalogLookupPathPrefix(wxString(parakeet_wx::utils::GetAppImageDirOrExeDirectory()));
@@ -41,7 +41,8 @@ void InitLocale(const std::string& str_name) {
 
   if (!locale->IsOk()) {
     std::cerr << "load language failed, reset to default." << std::endl;
-    locale = std::make_unique<wxLocale>(wxLANGUAGE_DEFAULT);
+    delete locale;
+    locale = new wxLocale(wxLANGUAGE_DEFAULT);
   }
 }
 
