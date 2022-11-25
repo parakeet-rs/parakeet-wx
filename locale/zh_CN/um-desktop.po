@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-21 02:08+0000\n"
-"PO-Revision-Date: 2022-11-21 02:11+0000\n"
+"POT-Creation-Date: 2022-11-24 23:14+0000\n"
+"PO-Revision-Date: 2022-11-24 23:20+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: zh_CN\n"
@@ -14,16 +14,12 @@ msgstr ""
 "X-Generator: Poedit 3.2\n"
 "X-Poedit-Basepath: .\n"
 
-#: src/ui/ui.cpp:103
-msgid " a b c"
-msgstr ""
-
 #: src/dialog/OptionsDialog.cpp:103
 #, c-format
 msgid "%s - Options"
 msgstr "%s - 选项"
 
-#: src/ui/ui.cpp:221
+#: src/ui/ui.cpp:254
 msgid "&Cancel"
 msgstr "取消 (&C)"
 
@@ -35,7 +31,7 @@ msgstr "清空 (&C)"
 msgid "&Decrypt directory..."
 msgstr "解密目录 (&D)..."
 
-#: src/ui/ui.cpp:224
+#: src/ui/ui.cpp:257
 msgid "&OK"
 msgstr "确定 (&O)"
 
@@ -43,15 +39,52 @@ msgstr "确定 (&O)"
 msgid "&Options..."
 msgstr "选项 (&O)..."
 
-#: src/ui/ui.cpp:120
+#: src/ui/ui.cpp:184
+msgid "(EncV2) EKey Decryption Key, Stage 1, 16 bytes."
+msgstr "(EncV2) EKey 解密密钥，第 1 阶段，16 字节。"
+
+#: src/ui/ui.cpp:186
+msgid "(EncV2) EKey Decryption Key, Stage 2, 16 bytes."
+msgstr "(EncV2) EKey 解密密钥，第 2 阶段，16 字节。"
+
+#: src/ui/ui.cpp:228 src/ui/ui.cpp:237
+msgid ""
+"(deprecated) A pre-calculated Ximalaya Scramble Table.\n"
+"Only used when the Scramble Table Parameter could not derive the correct "
+"table."
+msgstr ""
+"（已弃用）一个预先计算的喜马拉雅混淆表。\n"
+"只有当初始与步进参数不能生成正确混淆表时使用。"
+
+#: src/ui/ui.cpp:127
 msgid "(v4) File key expansion table (hex)"
 msgstr "(v4) 文件密钥展开表（十六进制）"
 
-#: src/ui/ui.cpp:119
+#: src/ui/ui.cpp:126
 msgid "(v4) Slot key expansion table (hex)"
 msgstr "(v4) 密钥槽密钥展开表（十六进制）"
 
-#: src/ui/ui.cpp:148
+#: src/ui/ui.cpp:222
+msgid ".x2m Content Key."
+msgstr ".x2m 内容密钥。"
+
+#: src/ui/ui.cpp:231
+msgid ".x3m Content Key."
+msgstr ".x2m 内容密钥。"
+
+#: src/ui/ui.cpp:178
+msgid "128-Byte long encryption key. Optimized from 256-byte key."
+msgstr "一个 128 字节长的加密密钥。从 256 字节的密钥精简而来。"
+
+#: src/ui/ui.cpp:144
+msgid "A 16-byte decryption key."
+msgstr "一个 16 字节的解密密钥。"
+
+#: src/ui/ui.cpp:161
+msgid "AES Key used for NCM Audio Content decryption."
+msgstr "用于解密 NCM 音频本体的 AES 密钥。"
+
+#: src/ui/ui.cpp:160
 msgid "AES key for NCM content key"
 msgstr "NCM 内容密钥 (AES)"
 
@@ -89,28 +122,40 @@ msgstr "解码完成 [%s -> %s]：%s (%lums)"
 msgid "Decrypt &file..."
 msgstr "解密文件 (&F)..."
 
-#: src/ui/ui.cpp:164
+#: src/ui/ui.cpp:180
 msgid "EKey derive seed"
 msgstr "EKey 解码种子"
+
+#: src/ui/ui.cpp:181
+msgid "EKey seed, [0 ~ 255] inclusive."
+msgstr "EKey 解密种子，取值范围为 0 到 255。"
 
 #: src/dialog/MainAppFrame.cpp:268
 #, c-format
 msgid "FAIL [%s]: %s (%s)"
 msgstr "错误 [%s]：%s (%s)"
 
-#: src/ui/ui.cpp:111
+#: src/ui/ui.cpp:115
 msgid "General"
 msgstr "通常"
 
-#: src/ui/ui.cpp:181
+#: src/ui/ui.cpp:105
+msgid "How many thread(s) to process the file queue."
+msgstr "制定使用多少线程来处理所有的文件。"
+
+#: src/ui/ui.cpp:203
+msgid "Installation ID generated on the initial app startup."
+msgstr "该唯一识别码在应用第一次启动时生成。"
+
+#: src/ui/ui.cpp:202
 msgid "Installation UUID"
 msgstr "安装时生成的 UUID"
 
-#: src/ui/ui.cpp:180 src/ui/ui.cpp:189
+#: src/ui/ui.cpp:201 src/ui/ui.cpp:212
 msgid "Joox"
 msgstr "Joox"
 
-#: src/ui/ui.cpp:117
+#: src/ui/ui.cpp:123
 msgid "KGM/VPR Decryption"
 msgstr "KGM/VPR 解密"
 
@@ -118,7 +163,7 @@ msgstr "KGM/VPR 解密"
 msgid "Koox music"
 msgstr "Koox 音乐"
 
-#: src/ui/ui.cpp:127
+#: src/ui/ui.cpp:134
 msgid "Kugou"
 msgstr "酷狗"
 
@@ -126,11 +171,19 @@ msgstr "酷狗"
 msgid "Kugou music"
 msgstr "酷狗音乐"
 
-#: src/ui/ui.cpp:133 src/ui/ui.cpp:141
+#: src/ui/ui.cpp:125
+msgid ""
+"Kugou uses a \"key-slot\" mechanism, where the key is specified by the key-"
+"slot stored in the encrypted file."
+msgstr ""
+"酷狗试用一个“密码槽”的机制来指定插槽，然后从程序内部获得对应的解密密钥来解密"
+"文件。"
+
+#: src/ui/ui.cpp:142 src/ui/ui.cpp:151
 msgid "Kuwo"
 msgstr "酷我"
 
-#: src/ui/ui.cpp:134
+#: src/ui/ui.cpp:143
 msgid "Kuwo decryption table"
 msgstr "KGM 解密表"
 
@@ -138,27 +191,35 @@ msgstr "KGM 解密表"
 msgid "Kuwo music"
 msgstr "酷我音乐"
 
-#: src/ui/ui.cpp:104
+#: src/ui/ui.cpp:108
+msgid "Language code. Use \"en\" for English, or zh_CN for Simplified Chinese."
+msgstr "语言代码。使用“en”表示英文，或“zh_CN”表示简体中文。"
+
+#: src/ui/ui.cpp:107
 msgid "Locale Code"
 msgstr "语言代码"
+
+#: src/ui/ui.cpp:106
+msgid "Localization"
+msgstr "本地化"
 
 #: src/ui/ui.cpp:21
 msgid "Logs:"
 msgstr "文件记录："
 
-#: src/ui/ui.cpp:166
+#: src/ui/ui.cpp:183
 msgid "Mix key 1 (Stage 1 Key; 16 bytes)"
 msgstr "混淆密钥 1（第 1 阶段密钥；16 字节）"
 
-#: src/ui/ui.cpp:167
+#: src/ui/ui.cpp:185
 msgid "Mix key 2 (Stage 2 Key; 16 bytes)"
 msgstr "混淆密钥 2（第 2 阶段密钥；16 字节）"
 
-#: src/ui/ui.cpp:147
+#: src/ui/ui.cpp:159
 msgid "NCM Decryption"
 msgstr "网易 NCM 解密"
 
-#: src/ui/ui.cpp:155
+#: src/ui/ui.cpp:168
 msgid "Netease"
 msgstr "网易"
 
@@ -170,11 +231,16 @@ msgstr "网易云音乐"
 msgid "Open encrypted music files"
 msgstr "选择加密的音乐文件"
 
-#: src/ui/ui.h:143
+#: src/ui/ui.h:152
 msgid "Options"
 msgstr "选项"
 
-#: src/ui/ui.h:72
+#: src/ui/ui.cpp:102 src/ui/ui.cpp:122 src/ui/ui.cpp:141 src/ui/ui.cpp:158
+#: src/ui/ui.cpp:175 src/ui/ui.cpp:200 src/ui/ui.cpp:219
+msgid "Page"
+msgstr "页码"
+
+#: src/ui/ui.h:73
 msgid "Parakeet Desktop"
 msgstr "小鹦鹉桌面客户端"
 
@@ -182,7 +248,7 @@ msgstr "小鹦鹉桌面客户端"
 msgid "Process"
 msgstr "处理"
 
-#: src/ui/ui.cpp:161
+#: src/ui/ui.cpp:176
 msgid "QMCv1"
 msgstr "QMCv1"
 
@@ -190,11 +256,11 @@ msgstr "QMCv1"
 msgid "QMCv1 files"
 msgstr "QMCv1 文件"
 
-#: src/ui/ui.cpp:163
+#: src/ui/ui.cpp:179
 msgid "QMCv2"
 msgstr "QMCv2"
 
-#: src/ui/ui.cpp:165
+#: src/ui/ui.cpp:182
 msgid "QMCv2 - EncV2"
 msgstr "QMCv2 - EncV2 加密方案"
 
@@ -202,7 +268,7 @@ msgstr "QMCv2 - EncV2 加密方案"
 msgid "QMCv2 files"
 msgstr "QMCv2 文件"
 
-#: src/ui/ui.cpp:174
+#: src/ui/ui.cpp:193
 msgid "QQ Music"
 msgstr "腾讯音乐"
 
@@ -211,23 +277,44 @@ msgstr "腾讯音乐"
 msgid "Ready [%s -> %s]: %s"
 msgstr "就绪 [%s -> %s]：%s"
 
-#: src/ui/ui.cpp:182
+#: src/ui/ui.cpp:204
 msgid "Salt"
 msgstr "盐值"
 
-#: src/ui/ui.cpp:118
+#: src/ui/ui.cpp:205
+msgid ""
+"Salt is a hardcoded sequence of bytes, used to derive the AES decryption key."
+msgstr "盐是应用内硬编码的一组字节数据，用来生成最终的 AES 解密密钥。"
+
+#: src/ui/ui.cpp:124
 msgid "Slot Key 1 (hex; 4 bytes)"
 msgstr "密钥槽 1（十六进制；4 字节）"
 
-#: src/ui/ui.cpp:162
+#: src/ui/ui.cpp:177
 msgid "Static Key (hex; 128 bytes)"
 msgstr "静态密钥（十六进制；128 字节）"
 
-#: src/ui/ui.cpp:102
+#: src/ui/ui.cpp:224 src/ui/ui.cpp:233
+msgid ""
+"The initial value is used to generate Ximalaya Scramble Table.\n"
+"This value is between 0 and 1, and up to 6 significant figures."
+msgstr ""
+"用于生成喜马拉雅混淆表的初始值。\n"
+"该值的取值范围为 0 到 1，精度高达 6 位小数。"
+
+#: src/ui/ui.cpp:226 src/ui/ui.cpp:235
+msgid ""
+"The step value is used to generate Ximalaya Scramble Table.\n"
+"This value is between 3.57 and 4, and up to 6 significant figures."
+msgstr ""
+"用于生成喜马拉雅混淆表的步进值。\n"
+"该值的取值范围为 3.57 到 4，精度高达 6 位小数。"
+
+#: src/ui/ui.cpp:104
 msgid "Thread count"
 msgstr "线程数量"
 
-#: src/ui/ui.cpp:101
+#: src/ui/ui.cpp:103
 msgid "Threading"
 msgstr "多线程"
 
@@ -241,43 +328,43 @@ msgstr "未知状态（代码 %d）：%s"
 msgid "Unsupported: %s"
 msgstr "不支援：%s"
 
-#: src/ui/ui.cpp:195
+#: src/ui/ui.cpp:220
 msgid "X2M"
 msgstr "X2M"
 
-#: src/ui/ui.cpp:196
+#: src/ui/ui.cpp:221
 msgid "X2M Content Key (hex; 4 bytes)"
 msgstr "X2M 内容密钥 (十六进制；4 字节)"
 
-#: src/ui/ui.cpp:199
+#: src/ui/ui.cpp:227
 msgid "X2M Scramble Table (hex; 1024 u16)"
 msgstr "X2M 索引混淆表（十六进制; 1024 位）"
 
-#: src/ui/ui.cpp:197
+#: src/ui/ui.cpp:223
 msgid "X2M Scramble Table Param - Init (0 ~ 1)"
 msgstr "X2M 索引混淆表生成参数 - 初始化 (0 ~ 1)"
 
-#: src/ui/ui.cpp:198
+#: src/ui/ui.cpp:225
 msgid "X2M Scramble Table Param- Step (3.57 ~ 4)"
 msgstr "X2M 索引混淆表生成参数 - 步进值 (3.57 ~ 4)"
 
-#: src/ui/ui.cpp:200
+#: src/ui/ui.cpp:229
 msgid "X3M"
 msgstr "X3M"
 
-#: src/ui/ui.cpp:201
+#: src/ui/ui.cpp:230
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr "X2M 内容密钥 (十六进制; 32 字节)"
 
-#: src/ui/ui.cpp:204
+#: src/ui/ui.cpp:236
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr "X3M 索引混淆表（十六进制; 1024 位）"
 
-#: src/ui/ui.cpp:202
+#: src/ui/ui.cpp:232
 msgid "X3M Scramble Table Param - Init (0 ~ 1)"
 msgstr "X3M 索引混淆表生成参数 - 初始化 (0 ~ 1)"
 
-#: src/ui/ui.cpp:203
+#: src/ui/ui.cpp:234
 msgid "X3M Scramble Table Param- Step (3.57 ~ 4)"
 msgstr "X3M 索引混淆表生成参数 - 步进值 (3.57 ~ 4)"
 
@@ -285,7 +372,7 @@ msgstr "X3M 索引混淆表生成参数 - 步进值 (3.57 ~ 4)"
 msgid "Xiami music"
 msgstr "虾米音乐"
 
-#: src/ui/ui.cpp:211
+#: src/ui/ui.cpp:244
 msgid "Ximalaya"
 msgstr "喜马拉雅"
 

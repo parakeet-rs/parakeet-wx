@@ -754,7 +754,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -765,7 +765,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -802,33 +801,46 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Threading</property>
-                                                <property name="name">m_propGeneralCat1</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage1</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"> a b c</property>
-                                                <property name="label">Thread count</property>
-                                                <property name="name">m_generalThreadPoolSize</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Int</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Locale Code</property>
-                                                <property name="name">m_generalLocale</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">String</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">Threading</property>
+                                                    <property name="name">m_propGeneralCat1</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">How many thread(s) to process the file queue.</property>
+                                                    <property name="label">Thread count</property>
+                                                    <property name="name">m_generalThreadPoolSize</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Int</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">Localization</property>
+                                                    <property name="name">m_propertyGridItem32</property>
+                                                    <property name="permission">private</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">Language code. Use &quot;en&quot; for English, or zh_CN for Simplified Chinese.</property>
+                                                    <property name="label">Locale Code</property>
+                                                    <property name="name">m_generalLocale</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">String</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -899,7 +911,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -910,7 +922,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -947,40 +958,46 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">KGM/VPR Decryption</property>
-                                                <property name="name">m_propertyGridItem3</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage2</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Slot Key 1 (hex; 4 bytes)</property>
-                                                <property name="name">m_kugouSlotKey1</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">(v4) Slot key expansion table (hex)</property>
-                                                <property name="name">m_kugouV4SlotKeyExpansionTable</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">(v4) File key expansion table (hex)</property>
-                                                <property name="name">m_kugouV4FileKeyExpansionTable</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">KGM/VPR Decryption</property>
+                                                    <property name="name">m_propertyGridItem3</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">Kugou uses a &quot;key-slot&quot; mechanism, where the key is specified by the key-slot stored in the encrypted file.</property>
+                                                    <property name="label">Slot Key 1 (hex; 4 bytes)</property>
+                                                    <property name="name">m_kugouSlotKey1</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">(v4) Slot key expansion table (hex)</property>
+                                                    <property name="name">m_kugouV4SlotKeyExpansionTable</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">(v4) File key expansion table (hex)</property>
+                                                    <property name="name">m_kugouV4FileKeyExpansionTable</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -1051,7 +1068,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -1062,7 +1079,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -1099,26 +1115,32 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Kuwo</property>
-                                                <property name="name">m_propertyGridItem36</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage3</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Kuwo decryption table</property>
-                                                <property name="name">m_kuwoKey</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">Kuwo</property>
+                                                    <property name="name">m_propertyGridItem36</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">A 16-byte decryption key.</property>
+                                                    <property name="label">Kuwo decryption table</property>
+                                                    <property name="name">m_kuwoKey</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -1189,7 +1211,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -1200,7 +1222,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -1237,26 +1258,32 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">NCM Decryption</property>
-                                                <property name="name">m_propertyGridItem361</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage4</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">AES key for NCM content key</property>
-                                                <property name="name">m_neteaseNCMContentKeyAESKey</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">NCM Decryption</property>
+                                                    <property name="name">m_propertyGridItem361</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">AES Key used for NCM Audio Content decryption.</property>
+                                                    <property name="label">AES key for NCM content key</property>
+                                                    <property name="name">m_neteaseNCMContentKeyAESKey</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -1327,7 +1354,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -1338,7 +1365,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -1375,61 +1401,67 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">QMCv1</property>
-                                                <property name="name">m_propertyGridItem14</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage5</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Static Key (hex; 128 bytes)</property>
-                                                <property name="name">m_tencentStaticTable</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">QMCv2</property>
-                                                <property name="name">m_propertyGridItem35</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">EKey derive seed</property>
-                                                <property name="name">m_tencentEKeySeed</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Int</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">QMCv2 - EncV2</property>
-                                                <property name="name">m_qmcEncV2Header</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Mix key 1 (Stage 1 Key; 16 bytes)</property>
-                                                <property name="name">m_encV2Stage1Key</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Mix key 2 (Stage 2 Key; 16 bytes)</property>
-                                                <property name="name">m_encV2Stage2Key</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">QMCv1</property>
+                                                    <property name="name">m_propertyGridItem14</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">128-Byte long encryption key. Optimized from 256-byte key.</property>
+                                                    <property name="label">Static Key (hex; 128 bytes)</property>
+                                                    <property name="name">m_tencentStaticTable</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">QMCv2</property>
+                                                    <property name="name">m_propertyGridItem35</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">EKey seed, [0 ~ 255] inclusive.</property>
+                                                    <property name="label">EKey derive seed</property>
+                                                    <property name="name">m_tencentEKeySeed</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Int</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">QMCv2 - EncV2</property>
+                                                    <property name="name">m_qmcEncV2Header</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">(EncV2) EKey Decryption Key, Stage 1, 16 bytes.</property>
+                                                    <property name="label">Mix key 1 (Stage 1 Key; 16 bytes)</property>
+                                                    <property name="name">m_encV2Stage1Key</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">(EncV2) EKey Decryption Key, Stage 2, 16 bytes.</property>
+                                                    <property name="label">Mix key 2 (Stage 2 Key; 16 bytes)</property>
+                                                    <property name="name">m_encV2Stage2Key</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -1500,7 +1532,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -1511,7 +1543,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -1548,33 +1579,39 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Joox</property>
-                                                <property name="name">m_HeaderJoox</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage6</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Installation UUID</property>
-                                                <property name="name">m_jooxUUID</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">String</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">Salt</property>
-                                                <property name="name">m_jooxSalt</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">Joox</property>
+                                                    <property name="name">m_HeaderJoox</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">Installation ID generated on the initial app startup.</property>
+                                                    <property name="label">Installation UUID</property>
+                                                    <property name="name">m_jooxUUID</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">String</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">Salt is a hardcoded sequence of bytes, used to derive the AES decryption key.</property>
+                                                    <property name="label">Salt</property>
+                                                    <property name="name">m_jooxSalt</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>
@@ -1645,7 +1682,7 @@
                                         <property name="border">5</property>
                                         <property name="flag">wxEXPAND</property>
                                         <property name="proportion">1</property>
-                                        <object class="wxPropertyGrid" expanded="0">
+                                        <object class="wxPropertyGridManager" expanded="0">
                                             <property name="BottomDockable">1</property>
                                             <property name="LeftDockable">1</property>
                                             <property name="RightDockable">1</property>
@@ -1656,7 +1693,6 @@
                                             <property name="aui_row"></property>
                                             <property name="best_size"></property>
                                             <property name="bg"></property>
-                                            <property name="bitmap"></property>
                                             <property name="caption"></property>
                                             <property name="caption_visible">1</property>
                                             <property name="center_pane">0</property>
@@ -1693,82 +1729,88 @@
                                             <property name="resize">Resizable</property>
                                             <property name="show">1</property>
                                             <property name="size"></property>
-                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
+                                            <property name="style">wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL</property>
                                             <property name="subclass">; ; forward_declare</property>
                                             <property name="toolbar_pane">0</property>
                                             <property name="tooltip"></property>
                                             <property name="window_extra_style"></property>
                                             <property name="window_name"></property>
                                             <property name="window_style"></property>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X2M</property>
-                                                <property name="name">m_propertyGridItem25</property>
+                                            <object class="propGridPage" expanded="0">
+                                                <property name="bitmap"></property>
+                                                <property name="label">Page</property>
+                                                <property name="name">m_propertyGridPage7</property>
                                                 <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X2M Content Key (hex; 4 bytes)</property>
-                                                <property name="name">m_xmlyX2MContentKey</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X2M Scramble Table Param - Init (0 ~ 1)</property>
-                                                <property name="name">m_xmlyX2MScrambleTableParamInit</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Float</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X2M Scramble Table Param- Step (3.57 ~ 4)</property>
-                                                <property name="name">m_xmlyX2MScrambleTableParamStep</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Float</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X2M Scramble Table (hex; 1024 u16)</property>
-                                                <property name="name">m_xmlyX2MScrambleTable</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X3M</property>
-                                                <property name="name">m_propertyGridItem26</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Category</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X3M Content Key (hex; 32 bytes)</property>
-                                                <property name="name">m_xmlyX3MContentKey</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X3M Scramble Table Param - Init (0 ~ 1)</property>
-                                                <property name="name">m_xmlyX3MScrambleTableParamInit</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Float</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X3M Scramble Table Param- Step (3.57 ~ 4)</property>
-                                                <property name="name">m_xmlyX3MScrambleTableParamStep</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">Float</property>
-                                            </object>
-                                            <object class="propGridItem" expanded="0">
-                                                <property name="help"></property>
-                                                <property name="label">X3M Scramble Table (hex; 1024 u16)</property>
-                                                <property name="name">m_xmlyX3MScrambleTable</property>
-                                                <property name="permission">protected</property>
-                                                <property name="type">LongString</property>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">X2M</property>
+                                                    <property name="name">m_propertyGridItem25</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">.x2m Content Key.</property>
+                                                    <property name="label">X2M Content Key (hex; 4 bytes)</property>
+                                                    <property name="name">m_xmlyX2MContentKey</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">The initial value is used to generate Ximalaya Scramble Table.&#x0A;This value is between 0 and 1, and up to 6 significant figures.</property>
+                                                    <property name="label">X2M Scramble Table Param - Init (0 ~ 1)</property>
+                                                    <property name="name">m_xmlyX2MScrambleTableParamInit</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Float</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">The step value is used to generate Ximalaya Scramble Table.&#x0A;This value is between 3.57 and 4, and up to 6 significant figures.</property>
+                                                    <property name="label">X2M Scramble Table Param- Step (3.57 ~ 4)</property>
+                                                    <property name="name">m_xmlyX2MScrambleTableParamStep</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Float</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">(deprecated) A pre-calculated Ximalaya Scramble Table.&#x0A;Only used when the Scramble Table Parameter could not derive the correct table.</property>
+                                                    <property name="label">X2M Scramble Table (hex; 1024 u16)</property>
+                                                    <property name="name">m_xmlyX2MScrambleTable</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help"></property>
+                                                    <property name="label">X3M</property>
+                                                    <property name="name">m_propertyGridItem26</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Category</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">.x3m Content Key.</property>
+                                                    <property name="label">X3M Content Key (hex; 32 bytes)</property>
+                                                    <property name="name">m_xmlyX3MContentKey</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">The initial value is used to generate Ximalaya Scramble Table.&#x0A;This value is between 0 and 1, and up to 6 significant figures.</property>
+                                                    <property name="label">X3M Scramble Table Param - Init (0 ~ 1)</property>
+                                                    <property name="name">m_xmlyX3MScrambleTableParamInit</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Float</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">The step value is used to generate Ximalaya Scramble Table.&#x0A;This value is between 3.57 and 4, and up to 6 significant figures.</property>
+                                                    <property name="label">X3M Scramble Table Param- Step (3.57 ~ 4)</property>
+                                                    <property name="name">m_xmlyX3MScrambleTableParamStep</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">Float</property>
+                                                </object>
+                                                <object class="propGridItem" expanded="0">
+                                                    <property name="help">(deprecated) A pre-calculated Ximalaya Scramble Table.&#x0A;Only used when the Scramble Table Parameter could not derive the correct table.</property>
+                                                    <property name="label">X3M Scramble Table (hex; 1024 u16)</property>
+                                                    <property name="name">m_xmlyX3MScrambleTable</property>
+                                                    <property name="permission">protected</property>
+                                                    <property name="type">LongString</property>
+                                                </object>
                                             </object>
                                         </object>
                                     </object>

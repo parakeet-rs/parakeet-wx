@@ -97,11 +97,15 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer6;
 	bSizer6 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid2 = new wxPropertyGrid(m_panelGeneral, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propGeneralCat1 = m_propertyGrid2->Append( new wxPropertyCategory( _("Threading"), _("Threading") ) );
-	m_generalThreadPoolSize = m_propertyGrid2->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
-	m_propertyGrid2->SetPropertyHelpString( m_generalThreadPoolSize, _(" a b c") );
-	m_generalLocale = m_propertyGrid2->Append( new wxStringProperty( _("Locale Code"), _("Locale Code") ) );
+	m_propertyGrid2 = new wxPropertyGridManager(m_panelGeneral, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage1 = m_propertyGrid2->AddPage( _("Page"), wxNullBitmap );
+	m_propGeneralCat1 = m_propertyGridPage1->Append( new wxPropertyCategory( _("Threading"), _("Threading") ) );
+	m_generalThreadPoolSize = m_propertyGridPage1->Append( new wxIntProperty( _("Thread count"), _("Thread count") ) );
+	m_propertyGridPage1->SetPropertyHelpString( m_generalThreadPoolSize, _("How many thread(s) to process the file queue.") );
+	m_propertyGridItem32 = m_propertyGridPage1->Append( new wxPropertyCategory( _("Localization"), _("Localization") ) );
+	m_generalLocale = m_propertyGridPage1->Append( new wxStringProperty( _("Locale Code"), _("Locale Code") ) );
+	m_propertyGridPage1->SetPropertyHelpString( m_generalLocale, _("Language code. Use \"en\" for English, or zh_CN for Simplified Chinese.") );
 	bSizer6->Add( m_propertyGrid2, 1, wxEXPAND, FromDIP(5) );
 
 
@@ -113,11 +117,14 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer5;
 	bSizer5 = new wxBoxSizer( wxVERTICAL );
 
-	m_propGridKugou = new wxPropertyGrid(m_panelKugou, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propertyGridItem3 = m_propGridKugou->Append( new wxPropertyCategory( _("KGM/VPR Decryption"), _("KGM/VPR Decryption") ) );
-	m_kugouSlotKey1 = m_propGridKugou->Append( new wxLongStringProperty( _("Slot Key 1 (hex; 4 bytes)"), _("Slot Key 1 (hex; 4 bytes)") ) );
-	m_kugouV4SlotKeyExpansionTable = m_propGridKugou->Append( new wxLongStringProperty( _("(v4) Slot key expansion table (hex)"), _("(v4) Slot key expansion table (hex)") ) );
-	m_kugouV4FileKeyExpansionTable = m_propGridKugou->Append( new wxLongStringProperty( _("(v4) File key expansion table (hex)"), _("(v4) File key expansion table (hex)") ) );
+	m_propGridKugou = new wxPropertyGridManager(m_panelKugou, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage2 = m_propGridKugou->AddPage( _("Page"), wxNullBitmap );
+	m_propertyGridItem3 = m_propertyGridPage2->Append( new wxPropertyCategory( _("KGM/VPR Decryption"), _("KGM/VPR Decryption") ) );
+	m_kugouSlotKey1 = m_propertyGridPage2->Append( new wxLongStringProperty( _("Slot Key 1 (hex; 4 bytes)"), _("Slot Key 1 (hex; 4 bytes)") ) );
+	m_propertyGridPage2->SetPropertyHelpString( m_kugouSlotKey1, _("Kugou uses a \"key-slot\" mechanism, where the key is specified by the key-slot stored in the encrypted file.") );
+	m_kugouV4SlotKeyExpansionTable = m_propertyGridPage2->Append( new wxLongStringProperty( _("(v4) Slot key expansion table (hex)"), _("(v4) Slot key expansion table (hex)") ) );
+	m_kugouV4FileKeyExpansionTable = m_propertyGridPage2->Append( new wxLongStringProperty( _("(v4) File key expansion table (hex)"), _("(v4) File key expansion table (hex)") ) );
 	bSizer5->Add( m_propGridKugou, 1, wxEXPAND, FromDIP(5) );
 
 
@@ -129,9 +136,12 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid8 = new wxPropertyGrid(m_panelKuwo, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propertyGridItem36 = m_propertyGrid8->Append( new wxPropertyCategory( _("Kuwo"), _("Kuwo") ) );
-	m_kuwoKey = m_propertyGrid8->Append( new wxLongStringProperty( _("Kuwo decryption table"), _("Kuwo decryption table") ) );
+	m_propertyGrid8 = new wxPropertyGridManager(m_panelKuwo, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage3 = m_propertyGrid8->AddPage( _("Page"), wxNullBitmap );
+	m_propertyGridItem36 = m_propertyGridPage3->Append( new wxPropertyCategory( _("Kuwo"), _("Kuwo") ) );
+	m_kuwoKey = m_propertyGridPage3->Append( new wxLongStringProperty( _("Kuwo decryption table"), _("Kuwo decryption table") ) );
+	m_propertyGridPage3->SetPropertyHelpString( m_kuwoKey, _("A 16-byte decryption key.") );
 	bSizer12->Add( m_propertyGrid8, 1, wxEXPAND, FromDIP(5) );
 
 
@@ -143,9 +153,12 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer121;
 	bSizer121 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid81 = new wxPropertyGrid(m_panelNetease, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propertyGridItem361 = m_propertyGrid81->Append( new wxPropertyCategory( _("NCM Decryption"), _("NCM Decryption") ) );
-	m_neteaseNCMContentKeyAESKey = m_propertyGrid81->Append( new wxLongStringProperty( _("AES key for NCM content key"), _("AES key for NCM content key") ) );
+	m_propertyGrid81 = new wxPropertyGridManager(m_panelNetease, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage4 = m_propertyGrid81->AddPage( _("Page"), wxNullBitmap );
+	m_propertyGridItem361 = m_propertyGridPage4->Append( new wxPropertyCategory( _("NCM Decryption"), _("NCM Decryption") ) );
+	m_neteaseNCMContentKeyAESKey = m_propertyGridPage4->Append( new wxLongStringProperty( _("AES key for NCM content key"), _("AES key for NCM content key") ) );
+	m_propertyGridPage4->SetPropertyHelpString( m_neteaseNCMContentKeyAESKey, _("AES Key used for NCM Audio Content decryption.") );
 	bSizer121->Add( m_propertyGrid81, 1, wxEXPAND, FromDIP(5) );
 
 
@@ -157,14 +170,20 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer9;
 	bSizer9 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid41 = new wxPropertyGrid(m_panelQQMusic, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propertyGridItem14 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv1"), _("QMCv1") ) );
-	m_tencentStaticTable = m_propertyGrid41->Append( new wxLongStringProperty( _("Static Key (hex; 128 bytes)"), _("Static Key (hex; 128 bytes)") ) );
-	m_propertyGridItem35 = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2"), _("QMCv2") ) );
-	m_tencentEKeySeed = m_propertyGrid41->Append( new wxIntProperty( _("EKey derive seed"), _("EKey derive seed") ) );
-	m_qmcEncV2Header = m_propertyGrid41->Append( new wxPropertyCategory( _("QMCv2 - EncV2"), _("QMCv2 - EncV2") ) );
-	m_encV2Stage1Key = m_propertyGrid41->Append( new wxLongStringProperty( _("Mix key 1 (Stage 1 Key; 16 bytes)"), _("Mix key 1 (Stage 1 Key; 16 bytes)") ) );
-	m_encV2Stage2Key = m_propertyGrid41->Append( new wxLongStringProperty( _("Mix key 2 (Stage 2 Key; 16 bytes)"), _("Mix key 2 (Stage 2 Key; 16 bytes)") ) );
+	m_propertyGrid41 = new wxPropertyGridManager(m_panelQQMusic, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage5 = m_propertyGrid41->AddPage( _("Page"), wxNullBitmap );
+	m_propertyGridItem14 = m_propertyGridPage5->Append( new wxPropertyCategory( _("QMCv1"), _("QMCv1") ) );
+	m_tencentStaticTable = m_propertyGridPage5->Append( new wxLongStringProperty( _("Static Key (hex; 128 bytes)"), _("Static Key (hex; 128 bytes)") ) );
+	m_propertyGridPage5->SetPropertyHelpString( m_tencentStaticTable, _("128-Byte long encryption key. Optimized from 256-byte key.") );
+	m_propertyGridItem35 = m_propertyGridPage5->Append( new wxPropertyCategory( _("QMCv2"), _("QMCv2") ) );
+	m_tencentEKeySeed = m_propertyGridPage5->Append( new wxIntProperty( _("EKey derive seed"), _("EKey derive seed") ) );
+	m_propertyGridPage5->SetPropertyHelpString( m_tencentEKeySeed, _("EKey seed, [0 ~ 255] inclusive.") );
+	m_qmcEncV2Header = m_propertyGridPage5->Append( new wxPropertyCategory( _("QMCv2 - EncV2"), _("QMCv2 - EncV2") ) );
+	m_encV2Stage1Key = m_propertyGridPage5->Append( new wxLongStringProperty( _("Mix key 1 (Stage 1 Key; 16 bytes)"), _("Mix key 1 (Stage 1 Key; 16 bytes)") ) );
+	m_propertyGridPage5->SetPropertyHelpString( m_encV2Stage1Key, _("(EncV2) EKey Decryption Key, Stage 1, 16 bytes.") );
+	m_encV2Stage2Key = m_propertyGridPage5->Append( new wxLongStringProperty( _("Mix key 2 (Stage 2 Key; 16 bytes)"), _("Mix key 2 (Stage 2 Key; 16 bytes)") ) );
+	m_propertyGridPage5->SetPropertyHelpString( m_encV2Stage2Key, _("(EncV2) EKey Decryption Key, Stage 2, 16 bytes.") );
 	bSizer9->Add( m_propertyGrid41, 1, wxEXPAND, FromDIP(5) );
 
 
@@ -176,10 +195,14 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer91;
 	bSizer91 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGridJoox = new wxPropertyGrid(m_panelJoox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_HeaderJoox = m_propertyGridJoox->Append( new wxPropertyCategory( _("Joox"), _("Joox") ) );
-	m_jooxUUID = m_propertyGridJoox->Append( new wxStringProperty( _("Installation UUID"), _("Installation UUID") ) );
-	m_jooxSalt = m_propertyGridJoox->Append( new wxLongStringProperty( _("Salt"), _("Salt") ) );
+	m_propertyGridJoox = new wxPropertyGridManager(m_panelJoox, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage6 = m_propertyGridJoox->AddPage( _("Page"), wxNullBitmap );
+	m_HeaderJoox = m_propertyGridPage6->Append( new wxPropertyCategory( _("Joox"), _("Joox") ) );
+	m_jooxUUID = m_propertyGridPage6->Append( new wxStringProperty( _("Installation UUID"), _("Installation UUID") ) );
+	m_propertyGridPage6->SetPropertyHelpString( m_jooxUUID, _("Installation ID generated on the initial app startup.") );
+	m_jooxSalt = m_propertyGridPage6->Append( new wxLongStringProperty( _("Salt"), _("Salt") ) );
+	m_propertyGridPage6->SetPropertyHelpString( m_jooxSalt, _("Salt is a hardcoded sequence of bytes, used to derive the AES decryption key.") );
 	bSizer91->Add( m_propertyGridJoox, 1, wxEXPAND, FromDIP(5) );
 
 
@@ -191,17 +214,27 @@ uiOptionsDialog::uiOptionsDialog( wxWindow* parent, wxWindowID id, const wxStrin
 	wxBoxSizer* bSizer7;
 	bSizer7 = new wxBoxSizer( wxVERTICAL );
 
-	m_propertyGrid4 = new wxPropertyGrid(m_panelXimalaya, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DEFAULT_STYLE|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
-	m_propertyGridItem25 = m_propertyGrid4->Append( new wxPropertyCategory( _("X2M"), _("X2M") ) );
-	m_xmlyX2MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Content Key (hex; 4 bytes)"), _("X2M Content Key (hex; 4 bytes)") ) );
-	m_xmlyX2MScrambleTableParamInit = m_propertyGrid4->Append( new wxFloatProperty( _("X2M Scramble Table Param - Init (0 ~ 1)"), _("X2M Scramble Table Param - Init (0 ~ 1)") ) );
-	m_xmlyX2MScrambleTableParamStep = m_propertyGrid4->Append( new wxFloatProperty( _("X2M Scramble Table Param- Step (3.57 ~ 4)"), _("X2M Scramble Table Param- Step (3.57 ~ 4)") ) );
-	m_xmlyX2MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X2M Scramble Table (hex; 1024 u16)"), _("X2M Scramble Table (hex; 1024 u16)") ) );
-	m_propertyGridItem26 = m_propertyGrid4->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
-	m_xmlyX3MContentKey = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Content Key (hex; 32 bytes)"), _("X3M Content Key (hex; 32 bytes)") ) );
-	m_xmlyX3MScrambleTableParamInit = m_propertyGrid4->Append( new wxFloatProperty( _("X3M Scramble Table Param - Init (0 ~ 1)"), _("X3M Scramble Table Param - Init (0 ~ 1)") ) );
-	m_xmlyX3MScrambleTableParamStep = m_propertyGrid4->Append( new wxFloatProperty( _("X3M Scramble Table Param- Step (3.57 ~ 4)"), _("X3M Scramble Table Param- Step (3.57 ~ 4)") ) );
-	m_xmlyX3MScrambleTable = m_propertyGrid4->Append( new wxLongStringProperty( _("X3M Scramble Table (hex; 1024 u16)"), _("X3M Scramble Table (hex; 1024 u16)") ) );
+	m_propertyGrid4 = new wxPropertyGridManager(m_panelXimalaya, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxPG_BOLD_MODIFIED|wxPG_DESCRIPTION|wxPG_SPLITTER_AUTO_CENTER|wxTAB_TRAVERSAL);
+
+	m_propertyGridPage7 = m_propertyGrid4->AddPage( _("Page"), wxNullBitmap );
+	m_propertyGridItem25 = m_propertyGridPage7->Append( new wxPropertyCategory( _("X2M"), _("X2M") ) );
+	m_xmlyX2MContentKey = m_propertyGridPage7->Append( new wxLongStringProperty( _("X2M Content Key (hex; 4 bytes)"), _("X2M Content Key (hex; 4 bytes)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX2MContentKey, _(".x2m Content Key.") );
+	m_xmlyX2MScrambleTableParamInit = m_propertyGridPage7->Append( new wxFloatProperty( _("X2M Scramble Table Param - Init (0 ~ 1)"), _("X2M Scramble Table Param - Init (0 ~ 1)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX2MScrambleTableParamInit, _("The initial value is used to generate Ximalaya Scramble Table.\nThis value is between 0 and 1, and up to 6 significant figures.") );
+	m_xmlyX2MScrambleTableParamStep = m_propertyGridPage7->Append( new wxFloatProperty( _("X2M Scramble Table Param- Step (3.57 ~ 4)"), _("X2M Scramble Table Param- Step (3.57 ~ 4)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX2MScrambleTableParamStep, _("The step value is used to generate Ximalaya Scramble Table.\nThis value is between 3.57 and 4, and up to 6 significant figures.") );
+	m_xmlyX2MScrambleTable = m_propertyGridPage7->Append( new wxLongStringProperty( _("X2M Scramble Table (hex; 1024 u16)"), _("X2M Scramble Table (hex; 1024 u16)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX2MScrambleTable, _("(deprecated) A pre-calculated Ximalaya Scramble Table.\nOnly used when the Scramble Table Parameter could not derive the correct table.") );
+	m_propertyGridItem26 = m_propertyGridPage7->Append( new wxPropertyCategory( _("X3M"), _("X3M") ) );
+	m_xmlyX3MContentKey = m_propertyGridPage7->Append( new wxLongStringProperty( _("X3M Content Key (hex; 32 bytes)"), _("X3M Content Key (hex; 32 bytes)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX3MContentKey, _(".x3m Content Key.") );
+	m_xmlyX3MScrambleTableParamInit = m_propertyGridPage7->Append( new wxFloatProperty( _("X3M Scramble Table Param - Init (0 ~ 1)"), _("X3M Scramble Table Param - Init (0 ~ 1)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX3MScrambleTableParamInit, _("The initial value is used to generate Ximalaya Scramble Table.\nThis value is between 0 and 1, and up to 6 significant figures.") );
+	m_xmlyX3MScrambleTableParamStep = m_propertyGridPage7->Append( new wxFloatProperty( _("X3M Scramble Table Param- Step (3.57 ~ 4)"), _("X3M Scramble Table Param- Step (3.57 ~ 4)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX3MScrambleTableParamStep, _("The step value is used to generate Ximalaya Scramble Table.\nThis value is between 3.57 and 4, and up to 6 significant figures.") );
+	m_xmlyX3MScrambleTable = m_propertyGridPage7->Append( new wxLongStringProperty( _("X3M Scramble Table (hex; 1024 u16)"), _("X3M Scramble Table (hex; 1024 u16)") ) );
+	m_propertyGridPage7->SetPropertyHelpString( m_xmlyX3MScrambleTable, _("(deprecated) A pre-calculated Ximalaya Scramble Table.\nOnly used when the Scramble Table Parameter could not derive the correct table.") );
 	bSizer7->Add( m_propertyGrid4, 1, wxEXPAND, FromDIP(5) );
 
 

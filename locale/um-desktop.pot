@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-21 02:08+0000\n"
+"POT-Creation-Date: 2022-11-24 23:14+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,16 +17,12 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/ui/ui.cpp:103
-msgid " a b c"
-msgstr ""
-
 #: src/dialog/OptionsDialog.cpp:103
 #, c-format
 msgid "%s - Options"
 msgstr ""
 
-#: src/ui/ui.cpp:221
+#: src/ui/ui.cpp:254
 msgid "&Cancel"
 msgstr ""
 
@@ -38,7 +34,7 @@ msgstr ""
 msgid "&Decrypt directory..."
 msgstr ""
 
-#: src/ui/ui.cpp:224
+#: src/ui/ui.cpp:257
 msgid "&OK"
 msgstr ""
 
@@ -46,15 +42,50 @@ msgstr ""
 msgid "&Options..."
 msgstr ""
 
-#: src/ui/ui.cpp:120
+#: src/ui/ui.cpp:184
+msgid "(EncV2) EKey Decryption Key, Stage 1, 16 bytes."
+msgstr ""
+
+#: src/ui/ui.cpp:186
+msgid "(EncV2) EKey Decryption Key, Stage 2, 16 bytes."
+msgstr ""
+
+#: src/ui/ui.cpp:228 src/ui/ui.cpp:237
+msgid ""
+"(deprecated) A pre-calculated Ximalaya Scramble Table.\n"
+"Only used when the Scramble Table Parameter could not derive the correct "
+"table."
+msgstr ""
+
+#: src/ui/ui.cpp:127
 msgid "(v4) File key expansion table (hex)"
 msgstr ""
 
-#: src/ui/ui.cpp:119
+#: src/ui/ui.cpp:126
 msgid "(v4) Slot key expansion table (hex)"
 msgstr ""
 
-#: src/ui/ui.cpp:148
+#: src/ui/ui.cpp:222
+msgid ".x2m Content Key."
+msgstr ""
+
+#: src/ui/ui.cpp:231
+msgid ".x3m Content Key."
+msgstr ""
+
+#: src/ui/ui.cpp:178
+msgid "128-Byte long encryption key. Optimized from 256-byte key."
+msgstr ""
+
+#: src/ui/ui.cpp:144
+msgid "A 16-byte decryption key."
+msgstr ""
+
+#: src/ui/ui.cpp:161
+msgid "AES Key used for NCM Audio Content decryption."
+msgstr ""
+
+#: src/ui/ui.cpp:160
 msgid "AES key for NCM content key"
 msgstr ""
 
@@ -92,8 +123,12 @@ msgstr ""
 msgid "Decrypt &file..."
 msgstr ""
 
-#: src/ui/ui.cpp:164
+#: src/ui/ui.cpp:180
 msgid "EKey derive seed"
+msgstr ""
+
+#: src/ui/ui.cpp:181
+msgid "EKey seed, [0 ~ 255] inclusive."
 msgstr ""
 
 #: src/dialog/MainAppFrame.cpp:268
@@ -101,19 +136,27 @@ msgstr ""
 msgid "FAIL [%s]: %s (%s)"
 msgstr ""
 
-#: src/ui/ui.cpp:111
+#: src/ui/ui.cpp:115
 msgid "General"
 msgstr ""
 
-#: src/ui/ui.cpp:181
+#: src/ui/ui.cpp:105
+msgid "How many thread(s) to process the file queue."
+msgstr ""
+
+#: src/ui/ui.cpp:203
+msgid "Installation ID generated on the initial app startup."
+msgstr ""
+
+#: src/ui/ui.cpp:202
 msgid "Installation UUID"
 msgstr ""
 
-#: src/ui/ui.cpp:180 src/ui/ui.cpp:189
+#: src/ui/ui.cpp:201 src/ui/ui.cpp:212
 msgid "Joox"
 msgstr ""
 
-#: src/ui/ui.cpp:117
+#: src/ui/ui.cpp:123
 msgid "KGM/VPR Decryption"
 msgstr ""
 
@@ -121,7 +164,7 @@ msgstr ""
 msgid "Koox music"
 msgstr ""
 
-#: src/ui/ui.cpp:127
+#: src/ui/ui.cpp:134
 msgid "Kugou"
 msgstr ""
 
@@ -129,11 +172,17 @@ msgstr ""
 msgid "Kugou music"
 msgstr ""
 
-#: src/ui/ui.cpp:133 src/ui/ui.cpp:141
+#: src/ui/ui.cpp:125
+msgid ""
+"Kugou uses a \"key-slot\" mechanism, where the key is specified by the key-"
+"slot stored in the encrypted file."
+msgstr ""
+
+#: src/ui/ui.cpp:142 src/ui/ui.cpp:151
 msgid "Kuwo"
 msgstr ""
 
-#: src/ui/ui.cpp:134
+#: src/ui/ui.cpp:143
 msgid "Kuwo decryption table"
 msgstr ""
 
@@ -141,27 +190,35 @@ msgstr ""
 msgid "Kuwo music"
 msgstr ""
 
-#: src/ui/ui.cpp:104
+#: src/ui/ui.cpp:108
+msgid "Language code. Use \"en\" for English, or zh_CN for Simplified Chinese."
+msgstr ""
+
+#: src/ui/ui.cpp:107
 msgid "Locale Code"
+msgstr ""
+
+#: src/ui/ui.cpp:106
+msgid "Localization"
 msgstr ""
 
 #: src/ui/ui.cpp:21
 msgid "Logs:"
 msgstr ""
 
-#: src/ui/ui.cpp:166
+#: src/ui/ui.cpp:183
 msgid "Mix key 1 (Stage 1 Key; 16 bytes)"
 msgstr ""
 
-#: src/ui/ui.cpp:167
+#: src/ui/ui.cpp:185
 msgid "Mix key 2 (Stage 2 Key; 16 bytes)"
 msgstr ""
 
-#: src/ui/ui.cpp:147
+#: src/ui/ui.cpp:159
 msgid "NCM Decryption"
 msgstr ""
 
-#: src/ui/ui.cpp:155
+#: src/ui/ui.cpp:168
 msgid "Netease"
 msgstr ""
 
@@ -173,11 +230,16 @@ msgstr ""
 msgid "Open encrypted music files"
 msgstr ""
 
-#: src/ui/ui.h:143
+#: src/ui/ui.h:152
 msgid "Options"
 msgstr ""
 
-#: src/ui/ui.h:72
+#: src/ui/ui.cpp:102 src/ui/ui.cpp:122 src/ui/ui.cpp:141 src/ui/ui.cpp:158
+#: src/ui/ui.cpp:175 src/ui/ui.cpp:200 src/ui/ui.cpp:219
+msgid "Page"
+msgstr ""
+
+#: src/ui/ui.h:73
 msgid "Parakeet Desktop"
 msgstr ""
 
@@ -185,7 +247,7 @@ msgstr ""
 msgid "Process"
 msgstr ""
 
-#: src/ui/ui.cpp:161
+#: src/ui/ui.cpp:176
 msgid "QMCv1"
 msgstr ""
 
@@ -193,11 +255,11 @@ msgstr ""
 msgid "QMCv1 files"
 msgstr ""
 
-#: src/ui/ui.cpp:163
+#: src/ui/ui.cpp:179
 msgid "QMCv2"
 msgstr ""
 
-#: src/ui/ui.cpp:165
+#: src/ui/ui.cpp:182
 msgid "QMCv2 - EncV2"
 msgstr ""
 
@@ -205,7 +267,7 @@ msgstr ""
 msgid "QMCv2 files"
 msgstr ""
 
-#: src/ui/ui.cpp:174
+#: src/ui/ui.cpp:193
 msgid "QQ Music"
 msgstr ""
 
@@ -214,23 +276,40 @@ msgstr ""
 msgid "Ready [%s -> %s]: %s"
 msgstr ""
 
-#: src/ui/ui.cpp:182
+#: src/ui/ui.cpp:204
 msgid "Salt"
 msgstr ""
 
-#: src/ui/ui.cpp:118
+#: src/ui/ui.cpp:205
+msgid ""
+"Salt is a hardcoded sequence of bytes, used to derive the AES decryption key."
+msgstr ""
+
+#: src/ui/ui.cpp:124
 msgid "Slot Key 1 (hex; 4 bytes)"
 msgstr ""
 
-#: src/ui/ui.cpp:162
+#: src/ui/ui.cpp:177
 msgid "Static Key (hex; 128 bytes)"
 msgstr ""
 
-#: src/ui/ui.cpp:102
+#: src/ui/ui.cpp:224 src/ui/ui.cpp:233
+msgid ""
+"The initial value is used to generate Ximalaya Scramble Table.\n"
+"This value is between 0 and 1, and up to 6 significant figures."
+msgstr ""
+
+#: src/ui/ui.cpp:226 src/ui/ui.cpp:235
+msgid ""
+"The step value is used to generate Ximalaya Scramble Table.\n"
+"This value is between 3.57 and 4, and up to 6 significant figures."
+msgstr ""
+
+#: src/ui/ui.cpp:104
 msgid "Thread count"
 msgstr ""
 
-#: src/ui/ui.cpp:101
+#: src/ui/ui.cpp:103
 msgid "Threading"
 msgstr ""
 
@@ -244,43 +323,43 @@ msgstr ""
 msgid "Unsupported: %s"
 msgstr ""
 
-#: src/ui/ui.cpp:195
+#: src/ui/ui.cpp:220
 msgid "X2M"
 msgstr ""
 
-#: src/ui/ui.cpp:196
+#: src/ui/ui.cpp:221
 msgid "X2M Content Key (hex; 4 bytes)"
 msgstr ""
 
-#: src/ui/ui.cpp:199
+#: src/ui/ui.cpp:227
 msgid "X2M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
-#: src/ui/ui.cpp:197
+#: src/ui/ui.cpp:223
 msgid "X2M Scramble Table Param - Init (0 ~ 1)"
 msgstr ""
 
-#: src/ui/ui.cpp:198
+#: src/ui/ui.cpp:225
 msgid "X2M Scramble Table Param- Step (3.57 ~ 4)"
 msgstr ""
 
-#: src/ui/ui.cpp:200
+#: src/ui/ui.cpp:229
 msgid "X3M"
 msgstr ""
 
-#: src/ui/ui.cpp:201
+#: src/ui/ui.cpp:230
 msgid "X3M Content Key (hex; 32 bytes)"
 msgstr ""
 
-#: src/ui/ui.cpp:204
+#: src/ui/ui.cpp:236
 msgid "X3M Scramble Table (hex; 1024 u16)"
 msgstr ""
 
-#: src/ui/ui.cpp:202
+#: src/ui/ui.cpp:232
 msgid "X3M Scramble Table Param - Init (0 ~ 1)"
 msgstr ""
 
-#: src/ui/ui.cpp:203
+#: src/ui/ui.cpp:234
 msgid "X3M Scramble Table Param- Step (3.57 ~ 4)"
 msgstr ""
 
@@ -288,7 +367,7 @@ msgstr ""
 msgid "Xiami music"
 msgstr ""
 
-#: src/ui/ui.cpp:211
+#: src/ui/ui.cpp:244
 msgid "Ximalaya"
 msgstr ""
 
