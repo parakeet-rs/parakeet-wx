@@ -16,30 +16,42 @@ AppConfigStore::AppConfigStore() {
 }
 
 bool AppConfigStore::LoadConfigFromDisk() {
-  std::string configJsonStr;
-  std::ifstream config_file(config_file_path_, std::fstream::binary);
+  std::ifstream config_file(config_file_path_, std::ios::in | std::ios::binary);
+  if (config_file.fail()) {
+    return false;
+  }
+
   config_file.seekg(0, std::ios::end);
-  configJsonStr.resize(config_file.tellg());
+  std::size_t config_file_size = config_file.tellg();
 
-  config_file.seekg(0, std::ios::beg);
-  config_file.read(configJsonStr.data(), configJsonStr.size());
-  config_file.close();
+  if (config_file_size > 0) {
+    std::string config_json_str;
+    config_json_str.resize(config_file_size);
 
-  config_ = json::parse(configJsonStr);
+    config_file.seekg(0, std::ios::beg);
+    config_file.read(config_json_str.data(), config_json_str.size());
+    config_file.close();
 
-  // Deserialize the configuration file.
-  manager_->SetConfig(config_.decryption);
+    try {
+      config_ = json::parse(config_json_str);
+    } catch (json::parse_error& ex) {
+      std::cerr << "config parse failed at location " << ex.byte << ", ignore." << std::endl;
+    }
+
+    // Deserialize the configuration file.
+    manager_->SetConfig(config_.decryption);
+  }
 
   return true;
 }
 
 bool AppConfigStore::SaveConfigToDisk() {
-  std::ofstream config_file(config_file_path_, std::fstream::out | std::fstream::binary);
+  std::ofstream config_file(config_file_path_, std::ios::out | std::ios::binary);
 
   // Serialize the configuration file.
   json configJson = config_;
-  auto configJsonStr = configJson.dump(2);
-  config_file.write(configJsonStr.c_str(), configJsonStr.size());
+  auto config_json_str = configJson.dump(2);
+  config_file.write(config_json_str.c_str(), config_json_str.size());
   config_file.close();
 
   return true;
