@@ -8,6 +8,7 @@ bash scripts/build-po.sh
 rm -rf dist && mkdir -p dist
 
 ./scripts/prepare-ui-hidpi.py
+./scripts/codegen.sh
 
 cp -R locale/. dist/
 find dist -name '*.po' -delete

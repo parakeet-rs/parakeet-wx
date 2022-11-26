@@ -1,6 +1,6 @@
 #pragma once
 
-#include "utils/BytesSerialization.h"
+#include "BytesSerialization.h"
 
 #include <cstddef>
 #include <cstdint>

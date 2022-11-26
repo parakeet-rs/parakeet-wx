@@ -39,6 +39,7 @@ configure_file (
 file(GLOB_RECURSE SOURCES
   "src/*.cpp"
   "src/*.h"
+  "src/*.hpp"
   "${PROJECT_BINARY_DIR}/src/*.h"
 )
 add_executable(parakeet_wx ${SOURCES})
