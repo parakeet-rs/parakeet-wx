@@ -1,6 +1,6 @@
 #pragma once
 
-#include "BytesSerialization.h"
+#include "../BytesSerialization.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -27,6 +27,17 @@ struct adl_serializer<std::array<uint8_t, SIZE>> {
     } else {
       std::fill(data.begin(), data.end(), 0);
     }
+  }
+};
+
+template <size_t SIZE>
+struct adl_serializer<std::array<uint16_t, SIZE>> {
+  inline static void to_json(json& j, const std::array<uint16_t, SIZE>& data) {
+    //
+  }
+
+  inline static void from_json(const json& j, std::array<uint16_t, SIZE>& data) {
+    //
   }
 };
 
