@@ -1,5 +1,6 @@
 #include "AppConfigConverter.h"
 #include "KugouConfigConverter.h"
+#include "KuwoConfigConverter.h"
 
 using json = nlohmann::json;
 
@@ -8,12 +9,14 @@ namespace parakeet_wx::config {
 void to_json(json& j, const AppConfig& config) {
   j["general"] = config.desktop.general;
   j["kugou"] = config.decryption.kugou;
+  j["kuwo"] = config.decryption.kuwo;
 }
 
 void from_json(const json& j, AppConfig& config) {
   AppConfig def;
   config.desktop.general = j.value("general", def.desktop.general);
   config.decryption.kugou = j.value("kugou", def.decryption.kugou);
+  config.decryption.kuwo = j.value("kuwo", def.decryption.kuwo);
 
   // TODO: Parse decryption configuration
 }
