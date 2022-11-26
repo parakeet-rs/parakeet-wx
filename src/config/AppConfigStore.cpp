@@ -23,7 +23,10 @@ bool AppConfigStore::LoadConfigFromDisk() {
   }
 
   try {
-    config_ = json::parse(config_file);
+    config_ = json::parse(config_file,
+                          /* callback */ nullptr,
+                          /* allow exceptions */ true,
+                          /* ignore_comments */ true);
 
     // Deserialize the configuration file.
     manager_->SetConfig(config_.decryption);
