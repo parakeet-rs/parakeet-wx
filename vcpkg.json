@@ -8,7 +8,6 @@
     "boost-system",
     "boost-thread",
     "nlohmann-json",
-    "rapidjson",
     "wxwidgets"
   ]
 }

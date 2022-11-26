@@ -25,7 +25,6 @@ CPMAddPackage(
 # Bootstrap dependencies from vcpkg / system
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost COMPONENTS thread REQUIRED system chrono filesystem)
-find_package(RapidJSON CONFIG REQUIRED)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
 find_package(nlohmann_json CONFIG REQUIRED)
 include(${wxWidgets_USE_FILE})
