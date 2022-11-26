@@ -1,0 +1,13 @@
+diff --git a/ports/nlohmann-json/portfile.cmake b/ports/nlohmann-json/portfile.cmake
+index 947cba357..adea29a62 100644
+--- a/ports/nlohmann-json/portfile.cmake
++++ b/ports/nlohmann-json/portfile.cmake
+@@ -7,7 +7,7 @@ vcpkg_from_github(
+ )
+ 
+ if(NOT DEFINED nlohmann-json_IMPLICIT_CONVERSIONS)
+-    set(nlohmann-json_IMPLICIT_CONVERSIONS ON)
++    set(nlohmann-json_IMPLICIT_CONVERSIONS OFF)
+ endif()
+
+ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS

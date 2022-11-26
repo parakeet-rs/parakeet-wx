@@ -38,7 +38,9 @@ jobs:
         shell: bash
         run: |
           mkdir -p .vcpkg-bc
-          bash ./vcpkg/bootstrap-vcpkg.sh  --disableMetrics
+          mkdir -p build
+          bash scripts/build-configure-vcpkg.sh
+          bash scripts/build-prepare.sh
 
       - name: "🏭 vcpkg: setup binary cache"
         uses: actions/cache@v3
@@ -50,10 +52,6 @@ jobs:
             ${{ runner.os }}-vcpkg-${{ matrix.win_ver }}-
             ${{ runner.os }}-vcpkg-
             ${{ runner.os }}-
-
-      - name: "🍳 Prepare"
-        shell: bash
-        run: bash scripts/build-prepare.sh
 
       - name: "🔧 CMake: Configure"
         run: cmake --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}-rel"
