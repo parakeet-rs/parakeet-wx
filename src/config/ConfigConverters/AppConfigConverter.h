@@ -1,6 +1,6 @@
 #pragma once
 
-#include "AppConfigTypes.h"
+#include "../AppConfigTypes.h"
 
 #include <nlohmann/json.hpp>
 

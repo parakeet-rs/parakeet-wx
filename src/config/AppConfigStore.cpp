@@ -1,5 +1,5 @@
 #include "AppConfigStore.h"
-#include "AppConfigConverter.h"
+#include "ConfigConverters/AppConfigConverter.h"
 #include "utils/AppDataPath.h"
 
 #include <parakeet-crypto/utils/base64.h>
