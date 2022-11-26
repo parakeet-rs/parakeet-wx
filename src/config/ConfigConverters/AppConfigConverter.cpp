@@ -1,6 +1,7 @@
 #include "AppConfigConverter.h"
 #include "KugouConfigConverter.h"
 #include "KuwoConfigConverter.h"
+#include "QMCConfigConverter.h"
 
 using json = nlohmann::json;
 
@@ -10,6 +11,7 @@ void to_json(json& j, const AppConfig& config) {
   j["general"] = config.desktop.general;
   j["kugou"] = config.decryption.kugou;
   j["kuwo"] = config.decryption.kuwo;
+  j["qmc"] = config.decryption.qmc;
 }
 
 void from_json(const json& j, AppConfig& config) {
@@ -17,6 +19,7 @@ void from_json(const json& j, AppConfig& config) {
   config.desktop.general = j.value("general", def.desktop.general);
   config.decryption.kugou = j.value("kugou", def.decryption.kugou);
   config.decryption.kuwo = j.value("kuwo", def.decryption.kuwo);
+  config.decryption.qmc = j.value("qmc", def.decryption.qmc);
 
   // TODO: Parse decryption configuration
 }
