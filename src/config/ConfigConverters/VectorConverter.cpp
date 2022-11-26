@@ -26,7 +26,7 @@ void adl_serializer<std::vector<uint8_t>>::to_json(json& j, const std::vector<ui
 void adl_serializer<std::vector<uint8_t>>::from_json(const json& j, std::vector<uint8_t>& data) {
   if (j.is_array()) {
     data.resize(j.size());
-    std::copy(j.begin(), j.end(), data.begin());
+    std::transform(j.begin(), j.end(), data.begin(), [](auto& v) { return v.get<uint8_t>(); });
   } else if (j.is_string()) {
     auto str = j.get<std::string>();
     if (str.empty()) return;

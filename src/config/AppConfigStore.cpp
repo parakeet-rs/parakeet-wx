@@ -22,16 +22,14 @@ bool AppConfigStore::LoadConfigFromDisk() {
     return false;
   }
 
-  try {
-    config_ = json::parse(config_file,
-                          /* callback */ nullptr,
-                          /* allow exceptions */ true,
-                          /* ignore_comments */ true);
-
-    // Deserialize the configuration file.
-    manager_->SetConfig(config_.decryption);
-  } catch (json::parse_error& ex) {
-    std::cerr << "config parse failed at location " << ex.byte << ", ignore." << std::endl;
+  auto j = json::parse(config_file,
+                       /* callback */ nullptr,
+                       /* allow exceptions */ false,
+                       /* ignore_comments */ true);
+  if (j.is_discarded()) {
+    std::cerr << "config parse failed, ignore config." << std::endl;
+  } else {
+    config_ = j.get<AppConfig>();
   }
 
   return true;
