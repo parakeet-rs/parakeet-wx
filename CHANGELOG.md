@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Don't use `wxLocale` with smart pointers to avoid crash on exit.
+- (dev) Moved away from `RapidJSON` in favour of `nlohmann/json`.
 
 ## [0.2.2] - 2022-11-23
 
