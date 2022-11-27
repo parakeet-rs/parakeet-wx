@@ -1,0 +1,20 @@
+// NOTE: Do not modify this file. This file was generated automatically.
+// Checkout "scripts/codegen.sh" for more information.
+
+#include "${CONFIG_CLASS_NAME}Converter.h"
+#include "utils/json/ByteContainerConverter.hpp"
+${CONFIG_EXTRA_IMPORT}
+
+NLOHMANN_JSON_NAMESPACE_BEGIN
+using ${CONFIG_CLASS_NAME} = ${CONFIG_CLASS_NAMESPACE}::${CONFIG_CLASS_NAME};
+namespace utils = ::parakeet_crypto::utils;
+
+void adl_serializer<${CONFIG_CLASS_NAME}>::to_json(json& j, const ${CONFIG_CLASS_NAME}& data) {
+  ${CODE_TO_JSON}
+}
+
+void adl_serializer<${CONFIG_CLASS_NAME}>::from_json(const json& j, ${CONFIG_CLASS_NAME}& data) {
+  ${CONFIG_CLASS_NAME} def;
+  ${CODE_FROM_JSON}
+}
+NLOHMANN_JSON_NAMESPACE_END

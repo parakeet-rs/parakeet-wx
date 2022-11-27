@@ -44,10 +44,13 @@
 
 - 安装 CMake
 - 安装 Visual Studio 2022
+- 安装 Git-for-Windows (需要用到里面的 `bash` 环境)
+- 安装 Python 3（修正 HiDPI 支持）
 
-```powershell
-# 初始化 vcpkg
-.\vcpkg\bootstrap-vcpkg.bat
+```sh
+# 初始化 vcpkg、构建
+bash scripts/build-configure-vcpkg.sh
+bash scripts/build-prepare.sh
 
  # 调试版
 cmake --preset win64-2022-dbg
@@ -63,6 +66,10 @@ cmake --build --preset win64-2022-rel
 - 参考 `build-setup-ubuntu.sh` 的内容安装依赖的包，然后：
 
 ```sh
+# 初始化 vcpkg、构建
+bash scripts/build-configure-vcpkg.sh
+bash scripts/build-prepare.sh
+
 # 初始化 CMake 构建
 cmake --preset linux
 

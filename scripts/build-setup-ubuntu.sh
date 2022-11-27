@@ -25,12 +25,12 @@ sudo apt-get install -y \
   zip
 
 if [ "$1" = "--native-deps" ]; then
+  # FIXME: is nlohmann/json available?
   sudo apt-get install -y \
     libboost-dev \
     libboost-filesystem-dev \
     libboost-system-dev \
-    libboost-thread-dev \
-    rapidjson-dev
+    libboost-thread-dev
 
   if [ "$2" = "--jammy-wx3.2" ]; then
     curl https://repos.codelite.org/CodeLite.asc \

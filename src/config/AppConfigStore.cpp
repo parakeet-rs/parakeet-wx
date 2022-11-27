@@ -1,18 +1,11 @@
 #include "AppConfigStore.h"
-
-#include <rapidjson/document.h>
-#include <rapidjson/istreamwrapper.h>
-#include <rapidjson/ostreamwrapper.h>
-#include <rapidjson/prettywriter.h>
+#include "AppConfigConverter.h"
+#include "utils/AppDataPath.h"
 
 #include <parakeet-crypto/utils/base64.h>
 
-#include "utils/AppDataPath.h"
-#include "utils/JSONExtension.h"
-
 #include <fstream>
-
-namespace json = parakeet_wx::utils::json;
+#include <iomanip>
 
 namespace parakeet_wx::config {
 
@@ -23,130 +16,30 @@ AppConfigStore::AppConfigStore() {
   config_file_path_ = parakeet_wx::utils::GetUserDataDirectory() / "config.json5";
 }
 
-constexpr int kModeReadConfigFromJSON = 1;
-constexpr int kModeSaveConfigToJSON = 2;
-
-template <int MODE>
-inline void JSONManipulate(AppConfig& config, rapidjson::Document& doc) {
-  using namespace rapidjson;
-  if (!doc.IsObject()) {
-    doc.SetObject();
-  }
-
-#define BEGIN_MANIP_NAMESPACED_VALUE(PARENT, NAMESPACE, SUBKEY)           \
-  {                                                                       \
-    if (!PARENT.HasMember(#SUBKEY)) {                                     \
-      PARENT.AddMember(#SUBKEY, Value().SetObject(), doc.GetAllocator()); \
-    }                                                                     \
-    auto& childConf = config.NAMESPACE.SUBKEY;                            \
-    auto& childJSON = PARENT[#SUBKEY];                                    \
-    if (!childJSON.IsObject()) {                                          \
-      childJSON.SetObject();                                              \
-    }
-#define END_MANIP_NAMESPACED_VALUE() }
-
-#define MANIP_JSON_ITEM(KEY, DEFAULT_VAL)                         \
-  if (MODE == kModeReadConfigFromJSON) {                          \
-    json::ReadValue(childJSON, #KEY, childConf.KEY, DEFAULT_VAL); \
-  } else {                                                        \
-    json::WriteValue(doc, childJSON, #KEY, childConf.KEY);        \
-  }
-
-  // General config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, desktop, general) {
-    MANIP_JSON_ITEM(thread_count, int(4));
-    MANIP_JSON_ITEM(locale, std::string("zh_CN"));
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-  // Kugou config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kugou) {
-    using namespace parakeet_crypto::decryption::kugou;
-    MANIP_JSON_ITEM(slot_key_1, KugouSingleSlotKey{});
-    MANIP_JSON_ITEM(v4_file_key_expansion_table, KugouV4FileKeyExpansionTable{});
-    MANIP_JSON_ITEM(v4_slot_key_expansion_table, KugouV4SlotKeyExpansionTable{});
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-  // Kuwo config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, kuwo) {
-    using namespace parakeet_crypto::decryption::kuwo;
-    MANIP_JSON_ITEM(key, KuwoKey{});
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-  // Kugou config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, netease) {
-    using namespace parakeet_crypto::decryption::netease;
-    MANIP_JSON_ITEM(key, NCMContentKeyProtectionKey{});
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-  // QQ Music (Tencent) config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, qmc) {
-    using namespace parakeet_crypto::decryption::tencent;
-    using namespace parakeet_crypto::misc::tencent;
-    MANIP_JSON_ITEM(ekey_seed, uint8_t(0));
-    MANIP_JSON_ITEM(static_cipher_key, QMCv1Key{});
-    MANIP_JSON_ITEM(enc_v2_stage1_key, QMCEncV2Stage1Key{});
-    MANIP_JSON_ITEM(enc_v2_stage2_key, QMCEncV2Stage2Key{});
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-  // Joox (Tencent) config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, joox) {
-    using namespace parakeet_crypto::decryption::tencent;
-    MANIP_JSON_ITEM(install_uuid, std::string(32, 'f'));
-    MANIP_JSON_ITEM(salt, JooxSalt{});
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-  // Ximalaya config
-  BEGIN_MANIP_NAMESPACED_VALUE(doc, decryption, ximalaya) {
-    using namespace parakeet_crypto::decryption::ximalaya;
-    MANIP_JSON_ITEM(x2m_content_key, X2MContentKey{});
-    MANIP_JSON_ITEM(x2m_scramble_table, ScrambleTable{});
-    MANIP_JSON_ITEM(x2m_scramble_table_parameters, {});
-    MANIP_JSON_ITEM(x3m_content_key, X3MContentKey{});
-    MANIP_JSON_ITEM(x3m_scramble_table, ScrambleTable{});
-    MANIP_JSON_ITEM(x3m_scramble_table_parameters, {});
-  }
-  END_MANIP_NAMESPACED_VALUE()
-
-#undef BEGIN_MANIP_NAMESPACED_VALUE
-#undef END_MANIP_NAMESPACED_VALUE
-#undef MANIP_JSON_ITEM
-}
-
 bool AppConfigStore::LoadConfigFromDisk() {
-  std::ifstream config_file(config_file_path_, std::fstream::binary);
-
-  using namespace rapidjson;
-  IStreamWrapper json_stream(config_file);
-  Document d;
-
-  if (config_file.is_open()) {
-    d.ParseStream<kParseCommentsFlag | kParseTrailingCommasFlag>(json_stream);
+  std::ifstream config_file(config_file_path_, std::ios::in | std::ios::binary);
+  if (config_file.fail()) {
+    return false;
   }
 
-  config_ = {};
-  JSONManipulate<kModeReadConfigFromJSON>(config_, d);
-  manager_->SetConfig(config_.decryption);
+  auto j = json::parse(config_file,
+                       /* callback */ nullptr,
+                       /* allow exceptions */ false,
+                       /* ignore_comments */ true);
+  if (j.is_discarded()) {
+    std::cerr << "config parse failed, ignore config." << std::endl;
+  } else {
+    config_ = j.get<AppConfig>();
+  }
 
   return true;
 }
 
 bool AppConfigStore::SaveConfigToDisk() {
-  std::ofstream config_file(config_file_path_, std::fstream::out | std::fstream::binary);
+  std::ofstream config_file(config_file_path_, std::ios::out | std::ios::binary);
 
-  using namespace rapidjson;
-  Document d;
-  JSONManipulate<kModeSaveConfigToJSON>(config_, d);
-
-  OStreamWrapper json_stream(config_file);
-  PrettyWriter<OStreamWrapper> writer(json_stream);
-  writer.SetIndent(' ', 2);
-  d.Accept(writer);
+  json configJson = config_;
+  config_file << std::setw(2) << configJson;
 
   return true;
 }

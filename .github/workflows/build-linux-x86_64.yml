@@ -37,7 +37,7 @@ jobs:
           mkdir -p .vcpkg-bc
           mkdir -p build
           bash scripts/build-setup-ubuntu.sh
-          bash scripts/prepare.linux.sh
+          bash scripts/build-configure-vcpkg.sh
           bash scripts/build-prepare.sh
 
       - name: "🏭 vcpkg: setup binary cache"

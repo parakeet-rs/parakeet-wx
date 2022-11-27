@@ -7,7 +7,7 @@
     "boost-filesystem",
     "boost-system",
     "boost-thread",
-    "rapidjson",
+    "nlohmann-json",
     "wxwidgets"
   ]
 }

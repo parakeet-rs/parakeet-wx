@@ -17,7 +17,7 @@ endif()
 CPMAddPackage(
   NAME libparakeet
   GITHUB_REPOSITORY parakeet-rs/libparakeet
-  GIT_TAG v0.2.3
+  GIT_TAG v0.2.4
   OPTIONS
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
 )
@@ -25,8 +25,8 @@ CPMAddPackage(
 # Bootstrap dependencies from vcpkg / system
 set(Boost_NO_WARN_NEW_VERSIONS 1)
 find_package(Boost COMPONENTS thread REQUIRED system chrono filesystem)
-find_package(RapidJSON CONFIG REQUIRED)
 find_package(wxWidgets COMPONENTS base aui core adv propgrid REQUIRED)
+find_package(nlohmann_json CONFIG REQUIRED)
 include(${wxWidgets_USE_FILE})
 
 configure_file (
@@ -38,6 +38,7 @@ configure_file (
 file(GLOB_RECURSE SOURCES
   "src/*.cpp"
   "src/*.h"
+  "src/*.hpp"
   "${PROJECT_BINARY_DIR}/src/*.h"
 )
 add_executable(parakeet_wx ${SOURCES})
@@ -57,6 +58,7 @@ target_link_libraries(parakeet_wx
     ${Boost_LIBRARIES}
     ${parakeet_wxWidgets_LIBRARIES}
     ParakeetCrypto::core
+    nlohmann_json::nlohmann_json
 )
 
 if (MSVC)

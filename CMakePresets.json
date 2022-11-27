@@ -13,18 +13,31 @@
       "binaryDir": "${sourceDir}/build/linux"
     },
     {
+      "name": "vcpkg-default",
+      "displayName": "Base for VCPKG, do not use!",
+      "cacheVariables": {
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays/"
+      }
+    },
+    {
+      "inherits": [
+        "vcpkg-default"
+      ],
       "name": "linux-vcpkg",
       "displayName": "Linux vcpkg",
       "generator": "Ninja Multi-Config",
       "binaryDir": "${sourceDir}/build/linux-vcpkg",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux",
         "VCPKG_BUILD_TYPE": "Release",
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
+      "inherits": [
+        "vcpkg-default"
+      ],
       "name": "win64-2022-rel",
       "displayName": "Win64-rel",
       "description": "Win64 build using MSVC 2022",
@@ -32,13 +45,15 @@
       "generator": "Visual Studio 17 2022",
       "architecture": "x64",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
         "VCPKG_BUILD_TYPE": "Release",
         "CMAKE_BUILD_TYPE": "Release"
       }
     },
     {
+      "inherits": [
+        "vcpkg-default"
+      ],
       "name": "win64-2022-dbg",
       "displayName": "Win64-dbg",
       "description": "Win64 build using MSVC 2022",
@@ -46,12 +61,14 @@
       "generator": "Visual Studio 17 2022",
       "architecture": "x64",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows-static",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
+      "inherits": [
+        "vcpkg-default"
+      ],
       "name": "win32-2022-dbg",
       "displayName": "Win32-dbg",
       "description": "Win32 build using MSVC 2022",
@@ -59,12 +76,14 @@
       "generator": "Visual Studio 17 2022",
       "architecture": "Win32",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x86-windows-static",
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
+      "inherits": [
+        "vcpkg-default"
+      ],
       "name": "win32-2022-rel",
       "displayName": "Win32-rel",
       "description": "Win32 build using MSVC 2022",
@@ -72,7 +91,6 @@
       "generator": "Visual Studio 17 2022",
       "architecture": "Win32",
       "cacheVariables": {
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x86-windows-static",
         "VCPKG_BUILD_TYPE": "Release",
         "CMAKE_BUILD_TYPE": "Release"

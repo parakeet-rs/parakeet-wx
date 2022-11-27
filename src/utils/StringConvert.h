@@ -17,7 +17,7 @@ using parakeet_crypto::utils::Hex;
 using parakeet_crypto::utils::HexLookup;
 using parakeet_crypto::utils::IsHexChar;
 using parakeet_crypto::utils::UnescapeCharSequence;
-using parakeet_crypto::utils::Unhex;
+using parakeet_crypto::utils::UnHex;
 
 #pragma region  // Template signature
 template <typename T>
@@ -121,7 +121,7 @@ inline void ToString(std::string& out, const std::vector<uint8_t>& input) {
 }
 template <>
 inline void FromString(std::vector<uint8_t>& out, const std::string& input) {
-  out = Unhex(UnescapeCharSequence(input));
+  out = UnHex(UnescapeCharSequence(input));
 };
 #pragma endregion
 
