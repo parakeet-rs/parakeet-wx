@@ -10,6 +10,7 @@ if(MSVC)
   cmake_policy(SET CMP0091 NEW)
   set(MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 
+  add_compile_options("/MP")
   add_compile_options(
     $<$<CONFIG:>:/MT> #---------|
     $<$<CONFIG:Debug>:/MTd> #---|-- Statically link the runtime libraries
