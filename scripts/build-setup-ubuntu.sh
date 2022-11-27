@@ -22,6 +22,8 @@ sudo apt-get install -y \
   libzstd-dev \
   ninja-build \
   pkg-config \
+  tar \
+  unzip \
   zip
 
 if [ "$1" = "--native-deps" ]; then
