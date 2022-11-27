@@ -1,6 +1,5 @@
 #pragma once
 
-#include <parakeet-crypto/endian.h>
 #include <parakeet-crypto/utils/StringHelper.h>
 #include <parakeet-crypto/utils/hex.h>
 
