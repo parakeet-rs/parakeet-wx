@@ -53,7 +53,10 @@
       ],
       "name": "win32-2022",
       "displayName": "MSVC 2022 (x86)",
-      "architecture": "Win32"
+      "architecture": "Win32",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x86-windows-static"
+      }
     },
     {
       "inherits": [
@@ -61,7 +64,10 @@
       ],
       "name": "win64-2022",
       "displayName": "MSVC 2022 (x64)",
-      "architecture": "x64"
+      "architecture": "x64",
+      "cacheVariables": {
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
+      }
     }
   ],
   "buildPresets": [
