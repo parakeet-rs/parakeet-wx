@@ -17,10 +17,17 @@ endif()
 CPMAddPackage(
   NAME parakeet-crypto
   GITHUB_REPOSITORY parakeet-rs/libparakeet
-  GIT_TAG feat/better-api
+  GIT_TAG 3127e920ab1834d170893045d5a9979fd8d3376a
   OPTIONS
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
     "PARAKEET_CRYPTO_BUILD_EXAMPLES OFF"
+)
+CPMAddPackage(
+  NAME parakeet-audio
+  GITHUB_REPOSITORY parakeet-rs/libparakeet-audio
+  GIT_TAG v0.1.1
+  OPTIONS
+      "PARAKEET_AUDIO_BUILD_TESTING OFF"
 )
 
 # Bootstrap dependencies from vcpkg / system
@@ -60,6 +67,7 @@ target_link_libraries(parakeet_wx
     ${Boost_LIBRARIES}
     ${parakeet_wxWidgets_LIBRARIES}
     parakeet::crypto
+    parakeet::audio
     nlohmann_json::nlohmann_json
 )
 
