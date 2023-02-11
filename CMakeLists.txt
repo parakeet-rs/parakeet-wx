@@ -51,7 +51,8 @@ target_include_directories(parakeet_wx
     "${PROJECT_BINARY_DIR}/src/"
 )
 target_precompile_headers(parakeet_wx PRIVATE src/pch.h)
-target_compile_features(parakeet_wx PRIVATE cxx_std_20)
+set_target_properties(parakeet_wx PROPERTIES
+    CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON EXPORT_COMPILE_COMMANDS ON)
 parakeet_linker_hack(parakeet_wxWidgets_LIBRARIES "${wxWidgets_LIBRARIES}")
 target_link_libraries(parakeet_wx
   PRIVATE
