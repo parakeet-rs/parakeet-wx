@@ -41,16 +41,16 @@ template <> struct adl_serializer<::parakeet_wx::config::KugouConfig>
     {
         if (auto slot_keys = j.find("slot_keys"); slot_keys != j.end())
         {
-            data.slot_keys = slot_keys->get<typeof(data.slot_keys)>();
+            data.slot_keys = slot_keys->get<std::map<uint32_t, std::vector<uint8_t>>>();
         }
         else if (auto slot_key_1 = j.find("slot_key_1"); slot_key_1 != j.end())
         {
-            data.slot_keys[1] = slot_key_1->get<typeof(data.slot_keys[1])>();
+            data.slot_keys[1] = slot_key_1->get<std::vector<uint8_t>>();
         }
 
         if (auto v4 = j.find("v4"); v4 != j.end())
         {
-            data.v4 = v4->get<typeof(data.v4)>();
+            data.v4 = v4->get<::parakeet_crypto::transformer::KGMConfigV4>();
         }
         else
         {

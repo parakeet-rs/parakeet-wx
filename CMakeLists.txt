@@ -3,9 +3,6 @@ project(parakeet_wx VERSION 0.2.2)
 
 option(PARAKEET_SINGLE_THREADED "Use single-threaded mode for Parakeet-wx" OFF)
 
-# Add our modules...
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM-Loader.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/set_static_build.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/linker_hack.cmake")
@@ -17,7 +14,7 @@ endif()
 CPMAddPackage(
   NAME parakeet-crypto
   GITHUB_REPOSITORY parakeet-rs/libparakeet
-  GIT_TAG 3127e920ab1834d170893045d5a9979fd8d3376a
+  GIT_TAG acb929b36b613c1d0dcd1c74193870130db8d3b5
   OPTIONS
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
     "PARAKEET_CRYPTO_BUILD_EXAMPLES OFF"

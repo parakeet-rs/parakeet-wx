@@ -54,20 +54,20 @@ std::optional<TransformerFindResult> DecryptionManager::FindDecryptionTransforme
     InputFileStream stream{ifs};
     for (auto &transformer : transformers_)
     {
-        stream.Seek(0, SeekDirection::FILE_BEGIN);
+        stream.Seek(0, SeekDirection::SEEK_FILE_BEGIN);
         AudioDetectionDestination audio_sink{};
         auto _transform_result = transformer->Transform(&audio_sink, &stream);
         // unused: _transform_result
         if (auto type = audio_sink.GetAudioType(); type != parakeet_audio::AudioType::kUnknownType)
         {
-            stream.Seek(0, SeekDirection::FILE_BEGIN);
+            stream.Seek(0, SeekDirection::SEEK_FILE_BEGIN);
             return std::make_optional<TransformerFindResult>({
                 transformer,
                 parakeet_audio::GetAudioTypeExtension(type),
             });
         }
     }
-    stream.Seek(0, SeekDirection::FILE_BEGIN);
+    stream.Seek(0, SeekDirection::SEEK_FILE_BEGIN);
     return {};
 }
 

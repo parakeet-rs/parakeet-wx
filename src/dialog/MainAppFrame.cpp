@@ -212,14 +212,14 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path &path)
 
         auto rowIndex = m_decryptLogs->InsertItem(new_item);
         file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
-            .status = FileProcessStatus::kNotProcessed,
-            .file_path = path,
-            .index = rowIndex,
-            .process_time_ms = 0,
-            .error = wxT(""),
-            .transformer = transformer_result ? transformer_result->transformer : nullptr,
-            .ext = transformer_result ? transformer_result->ext : "",
-            .input_stream = std::move(ifs),
+            /* .status = */   FileProcessStatus::kNotProcessed,
+            /* .file_path = */   path,
+            /* .index = */   rowIndex,
+            /* .process_time_ms = */   0,
+            /* .error = */   wxT(""),
+            /* .transformer = */   transformer_result ? transformer_result->transformer : nullptr,
+            /* .ext = */   transformer_result ? transformer_result->ext : "",
+            /* .input_stream = */   std::move(ifs),
         }));
         UpdateFileStatus(rowIndex,
                          supported ? FileProcessStatus::kNotProcessed : FileProcessStatus::kProcessNotSupported);
