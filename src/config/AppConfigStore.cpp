@@ -2,8 +2,6 @@
 #include "AppConfigConverter.h"
 #include "utils/AppDataPath.h"
 
-#include <parakeet-crypto/utils/base64.h>
-
 #include <fstream>
 #include <iomanip>
 
@@ -12,7 +10,7 @@ namespace parakeet_wx::config {
 AppConfigStore* AppConfigStore::instance_ = new AppConfigStore();
 
 AppConfigStore::AppConfigStore() {
-  manager_ = parakeet_crypto::decryption::DecryptionManager::Create();
+  // manager_ = parakeet_crypto::decryption::DecryptionManager::Create();
   config_file_path_ = parakeet_wx::utils::GetUserDataDirectory() / "config.json5";
 }
 

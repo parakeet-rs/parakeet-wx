@@ -26,8 +26,8 @@ struct FileEntry {
   long index;
   long process_time_ms;
   wxString error;
-  std::shared_ptr<parakeet_crypto::decryption::DetectionResult> decryptor;
-  std::shared_ptr<std::ifstream> input_stream;
+  // std::shared_ptr<parakeet_crypto::decryption::DetectionResult> decryptor;
+  // std::shared_ptr<std::ifstream> input_stream;
 };
 
 class MainAppFrame;

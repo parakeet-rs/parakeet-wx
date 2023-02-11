@@ -1,48 +1,64 @@
 #include "BytesSerialization.h"
 
-#include <parakeet-crypto/utils/base64.h>
-#include <parakeet-crypto/utils/hex.h>
+#include <cppcodec/base64_rfc4648.hpp>
+#include <cppcodec/hex_lower.hpp>
+
+// #include <parakeet-crypto/utils/base64.h>
+// #include <parakeet-crypto/utils/hex.h>
 
 #include <cctype>
 
 #include <algorithm>
+#include <cstdint>
 #include <string>
 
-namespace parakeet_wx::utils {
+namespace parakeet_wx::utils
+{
 
-using parakeet_crypto::utils::Base64Decode;
-using parakeet_crypto::utils::Base64Encode;
+using base64 = cppcodec::base64_rfc4648;
+using hex_lower = cppcodec::hex_lower;
 
-using parakeet_crypto::utils::Hex;
-using parakeet_crypto::utils::UnHex;
+std::string SerializeBytes(const uint8_t *data, size_t len)
+{
+    if (len == 0)
+    {
+        return "";
+    }
 
-std::string SerializeBytes(std::span<const uint8_t> data) {
-  if (data.size() == 0) {
-    return "";
-  }
+    if (std::all_of(data, data + len, isprint))
+    {
+        return std::string("raw:") + std::string(data, data + len);
+    }
 
-  if (std::ranges::all_of(data, isprint)) {
-    return std::string("raw:") + std::string(data.begin(), data.end());
-  }
+    if (len <= 16)
+    {
+        return std::string("hex:") + hex_lower::encode(data, len);
+    }
 
-  if (data.size() <= 16) {
-    return std::string("hex:") + Hex(data);
-  }
-
-  return std::string(Base64Encode(data));
-}
-std::vector<uint8_t> DeserializeBytes(const std::string str) {
-  if (str.empty()) return {};
-
-  if (str.starts_with("raw:")) {
-    return std::vector<uint8_t>(str.begin() + 4, str.end());
-  }
-
-  if (str.starts_with("hex:")) {
-    return UnHex(std::span{str.begin() + 4, str.size() - 4});
-  }
-
-  return Base64Decode(str);
+    return base64::encode(data, len);
 }
 
-}  // namespace parakeet_wx::utils
+bool str_starts_with(const std::string &to_test, const char *prefix)
+{
+    return std::equal(prefix, prefix + strlen(prefix), to_test.begin());
+}
+
+std::vector<uint8_t> DeserializeBytes(const std::string str)
+{
+    if (str.empty())
+        return {};
+
+    if (str_starts_with(str, "raw:"))
+    {
+        return std::vector<uint8_t>(str.begin() + 4, str.end());
+    }
+
+    if (str_starts_with(str, "hex:"))
+    {
+        return hex_lower::decode(&str.at(4), str.size() - 4);
+    }
+
+    return base64::decode(str);
+}
+
+} // namespace parakeet_wx::utils

@@ -15,11 +15,12 @@ if(CMAKE_BUILD_TYPE STREQUAL "Release")
 endif()
 
 CPMAddPackage(
-  NAME libparakeet
+  NAME parakeet-crypto
   GITHUB_REPOSITORY parakeet-rs/libparakeet
-  GIT_TAG v0.2.4
+  GIT_TAG feat/better-api
   OPTIONS
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
+    "PARAKEET_CRYPTO_BUILD_EXAMPLES OFF"
 )
 
 # Bootstrap dependencies from vcpkg / system
@@ -52,13 +53,13 @@ target_include_directories(parakeet_wx
 )
 target_precompile_headers(parakeet_wx PRIVATE src/pch.h)
 set_target_properties(parakeet_wx PROPERTIES
-    CXX_STANDARD 20 CXX_STANDARD_REQUIRED ON EXPORT_COMPILE_COMMANDS ON)
+    CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON EXPORT_COMPILE_COMMANDS ON)
 parakeet_linker_hack(parakeet_wxWidgets_LIBRARIES "${wxWidgets_LIBRARIES}")
 target_link_libraries(parakeet_wx
   PRIVATE
     ${Boost_LIBRARIES}
     ${parakeet_wxWidgets_LIBRARIES}
-    ParakeetCrypto::core
+    parakeet::crypto
     nlohmann_json::nlohmann_json
 )
 

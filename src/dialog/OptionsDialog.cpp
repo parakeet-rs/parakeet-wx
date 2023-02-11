@@ -2,7 +2,7 @@
 
 #include "config/AppConfigStore.h"
 #include "constants.h"
-#include "utils/StringConvert.h"
+// #include "utils/StringConvert.h"
 
 #include <cstdlib>
 #include <sstream>
@@ -12,6 +12,7 @@ constexpr int kModeReadFromControl = 2;
 
 template <int M>
 void OptionsDialog::ConfigGlueCode() {
+  /*
   namespace conv = parakeet_wx::utils::str_conv;
   auto& config = saved_config_;
 
@@ -86,6 +87,7 @@ void OptionsDialog::ConfigGlueCode() {
       }
     }
   }
+*/
 }
 
 OptionsDialog::OptionsDialog(wxWindow* parent) : uiOptionsDialog(parent) {

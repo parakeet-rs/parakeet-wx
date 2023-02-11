@@ -11,6 +11,9 @@
     "clangd.arguments": [
       "-background-index",
       "-compile-commands-dir=${workspaceFolder}/out/build/ninja"
+    ],
+    "cmake.preferredGenerators": [
+      "Ninja Multi-Config"
     ]
   },
   "extensions": {

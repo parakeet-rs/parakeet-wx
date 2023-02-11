@@ -161,10 +161,10 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString& file_paths) {
   auto len = file_paths.GetCount();
 
   for (int i = 0; i < len; i++) {
-    auto u8_path = file_paths.Item(i).utf8_str();
-    std::u8string str(reinterpret_cast<const char8_t*>(u8_path.data()));
-    std::filesystem::path item_path(str);
-    AddSingleFileToQueue(item_path);
+    // auto u8_path = file_paths.Item(i).utf8_str();
+    // std::u8string str(reinterpret_cast<const char8_t*>(u8_path.data()));
+    // std::filesystem::path item_path(str);
+    // AddSingleFileToQueue(item_path);
   }
 }
 
@@ -180,6 +180,7 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path& path) {
     return;
   }
 
+  /*
   auto decryption_manager = parakeet_wx::config::AppConfigStore::GetInstance()->GetDecryptionManager();
   parakeet_crypto::decryption::DetectionBuffer header;
   parakeet_crypto::decryption::DetectionBuffer footer;
@@ -206,6 +207,7 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path& path) {
     }));
     UpdateFileStatus(rowIndex, supported ? FileProcessStatus::kNotProcessed : FileProcessStatus::kProcessNotSupported);
   });
+*/
 }
 
 void MainAppFrame::OnButtonClick_AddDirectory(wxCommandEvent& event) {
@@ -250,10 +252,10 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
 
   wxString encrypted_type = "unknown";
   wxString audio_ext = "unknown";
-  if (entry->decryptor) {
-    encrypted_type = entry->decryptor->decryptor->GetName();
-    audio_ext = entry->decryptor->audio_ext;
-  }
+  // if (entry->decryptor) {
+  //   encrypted_type = entry->decryptor->decryptor->GetName();
+  //   audio_ext = entry->decryptor->audio_ext;
+  // }
 
   wxString status_text;
   switch (status) {
@@ -285,6 +287,7 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status) {
 // using parakeet_wx::utils::EncryptionType;
 
 void MainAppFrame::ProcessNextFile() {
+  /*
   auto current_index = file_entry_process_idx_.fetch_add(1);
   if (current_index >= file_entries_.size()) {
     file_entry_process_idx_.fetch_sub(1);
@@ -369,6 +372,7 @@ void MainAppFrame::ProcessNextFile() {
 
     OnProcessSingleFileComplete();
   });
+*/
 }
 
 void MainAppFrame::OnProcessSingleFileComplete() {
