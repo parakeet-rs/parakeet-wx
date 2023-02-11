@@ -21,7 +21,7 @@ class AudioDetectionDestination final : public parakeet_crypto::IWriteable
 
     bool Write(const uint8_t *buffer, size_t len)
     {
-        buffer_.insert(buffer_.begin(), buffer, buffer + len);
+        buffer_.insert(buffer_.end(), buffer, buffer + len);
 
         auto buffer_size = buffer_.size();
 

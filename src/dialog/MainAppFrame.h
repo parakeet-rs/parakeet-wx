@@ -32,7 +32,7 @@ struct FileEntry
     wxString error;
     std::shared_ptr<parakeet_crypto::ITransformer> transformer;
     const char *ext;
-    std::ifstream input_stream;
+    std::shared_ptr<std::ifstream> input_stream;
 };
 
 class MainAppFrame;

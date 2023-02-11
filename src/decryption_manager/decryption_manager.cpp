@@ -28,16 +28,7 @@ void DecryptionManager::SetConfig(const AppConfig &config)
 {
     using namespace parakeet_crypto::transformer;
 
-    auto x2m_scramble_key = xmly::CreateScrambleKey(config.ximalaya.x2m.init_value, config.ximalaya.x2m.step_value,
-                                                    kXimalayaScrambleKeyLen);
-    auto x3m_scramble_key = xmly::CreateScrambleKey(config.ximalaya.x3m.init_value, config.ximalaya.x3m.step_value,
-                                                    kXimalayaScrambleKeyLen);
-
     transformers_ = std::vector<std::shared_ptr<ITransformer>>({
-        CreateXimalayaDecryptionTransformer(x2m_scramble_key.data(), config.ximalaya.x2m.content_key.data(),
-                                            config.ximalaya.x2m.content_key.size()),
-        CreateXimalayaDecryptionTransformer(x3m_scramble_key.data(), config.ximalaya.x3m.content_key.data(),
-                                            config.ximalaya.x3m.content_key.size()),
         CreateJooxDecryptionV4Transformer(config.joox),
         CreateQMC1StaticDecryptionTransformer(config.qmc.qmc1.key.data(), config.qmc.qmc1.key.size()),
         CreateQMC2DecryptionTransformer(qmc2::CreateQMC2FooterParser(
@@ -47,6 +38,15 @@ void DecryptionManager::SetConfig(const AppConfig &config)
         CreateKuwoDecryptionTransformer(config.kuwo.key.data()), //
         CreateNeteaseNCMDecryptionTransformer(config.netease.key.data()),
     });
+
+    auto add_ximalaya_variant = [&](const parakeet_wx::config::XimalayaVariantConfig &config) {
+        if (auto x2m_scramble_key = xmly::CreateScrambleKey(config.init_value, config.step_value))
+        {
+            transformers_.push_back(CreateXimalayaDecryptionTransformer(*x2m_scramble_key, config.content_key));
+        }
+    };
+    add_ximalaya_variant(config.ximalaya.x2m);
+    add_ximalaya_variant(config.ximalaya.x3m);
 }
 
 std::optional<TransformerFindResult> DecryptionManager::FindDecryptionTransformer(std::ifstream &ifs)

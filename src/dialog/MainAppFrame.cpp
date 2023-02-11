@@ -177,7 +177,12 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString &file_paths)
 
     for (int i = 0; i < len; i++)
     {
-        std::filesystem::path item_path(file_paths.Item(i).utf8_str().data());
+        auto path_item = file_paths.Item(i);
+        #if _WIN32
+        std::filesystem::path item_path(path_item.wchar_str().data());
+        #else
+        std::filesystem::path item_path(path_item.utf8_str().data());
+        #endif
         AddSingleFileToQueue(item_path);
     }
 }
@@ -200,8 +205,8 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path &path)
     }
 
     auto decryption_manager = parakeet_wx::config::AppConfigStore::GetInstance()->GetDecryptionManager();
-    std::ifstream ifs(path, std::ios::in | std::ios::binary);
-    auto transformer_result = decryption_manager->FindDecryptionTransformer(ifs);
+    auto ifs = std::make_shared<std::ifstream>(path, std::ios::binary);
+    auto transformer_result = decryption_manager->FindDecryptionTransformer(*ifs);
 
     this->main_thread_runner_.PostInMainThread([this, &ifs, transformer_result, path]() {
         auto supported = transformer_result.has_value();
@@ -212,14 +217,14 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path &path)
 
         auto rowIndex = m_decryptLogs->InsertItem(new_item);
         file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
-            /* .status = */   FileProcessStatus::kNotProcessed,
-            /* .file_path = */   path,
-            /* .index = */   rowIndex,
-            /* .process_time_ms = */   0,
-            /* .error = */   wxT(""),
-            /* .transformer = */   transformer_result ? transformer_result->transformer : nullptr,
-            /* .ext = */   transformer_result ? transformer_result->ext : "",
-            /* .input_stream = */   std::move(ifs),
+            /* .status =          */ FileProcessStatus::kNotProcessed,
+            /* .file_path =       */ path,
+            /* .index =           */ rowIndex,
+            /* .process_time_ms = */ 0,
+            /* .error =           */ wxT(""),
+            /* .transformer =     */ transformer_result ? transformer_result->transformer : nullptr,
+            /* .ext =             */ transformer_result ? transformer_result->ext : "",
+            /* .input_stream =    */ ifs,
         }));
         UpdateFileStatus(rowIndex,
                          supported ? FileProcessStatus::kNotProcessed : FileProcessStatus::kProcessNotSupported);

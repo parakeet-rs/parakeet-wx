@@ -26,9 +26,9 @@ class AppConfigStore
     {
         return config_;
     }
-    inline void UpdateConfig(const AppConfig &config)
+    inline void UpdateConfig(AppConfig config)
     {
-        config_ = config;
+        config_ = std::move(config);
         manager_->SetConfig(config_);
     }
     inline std::shared_ptr<decryption_manager::DecryptionManager> GetDecryptionManager() const
