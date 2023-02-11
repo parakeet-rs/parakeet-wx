@@ -11,69 +11,80 @@
 #include "AppDataPath/linux_impl.hpp"
 #include "AppDataPath/windows_impl.hpp"
 
-#include <wx/config.h>
 #include <boost/dll/runtime_symbol_info.hpp>
+#include <wx/config.h>
 
 #include <cstddef>
 #include <filesystem>
 
 namespace fs = std::filesystem;
 
-namespace parakeet_wx::utils {
+namespace parakeet_wx::utils
+{
 
-inline fs::path GetExecutablePath() {
-  return fs::path(boost::dll::program_location().native());
+inline fs::path GetExecutablePath()
+{
+    return fs::path(boost::dll::program_location().native());
 }
 
-inline fs::path GetAppImagePathOrExePath() {
-  if (const char* env_AppImagePath = std::getenv("APPIMAGE")) {
-    return fs::path(env_AppImagePath);
-  }
+inline fs::path GetAppImagePathOrExePath()
+{
+    if (const char *env_AppImagePath = std::getenv("APPIMAGE"))
+    {
+        return fs::path(env_AppImagePath);
+    }
 
-  return GetExecutablePath();
+    return GetExecutablePath();
 }
 
-inline fs::path GetLatestUserDataDirectory() {
-  // Check if we are running portable mode
-  auto exe_portable_folder = GetAppImageDirOrExeDirectory() / APP_INTERNAL_NAME;
-  if (fs::is_directory(exe_portable_folder)) {
-    return exe_portable_folder;
-  }
+inline fs::path GetLatestUserDataDirectory()
+{
+    // Check if we are running portable mode
+    auto exe_portable_folder = GetAppImageDirOrExeDirectory() / APP_INTERNAL_NAME;
+    if (fs::is_directory(exe_portable_folder))
+    {
+        return exe_portable_folder;
+    }
 
-  // Get platform specific implementation;
-  //   fallback to the "portable" directory.
-  fs::path user_app_data;
-  if (!GetDataDirectoryImpl(user_app_data)) {
-    user_app_data = exe_portable_folder;
-  }
+    // Get platform specific implementation;
+    //   fallback to the "portable" directory.
+    fs::path user_app_data;
+    if (!GetDataDirectoryImpl(user_app_data))
+    {
+        user_app_data = exe_portable_folder;
+    }
 
-  std::error_code ec;
-  fs::create_directories(user_app_data, ec);
-  if (ec) {
-    throw std::runtime_error("could not find usable appdir.");
-  }
+    std::error_code ec;
+    fs::create_directories(user_app_data, ec);
+    if (ec)
+    {
+        throw std::runtime_error("could not find usable appdir.");
+    }
 
-  return user_app_data;
-}
-
-// return a cached copy instead.
-const std::filesystem::path& GetExecutableDirectory() {
-  static std::filesystem::path exe_dir = GetExecutablePath().parent_path();
-
-  return exe_dir;
-}
-
-const std::filesystem::path& GetAppImageDirOrExeDirectory() {
-  static std::filesystem::path exe_dir = GetAppImagePathOrExePath().parent_path();
-
-  return exe_dir;
+    return user_app_data;
 }
 
 // return a cached copy instead.
-const std::filesystem::path& GetUserDataDirectory() {
-  static std::filesystem::path user_dir = GetLatestUserDataDirectory();
+const std::filesystem::path &GetExecutableDirectory()
+{
+    static std::filesystem::path exe_dir = GetExecutablePath().parent_path();
 
-  return user_dir;
+    return exe_dir;
 }
 
-}  // namespace parakeet_wx::utils
+const std::filesystem::path &GetAppImageDirOrExeDirectory()
+{
+    static std::filesystem::path exe_dir = GetAppImagePathOrExePath().parent_path();
+
+    return exe_dir;
+}
+
+// return a cached copy instead.
+const std::filesystem::path &GetUserDataDirectory()
+{
+    static std::filesystem::path user_dir = GetLatestUserDataDirectory();
+
+    return user_dir;
+}
+
+} // namespace parakeet_wx::utils

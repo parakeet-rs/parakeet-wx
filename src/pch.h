@@ -13,4 +13,4 @@
 
 #ifdef WX_PRECOMP
 // put here all your rarely-changing header files
-#endif  // WX_PRECOMP
+#endif // WX_PRECOMP

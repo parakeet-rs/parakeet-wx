@@ -178,11 +178,11 @@ void MainAppFrame::HandleAddFilesToQueue(const wxArrayString &file_paths)
     for (int i = 0; i < len; i++)
     {
         auto path_item = file_paths.Item(i);
-        #if _WIN32
+#if _WIN32
         std::filesystem::path item_path(path_item.wchar_str().data());
-        #else
+#else
         std::filesystem::path item_path(path_item.utf8_str().data());
-        #endif
+#endif
         AddSingleFileToQueue(item_path);
     }
 }
