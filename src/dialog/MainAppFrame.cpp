@@ -5,6 +5,9 @@
 #include "res/parakeet.xpm"
 #include "utils/MakeArray.h"
 #include "utils/threading.h"
+#include "utils/transform_error_text.h"
+
+#include <parakeet-crypto/StreamHelper.h>
 
 #include <wx/filedlg.h>
 #include <wx/filename.h>
@@ -205,10 +208,29 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path &path)
     }
 
     auto decryption_manager = parakeet_wx::config::AppConfigStore::GetInstance()->GetDecryptionManager();
-    auto ifs = std::make_shared<std::ifstream>(path, std::ios::binary);
-    auto transformer_result = decryption_manager->FindDecryptionTransformer(*ifs);
+    std::ifstream ifs(path, std::ios::binary);
+    if (!ifs.is_open())
+    {
+        wxListItem new_item;
+        new_item.SetText(wxT(""));
+        new_item.SetId(m_decryptLogs->GetItemCount());
 
-    this->main_thread_runner_.PostInMainThread([this, &ifs, transformer_result, path]() {
+        auto rowIndex = m_decryptLogs->InsertItem(new_item);
+        file_entries_.push_back(std::make_shared<FileEntry>(FileEntry{
+            /* .status =          */ FileProcessStatus::kProcessFailed,
+            /* .file_path =       */ {},
+            /* .index =           */ rowIndex,
+            /* .process_time_ms = */ 0,
+            /* .error =           */ wxT(""),
+            /* .transformer =     */ nullptr,
+            /* .ext =             */ "",
+        }));
+        UpdateFileStatus(rowIndex, FileProcessStatus::kProcessFailed);
+        return;
+    }
+    auto transformer_result = decryption_manager->FindDecryptionTransformer(ifs);
+
+    this->main_thread_runner_.PostInMainThread([this, transformer_result, path]() {
         auto supported = transformer_result.has_value();
 
         wxListItem new_item;
@@ -224,7 +246,6 @@ void MainAppFrame::AddSingleFileToQueue(const std::filesystem::path &path)
             /* .error =           */ wxT(""),
             /* .transformer =     */ transformer_result ? transformer_result->transformer : nullptr,
             /* .ext =             */ transformer_result ? transformer_result->ext : "",
-            /* .input_stream =    */ ifs,
         }));
         UpdateFileStatus(rowIndex,
                          supported ? FileProcessStatus::kNotProcessed : FileProcessStatus::kProcessNotSupported);
@@ -282,7 +303,7 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status)
     wxString audio_ext = "unknown";
     if (entry->transformer)
     {
-        encrypted_type = "ready"; // TODO: Get type name?
+        encrypted_type = entry->transformer->GetName(); // TODO: Get type name?
         audio_ext = entry->ext;
     }
 
@@ -318,80 +339,66 @@ void MainAppFrame::UpdateFileStatus(int idx, FileProcessStatus status)
 
 void MainAppFrame::ProcessNextFile()
 {
-    /*
     auto current_index = file_entry_process_idx_.fetch_add(1);
-    if (current_index >= file_entries_.size()) {
-      file_entry_process_idx_.fetch_sub(1);
-      return;
+    if (current_index >= file_entries_.size())
+    {
+        file_entry_process_idx_.fetch_sub(1);
+        return;
     }
 
     auto entry = file_entries_.at(current_index);
 
-    if (entry->status != FileProcessStatus::kNotProcessed) {
-      main_thread_runner_.PostInMainThread([this]() { OnProcessSingleFileComplete(); });
-      return;
+    if (entry->status != FileProcessStatus::kNotProcessed)
+    {
+        main_thread_runner_.PostInMainThread([this]() { OnProcessSingleFileComplete(); });
+        return;
     }
 
     system_clock::time_point time_before_process = system_clock::now();
     FileProcessStatus status = FileProcessStatus::kProcessNotSupported;
 
+    using parakeet_crypto::InputFileStream;
+    using parakeet_crypto::OutputFileStream;
+    using parakeet_crypto::TransformResult;
+
     bool ok = false;
-    do {
-      if (entry->decryptor) {
+
+    auto process_entry = [&]() {
+        auto path_out = std::filesystem::path(entry->file_path).replace_extension(entry->ext);
+        std::ifstream ifs(entry->file_path, std::ios::binary);
+
+        if (!ifs.is_open())
+        {
+            entry->error = _("could not open input file");
+            return;
+        }
+
+        std::ofstream ofs(path_out, std::ios::binary);
+        InputFileStream reader{ifs};
+        OutputFileStream writer{ofs};
+        reader.Seek(0, parakeet_crypto::SeekDirection::SEEK_FILE_BEGIN);
+        auto transform_result = entry->transformer->Transform(&writer, &reader);
+        ok = transform_result == TransformResult::OK;
+        if (!ok)
+        {
+            entry->error = parakeet_wx::to_string(transform_result);
+        }
+    };
+
+    if (entry->transformer)
+    {
         main_thread_runner_.PostInMainThread(
             [this, current_index]() { UpdateFileStatus(current_index, FileProcessStatus::kProcessing); });
+        process_entry();
+    }
 
-        auto path_out = std::filesystem::path(entry->file_path).replace_extension(entry->decryptor->audio_ext);
-        auto& f_in = entry->input_stream;
-        std::ofstream f_out(path_out, std::ios::out | std::ios::binary);
-
-        f_in->seekg(0, std::ios::end);
-        std::size_t len = std::size_t(f_in->tellg());
-        if (len == 0) {
-          entry->error = _("empty input file");
-          ok = false;
-          break;
-        }
-        auto discard_len = entry->decryptor->header_discard_len + entry->decryptor->footer_discard_len;
-        if (discard_len > len) {
-          entry->error = _("unexpected eof when reading input file");
-          ok = false;
-          break;
-        }
-        len -= discard_len;
-        f_in->seekg(entry->decryptor->header_discard_len, std::ios::beg);
-
-        auto& decryptor = entry->decryptor->decryptor;
-        uint8_t buf[4096];
-        while (len) {
-          std::size_t bytes_to_read = std::min(sizeof(buf), len);
-          f_in->read(reinterpret_cast<char*>(buf), bytes_to_read);
-          std::size_t bytes_read = f_in->gcount();
-          if (!decryptor->Write(buf, bytes_read)) {
-            break;
-          }
-          len -= bytes_read;
-          if (len == 0) {
-            if (!decryptor->End()) break;
-          }
-
-          while (decryptor->GetOutputSize() > 0) {
-            bytes_read = decryptor->Read(buf, sizeof(buf));
-            f_out.write(reinterpret_cast<char*>(buf), bytes_read);
-          }
-        }
-
-        ok = len == 0;
-        if (!ok) {
-          entry->error = decryptor->GetErrorMessage();
-        }
-      }
-    } while (false);
-
-    if (ok) {
-      status = FileProcessStatus::kProcessedOk;
-    } else {
-      status = FileProcessStatus::kProcessFailed;
+    if (ok)
+    {
+        status = FileProcessStatus::kProcessedOk;
+    }
+    else
+    {
+        status = FileProcessStatus::kProcessFailed;
     }
 
     system_clock::time_point time_after_process = system_clock::now();
@@ -399,11 +406,10 @@ void MainAppFrame::ProcessNextFile()
     entry->process_time_ms = static_cast<long>(t.count());
 
     main_thread_runner_.PostInMainThread([this, current_index, status]() {
-      UpdateFileStatus(current_index, status);
+        UpdateFileStatus(current_index, status);
 
-      OnProcessSingleFileComplete();
+        OnProcessSingleFileComplete();
     });
-  */
 }
 
 void MainAppFrame::OnProcessSingleFileComplete()
