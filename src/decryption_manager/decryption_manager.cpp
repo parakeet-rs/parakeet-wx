@@ -29,14 +29,19 @@ void DecryptionManager::SetConfig(const AppConfig &config)
     using namespace parakeet_crypto::transformer;
 
     transformers_ = std::vector<std::shared_ptr<ITransformer>>({
+        // Transformer that has a header lookup
+        CreateXiamiDecryptionTransformer(),
         CreateJooxDecryptionV4Transformer(config.joox),
-        CreateQMC1StaticDecryptionTransformer(config.qmc.qmc1.key.data(), config.qmc.qmc1.key.size()),
+        CreateNeteaseNCMDecryptionTransformer(config.netease.key.data()),
+        CreateKuwoDecryptionTransformer(config.kuwo.key.data()),
+        CreateKGMDecryptionTransformer(config.kugou),
+
+        // Transformer that has a footer lookup
         CreateQMC2DecryptionTransformer(qmc2::CreateQMC2FooterParser(
             config.qmc.qmc2.seed, config.qmc.qmc2.enc_v2_key1.data(), config.qmc.qmc2.enc_v2_key2.data())),
-        CreateKGMDecryptionTransformer(config.kugou),            //
-        CreateXiamiDecryptionTransformer(),                      //
-        CreateKuwoDecryptionTransformer(config.kuwo.key.data()), //
-        CreateNeteaseNCMDecryptionTransformer(config.netease.key.data()),
+
+        // Transformer that does not contain any identification...
+        CreateQMC1StaticDecryptionTransformer(config.qmc.qmc1.key.data(), config.qmc.qmc1.key.size()),
     });
 
     auto add_ximalaya_variant = [&](const parakeet_wx::config::XimalayaVariantConfig &config) {
