@@ -12,3 +12,6 @@ indent_size = 4
 
 [*.fbp]
 indent_size = 4
+
+[*.{json,yml,yaml}]
+indent_size = 2

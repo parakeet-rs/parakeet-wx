@@ -22,7 +22,6 @@ jobs:
         win_ver: ["win32", "win64"]
         include:
           - vs_ver: "2022"
-        include:
           - win_ver: win32
             vcpkg_arch: "x86"
           - win_ver: win64
@@ -63,7 +62,7 @@ jobs:
         run: |
           cmake --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}" \
             -D"VCPKG_BUILD_TYPE=release" \
-            -D"VCPKG_TARGET_TRIPLET"="${{ matrix.vcpkg_arch }}-windows-release"
+            -D"CMAKE_BUILD_TYPE=Release"
 
       - name: "🛠️ CMake: Build"
         run: cmake --build --preset "${{ matrix.win_ver }}-${{ matrix.vs_ver }}-release"
@@ -71,7 +70,7 @@ jobs:
       - name: "📦 Packaging"
         shell: bash
         run: |
-          BUILD_DIR="build/${{ matrix.win_ver }}-${{ matrix.vs_ver }}-release"
+          BUILD_DIR="out/build/${{ matrix.win_ver }}-${{ matrix.vs_ver }}"
           DIST_DIR="dist"
           cp "${BUILD_DIR}/Release/parakeet_wx.exe" \
              "${DIST_DIR}/Parakeet-${{ matrix.win_ver }}.exe"
