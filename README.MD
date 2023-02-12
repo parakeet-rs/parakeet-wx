@@ -57,7 +57,7 @@ cmake --preset win64-2022
 cmake --build --preset win64-2022-debug
 
 # 发布版
-cmake --preset win64-2022-release
+cmake --preset win64-2022
 cmake --build --preset win64-2022-release
 ```
 
