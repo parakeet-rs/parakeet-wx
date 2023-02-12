@@ -24,7 +24,7 @@ template <> struct adl_serializer<::parakeet_crypto::transformer::KGMConfigV4>
     static void from_json(const json &j, ::parakeet_crypto::transformer::KGMConfigV4 &data)
     {
         data.file_key_table = j.value("file_key_table", data.file_key_table);
-        data.slot_key_table = j.value("file_key_table", data.file_key_table);
+        data.slot_key_table = j.value("slot_key_table", data.slot_key_table);
     }
 };
 

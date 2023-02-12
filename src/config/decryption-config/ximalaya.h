@@ -41,8 +41,8 @@ inline void from_json(const json &j, XimalayaConfig &data)
         if (auto x2m_table = j.find("x2m_scramble_table_parameters"); x2m_table != j.end())
         {
             auto &x2m_table_value = x2m_table.value();
-            data.x2m.init_value = x2m_table_value.value("init_value", 0);
-            data.x2m.step_value = x2m_table_value.value("step_value", 0);
+            data.x2m.init_value = x2m_table_value.value("init_value", double{0.00});
+            data.x2m.step_value = x2m_table_value.value("step_value", double{0.00});
         }
     }
 
@@ -56,8 +56,8 @@ inline void from_json(const json &j, XimalayaConfig &data)
         if (auto x3m_table = j.find("x3m_scramble_table_parameters"); x3m_table != j.end())
         {
             auto &x3m_table_value = x3m_table.value();
-            data.x3m.init_value = x3m_table_value.value("init_value", 0);
-            data.x3m.step_value = x3m_table_value.value("step_value", 0);
+            data.x3m.init_value = x3m_table_value.value("init_value", double{0.00});
+            data.x3m.step_value = x3m_table_value.value("step_value", double{0.00});
         }
     }
 }
