@@ -35,7 +35,7 @@ bool AppConfigStore::LoadConfigFromDisk()
     }
     else
     {
-        manager_->SetConfig(j.get<AppConfig>());
+        UpdateConfig(j.get<AppConfig>());
     }
 
     return true;

@@ -1,10 +1,8 @@
 #include "BytesSerialization.h"
 
-#include <cppcodec/base64_rfc4648.hpp>
-#include <cppcodec/hex_lower.hpp>
+#include "HexHelper.h"
 
-// #include <parakeet-crypto/utils/base64.h>
-// #include <parakeet-crypto/utils/hex.h>
+#include <cppcodec/base64_rfc4648.hpp>
 
 #include <cctype>
 
@@ -16,7 +14,6 @@ namespace parakeet_wx::utils
 {
 
 using base64 = cppcodec::base64_rfc4648;
-using hex_lower = cppcodec::hex_lower;
 
 std::string SerializeBytes(const uint8_t *data, size_t len)
 {
@@ -30,12 +27,8 @@ std::string SerializeBytes(const uint8_t *data, size_t len)
         return std::string("raw:") + std::string(data, data + len);
     }
 
-    if (len <= 16)
-    {
-        return std::string("hex:") + hex_lower::encode(data, len);
-    }
-
-    return base64::encode(data, len);
+    // prefer hex than base64.
+    return std::string("hex:") + HexWithSpaces(data, len);
 }
 
 bool str_starts_with(const std::string &to_test, const char *prefix)
@@ -55,7 +48,7 @@ std::vector<uint8_t> DeserializeBytes(const std::string str)
 
     if (str_starts_with(str, "hex:"))
     {
-        return hex_lower::decode(&str.at(4), str.size() - 4);
+        return UnHexWithTolerance(&str.at(4), str.size() - 4);
     }
 
     return base64::decode(str);
