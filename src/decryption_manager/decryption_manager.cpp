@@ -45,9 +45,9 @@ void DecryptionManager::SetConfig(const AppConfig &config)
     });
 
     auto add_ximalaya_variant = [&](const parakeet_wx::config::XimalayaVariantConfig &config) {
-        if (auto x2m_scramble_key = xmly::CreateScrambleKey(config.init_value, config.step_value))
+        if (auto scramble_key = xmly::CreateScrambleKey(config.init_value, config.step_value))
         {
-            transformers_.push_back(CreateXimalayaDecryptionTransformer(*x2m_scramble_key, config.content_key));
+            transformers_.push_back(CreateXimalayaDecryptionTransformer(*scramble_key, config.content_key));
         }
     };
     add_ximalaya_variant(config.ximalaya.x2m);
