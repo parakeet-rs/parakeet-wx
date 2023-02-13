@@ -61,8 +61,12 @@ std::optional<TransformerFindResult> DecryptionManager::FindDecryptionTransforme
     {
         stream.Seek(0, SeekDirection::SEEK_FILE_BEGIN);
         AudioDetectionDestination audio_sink{};
-        auto _transform_result = transformer->Transform(&audio_sink, &stream);
-        // unused: _transform_result
+        auto transform_result = transformer->Transform(&audio_sink, &stream);
+#if !NDEBUG
+        std::cerr << transformer->GetName() << ": "
+                  << "transform_result(" << (int)transform_result << "), "
+                  << "ifs.state(" << (int)ifs.rdstate() << ")" << std::endl;
+#endif
         if (auto type = audio_sink.GetAudioType(); type != parakeet_audio::AudioType::kUnknownType)
         {
             stream.Seek(0, SeekDirection::SEEK_FILE_BEGIN);
