@@ -693,7 +693,7 @@
                         <object class="notebookpage" expanded="0">
                             <property name="bitmap"></property>
                             <property name="label">General</property>
-                            <property name="select">1</property>
+                            <property name="select">0</property>
                             <object class="wxPanel" expanded="0">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
@@ -1621,7 +1621,7 @@
                         <object class="notebookpage" expanded="0">
                             <property name="bitmap"></property>
                             <property name="label">Ximalaya</property>
-                            <property name="select">0</property>
+                            <property name="select">1</property>
                             <object class="wxPanel" expanded="0">
                                 <property name="BottomDockable">1</property>
                                 <property name="LeftDockable">1</property>
@@ -1770,13 +1770,6 @@
                                                     <property name="type">Float</property>
                                                 </object>
                                                 <object class="propGridItem" expanded="0">
-                                                    <property name="help">(deprecated) A pre-calculated Ximalaya Scramble Table.&#x0A;Only used when the Scramble Table Parameter could not derive the correct table.</property>
-                                                    <property name="label">X2M Scramble Table (hex; 1024 u16)</property>
-                                                    <property name="name">m_xmlyX2MScrambleTable</property>
-                                                    <property name="permission">protected</property>
-                                                    <property name="type">LongString</property>
-                                                </object>
-                                                <object class="propGridItem" expanded="0">
                                                     <property name="help"></property>
                                                     <property name="label">X3M</property>
                                                     <property name="name">m_propertyGridItem26</property>
@@ -1803,13 +1796,6 @@
                                                     <property name="name">m_xmlyX3MScrambleTableParamStep</property>
                                                     <property name="permission">protected</property>
                                                     <property name="type">Float</property>
-                                                </object>
-                                                <object class="propGridItem" expanded="0">
-                                                    <property name="help">(deprecated) A pre-calculated Ximalaya Scramble Table.&#x0A;Only used when the Scramble Table Parameter could not derive the correct table.</property>
-                                                    <property name="label">X3M Scramble Table (hex; 1024 u16)</property>
-                                                    <property name="name">m_xmlyX3MScrambleTable</property>
-                                                    <property name="permission">protected</property>
-                                                    <property name="type">LongString</property>
                                                 </object>
                                             </object>
                                         </object>
