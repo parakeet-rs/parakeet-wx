@@ -1,0 +1,25 @@
+{
+  "folders": [
+    {
+      "path": "."
+    }
+  ],
+  "settings": {
+    "C_Cpp.autoAddFileAssociations": false,
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "clangd.path": "clangd-15",
+    "clangd.arguments": [
+      "-background-index",
+      "-compile-commands-dir=${workspaceFolder}/out/build/ninja"
+    ],
+    "cmake.preferredGenerators": [
+      "Ninja Multi-Config"
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "llvm-vs-code-extensions.vscode-clangd",
+      "ms-vscode.cmake-tools"
+    ]
+  }
+}

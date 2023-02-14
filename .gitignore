@@ -24,3 +24,5 @@ tset-sample/
 /Parakeet/
 
 *.build_time.h
+*.log
+out/

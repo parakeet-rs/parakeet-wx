@@ -1,0 +1,26 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "C_Cpp.autoAddFileAssociations": false,
+        "C_Cpp.intelliSenseEngine": "default",
+        "cmake.preferredGenerators": [
+            "Ninja Multi-Config"
+        ],
+        "[c]": {
+            "editor.defaultFormatter": "xaver.clang-format"
+        },
+        "[cpp]": {
+            "editor.defaultFormatter": "xaver.clang-format"
+        }
+    },
+    "extensions": {
+        "recommendations": [
+            "llvm-vs-code-extensions.vscode-clangd",
+            "ms-vscode.cmake-tools"
+        ]
+    }
+}

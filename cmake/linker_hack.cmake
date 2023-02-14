@@ -1,16 +1,5 @@
 function(parakeet_linker_hack ret linker_lib_list)
   set(local_linker_lib_list ${linker_lib_list})
-  if (MSVC AND CMAKE_BUILD_TYPE STREQUAL "Debug")
-    message("HACK: Replace wxWidgets with debug-static path")
-    list(TRANSFORM local_linker_lib_list REPLACE
-      "static/lib/(wx[a-zA-Z]+[0-9]*u?)_([a-zA-Z0-9]+).lib$"
-      "static/debug/lib/\\1d_\\2.lib"
-    )
-    list(TRANSFORM local_linker_lib_list REPLACE
-      "static/lib/(wx[a-zA-Z]+[0-9]*u?).lib$"
-      "static/debug/lib/\\1d.lib"
-    )
-  endif()
 
   if (NOT MSVC)
     list(TRANSFORM local_linker_lib_list REPLACE "^.+/lib(png|jpeg|tiff)\\.a$" "-l\\1")

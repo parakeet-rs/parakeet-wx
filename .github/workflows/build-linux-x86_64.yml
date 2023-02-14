@@ -53,16 +53,17 @@ jobs:
 
       - name: "🔧 CMake: Configure"
         run: |
-          cmake --preset linux-vcpkg \
-            -D"VCPKG_TARGET_TRIPLET"="x64-linux-release"
+          cmake --preset ninja \
+            -D"CMAKE_BUILD_TYPE=Release" \
+            -D"VCPKG_BUILD_TYPE=Release"
 
       - name: "🛠️ CMake: Build"
-        run: cmake --build --preset linux-vcpkg-rel
+        run: cmake --build --preset ninja-release
 
       - name: "📦 Packaging"
         shell: bash
         run: |
-          cp build/linux-vcpkg/Release/parakeet_wx \
+          cp out/build/ninja/Release/parakeet_wx \
              dist/Parakeet-linux-x86_64
 
           ln -s dist Parakeet

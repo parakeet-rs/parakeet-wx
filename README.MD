@@ -53,12 +53,12 @@ bash scripts/build-configure-vcpkg.sh
 bash scripts/build-prepare.sh
 
  # 调试版
-cmake --preset win64-2022-dbg
-cmake --build --preset win64-2022-dbg
+cmake --preset win64-2022
+cmake --build --preset win64-2022-debug
 
 # 发布版
-cmake --preset win64-2022-rel
-cmake --build --preset win64-2022-rel
+cmake --preset win64-2022
+cmake --build --preset win64-2022-release
 ```
 
 ### Ubuntu 22.04 下构建
@@ -71,15 +71,15 @@ bash scripts/build-configure-vcpkg.sh
 bash scripts/build-prepare.sh
 
 # 初始化 CMake 构建
-cmake --preset linux
+cmake --preset ninja
 
 # 编译/运行调试版
-cmake --build --preset linux-dbg
-./build/linux/Debug/parakeet_wx
+cmake --build --preset ninja-debug
+./build/ninja/Debug/parakeet_wx
 
 # 编译/运行发布版
-cmake --build --preset linux-rel
-./build/linux/Release/parakeet_wx
+cmake --build --preset ninja-release
+./build/ninja/Release/parakeet_wx
 ```
 
 ## 相关项目

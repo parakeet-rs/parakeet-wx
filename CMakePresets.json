@@ -7,146 +7,105 @@
   },
   "configurePresets": [
     {
-      "name": "linux",
-      "displayName": "Linux default",
+      "name": "base",
+      "hidden": true,
+      "binaryDir": "${sourceDir}/out/build/${presetName}",
       "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/build/linux"
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+        "CPM_SOURCE_CACHE": "${sourceDir}/out/cache-cpm/${presetName}"
+      }
     },
     {
-      "name": "vcpkg-default",
-      "displayName": "Base for VCPKG, do not use!",
+      "name": "base-vcpkg",
+      "inherits": [
+        "base"
+      ],
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_OVERLAY_PORTS": "${sourceDir}/vcpkg_overlays/"
       }
     },
     {
+      "name": "base-win",
       "inherits": [
-        "vcpkg-default"
+        "base-vcpkg"
       ],
-      "name": "linux-vcpkg",
-      "displayName": "Linux vcpkg",
-      "generator": "Ninja Multi-Config",
-      "binaryDir": "${sourceDir}/build/linux-vcpkg",
-      "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x64-linux",
-        "VCPKG_BUILD_TYPE": "Release",
-        "CMAKE_BUILD_TYPE": "Release"
+      "generator": "Visual Studio 17 2022",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
       }
     },
     {
+      "name": "ninja",
+      "displayName": "Ninja",
       "inherits": [
-        "vcpkg-default"
-      ],
-      "name": "win64-2022-rel",
-      "displayName": "Win64-rel",
-      "description": "Win64 build using MSVC 2022",
-      "binaryDir": "${sourceDir}/build/win64-2022-rel",
-      "generator": "Visual Studio 17 2022",
-      "architecture": "x64",
-      "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "VCPKG_BUILD_TYPE": "Release",
-        "CMAKE_BUILD_TYPE": "Release"
-      }
+        "base-vcpkg"
+      ]
     },
     {
       "inherits": [
-        "vcpkg-default"
+        "base-win"
       ],
-      "name": "win64-2022-dbg",
-      "displayName": "Win64-dbg",
-      "description": "Win64 build using MSVC 2022",
-      "binaryDir": "${sourceDir}/build/win64-2022-dbg",
-      "generator": "Visual Studio 17 2022",
-      "architecture": "x64",
-      "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x64-windows-static",
-        "CMAKE_BUILD_TYPE": "Debug"
-      }
-    },
-    {
-      "inherits": [
-        "vcpkg-default"
-      ],
-      "name": "win32-2022-dbg",
-      "displayName": "Win32-dbg",
-      "description": "Win32 build using MSVC 2022",
-      "binaryDir": "${sourceDir}/build/win32-2022-dbg",
-      "generator": "Visual Studio 17 2022",
+      "name": "win32-2022",
+      "displayName": "MSVC 2022 (x86)",
       "architecture": "Win32",
       "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x86-windows-static",
-        "CMAKE_BUILD_TYPE": "Debug"
+        "VCPKG_TARGET_TRIPLET": "x86-windows-static"
       }
     },
     {
       "inherits": [
-        "vcpkg-default"
+        "base-win"
       ],
-      "name": "win32-2022-rel",
-      "displayName": "Win32-rel",
-      "description": "Win32 build using MSVC 2022",
-      "binaryDir": "${sourceDir}/build/win32-2022-rel",
-      "generator": "Visual Studio 17 2022",
-      "architecture": "Win32",
+      "name": "win64-2022",
+      "displayName": "MSVC 2022 (x64)",
+      "architecture": "x64",
       "cacheVariables": {
-        "VCPKG_TARGET_TRIPLET": "x86-windows-static",
-        "VCPKG_BUILD_TYPE": "Release",
-        "CMAKE_BUILD_TYPE": "Release"
+        "VCPKG_TARGET_TRIPLET": "x64-windows-static"
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "linux-dbg",
-      "displayName": "Linux (debug)",
-      "configurePreset": "linux",
+      "name": "ninja-debug",
+      "displayName": "Debug",
+      "configurePreset": "ninja",
       "configuration": "Debug"
     },
     {
-      "name": "linux-rel",
-      "displayName": "Linux (release)",
-      "configurePreset": "linux",
+      "name": "ninja-release",
+      "displayName": "Release",
+      "configurePreset": "ninja",
       "configuration": "Release"
     },
     {
-      "name": "linux-vcpkg-dbg",
-      "displayName": "Linux (vcpkg/debug)",
-      "configuration": "Debug",
-      "inherits": [
-        "linux-vcpkg-rel"
-      ]
-    },
-    {
-      "name": "linux-vcpkg-rel",
-      "displayName": "Linux (vcpkg/release)",
-      "configurePreset": "linux-vcpkg",
-      "configuration": "Release"
-    },
-    {
-      "name": "win32-2022-rel",
-      "configurePreset": "win32-2022-rel",
-      "displayName": "Win32-rel",
-      "configuration": "Release"
-    },
-    {
-      "name": "win32-2022-dbg",
-      "configurePreset": "win32-2022-dbg",
-      "displayName": "Win32-dbg",
+      "name": "win32-2022-debug",
+      "displayName": "Debug",
+      "configurePreset": "win32-2022",
       "configuration": "Debug"
     },
     {
-      "name": "win64-2022-rel",
-      "configurePreset": "win64-2022-rel",
-      "displayName": "Win64-rel",
+      "name": "win32-2022-release",
+      "displayName": "Release",
+      "configurePreset": "win32-2022",
       "configuration": "Release"
     },
     {
-      "name": "win64-2022-dbg",
-      "configurePreset": "win64-2022-dbg",
-      "displayName": "Win64-dbg",
+      "name": "win64-2022-debug",
+      "displayName": "Debug",
+      "configurePreset": "win64-2022",
       "configuration": "Debug"
+    },
+    {
+      "name": "win64-2022-release",
+      "displayName": "Release",
+      "configurePreset": "win64-2022",
+      "configuration": "Release"
     }
   ]
 }

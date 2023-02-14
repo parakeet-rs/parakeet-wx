@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-24 23:14+0000\n"
+"POT-Creation-Date: 2023-02-14 21:38+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: src/dialog/OptionsDialog.cpp:103
+#: src/dialog/OptionsDialog.cpp:96
 #, c-format
 msgid "%s - Options"
 msgstr ""
@@ -89,32 +89,32 @@ msgstr ""
 msgid "AES key for NCM content key"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:141
+#: src/dialog/MainAppFrame.cpp:157
 msgid "All files (*.*)|*"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:123
+#: src/dialog/MainAppFrame.cpp:139
 msgid "All known extensions files"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:87
+#: src/dialog/MainAppFrame.cpp:99
 msgid "Config saved. Some config may require restart to work."
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:271
+#: src/dialog/MainAppFrame.cpp:324
 #, c-format
 msgid "Converting from %s to %s: %s"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:89
+#: src/dialog/MainAppFrame.cpp:103
 msgid "Could not save config."
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:64
+#: src/dialog/MainAppFrame.cpp:72
 msgid "DEBUG Build"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:264
+#: src/dialog/MainAppFrame.cpp:317
 #, c-format
 msgid "Decode OK [%s -> %s]: %s (%lums)"
 msgstr ""
@@ -131,7 +131,7 @@ msgstr ""
 msgid "EKey seed, [0 ~ 255] inclusive."
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:268
+#: src/dialog/MainAppFrame.cpp:321
 #, c-format
 msgid "FAIL [%s]: %s (%s)"
 msgstr ""
@@ -160,7 +160,7 @@ msgstr ""
 msgid "KGM/VPR Decryption"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:125
+#: src/dialog/MainAppFrame.cpp:141
 msgid "Koox music"
 msgstr ""
 
@@ -168,7 +168,7 @@ msgstr ""
 msgid "Kugou"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:131
+#: src/dialog/MainAppFrame.cpp:147
 msgid "Kugou music"
 msgstr ""
 
@@ -186,7 +186,7 @@ msgstr ""
 msgid "Kuwo decryption table"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:133
+#: src/dialog/MainAppFrame.cpp:149
 msgid "Kuwo music"
 msgstr ""
 
@@ -222,11 +222,11 @@ msgstr ""
 msgid "Netease"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:135
+#: src/dialog/MainAppFrame.cpp:151
 msgid "Netease music"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:145
+#: src/dialog/MainAppFrame.cpp:161
 msgid "Open encrypted music files"
 msgstr ""
 
@@ -251,7 +251,7 @@ msgstr ""
 msgid "QMCv1"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:127
+#: src/dialog/MainAppFrame.cpp:143
 msgid "QMCv1 files"
 msgstr ""
 
@@ -263,7 +263,7 @@ msgstr ""
 msgid "QMCv2 - EncV2"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:129
+#: src/dialog/MainAppFrame.cpp:145
 msgid "QMCv2 files"
 msgstr ""
 
@@ -271,7 +271,7 @@ msgstr ""
 msgid "QQ Music"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:261
+#: src/dialog/MainAppFrame.cpp:314
 #, c-format
 msgid "Ready [%s -> %s]: %s"
 msgstr ""
@@ -313,12 +313,12 @@ msgstr ""
 msgid "Threading"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:278
+#: src/dialog/MainAppFrame.cpp:331
 #, c-format
 msgid "Unknown state (code %d): %s"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:274
+#: src/dialog/MainAppFrame.cpp:327
 #, c-format
 msgid "Unsupported: %s"
 msgstr ""
@@ -363,7 +363,7 @@ msgstr ""
 msgid "X3M Scramble Table Param- Step (3.57 ~ 4)"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:139
+#: src/dialog/MainAppFrame.cpp:155
 msgid "Xiami music"
 msgstr ""
 
@@ -371,14 +371,10 @@ msgstr ""
 msgid "Ximalaya"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:137
+#: src/dialog/MainAppFrame.cpp:153
 msgid "Ximalaya audio file"
 msgstr ""
 
-#: src/dialog/MainAppFrame.cpp:317
-msgid "empty input file"
-msgstr ""
-
-#: src/dialog/MainAppFrame.cpp:323
-msgid "unexpected eof when reading input file"
+#: src/dialog/MainAppFrame.cpp:372
+msgid "could not open input file"
 msgstr ""

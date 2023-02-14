@@ -1,25 +1,31 @@
 cmake_minimum_required(VERSION 3.21)
-project(parakeet_wx VERSION 0.2.2)
+project(parakeet_wx VERSION 0.3.0)
 
 option(PARAKEET_SINGLE_THREADED "Use single-threaded mode for Parakeet-wx" OFF)
 
-# Add our modules...
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM-Loader.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/set_static_build.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/linker_hack.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-info.cmake")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   add_compile_options(-DNDEBUG=1 -D_NDEBUG=1)
 endif()
 
 CPMAddPackage(
-  NAME libparakeet
+  NAME parakeet-crypto
   GITHUB_REPOSITORY parakeet-rs/libparakeet
-  GIT_TAG v0.2.4
+  GIT_TAG v0.4.0
   OPTIONS
     "PARAKEET_CRYPTO_BUILD_TESTING OFF"
+    "PARAKEET_CRYPTO_BUILD_EXAMPLES OFF"
+)
+CPMAddPackage(
+  NAME parakeet-audio
+  GITHUB_REPOSITORY parakeet-rs/libparakeet-audio
+  GIT_TAG v0.1.1
+  OPTIONS
+      "PARAKEET_AUDIO_BUILD_TESTING OFF"
 )
 
 # Bootstrap dependencies from vcpkg / system
@@ -51,13 +57,15 @@ target_include_directories(parakeet_wx
     "${PROJECT_BINARY_DIR}/src/"
 )
 target_precompile_headers(parakeet_wx PRIVATE src/pch.h)
-target_compile_features(parakeet_wx PRIVATE cxx_std_20)
+set_target_properties(parakeet_wx PROPERTIES
+    CXX_STANDARD 17 CXX_STANDARD_REQUIRED ON EXPORT_COMPILE_COMMANDS ON)
 parakeet_linker_hack(parakeet_wxWidgets_LIBRARIES "${wxWidgets_LIBRARIES}")
 target_link_libraries(parakeet_wx
   PRIVATE
     ${Boost_LIBRARIES}
     ${parakeet_wxWidgets_LIBRARIES}
-    ParakeetCrypto::core
+    parakeet::crypto
+    parakeet::audio
     nlohmann_json::nlohmann_json
 )
 
