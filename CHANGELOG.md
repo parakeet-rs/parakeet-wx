@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2023-02-14
+
 ### Added
 
 - Added description fields for all configuration options.
@@ -15,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Don't use `wxLocale` with smart pointers to avoid crash on exit.
 - (dev) Moved away from `RapidJSON` in favour of `nlohmann/json`.
+- Upgrade `libparakeet` to v0.4.0, rewrite the decryption logic.
 
 ## [0.2.2] - 2022-11-23
 
@@ -85,3 +88,4 @@ Initial release of this project.
 [0.2.0]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.1.5...v0.2.0
 [0.2.1]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.2.0...v0.2.1
 [0.2.2]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.2.1...v0.2.2
+[0.3.0]: https://github.com/parakeet-rs/parakeet-wx/compare/v0.2.2...v0.3.0

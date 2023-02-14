@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(parakeet_wx VERSION 0.2.2)
+project(parakeet_wx VERSION 0.3.0)
 
 option(PARAKEET_SINGLE_THREADED "Use single-threaded mode for Parakeet-wx" OFF)
 
