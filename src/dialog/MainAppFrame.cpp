@@ -72,7 +72,7 @@ MainAppFrame::MainAppFrame(wxWindow *parent, wxWindowID id) : uiMainAppFrame(par
     SetTitle(GetTitle() + "  [" + _("DEBUG Build") + "]");
 #endif
 
-    SetTitle(GetTitle() + "  (" + APP_VERSION + ")");
+    SetTitle(GetTitle() + "  (" + APP_VERSION + (PARAKEET_GIT_TREE_DIRTY ? "*" : "") + ")");
 }
 
 void MainAppFrame::uiMainAppFrameOnSize(wxSizeEvent &event)

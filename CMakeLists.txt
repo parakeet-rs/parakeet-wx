@@ -6,6 +6,7 @@ option(PARAKEET_SINGLE_THREADED "Use single-threaded mode for Parakeet-wx" OFF)
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/CPM-Loader.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/set_static_build.cmake")
 include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/linker_hack.cmake")
+include("${CMAKE_CURRENT_SOURCE_DIR}/cmake/git-info.cmake")
 
 if(CMAKE_BUILD_TYPE STREQUAL "Release")
   add_compile_options(-DNDEBUG=1 -D_NDEBUG=1)
